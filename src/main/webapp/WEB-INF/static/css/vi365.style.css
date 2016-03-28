@@ -1,0 +1,230 @@
+/*新闻中心导航菜单条 */
+.newsnav {
+	border-bottom: 1px solid #D4D4D4;
+	margin-bottom: 23px;
+	margin-top: 30px;
+	padding-bottom: 15px;
+	font-size:15px;
+	font-family:"微软雅黑";
+}
+
+/* 新闻中心导航条分栏 */
+.newscrumb {
+	float:right;
+}
+
+.newscrumb ul {
+	list-style:none;
+}
+
+.newscrumb ul li {
+	border-left: 1px solid #B1B1B1;
+	float: left;
+	margin-left: 10px;
+	padding-left: 10px;
+}
+.newscrumb ul li.first { border:none; }
+
+.newscrumb ul li a {
+	color:#b1b1b1;
+	font-size:13px;
+	text-decoration:none;
+}
+
+.newscrumb ul li.active a { color:#010101; }
+
+/*新闻中心数据列表表格表头样式*/
+.table>thead>tr>th {
+	border-bottom:1px solid #ddd;
+	vertical-align: middle;
+	font-family: "微软雅黑",arial;
+	font-size:16px;
+	color:#777;
+}
+
+.table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+	padding: 8px;
+	line-height: 2.42857143;
+	vertical-align: top;
+	border-top: 1px dashed #ddd;
+	font-family: "宋体",arial;
+	font-size:15px;
+}
+.table>thead>tr, .table>tbody>tr, .table>tfoot>tr, .table>thead>tr, .table>tbody>tr, .table>tfoot>tr {
+	height:1px;
+}
+a {
+color: #636E7B;
+text-decoration: none;
+}
+a:hover {
+color: #555;
+text-decoration: none;
+}
+
+body {
+font-size:15px;
+}
+
+p {
+line-height: 1.72857143;
+color:#333333;
+}
+#commentTpl ul li div ul li.media{
+margin:10px 0px 0px 15px;
+}
+#commentTpl ul li div ul li p{
+	font-size:12px;
+	color:
+}
+#commentTpl ul li div ul li span{
+	font-size:13px;
+	color:#008088;
+}
+
+#commentTpl ul li div a {
+	
+	font-size:13px;
+	color:#0080C0;	
+}
+
+#commentTpl ul li div a:hover {
+	color:#008088;
+}
+
+
+/*VI365首页 header样式*/
+#top {
+height: 30px;
+background: #34495E;
+text-align: right;
+line-height: 30px;
+font-size:13px;
+}
+
+#top a {
+color: #fff;
+margin-left: 25px;
+}
+
+#vi365_header {
+height: 72px;
+background:url(../images/pz_images/header_bg.png) repeat-x;
+border-bottom:1px solid #D7D7D7;
+
+}
+#vi365_header .logo {
+float: left;
+margin-top: 11px;
+}
+#vi365_header .container .masthead ul li{
+	font-size:16px;
+	font-family:Microsoft YaHei;
+	margin-top:10px;
+}
+
+/* Footer */
+#footer {
+	height:auto;
+	background-color:#2C3E50;
+	padding-top:40px;
+	font-size: 12px;
+	color:#F5F5F5;
+}
+
+#footer h2 {
+	font-size:15px;
+	font-weight: normal;
+	color:#fff;
+	margin-bottom:10px;
+}
+
+.footermenu {
+	width:15%;
+	float:left;
+	margin-right:16px;
+}
+
+.footermenu li {
+	font-size:13px;
+	margin-bottom:7px;
+	list-style:none;
+}
+
+.footermenu:last-child {
+	margin:0;
+}
+
+.disclaimer {
+	clear:both;
+	color:#636363;
+	font-size:11px;
+	text-align:center;
+	top:40px;
+	position:relative;
+}
+
+#footer a {
+	color:#C0C0C0;
+	text-decoration:none;
+}
+#footer a:hover{
+	color:#FDFDFD;
+}
+
+a#topay{
+	color:#008000;
+}
+a#topay:hover{
+	color:#FF8000;
+}
+
+/*债权结算清单样式*/
+.table-invoice thead > tr > th:nth-child(2) {
+    background-color: #3f4144;
+}
+
+.table-invoice thead > tr > th:nth-child(3) {
+    background-color: #484a4d;
+}
+
+.table-invoice thead > tr > th:last-child {
+    background-color: #555;
+}
+
+.table-invoice tbody > tr > td:nth-child(2) {
+    background-color: #eee;
+}
+
+.table-invoice tbody > tr > td:nth-child(3) {
+    background-color: #f7f7f7;
+}
+.footer hr{
+	border-top: 1px solid #555;
+}
+
+.headerwrapper {
+background-color: #555;
+min-height: 1px;
+position: fixed;
+width: 100%;
+z-index: 1000;
+}
+.headerwrapper .header-left {
+width: 230px;
+min-height:1px;
+padding: 14px 15px;
+float: left;
+border-right: 1px solid rgba(255,255,255,0.14);
+background-color: rgba(0,0,0,0.03);
+position: relative;
+}
+.headerwrapper .header-right {
+margin-left: 230px;
+min-height: 1px;
+padding: 14px 15px;
+}
+.mainwrapper {
+position: relative;
+top: 30px;
+}

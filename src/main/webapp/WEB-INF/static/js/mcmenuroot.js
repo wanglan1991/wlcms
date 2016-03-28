@@ -1,0 +1,81 @@
+//个人帐户中心功能引导菜单
+jQuery(document).ready(function(e) {
+    //菜单加载
+	$.cookie('menuid',null);
+	var Url = 'mycenter/common/menuRoot_view.html';
+	//帐户管理--开户
+	jQuery('#creatPay').on('click',this,function(){
+	$.cookie('menuid','10');
+	loadView(Url);
+	});
+	//帐户管理--个人基础信息
+	jQuery('#baseinfo').on('click',this,function(){
+	$.cookie('menuid','11');
+	loadView(Url);
+	});
+	//帐户管理--安全信息
+	jQuery('#safetyinfo').on('click',this,function(){
+	$.cookie('menuid','12');
+	loadView(Url);
+	});
+	//帐户管理--认证信息
+	jQuery('#verifyinfo').on('click',this,function(){
+	$.cookie('menuid','13');
+	loadView(Url);
+	});
+	//帐户管理--银行卡信息
+	jQuery('#bcinfo').on('click',this,function(){
+	$.cookie('menuid','14');
+	loadView(Url);
+	});
+	//资金管理--资金帐户
+	jQuery('#payaccount').on('click',this,function(){
+	$.cookie('menuid','21');
+	loadView(Url);
+	});
+	//资金管理-充值
+	jQuery('#topay').on('click',this,function(){
+	$.cookie('menuid','22');
+	loadView(Url);
+	});
+	//资金管理-提现
+	jQuery('#tomoney').on('click',this,function(){
+	$.cookie('menuid','23');
+	loadView(Url);
+	});
+	//微金理财--债权投资
+	jQuery('#claim_tender').on('click',this,function(){
+	$.cookie('menuid','31');
+	loadView(Url);
+	});
+	//微金理财--债权转让
+	jQuery('#claim_transfer').on('click',this,function(){
+	$.cookie('menuid','32');
+	loadView(Url);
+	});
+	//借款管理--借款申请
+	jQuery('#applyborrow').on('click',this,function(){
+	$.cookie('menuid','51');
+	loadView(Url);
+	});
+	//借款管理--借款申请查询
+	jQuery('#processQuery').on('click',this,function(){
+	$.cookie('menuid','52');
+	loadView(Url);
+	});				
+	//债务管理--我的借款
+	jQuery('#myborrow').on('click',this,function(){
+	$.cookie('menuid','61');
+	loadView(Url);
+	});
+							
+	jQuery('body').load(loadView(Url));
+				
+});
+
+function loadView(href){
+jQuery('#loading').show();
+jQuery('#maincontent').empty().load(href,null,function(data,status,xhr){ 
+jQuery('#loading').fadeOut();  				
+});          		
+}
