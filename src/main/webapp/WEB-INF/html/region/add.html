@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title> <@h.head />
+<style type="text/css">
+body {
+	padding-bottom: 40px;
+}
+
+.sidebar-nav {
+	padding: 9px 0;
+}
+
+@media ( max-width : 980px) {
+	/* Enable use of floated navbar text */
+	.navbar-text.pull-right {
+		float: none;
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+}
+</style>
+</head>
+<body>
+	<form action="${path}/region/addRegion" id="fm" method="post"
+		class="definewidth m20">
+		<div style="text-align: center;" id="errorMsg"></div>
+		<table class="table table-bordered table-hover definewidth m10">
+			<tr>
+				<td width="10%" class="tableleft">
+					地域名称 <span class="required">*</span>
+				</td>
+				<td>
+					<input type="text" name="regionName" datatype="s4-18"
+					calss="disabled" nullmsg="请输入地域名称！" errormsg="用户名至少4个字符,最多18个字符！" />
+					<span class="Validform_checktip">用户名为4~18个字符</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="tableleft">父ID <span class="required">*</span></td>
+				<td>
+					<input type="text" name="parentId"  />
+					<span class="Validform_checktip">请选择父ID</span></td>
+			</tr>
+			<tr>
+				<td class="tableleft">地域等级<span class="required">*</span></td>
+				<td>
+					<select class="span6 m-wrap" name="level">
+						<option value="0">国家</option>
+						<option value="1">省</option>
+						<option value="2">市</option>
+						<option value="3">区</option>
+						<option value="4">街道</option>
+					</select>
+				</td>
+			</tr>
+<!-- 			<tr> -->
+<!-- 				<td class="tableleft">手机号<span class="required">*</span></td> -->
+<!-- 				<td><input type="text" name="mobile" datatype="m" /></td> -->
+<!-- 			</tr> -->
+<!-- 			<tr> -->
+<!-- 				<td class="tableleft">邮箱<span class="required">*</span></td> -->
+<!-- 				<td><input type="text" name="email" datatype="e" /></td> -->
+<!-- 			</tr> -->
+<!-- 			<tr> -->
+<!-- 				<td class="tableleft">状态</td> -->
+<!-- 				<td><select class="span6 m-wrap" name="disabled"> -->
+<!-- 						<option value="0">启用</option> -->
+<!-- 						<option value="1">禁用</option> -->
+<!-- 				</select></td> -->
+<!-- 			</tr> -->
+			<tr>
+				<td class="tableleft"></td>
+				<td>
+					<button type="submit" class="btn btn-primary" type="button">保存</button>
+					&nbsp;&nbsp;
+					<button type="button" class="btn btn-success" name="backid"
+						id="backid">返回列表</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+	<@h.foot />
+	<script type="text/javascript">
+		$(function() {
+			if ($("#userId").val() != 0) {
+				$.get("${path}/user/get/" + $("#userId").val(), function(data) {
+					var data = eval('(' + data + ')');
+					$("#fm").jsonData(data.data);
+					$(".disabled").attr("readOnly", "readOnly");
+					$("#password").remove();
+				})
+			}
+			;
+			$('#backid').click(function() {
+				window.location.href = "${path}/user/list";
+			});
+		});
+		var callback = function(data) {
+			if (data.status == "0") {
+				window.location.href = "${path}/user/list";
+			} else {
+				$("#errorMsg").html(data.msg).show();
+			}
+		};
+		$("#fm").validFrom(callback);
+	</script>
+</body>
+</html>

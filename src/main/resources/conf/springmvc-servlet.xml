@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	          http://www.springframework.org/schema/context
+	          http://www.springframework.org/schema/context/spring-context.xsd
+	          http://www.springframework.org/schema/jee
+	          http://www.springframework.org/schema/jee/spring-jee.xsd
+	          http://www.springframework.org/schema/mvc
+	          http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	          http://www.springframework.org/schema/util 
+	          http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- 对静态资源文件的访问，交给default servlet handler处理 -->
+<!-- 	<mvc:default-servlet-handler /> -->
+	
+	<!-- 静态资源映射 -->
+	<mvc:resources mapping="/static/**" location="/WEB-INF/static/" />
+	<mvc:resources mapping="/uploadfile/**" location="uploadfile/" />
+
+	<!-- 启用spring mvc 注解 -->
+	<context:annotation-config />
+
+	<!-- 添加注解驱动 -->
+	<mvc:annotation-driven />
+
+	<!-- 扫描文件（自动注入） -->
+	<context:component-scan base-package="com.ekt.*" />
+
+	<!--JSP视图解析器 -->
+	<bean id="viewResolverJsp"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.InternalResourceView" />
+		<property name="order" value="1" />
+	</bean>
+
+	<!-- 配置freeMarker视图解析器 -->
+	<bean id="viewResolverFtl"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="viewClass"
+			value="com.ekt.cms.utils.freemarker.StaticSupportFreeMarkerView" />
+		<property name="contentType" value="text/html; charset=UTF-8" />
+		<property name="requestContextAttribute" value="ctp" />
+		<property name="exposeRequestAttributes" value="true" />
+		<property name="exposeSessionAttributes" value="true" />
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="cache" value="false" />
+		<property name="suffix" value=".html" />
+		<property name="order" value="0" />
+	</bean>
+
+	<!-- 配置freeMarker的模板路径 -->
+	<bean id="freemarkerConfig"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath" value="/WEB-INF/html/" />
+		<property name="freemarkerVariables">
+			<map>
+				<entry key="xml_escape" value-ref="fmXmlEscape" />
+			</map>
+		</property>
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="template_update_delay">0</prop>
+				<prop key="locale">zh_CN</prop>
+				<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+				<prop key="date_format">yyyy-MM-dd</prop>
+				<prop key="number_format">#.##</prop>
+				<prop key="auto_import">"/common/taglib.html" as h</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape" />
+
+	<!-- json 转换 -->
+	<!-- <bean id="mappingJacksonHttpMessageConverter" -->
+	<!-- class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"> -->
+	<!-- <property name="supportedMediaTypes"> -->
+	<!-- <list> -->
+	<!-- <value>text/html;charset=UTF-8</value> -->
+	<!-- </list> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+	<!-- <bean -->
+	<!-- class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"> -->
+	<!-- <property name="messageConverters"> -->
+	<!-- <list> -->
+	<!-- <ref bean="mappingJacksonHttpMessageConverter" /> -->
+	<!-- </list> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<bean
+					class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter"></bean>
+			</list>
+		</property>
+	</bean>
+
+	<!--hessian -->
+	<!-- <bean id="httpRequestHandlerAdapter" -->
+	<!-- class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter" 
+		/> -->
+	<!-- <bean -->
+	<!-- class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" 
+		/> -->
+	<!-- <bean id="paymentService" class="com.payment.weixin.service.PaymentServiceImpl" 
+		/> -->
+	<!-- <bean name="/payment.hessian" -->
+	<!-- class="org.springframework.remoting.caucho.HessianServiceExporter"> -->
+	<!-- <property name="service" ref="paymentService" /> -->
+	<!-- <property name="serviceInterface" value="com.payment.weixin.service.PaymentService" 
+		/> -->
+	<!-- </bean> -->
+
+	<!-- 上传文件拦截，设置最大上传文件大小 10M=10*1024*1024(B)=10485760 bytes -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 默认编码 -->
+		<property name="defaultEncoding" value="utf-8" />
+		<!-- 文件大小最大值 -->
+		<property name="maxUploadSize" value="10485760000" />
+		<!-- 内存中的最大值 -->
+		<property name="maxInMemorySize" value="40960" />
+		<!-- 配置文件上传临时目录 -->
+		<property name="uploadTempDir" value = "/uploadfile/upload/temp"></property>
+	</bean>
+</beans>

@@ -1,0 +1,19 @@
+﻿{
+    "sEcho": "0",
+    "recordsTotal": 3,
+    "recordsFiltered": 3,
+    "data": [
+        {
+            "id": 1,
+            "level": "0",
+            "parentId": 0,
+            "regionName": "中国"
+        },
+        {
+            "id": 2,
+            "level": "1",
+            "parentId": 1,
+            "regionName": "湖南省"
+        }
+    ]
+}

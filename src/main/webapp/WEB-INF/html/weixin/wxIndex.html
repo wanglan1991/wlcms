@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1.0" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title></title>
+<link href="${path}/static/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="${path}/static/css/market/wxStyle.css">
+</head>
+
+<body>
+	<footer style="float: left;width: 2.749rem;height: 0.45rem;">
+		<div class="ft-lt">
+			<p>
+				合计:<span id="total" class="total">163.00元</span><span class="nm">(<label
+					class="share"></label>份)
+				</span>
+			</p>
+		</div>
+		<div class="ft-rt">
+			<p>选好了</p>
+		</div>
+	</footer>
+
+
+	<script type="text/javascript" src="${path}/static/js/market/weixin/Adaptive.js"></script>
+	<script type="text/javascript" src="${path}/static/js/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="${path}/static/js/market/weixin/swiper.min.js"></script>
+	<script type="text/javascript" src="${path}/static/js/market/weixin/jquery.nav.js"></script>
+	<script type="text/javascript">
+		var swiper = new Swiper('.swiper-container', {
+			pagination : '.swiper-pagination',
+			paginationClickable : true,
+			spaceBetween : 30,
+		});
+
+		$(function() {
+			$('#nav').onePageNav();
+		});
+	</script>
+	<script>
+		$(function() {
+
+			$(".add").click(function() {
+				var t = $(this).parent().find('input[class*=result]');
+				t.val(parseInt(t.val()) + 1);
+				setTotal();
+			})
+
+			$(".minus").click(function() {
+				var t = $(this).parent().find('input[class*=result]');
+				t.val(parseInt(t.val()) - 1);
+				if (parseInt(t.val()) < 0) {
+					t.val(0);
+				}
+				setTotal();
+
+			})
+
+			function setTotal() {
+				var s = 0;
+				var v = 0;
+				var n = 0;
+				<!--计算总额-->
+				$(".lt-rt").each(
+						function() {
+							s += parseInt($(this).find('input[class*=result]')
+									.val())
+									* parseFloat($(this).siblings().find(
+											'span[class*=price]').text());
+
+						});
+
+				<!--计算菜种-->
+				var nIn = $("li.current a").attr("href");
+				$(nIn + " input[type='text']").each(function() {
+					if ($(this).val() != 0) {
+						n++;
+					}
+				});
+
+				<!--计算总份数-->
+				$("input[type='text']").each(function() {
+					v += parseInt($(this).val());
+				});
+				if (n > 0) {
+					$(".current b").html(n).show();
+				} else {
+					$(".current b").hide();
+				}
+				$(".share").html(v);
+				$("#total").html(s.toFixed(2));
+			}
+			setTotal();
+
+		})
+	</script>
+	<script type="text/javascript" src="${path}/static/js/market/weixin/waypoints.min.js"></script>
+	<script type="text/javascript" src="${path}/static/js/market/weixin/navbar2.js"></script>
+</body>
+</html>

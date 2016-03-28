@@ -1,0 +1,31 @@
+@charset "utf-8";
+/*数据列表表格表头样式*/
+.table>thead>tr>th {
+	border-bottom:1px solid #ddd;
+	vertical-align: middle;
+}
+
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+	padding: 8px;
+	line-height: 2.42857143;
+	vertical-align: top;
+	border-top: 1px dashed #ddd;
+	font-family: "宋体",arial;
+	font-size:15px;
+}
+.table>thead>tr, .table>tbody>tr, .table>tfoot>tr, .table>thead>tr, .table>tbody>tr, .table>tfoot>tr {
+	height:1px;
+}
+a {
+color: #636E7B;
+text-decoration: none;
+}
+a:hover {
+color: #555;
+text-decoration: none;
+}
+
+.table>thead>tr, .table>tbody>tr, .table>tfoot>tr, .table>thead>tr, .table>tbody>tr, .table>tfoot>tr {
+	height:1px;
+}
+
