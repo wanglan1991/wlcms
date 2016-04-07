@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache updateCheck="false" name="defaultCache">
+
+	<diskStore path="../temp/ehcache" />
+
+	<!-- 默认缓存配置. -->
+	<defaultCache maxEntriesLocalHeap="100" eternal="false" timeToIdleSeconds="900000" timeToLiveSeconds="1800000"
+		overflowToDisk="true" maxEntriesLocalDisk="100000" />
+		
+    <!-- 系统缓存 -->
+	<cache name="sysCache" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"/>
+</ehcache>

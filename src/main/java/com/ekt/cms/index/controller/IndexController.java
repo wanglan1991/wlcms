@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ekt.cms.utils.freemarker.StaticSupportInfo;
 
 @Controller
+@RequestMapping(value="/index")
 public class IndexController {
 	@RequestMapping(value = "/login")
 	public String login(HttpServletRequest request, Model model, String createHtml) {
@@ -40,7 +41,13 @@ public class IndexController {
 	@RequestMapping(value = "/doLogin")
 	public String doLogin(HttpServletRequest request,HttpServletResponse response) {
 		System.out.print("222");
-		return "index/index";
+		return "main/index";
+	}
+	
+	@RequestMapping(value = "/toTable")
+	public String toTable(HttpServletRequest request,HttpServletResponse response) {
+		System.out.print("222");
+		return "index/tables";
 	}
 	
 }
