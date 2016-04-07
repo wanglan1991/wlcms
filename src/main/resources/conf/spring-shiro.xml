@@ -2,8 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans.xsd
-    ">
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!--Shiro配置 -->
 	<bean
@@ -102,10 +101,10 @@
 		</property>
 	</bean>
 	<bean id="onLineFilter" class="com.ekt.cms.shiro.OnLineFilter">
-		<property name="noLoginUrl" value="index/doLogin"></property>
+		<property name="noLoginUrl" value="index/login"></property>
 	</bean>
 	<bean id="permissionFilter" class="com.ekt.cms.shiro.PermissionFilter">
-		<property name="noPermissionUrl" value="index/doLogin" />
+		<property name="noPermissionUrl" value="index/login" />
 	</bean>
 
 	<!-- 会话验证调度器 -->
