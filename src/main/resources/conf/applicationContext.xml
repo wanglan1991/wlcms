@@ -1,48 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="
-          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
-          http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
-          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-	
-	<!-- load database info -->
-	<context:property-placeholder location="classpath:conf/jdbc.properties" />
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+	    http://www.springframework.org/schema/context/spring-context.xsd
+	    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	    http://www.springframework.org/schema/cache
+	    http://www.springframework.org/schema/cache/spring-cache.xsd
+	    http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd">
 
-	<!-- 配置数据源 使用的是Druid数据源 -->
-	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
-		init-method="init" destroy-method="close">
-		<!-- 基本属性 url、user、password -->
-		<property name="url" value="${mysql.url}" />
-		<property name="username" value="${mysql.username}" />
-		<property name="password" value="${mysql.password}" />
-		<property name="connectionProperties" value="${mysql.driver}"></property>
-		<!-- 配置初始化大小、最小、最大 -->
-		<property name="initialSize" value="1" />
-		<property name="minIdle" value="1" />
-		<property name="maxActive" value="20" />
-		<!-- 配置获取连接等待超时的时间 -->
-		<property name="maxWait" value="60000" />
-		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
-		<property name="timeBetweenEvictionRunsMillis" value="60000" />
-		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
-		<property name="minEvictableIdleTimeMillis" value="300000" />
-		<property name="validationQuery" value="SELECT 'x'" />
-		<property name="testWhileIdle" value="true" />
-		<property name="testOnBorrow" value="false" />
-		<property name="testOnReturn" value="false" />
-		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
-		<property name="poolPreparedStatements" value="true" />
-		<property name="maxPoolPreparedStatementPerConnectionSize"
-			value="20" />
-		<!-- 配置监控统计拦截的filters -->
-		<property name="filters" value="stat" />
+	<!--加载属性文件 -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<array>
+				<value>classpath:/conf/config.properties</value>
+			</array>
+		</property>
 	</bean>
-	
+
+	<bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
+		<property name="config">
+			<bean class="com.google.code.kaptcha.util.Config">
+				<constructor-arg>
+					<props>
+						<prop key="kaptcha.border">yes</prop>
+						<prop key="kaptcha.border.color">20,92,205</prop>
+						<prop key="kaptcha.textproducer.font.color">20,92,205</prop>
+						<prop key="kaptcha.image.width">125</prop>
+						<prop key="kaptcha.image.height">45</prop>
+						<prop key="kaptcha.textproducer.font.size">35</prop>
+						<prop key="kaptcha.session.key">code</prop>
+						<prop key="kaptcha.textproducer.char.length">4</prop>
+						<prop key="kaptcha.textproducer.font.names">宋体,楷体,微软雅黑</prop>
+					</props>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	<!--注解扫描的包 -->
+	<context:component-scan base-package="com.larva.*,com.mini.core.cfg" />
+	<!-- 启动对@AspectJ注解的支持 -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	<!--方案1.缓存管理 Redis -->
+	<!-- <bean id="cache" class="com.larva.shiro.cache.WTCache"> <property name="redisManager" 
+		ref="redisManager"/> </bean> <bean id="cacheManager" class="com.larva.shiro.cache.WTCacheManager"> 
+		<property name="cache" ref="cache"/> </bean> -->
+
+	<!--方案2.缓存管理 EhCache -->
+	<bean id="ehCacheManager"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:${ehcache.configFile}" />
+	</bean>
+	<bean id="ehCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager" ref="ehCacheManager" />
+	</bean>
+	<bean id="cache" class="org.apache.shiro.cache.ehcache.EhCache">
+		<constructor-arg ref="ehCache" />
+	</bean>
+	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManager" ref="ehCacheManager" />
+	</bean>
+
+
 	<import resource="classpath:/conf/spring-mybatis.xml" />
-<!-- 	<import resource="classpath:freemarker/spring-freemarker.xml" /> -->
+	<import resource="classpath:/conf/spring-shiro.xml" />
 </beans>
