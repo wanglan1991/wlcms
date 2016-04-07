@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.NotBlank;
 /**
  * CMS menu 实体类 author : chenxin create date : 2016.4.6
  * 
- * @ hibernate validation 验证 验证规则请查考 src/main/resources/doc 文件夹下面的hibernateValidation.txt
+ * @ hibernate validation 验证 验证规则请参考 src/main/resources/doc 文件夹下面的hibernateValidation.txt
  **/
 public class CmsMenu implements Serializable {
 	private static final long serialVersionUID = -4969335067707922527L;
