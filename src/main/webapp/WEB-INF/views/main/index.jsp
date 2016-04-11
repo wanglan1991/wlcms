@@ -327,6 +327,7 @@
 </div>
 <%@include file="/WEB-INF/views/include/baseJS.jsp" %>
 <script type="text/javascript">
+<<<<<<< HEAD
 var menusTxt="";
 $(document).ready(function(){ 
 	  $.ajax({
@@ -360,6 +361,8 @@ $(document).ready(function(){
 
 
 
+=======
+>>>>>>> upstream/master
     seajs.config({
         base: "${ctxAssets}/js/",
        /*  alias: {
