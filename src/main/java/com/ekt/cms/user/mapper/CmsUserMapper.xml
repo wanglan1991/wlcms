@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ekt.cms.user.dao.CmsUserMapper" >
+  <resultMap id="BaseResultMap" type="com.ekt.cms.user.entity.CmsUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="CHAR" />
+    <result column="password" property="password" jdbcType="CHAR" />
+    <result column="real_name" property="realName" jdbcType="CHAR" />
+    <result column="role" property="role" jdbcType="INTEGER" />
+    <result column="cellphone" property="cellphone" jdbcType="CHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, user_name, password, real_name, role, cellphone, status
+  </sql>
+  
+   <!-- 按主键查询-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cms_account
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!-- 删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cms_account
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <!-- 插入 -->
+  <insert id="insert" parameterType="com.ekt.cms.user.entity.CmsUser" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cms_account (id, user_name, password, 
+      real_name, role, cellphone, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=CHAR}, #{password,jdbcType=CHAR}, 
+      #{realName,jdbcType=CHAR}, #{role,jdbcType=INTEGER}, #{cellphone,jdbcType=CHAR}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  
+ <!-- 更新 -->
+  <update id="updateByPrimaryKey" parameterType="com.ekt.cms.user.entity.CmsUser" >
+    update cms_account
+    set user_name = #{userName,jdbcType=CHAR},
+      password = #{password,jdbcType=CHAR},
+      real_name = #{realName,jdbcType=CHAR},
+      role = #{role,jdbcType=INTEGER},
+      cellphone = #{cellphone,jdbcType=CHAR},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+   <!-- 根据条件查询 -->
+	<select id="queryByCondition" resultMap="BaseResultMap"
+		parameterType="com.ekt.cms.user.entity.CmsUser">
+		select * from cms_account where 1=1
+		<if test="cmsUser.userName != null and cmsUser.userName !='' ">
+			and (user_name like '%${cmsUser.userName}%')
+		</if>
+		<if test="cmsUser.status != null and cmsUser.status !='' ">
+			and 1=#{cmsUser.status}	
+		</if>		
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="listPage" resultMap="BaseResultMap"
+		parameterType="com.ekt.cms.user.entity.CmsUser">
+		select * from csm_account where 1=1
+		<if test="cmsUser.userName != null and cmsUser.userName !='' ">
+			and (user_name like '%${cmsUser.userName}%')
+		</if>
+	</select>
+
+<!-- 	<select id="queryByUserName" resultMap="BaseResultMap" -->
+<!-- 		parameterType="com.ekt.cms.user.entity.CmsUser"> -->
+<!-- 		select * from cms_account where 1=1 -->
+<!-- 			and user_name =#{cmsUser.userName} -->
+<!-- 			and 1=#{cmsUser.status}		 -->
+<!-- 	</select> -->
+	
+</mapper>

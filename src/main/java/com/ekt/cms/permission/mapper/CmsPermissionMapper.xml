@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ekt.cms.permission.dao.CmsPermissionMapper">
+	<resultMap id="BaseResultMap" type="com.ekt.cms.permission.entity.CmsPermission">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="key" property="key" jdbcType="VARCHAR" />
+		<result column="order" property="order" jdbcType="INTEGER" />
+	</resultMap>
+
+	<resultMap id="PermissionResultMap" type="com.ekt.cms.permission.entity.CmsPermission">
+		<id column="roleId" property="roleId" jdbcType="INTEGER" />
+		<id column="PermissionId" property="PermissionId" jdbcType="INTEGER" />
+		<result column="encoding" property="encoding" jdbcType="VARCHAR" />
+		<result column="key" property="key" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, name, key, order
+	</sql>
+
+	<select id="queryPermissionByRoleId" resultMap="PermissionResultMap"
+		parameterType="java.lang.Integer">
+		select
+		r.id roleId ,r.encoding,p.id PermissionId,p.key
+		from cms_role r
+		left join cms_role_permission c on c.role_id =r.id
+		left join cms_permission p on p.id=c.permission_id
+		where r.id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from cms_permission
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from cms_permission
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.ekt.cms.permission.entity.CmsPermission">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into cms_permission (id, name, key,
+		order)
+		values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		#{key,jdbcType=VARCHAR},
+		#{order,jdbcType=INTEGER})
+	</insert>
+
+	<update id="updateByPrimaryKey" parameterType="com.ekt.cms.permission.entity.CmsPermission">
+		update cms_permission
+		set name = #{name,jdbcType=VARCHAR},
+		key = #{key,jdbcType=VARCHAR},
+		order = #{order,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+</mapper>
