@@ -7,10 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
-<<<<<<< HEAD
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-=======
->>>>>>> upstream/master
 <html>
 <head>
   <title></title>
@@ -19,21 +16,17 @@
 <div class='span12 box bordered-box blue-border' style='margin-bottom:0;'>
   <div class='box-header' id="role-header">
     <div class='title'>角色设置</div>
-<<<<<<< HEAD
     	<div class="actions">
     		<a href="#" id="addRole" data-toggle="modal" class="btn btn-success btn-small" style="margin-left:5px">
     		<i class="icon-plus"></i>添加</a>
     		<a href="#" id="delRoles" class="btn btn-danger btn-small" style="margin-left:5px">
     		<i class="icon-remove"></i>删除</a>
     	</div>
-=======
->>>>>>> upstream/master
     <div class='actions'></div>
   </div>
   <div class='box-content box-no-padding'>
     <div class='responsive-table'>
       <div class='scrollable-area-x'>
-<<<<<<< HEAD
 <!--         <table id="roleTable"></table> -->
 				<div class="fixed-table-container" style="height: 261px; padding-bottom: 40px;">
 					<div class="fixed-table-header" style="margin-right: 0px;">
@@ -91,9 +84,6 @@
 						</table>
 					</div>
 				</div>
-=======
-        <table id="roleTable"></table>
->>>>>>> upstream/master
       </div>
     </div>
   </div>
@@ -104,7 +94,6 @@
         <button class='close' data-dismiss='modal' type='button'>&times;</button>
         <h3></h3>
     </div>
-<<<<<<< HEAD
     <form class='form validate-form' id='submit-form'  role="form"  style='margin-bottom: 0;'>
     <div class='modal-body'>
         <div class='control-group'>
@@ -117,38 +106,17 @@
             <label class='control-label'>角色编码</label>
             <div class='controls'>
                 <input class='span8' id='roleEncoding'  placeholder='角色编码' type='text' />
-=======
-    <form class='form validate-form' id='submit-form' method="post" role="form"  style='margin-bottom: 0;'>
-    <div class='modal-body'>
-        <div class='control-group'>
-            <label class='control-label'>角色键值</label>
-            <div class='controls'>
-            	<input type='hidden' id='id' name="id"/>
-                <input class='span8' id='key' required name="key" placeholder='角色键值' type='text' />
-            </div>
-        </div>
-        <div class='control-group'>
-            <label class='control-label'>角色名称</label>
-            <div class='controls'>
-                <input class='span8' id='name' required name='name' placeholder='角色名称' type='text' />
->>>>>>> upstream/master
             </div>
         </div>
     </div>
     <div class='modal-footer'>
-<<<<<<< HEAD
     	  <msg style="color:red" id="msg" ></msg>
         <button type="button" id="btnClose" class='btn'>关闭</button>
         <button type="button" id="btnSubmit" class='btn btn-primary'>保存</button>
-=======
-        <button type="button" id="btnClose" class='btn'>关闭</button>
-        <button type="submit" id="btnSubmit" class='btn btn-primary'>保存</button>
->>>>>>> upstream/master
     </div>
     </form>
 </div>
 
-<<<<<<< HEAD
 <div class='modal hide fade' id='edit-Role' roleId role='dialog' tabindex='-1'>
     <div class='modal-header'>
         <button class='close' data-dismiss='modal' type='button'>&times;</button>
@@ -182,8 +150,6 @@
 
 
 
-=======
->>>>>>> upstream/master
 <div class='modal hide fade' id='modal-DistributePermission' role='dialog' tabindex='-1'>
     <div class='modal-header'>
         <button class='close' data-dismiss='modal' type='button'>&times;</button>
@@ -215,7 +181,6 @@
     </div>
 </div>
 <script>
-<<<<<<< HEAD
 //引入模块
 var core;
 define(function (require, exports, module) {
@@ -314,12 +279,6 @@ $("#btnSubmit1").on("click",function(){
 
 
 
-=======
-  seajs.use(['base','main/role/manage'],function(b,m){
-	b.init();
-    m.init('${ctx}');
-  });
->>>>>>> upstream/master
 </script>
 </body>
 </html>
