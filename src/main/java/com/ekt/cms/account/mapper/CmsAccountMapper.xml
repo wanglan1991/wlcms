@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ekt.cms.account.dao.CmsAccountMapper">
+	<resultMap id="BaseResultMap" type="com.ekt.cms.account.entity.CmsAccount">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="real_name" property="realName" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="cellphone" property="cellphone" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="role" property="role" jdbcType="INTEGER" />
+	</resultMap>
+
+<select id="findAccount" resultType="com.ekt.cms.account.entity.CmsAccount" parameterType="com.ekt.cms.account.entity.CmsAccount">
+	SELECT * FROM cms_account WHERE 1=1
+		<if test="cmsAccount.id !=null and cmsAccount !=''">
+	AND id=#{cmsAccount.id}
+		</if>
+		<if test="cmsAccount.userName !=null and cmsAccount.UserName !=''">
+	AND id=#{cmsAccount.UserName}
+		</if>
+</select>
+
+
+<delete id="deleteById"  parameterType="java.lang.Integer">
+	DELETE FROM cms_account WHERE id=#{id}
+</delete>
+
+
+<update id="updateById" parameterType="com.ekt.cms.account.entity.CmsAccount">
+	UPDATE  SET
+	<if test="cmsAccount.realName !=null and cmsAccount.realName !=''">
+		real_name=#{cmsAccount.realName},
+	</if>
+	<if test="cmsAccount.cellphone !=null and cmsAccount.cellphone !=''">
+		cellphone=#{cmsAccount.cellphone},
+	</if>
+	<if test="cmsAccount.password !=null and cmsAccount.password !=''">
+		password=#{cmsAccount.password},
+	</if>
+	<if test="cmsAccount.status !=null and cmsAccount.status !=''">
+		status=#{cmsAccount.status},
+	</if>
+	<if test="cmsAccount.role !=null and cmsAccount.role !=''">
+		role=#{cmsAccount.role}
+	</if>
+	FROM
+		cms_account
+	WHERE
+		id=#{cmsAccount.id}
+</update>
+
+<select id="getAccountListByAccount" resultMap="BaseResultMap" parameterType="com.ekt.cms.account.entity.CmsAccount">
+		SELECT * FROM 
+			cms_account
+		WHERE
+			1=1 
+		<if test="cmsAccount.realName !=null and cmsAccount.realName !=''">
+				AND real_name=#{cmsAccount.realName},
+		</if>
+		<if test="cmsAccount.cellphone !=null and cmsAccount.cellphone !=''">
+				AND cellphone=#{cmsAccount.cellphone},
+		</if>
+		<if test="cmsAccount.role !=null and cmsAccount.role !=''">
+				AND role=#{cmsAccount.role}
+		</if>
+		<if test="cmsAccount.userName !=null and cmsAccount.userName !=''">
+				AND user_name=#{cmsAccount.userName}
+		</if>
+</select>
+
+<insert id="insertAccount" parameterType="com.ekt.cms.account.entity.CmsAccount">
+	INSERT INTO 
+		cms_account( `user_name`, `password`, `real_name`,
+		 <if test="cmsAccount.role !=null and cmsAccount.role !='' ">
+		 	`role`,
+		 </if>
+		  <if test="cmsAccount.cellphone !=null and cmsAccount.cellphone !='' ">
+		 	`cellphone`,
+		 </if>
+		 'create_time') 
+	VALUES 
+		(#{cmsAccount.userName}, #{cmsAccount.password}, #{cmsAccount.realName},
+		 <if test="cmsAccount.role !=null and cmsAccount.role !='' ">
+		 	#{cmsAccount.role},
+		 </if>
+		  <if test="cmsAccount.cellphone !=null and cmsAccount.cellphone !='' ">
+		 	#{cmsAccount.cellphone},
+		 </if>
+			 SYSDATE())
+</insert>
+	
+	
+	
+	
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ekt.cms.role.dao.CmsRoleMapper">
+	<resultMap id="BaseResultMap" type="com.ekt.cms.role.entity.CmsRole">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="encoding" property="encoding" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="INTEGER" />
+	</resultMap>
+
+	
+	<select id="getCmsRoleById" resultType="com.ekt.cms.role.entity.CmsRole"  parameterType="java.lang.Integer">
+		SELECT * FROM cms_role WHERE id = #{id}
+	</select>
+	
+	<select id="getCmsRoleList" resultMap="BaseResultMap"  parameterType="com.ekt.cms.role.entity.CmsRole">
+		SELECT * FROM cms_role WHERE 1=1 
+		<if test="cmsRole.id != null and cmsRole.id != '' ">
+			AND id = #{cmsRole.id}
+		</if>
+		<if test="cmsRole.encoding != null and cmsRole.encoding != '' ">
+			AND id = #{cmsRole.encoding}
+		</if>
+		<if test="cmsRole.status != null and cmsRole.status != '' ">
+			AND id = #{cmsRole.status}
+		</if>
+			AND id&lt;&gt;1
+	</select>
+	<insert id="addCmsRole"  parameterType="com.ekt.cms.role.entity.CmsRole">
+		<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO 
+			cms_role ( `name` , `encoding` , `create_time`) 
+		VALUES 
+		    (#{cmsRole.name,jdbcType=VARCHAR}, #{cmsRole.encoding,jdbcType=VARCHAR}, SYSDATE());
+	</insert>
+	<select id="getCmsRoleByNameOrEncoding"  resultType="com.ekt.cms.role.entity.CmsRole"  parameterType="com.ekt.cms.role.entity.CmsRole">
+		SELECT * FROM cms_role WHERE name=#{cmsRole.name} OR encoding=#{cmsRole.encoding}	
+	</select>
+	
+	<delete id="deleteCmsRole" parameterType="java.lang.Integer">
+		DELETE FROM cms_role
+		WHERE id = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<update id="updateCmsRole" parameterType="com.ekt.cms.role.entity.CmsRole">
+		UPDATE cms_role SET 
+			name=#{cmsRole.name},encoding=#{cmsRole.encoding}
+		WHERE id=#{cmsRole.id}
+	</update>
+</mapper>
