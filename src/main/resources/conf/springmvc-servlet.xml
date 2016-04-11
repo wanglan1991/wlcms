@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
 	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	          http://www.springframework.org/schema/context
 	          http://www.springframework.org/schema/context/spring-context.xsd
@@ -10,12 +11,14 @@
 	          http://www.springframework.org/schema/jee/spring-jee.xsd
 	          http://www.springframework.org/schema/mvc
 	          http://www.springframework.org/schema/mvc/spring-mvc.xsd
-	          http://www.springframework.org/schema/util 
+	          http://www.springframework.org/schema/util
+	          http://www.springframework.org/schema/aop
+			  http://www.springframework.org/schema/aop/spring-aop.xsd
 	          http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<!-- 对静态资源文件的访问，交给default servlet handler处理 -->
-<!-- 	<mvc:default-servlet-handler /> -->
-	
+	<mvc:default-servlet-handler />
+
 	<!-- 静态资源映射 -->
 	<mvc:resources mapping="/static/**" location="/WEB-INF/static/" />
 	<mvc:resources mapping="/uploadfile/**" location="uploadfile/" />
@@ -29,6 +32,8 @@
 	<!-- 扫描文件（自动注入） -->
 	<context:component-scan base-package="com.ekt.*" />
 
+<!-- 	<aop:aspectj-autoproxy proxy-target-class="true" /> -->
+
 	<!--JSP视图解析器 -->
 	<bean id="viewResolverJsp"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -36,7 +41,7 @@
 		<property name="suffix" value=".jsp" />
 		<property name="viewClass"
 			value="org.springframework.web.servlet.view.InternalResourceView" />
-		<property name="order" value="1" />
+		<property name="order" value="0" />
 	</bean>
 
 	<!-- 配置freeMarker视图解析器 -->
@@ -51,7 +56,7 @@
 		<property name="exposeSpringMacroHelpers" value="true" />
 		<property name="cache" value="false" />
 		<property name="suffix" value=".html" />
-		<property name="order" value="0" />
+		<property name="order" value="1" />
 	</bean>
 
 	<!-- 配置freeMarker的模板路径 -->
@@ -105,22 +110,6 @@
 		</property>
 	</bean>
 
-	<!--hessian -->
-	<!-- <bean id="httpRequestHandlerAdapter" -->
-	<!-- class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter" 
-		/> -->
-	<!-- <bean -->
-	<!-- class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" 
-		/> -->
-	<!-- <bean id="paymentService" class="com.payment.weixin.service.PaymentServiceImpl" 
-		/> -->
-	<!-- <bean name="/payment.hessian" -->
-	<!-- class="org.springframework.remoting.caucho.HessianServiceExporter"> -->
-	<!-- <property name="service" ref="paymentService" /> -->
-	<!-- <property name="serviceInterface" value="com.payment.weixin.service.PaymentService" 
-		/> -->
-	<!-- </bean> -->
-
 	<!-- 上传文件拦截，设置最大上传文件大小 10M=10*1024*1024(B)=10485760 bytes -->
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -131,6 +120,6 @@
 		<!-- 内存中的最大值 -->
 		<property name="maxInMemorySize" value="40960" />
 		<!-- 配置文件上传临时目录 -->
-		<property name="uploadTempDir" value = "/uploadfile/upload/temp"></property>
+		<property name="uploadTempDir" value="/uploadfile/upload/temp"></property>
 	</bean>
 </beans>

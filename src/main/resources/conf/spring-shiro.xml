@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!--Shiro配置 -->
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+	<bean id="adminRealm" class="com.ekt.cms.shiro.UserRealm">
+		<property name="authorizationCachingEnabled" value="true" />
+		<property name="authorizationCacheName" value="authorizationCache_" />
+		<property name="cachingEnabled" value="true" />
+		<property name="authenticationCachingEnabled" value="true" />
+		<property name="authenticationCacheName" value="authenticationCache_" />
+<!-- 		<property name="accountService" ref="accountService" /> -->
+		<property name="cacheManager" ref="cacheManager" />
+	</bean>
+
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="adminRealm" />
+		<property name="sessionManager" ref="sessionManager" />
+		<property name="rememberMeManager" ref="rememberMeManager" />
+	</bean>
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/user/login" />
+		<property name="filters">
+			<map>
+				<entry key="o" value-ref="onLineFilter" />
+				<entry key="p" value-ref="permissionFilter" />
+			</map>
+		</property>
+		<property name="filterChainDefinitions">
+			<value>
+				/main/index=o
+				/main/welcomePage=o
+				/main/get-menu-show-permissions=o,p[menupermisson:check]
+				/main/get-menu-check-permissions=o,p[menupermisson:check]
+				/main/get-show-permissions=o,p[permission:check]
+				/main/get-all-permissions=o,p[permission:check]
+				<!-- /main/get-show-permissions-except-children=o,p[permission:check:notselfchildren] -->
+				/main/get-role-show-permissions=o,p[rolepermission:check]
+				/main/get-role-check-permissions=o,p[rolepermission:check]
+
+				/main/permission/manage=o,p[permission:manage]
+				/main/permission/create=o,p[permission:add]
+				/main/permission/del=o,p[permission:delete]
+				/main/permission/edit=o,p[permission:edit]
+
+				/main/menu/manage=o,p[menu:manage]
+				/main/menu/create=o,p[menu:add]
+				/main/menu/edit=o,p[menu:edit]
+				/main/menu/del=o,p[menu:delete]
+				/main/menu/grant=o,p[menu:grant]
+				/main/menu/get-show-menus=o
+				<!-- /main/menu/get-show-menus-except-children=o,p[menu:check:notselfchildren] -->
+
+				/main/role/get-all-roles=o
+				/main/role/manage=o,p[role:manage]
+				/main/role/del=o,p[role:delete]
+				/main/role/grant=o,p[role:grant]
+				/main/role/edit=o,p[role:edit]
+				/main/role/show-roles=o,p[role:check]
+				/main/role/create=o,p[role:add]
+
+				/main/department/manage=o
+				<!-- /main/department/get-show-departments=o /main/department/get-show-departments-except-children=o -->
+				/main/department/get-list-departments=o
+				/main/department/get-all-departments=o
+				/main/department/del=o
+				/main/department/create=o
+				/main/department/edit=o
+
+				/user/get-manage-user=o
+				/user/manage=o
+				/user/delete=o,p[user:delete]
+
+				/main/log/login=o,p[loginlog:manage]
+				/main/log/query-login=o,p[loginlog:check]
+				/main/log/user-locations=o,p[loginlog:userlocations]
+				/main/log/getLocations=o,p[loginlog:getuserlocations]
+
+				/user/get-manage-user=o,p[user:check]
+				/user/create=o,p[user:add]
+				/user/manage=o,p[user:manage]
+				/user/edit-user-dep=o,p[edituser:dep]
+
+				/main/monitor/manage=o
+				/main/monitor/get-list-monitors=o
+				/main/monitor/get-all-monitors=o
+
+				/user/login=anon
+				/user/exit=anon
+				/*=o
+				<!-- /*=anon /*/*=anon -->
+
+			</value>
+		</property>
+	</bean>
+	<bean id="onLineFilter" class="com.ekt.cms.shiro.OnLineFilter">
+		<property name="noLoginUrl" value="index/login"></property>
+	</bean>
+	<bean id="permissionFilter" class="com.ekt.cms.shiro.PermissionFilter">
+		<property name="noPermissionUrl" value="index/login" />
+	</bean>
+
+	<!-- 会话验证调度器 -->
+	<!-- <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler"> 
+		<property name="sessionValidationInterval" value="${session.outdate}"/> <property 
+		name="sessionManager" ref="sessionManager"/> </bean> -->
+	<bean id="sessionManager"
+		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<property name="globalSessionTimeout" value="${session.outdate}" />
+		<property name="deleteInvalidSessions" value="true" />
+		<property name="sessionValidationSchedulerEnabled" value="false" />
+		<!-- <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/> -->
+		<property name="sessionDAO" ref="sessionDao" />
+		<property name="sessionIdCookieEnabled" value="true" />
+		<property name="sessionIdCookie" ref="sessionIdCookie" />
+	</bean>
+	<bean id="sessionIdGenerator"
+		class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator" />
+
+	<!--方案1.缓存管理 Redis -->
+	<!-- <bean id="redisSessionSessionDao" class="com.ekt.cms.shiro.RedisSessionDao"> 
+		<property name="sessionIdGenerator" ref="sessionIdGenerator" /> <property 
+		name="redisManager" ref="redisManager"/> <property name="activeSessionsCacheName" 
+		value="shiro_activeSessionCache_" /> </bean> -->
+
+	<!--方案2.缓存管理 EhCache -->
+	<bean id="sessionDao"
+		class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+		<property name="activeSessionsCacheName" value="shiro_activeSessionCache" />
+		<property name="sessionIdGenerator" ref="sessionIdGenerator" />
+		<property name="cacheManager" ref="cacheManager" />
+		<property name="activeSessionsCache" ref="cache" />
+	</bean>
+
+	<!-- 会话Cookie模板 -->
+	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg value="sid" />
+		<property name="httpOnly" value="true" />
+		<property name="maxAge" value="-1" />
+	</bean>
+	<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg value="rememberMe" />
+		<property name="httpOnly" value="true" />
+		<property name="maxAge" value="2592000" /><!-- 30天 -->
+	</bean>
+	<!-- rememberMe管理器 -->
+	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+		<!-- rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度（128 256 512 位） -->
+		<property name="cipherKey"
+			value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}" />
+		<property name="cookie" ref="rememberMeCookie" />
+	</bean>
+
+	<!-- Shiro生命周期处理器 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+</beans>

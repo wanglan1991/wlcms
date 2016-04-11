@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<title>后台管理</title>
+
+<link href="${path}/static/css/style.default.css" rel="stylesheet">
+<link href="${path}/static/css/jquery.custombox.css" rel="stylesheet">
+<link href="${path}/static/css/prettyPhoto.css" rel="stylesheet" />
+<link href="${path}/static/css/jquery.circliful.css" rel="stylesheet" />
+<link href="${path}/static/css/dropzone.css" rel="stylesheet">
+<link href="${path}/static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- dataTables样式 -->
+<link href="${path}/static/css/select2.css" rel="stylesheet">
+<link href="${path}/static/css/style.datatables.css" rel="stylesheet">
+<link href="${path}/static/css/dataTables.bootstrap.css" rel="stylesheet">
+<link href="${path}/static/css/dataTables.responsive.css" rel="stylesheet">
+<style>
+#loading {
+	position: fixed;
+	_position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 124px;
+	height: 124px;
+	overflow: hidden;
+	background: url(${path}/static/images/loaders/loader12.gif) no-repeat;
+	z-index: 7;
+	margin: -62px 0 0 -62px;
+}
+</style>
+
+</head>
+<body>
+
+	<header>
+		<div class="headerwrapper">
+			<div id="top">
+				<div class="container">
+					<a href="javascript:void(0);"><i class="fa fa-user"></i>当前用户：系统管理员</a>
+					<a href="i"><i class="glyphicon glyphicon-log-out"></i>&nbsp;退出</a>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!-- 这个input作为一个全局变量使用，为后面取path用，在js中使用${path}有问题，所以用这个笨办法 -->
+	<input type="text" id="base_path" value="${path}">
+	<div class="mainwrapper">
+		<!-----------------主菜单----------------------->
+		<!-----------------主菜单----------------------->
+		<div class="leftpanel" id="mainMenu">
+			<h5 class="leftpanel-title">导航</h5>
+			<ul class="nav nav-pills nav-stacked">
+				<li class="active"><a href="" class="menu-collapse"> <i
+						class="fa fa-th-large"></i>&nbsp; <span>菜单栏 <span
+							class="pull-right"> <i class="fa fa-angle-double-left"></i>
+						</span>
+					</span>
+
+				</a></li>
+
+				<li class="parent"><a href=""><i class="fa fa-legal"></i> <span>商铺管理</span></a>
+					<ul class="children">
+						<li id='m_issue'><a href="javascript:void(0)"
+						onclick="menuClick(1);">商店管理</a></li>
+					</ul>
+				</li>
+				<li class="parent"><a href=""><i class="fa fa-clipboard"></i>
+						<span>新闻中心</span></a>
+					<ul class="children">
+						<li id='m_newEdit'><a href="javascript:void(0)">文章编辑</a></li>
+					</ul></li>
+
+				<li class="parent"><a href=""><i class="fa fa-leaf"></i> <span>系统管理</span></a>
+					<ul class="children">
+						<li id='demoPage'><a href="javascript:void(0)"
+							onclick="menuClick(2);">地域管理</a></li>
+						<li id='goodstype'><a href="javascript:void(0)"
+							onclick="menuClick(3);">商品类型</a></li>
+						<li id='goodstype'><a href="javascript:void(0)"
+							onclick="menuClick(4);">商品库</a></li>
+					</ul>
+				</li>
+
+			</ul>
+
+		</div>
+		<!--------------------------------------------->
+		<!-----------------主显示区--------------------->
+		<div id='maincontent' class="mainpanel">
+
+			<!------------导航条------------------->
+			<div class="pageheader">
+				<div class="media">
+					<div class="pageicon pull-left">
+						<i id="navIcon"></i>
+					</div>
+					<div class="media-body">
+						<ul class="breadcrumb">
+							<li id='centerindex'><a a href="mycenter.html"> <i
+									class="glyphicon glyphicon-home"></i>&nbsp;后台首页
+							</a></li>
+							<li class="active"></li>
+						</ul>
+						<h4 id="menuTitle"></h4>
+					</div>
+				</div>
+			</div>
+			<!------------内容区------------------->
+			<div id="mainView" class="contentpanel"></div>
+
+		</div>
+		<!--------------------------------------------->
+		<div id="loading" style="margin-top: 50px;"></div>
+	</div>
+	<!-- mainwrapper -->
+
+<!-- 消息窗口 -->
+<div id='msgmodal' class="modal fade tooltip-sm" style="z-index:99999" tabindex="-1" role="dialog" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
+                <h4 class="modal-title" id="msgtitle" style="font-family:'微软雅黑'"></h4>
+			</div>
+			<div class="modal-body" id="msgtext"></div><br />
+           <div class="modal-footer" id="msghandler">
+            	<button aria-hidden="true" data-dismiss="modal"  
+                class="btn btn-success" type="button" id="btnSuccess">&nbsp;成功&nbsp;</button>&nbsp;
+				<button aria-hidden="true" data-dismiss="modal"  
+                class="btn btn-warning" type="button" id="isno">&nbsp;操作失败&nbsp;</button> 
+            </div>
+		</div>
+	</div>
+</div>
+
+<!------------公共方法区(确定和取消)----------->
+<div id='confirm_delete' class="modal fade tooltip-sm" tabindex="-1" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
+                <h4 class="modal-title" id="msgconfirmtitle" style="font-family:'微软雅黑'"></h4>
+			</div>
+			<div class="modal-body" id="msgconfirmtext" style="font-family:'微软雅黑';font-size:16px"></div><br />
+           	<div class="modal-footer" id="msgconfirmhandler">
+            	<button aria-hidden="true" data-dismiss="modal"  class="btn btn-success" type="button"  id="btnConfirm">&nbsp;确定&nbsp;</button>
+			                    &nbsp;
+				<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">&nbsp;取消&nbsp;</button> 
+            </div>
+        </div>
+	</div>
+</div>
+</body>
+
+<script src="${path}/static/js/jquery-1.11.1.min.js"></script>
+<script src="${path}/static/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="${path}/static/js/bootstrap.min.js"></script>
+<script src="${path}/static/js/modernizr.min.js"></script>
+<script src="${path}/static/js/pace.min.js"></script>
+<script src="${path}/static/js/retina.min.js"></script>
+<script src="${path}/static/js/jquery.cookies.js"></script>
+<script src="${path}/static/js/custom.js"></script>
+<script src="${path}/static/js/jquery.custombox.js"></script>
+<script src="${path}/static/js/jquery.dataTables.min.js"></script>
+<script src="${path}/static/js/dataTables.bootstrap.js"></script>
+<script src="${path}/static/js/dataTables.responsive.min.js"></script>
+<script src="${path}/static/js/select2.min.js"></script>
+<script src="${path}/static/js/jquery.prettyPhoto.js"></script>
+<script src="${path}/static/js/jquery.circliful.min.js"></script>
+<script src="${path}/static/js/jquery.validate.min.js"></script>
+<script src="${path}/static/js/jquery.form.js"></script>
+<script src="${path}/static/js/messages_cn.js"></script>
+<script src="${path}/static/js/video.js"></script>
+<script src="${path}/static/js/dropzone.js"></script>
+
+<script src="${path}/static/js/market/admin_menu.js"></script>
+<script src="${path}/static/js/market/validata_market.js"></script>
+</html>
+
+<script>
+	//消息窗体方法
+	function msg(title,text){
+		$('#msghandler').hide();
+		var title;
+		switch(title){
+			case 0 :
+				title = '<i class="fa fa-warning"></i>&nbsp;错误'
+				setTimeout("$('#msgmodal').modal('hide')",3000);
+				break;
+			case 1 :
+				title = '<i class="fa fa-check-square"></i>&nbsp;成功'
+				setTimeout("$('#msgmodal').modal('hide')",3000);
+				break;
+			case 2 :
+				title = '<i class="fa fa-mail-forward"></i>&nbsp;转入支付系统'
+				$('#msghandler').show();
+				break;
+			case 3 :
+				title = '<i class="fa fa-check-square"></i>&nbsp;提示'
+				setTimeout("$('#msgmodal').modal('hide')",3000);
+				break;
+			default :
+				title = '<i class="fa fa-question-circle"></i>&nbsp;未知'
+				break;
+		};
+		
+		$('#msgtitle').html(title);
+		$('#msgtext').text(text);
+		$('#msgmodal').modal();
+		
+	};
+	
+	//确定取消消息窗口
+	function c_msg(title,text){
+		$('#msgconfirmtitle').text(title);
+		$('#msgconfirmtext').text(text);
+		$('#confirm_delete').modal('show');
+	};
+	
+	//判断是否为空
+	function isNull(str){
+		var re=/^[　\s]*$/;
+		return re.test(str);
+	}
+</script>
