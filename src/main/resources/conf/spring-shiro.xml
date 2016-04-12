@@ -34,7 +34,7 @@
 		</property>
 		<property name="filterChainDefinitions">
 			<value>
-				/main/index=o
+				/index/index=o
 				/main/welcomePage=o
 				/main/get-menu-show-permissions=o,p[menupermisson:check]
 				/main/get-menu-check-permissions=o,p[menupermisson:check]
@@ -107,15 +107,16 @@
 	</bean>
 
 	<!-- 会话验证调度器 -->
-	<!-- <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler"> 
+	<bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler"> 
 		<property name="sessionValidationInterval" value="${session.outdate}"/> <property 
-		name="sessionManager" ref="sessionManager"/> </bean> -->
+		name="sessionManager" ref="sessionManager"/> </bean>
+		
 	<bean id="sessionManager"
 		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
 		<property name="globalSessionTimeout" value="${session.outdate}" />
 		<property name="deleteInvalidSessions" value="true" />
 		<property name="sessionValidationSchedulerEnabled" value="false" />
-		<!-- <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/> -->
+		<property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
 		<property name="sessionDAO" ref="sessionDao" />
 		<property name="sessionIdCookieEnabled" value="true" />
 		<property name="sessionIdCookie" ref="sessionIdCookie" />

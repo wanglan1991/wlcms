@@ -146,6 +146,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-quartz</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.github.jsqlparser</groupId>
 			<artifactId>jsqlparser</artifactId>
 			<version>0.9.1</version>
