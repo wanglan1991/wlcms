@@ -38,7 +38,7 @@ public class IndexController {
 //		return "index/login";
 //	}
 	
-	@RequestMapping(value = "/doLogin")
+	@RequestMapping(value = "/index")
 	public String doLogin(HttpServletRequest request,HttpServletResponse response) {
 		System.out.print("222");
 		return "main/index";
