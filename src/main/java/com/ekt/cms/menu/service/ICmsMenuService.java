@@ -19,8 +19,14 @@ public interface ICmsMenuService {
 	public int updateByKey(CmsMenu cmsMenu) throws Exception;
 	
 	//query by condition
-	public List<CmsMenu> queryByCondition(CmsMenu cmsMenu);
+	public List<CmsMenu> queryByCondition(CmsMenu cmsMenu)throws Exception;
 	
 	//query pagination list by condition
-	public List<CmsMenu> listPage(CmsMenu cmsMenu, Pagination pagination);
+	public List<CmsMenu> listPage(CmsMenu cmsMenu, Pagination pagination)throws Exception;
+	/**
+	 * 根据角色查询菜单列表
+	 * @return 菜单List
+	 */
+	public List<CmsMenu> getMenuListByRole(Integer roleId)throws Exception;
+	
 }

@@ -46,13 +46,11 @@ define(function (require, exports, module) {
                     timeout: 30000               //限制请求的时间，当请求大于3秒后，跳出请求
                 }
                 $('#login-form').ajaxForm(options);
-                console.log("225");
             },
             showResponse:function(data, status){//表单初始化
                 base.ajaxSuccessData(data);
                 if (data.ok) {
-                	console.log("220");
-                	 window.location.href = E.basepath + "/main/index";
+                	 window.location.href = E.basepath + "/index/index";
                 } else {
                 	//E.changetVerifyCodeImg($('#verifyCodeImg'));
                 }

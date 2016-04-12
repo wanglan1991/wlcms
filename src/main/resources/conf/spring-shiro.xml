@@ -35,6 +35,62 @@
 		<property name="filterChainDefinitions">
 			<value>
 				/main/index=o
+				/main/welcomePage=o
+				/main/get-menu-show-permissions=o,p[menupermisson:check]
+				/main/get-menu-check-permissions=o,p[menupermisson:check]
+				/main/get-show-permissions=o,p[permission:check]
+				/main/get-all-permissions=o,p[permission:check]
+				<!-- /main/get-show-permissions-except-children=o,p[permission:check:notselfchildren] -->
+				/main/get-role-show-permissions=o,p[rolepermission:check]
+				/main/get-role-check-permissions=o,p[rolepermission:check]
+
+				/main/permission/manage=o,p[permission:manage]
+				/main/permission/create=o,p[permission:add]
+				/main/permission/del=o,p[permission:delete]
+				/main/permission/edit=o,p[permission:edit]
+
+				/main/menu/manage=o,p[menu:manage]
+				/main/menu/create=o,p[menu:add]
+				/main/menu/edit=o,p[menu:edit]
+				/main/menu/del=o,p[menu:delete]
+				/main/menu/grant=o,p[menu:grant]
+				/main/menu/get-show-menus=o
+				<!-- /main/menu/get-show-menus-except-children=o,p[menu:check:notselfchildren] -->
+
+				/main/role/get-all-roles=o
+				/main/role/manage=o,p[role:manage]
+				/main/role/del=o,p[role:delete]
+				/main/role/grant=o,p[role:grant]
+				/main/role/edit=o,p[role:edit]
+				/main/role/show-roles=o,p[role:check]
+				/main/role/create=o,p[role:add]
+
+				/main/department/manage=o
+				<!-- /main/department/get-show-departments=o /main/department/get-show-departments-except-children=o -->
+				/main/department/get-list-departments=o
+				/main/department/get-all-departments=o
+				/main/department/del=o
+				/main/department/create=o
+				/main/department/edit=o
+
+				/user/get-manage-user=o
+				/user/manage=o
+				/user/delete=o,p[user:delete]
+
+				/main/log/login=o,p[loginlog:manage]
+				/main/log/query-login=o,p[loginlog:check]
+				/main/log/user-locations=o,p[loginlog:userlocations]
+				/main/log/getLocations=o,p[loginlog:getuserlocations]
+
+				/user/get-manage-user=o,p[user:check]
+				/user/create=o,p[user:add]
+				/user/manage=o,p[user:manage]
+				/user/edit-user-dep=o,p[edituser:dep]
+
+				/main/monitor/manage=o
+				/main/monitor/get-list-monitors=o
+				/main/monitor/get-all-monitors=o
+
 				/user/login=anon
 				/user/exit=anon
 				/*=o

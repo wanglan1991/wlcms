@@ -21,25 +21,25 @@
 
 	<select id="queryPermissionByRoleId" resultMap="PermissionResultMap"
 		parameterType="java.lang.Integer">
-		select
+		SELECT
 		r.id roleId ,r.encoding,p.id PermissionId,p.key
-		from cms_role r
-		left join cms_role_permission c on c.role_id =r.id
-		left join cms_permission p on p.id=c.permission_id
-		where r.id = #{id,jdbcType=INTEGER}
+		FROM cms_role r
+		LEFT JOIN cms_role_permission c ON c.role_id =r.id
+		LEFT JOIN cms_permission p ON p.id=c.permission_id
+		WHERE r.id = #{id,jdbcType=INTEGER}
 	</select>
 
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
-		select
+		SELECT
 		<include refid="Base_Column_List" />
-		from cms_permission
-		where id = #{id,jdbcType=INTEGER}
+		FROM cms_permission
+		WHERE id = #{id,jdbcType=INTEGER}
 	</select>
 
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		delete from cms_permission
-		where id = #{id,jdbcType=INTEGER}
+		DELETE FROM cms_permission
+		WHERE id = #{id,jdbcType=INTEGER}
 	</delete>
 
 	<insert id="insert" parameterType="com.ekt.cms.permission.entity.CmsPermission">
@@ -47,19 +47,19 @@
 			order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
-		insert into cms_permission (id, name, key,
+		INSERT INTO cms_permission (id, name, key,
 		order)
-		values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		VALUES (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
 		#{key,jdbcType=VARCHAR},
 		#{order,jdbcType=INTEGER})
 	</insert>
 
 	<update id="updateByPrimaryKey" parameterType="com.ekt.cms.permission.entity.CmsPermission">
-		update cms_permission
-		set name = #{name,jdbcType=VARCHAR},
+		UPDATE cms_permission
+		SET name = #{name,jdbcType=VARCHAR},
 		key = #{key,jdbcType=VARCHAR},
 		order = #{order,jdbcType=INTEGER}
-		where id = #{id,jdbcType=INTEGER}
+		WHERE id = #{id,jdbcType=INTEGER}
 	</update>
 
 </mapper>
