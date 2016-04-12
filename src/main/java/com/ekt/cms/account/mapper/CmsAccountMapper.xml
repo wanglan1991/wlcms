@@ -1,96 +1,82 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ekt.cms.account.dao.CmsAccountMapper">
-	<resultMap id="BaseResultMap" type="com.ekt.cms.account.entity.CmsAccount">
-		<id column="id" property="id" jdbcType="INTEGER" />
-		<result column="user_name" property="userName" jdbcType="VARCHAR" />
-		<result column="real_name" property="realName" jdbcType="VARCHAR" />
-		<result column="password" property="password" jdbcType="VARCHAR" />
-		<result column="cellphone" property="cellphone" jdbcType="VARCHAR" />
-		<result column="status" property="status" jdbcType="INTEGER" />
-		<result column="role" property="role" jdbcType="INTEGER" />
-	</resultMap>
-
-<select id="findAccount" resultType="com.ekt.cms.account.entity.CmsAccount" parameterType="com.ekt.cms.account.entity.CmsAccount">
-	SELECT * FROM cms_account WHERE 1=1
-		<if test="cmsAccount.id !=null and cmsAccount !=''">
-	AND id=#{cmsAccount.id}
+<mapper namespace="com.ekt.cms.account.dao.CmsAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.ekt.cms.account.entity.CmsAccount" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="CHAR" />
+    <result column="password" property="password" jdbcType="CHAR" />
+    <result column="real_name" property="realName" jdbcType="CHAR" />
+    <result column="role" property="role" jdbcType="INTEGER" />
+    <result column="cellphone" property="cellphone" jdbcType="CHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, user_name, password, real_name, role, cellphone, status
+  </sql>
+  
+   <!-- 按主键查询-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM cms_account
+    WHERE id = #{id,jdbcType=INTEGER}
+  </select>
+  <!-- 删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    DELETE FROM cms_account
+    WHERE id = #{id,jdbcType=INTEGER}
+  </delete>
+  <!-- 插入 -->
+  <insert id="insert" parameterType="com.ekt.cms.account.entity.CmsAccount" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    INSERT INTO cms_account (id, user_name, password, 
+      real_name, role, cellphone, 
+      status)
+    VALUES (#{id,jdbcType=INTEGER}, #{userName,jdbcType=CHAR}, #{password,jdbcType=CHAR}, 
+      #{realName,jdbcType=CHAR}, #{role,jdbcType=INTEGER}, #{cellphone,jdbcType=CHAR}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  
+ <!-- 更新 -->
+  <update id="updateByPrimaryKey" parameterType="com.ekt.cms.account.entity.CmsAccount" >
+    UPDATE cms_account
+    SET user_name = #{userName,jdbcType=CHAR},
+      password = #{password,jdbcType=CHAR},
+      real_name = #{realName,jdbcType=CHAR},
+      role = #{role,jdbcType=INTEGER},
+      cellphone = #{cellphone,jdbcType=CHAR},
+      status = #{status,jdbcType=INTEGER}
+    WHERE id = #{id,jdbcType=INTEGER}
+  </update>
+   <!-- 根据条件查询 -->
+	<select id="queryByCondition" resultMap="BaseResultMap"
+		parameterType="com.ekt.cms.account.entity.CmsAccount">
+		SELECT * FROM cms_account WHERE 1=1
+		<if test="cmsAccount.userName != null and cmsAccount.userName !='' ">
+			AND (user_name like '%${cmsAccount.userName}%')
 		</if>
-		<if test="cmsAccount.userName !=null and cmsAccount.UserName !=''">
-	AND id=#{cmsAccount.UserName}
+		<if test="cmsAccount.status != null and cmsAccount.status !='' ">
+			AND 1=#{cmsAccount.status}	
+		</if>		
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="listPage" resultMap="BaseResultMap"
+		parameterType="com.ekt.cms.account.entity.CmsAccount">
+		SELECT * FROM csm_account WHERE 1=1
+		<if test="cmsAccount.userName != null and cmsAccount.userName !='' ">
+			AND (user_name like '%${cmsAccount.userName}%')
 		</if>
-</select>
+	</select>
 
-
-<delete id="deleteById"  parameterType="java.lang.Integer">
-	DELETE FROM cms_account WHERE id=#{id}
-</delete>
-
-
-<update id="updateById" parameterType="com.ekt.cms.account.entity.CmsAccount">
-	UPDATE  SET
-	<if test="cmsAccount.realName !=null and cmsAccount.realName !=''">
-		real_name=#{cmsAccount.realName},
-	</if>
-	<if test="cmsAccount.cellphone !=null and cmsAccount.cellphone !=''">
-		cellphone=#{cmsAccount.cellphone},
-	</if>
-	<if test="cmsAccount.password !=null and cmsAccount.password !=''">
-		password=#{cmsAccount.password},
-	</if>
-	<if test="cmsAccount.status !=null and cmsAccount.status !=''">
-		status=#{cmsAccount.status},
-	</if>
-	<if test="cmsAccount.role !=null and cmsAccount.role !=''">
-		role=#{cmsAccount.role}
-	</if>
-	FROM
-		cms_account
-	WHERE
-		id=#{cmsAccount.id}
-</update>
-
-<select id="getAccountListByAccount" resultMap="BaseResultMap" parameterType="com.ekt.cms.account.entity.CmsAccount">
-		SELECT * FROM 
-			cms_account
-		WHERE
-			1=1 
-		<if test="cmsAccount.realName !=null and cmsAccount.realName !=''">
-				AND real_name=#{cmsAccount.realName},
-		</if>
-		<if test="cmsAccount.cellphone !=null and cmsAccount.cellphone !=''">
-				AND cellphone=#{cmsAccount.cellphone},
-		</if>
-		<if test="cmsAccount.role !=null and cmsAccount.role !=''">
-				AND role=#{cmsAccount.role}
-		</if>
-		<if test="cmsAccount.userName !=null and cmsAccount.userName !=''">
-				AND user_name=#{cmsAccount.userName}
-		</if>
-</select>
-
-<insert id="insertAccount" parameterType="com.ekt.cms.account.entity.CmsAccount">
-	INSERT INTO 
-		cms_account( `user_name`, `password`, `real_name`,
-		 <if test="cmsAccount.role !=null and cmsAccount.role !='' ">
-		 	`role`,
-		 </if>
-		  <if test="cmsAccount.cellphone !=null and cmsAccount.cellphone !='' ">
-		 	`cellphone`,
-		 </if>
-		 'create_time') 
-	VALUES 
-		(#{cmsAccount.userName}, #{cmsAccount.password}, #{cmsAccount.realName},
-		 <if test="cmsAccount.role !=null and cmsAccount.role !='' ">
-		 	#{cmsAccount.role},
-		 </if>
-		  <if test="cmsAccount.cellphone !=null and cmsAccount.cellphone !='' ">
-		 	#{cmsAccount.cellphone},
-		 </if>
-			 SYSDATE())
-</insert>
-	
-	
-	
+<!-- 	<select id="queryByUserName" resultMap="BaseResultMap" -->
+<!-- 		parameterType="com.ekt.cms.account.entity.CmsAccount"> -->
+<!-- 		SELECT * FROM cms_account WHERE 1=1 -->
+<!-- 			AND user_name =#{cmsAccount.userName} -->
+<!-- 			AND 1=#{cmsAccount.status}		 -->
+<!-- 	</select> -->
 	
 </mapper>
