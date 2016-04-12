@@ -28,7 +28,6 @@ public class UserRealm extends AuthorizingRealm {
 
 	@Override
 	public AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		System.out.println("before");
 		int userId = Integer.parseInt(principals.getPrimaryPrincipal().toString());// 为什么这里获取到的是用户ID
 		System.out.println(userId);
 		SimpleAuthorizationInfo authorizationInfo = cmsAccountService.getAccountRolePermission(userId);
