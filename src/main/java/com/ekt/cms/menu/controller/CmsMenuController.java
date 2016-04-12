@@ -3,6 +3,10 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,7 +32,9 @@ public class CmsMenuController extends BaseController {
 	@RequestMapping("/list")
 	@ResponseBody
 	public List<CmsMenu>  getMenu(HttpServletRequest request)throws Exception{
-		CmsAccount account=(CmsAccount)request.getSession().getAttribute(Constants.DEFAULT_SESSION_ACCOUNT);	
+		Subject curAccount=SecurityUtils.getSubject();
+		Session session=curAccount.getSession();
+		CmsAccount account=(CmsAccount)session.getAttribute(Constants.DEFAULT_SESSION_ACCOUNT);
 		if (account.getRole()==null) {
 			return null;
 		}
