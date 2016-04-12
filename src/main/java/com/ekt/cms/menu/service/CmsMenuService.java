@@ -49,15 +49,6 @@ public class CmsMenuService implements ICmsMenuService {
 		return cmsMenuMapper.listPage(cmsMenu, pagination);
 	}
 
-	@Override
-	public List<CmsMenu> getMenuListByRole(Integer roleId) {
-		List<CmsMenu> menuList=cmsMenuMapper.getParentMenuListByRole(roleId);
-		for(CmsMenu menu:menuList){
-			menu.setMenuList(cmsMenuMapper.getSonMenuListByRole(menu.getId(), roleId));		 
-		}
-		return menuList;
-	}
-
 
 
 }

@@ -1,7 +1,6 @@
 package com.ekt.cms.menu.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
@@ -35,35 +34,11 @@ public class CmsMenu implements Serializable {
 	/** 菜单层级 **/
 	private Integer level;
 
-	public List<CmsMenu> getMenuList() {
-		return menuList;
-	}
-
-	public void setMenuList(List<CmsMenu> menuList) {
-		this.menuList = menuList;
-	}
-
 	/** 菜单状态 0 不可用 1 可用 **/
 	@NotNull(message = "菜单状态不能为空")
 	private Integer status;
 
 	private String remark;
-	/**
-	 * 图标
-	 */
-	private String log;
-	public String getLog() {
-		return log;
-	}
-
-	public void setLog(String log) {
-		this.log = log;
-	}
-
-	/**
-	 * 子菜单
-	 */
-	private List<CmsMenu> menuList;
 
 	public Integer getId() {
 		return id;
