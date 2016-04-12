@@ -12,6 +12,7 @@ import com.ekt.cms.account.entity.CmsAccount;
 import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.utils.JSONUtils;
 import com.ekt.cms.utils.page.Pagination;
+import com.sun.javafx.collections.MappingChange.Map;
 import com.sun.net.httpserver.HttpServer;
 
 import net.sf.json.JSONArray;
@@ -34,8 +35,6 @@ public class BaseController<T>  {
 	    @Autowired
 	    protected HttpSession session;
 	    
-		
-		private Result result;
 	
 	
 	public void printStr(List<T> list, Pagination pagination, HttpServletResponse response,String sEcho) throws Exception{
