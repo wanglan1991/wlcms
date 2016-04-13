@@ -35,13 +35,6 @@ public class IndexController {
 	@Resource
 	private CmsMenuService cmsMenuService;
 
-	@RequestMapping(value = "/doLogin")
-	public String doLogin(HttpServletRequest request, HttpServletResponse response) {
-
-		System.out.print("doLogin");
-		return "main/index";
-	}
-
 	@RequestMapping(value = "/toTable")
 	public String toTable(HttpServletRequest request, HttpServletResponse response) {
 
@@ -49,46 +42,9 @@ public class IndexController {
 		return "index/tables";
 	}
 
-	@RequestMapping(value = "/login")
-	public String login(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		cmsMenuService.queryByKey(1);
-		return "user/login";
-	}
-
 	@RequestMapping(value = "/index")
 	public String toIndex(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		cmsMenuService.queryByKey(1);
 		return "main/index";
 	}
 
-	@RequestMapping(value = "/check-login")
-	public @ResponseBody ResultVO checklogin(@Valid @ModelAttribute CmsAccount cmsAccount, BindingResult bindingResult,
-			HttpServletRequest request) {
-		ResultVO resultVO = new ResultVO(true);
-		List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-		if (fieldErrors != null && !fieldErrors.isEmpty()) {
-			String errorMessage = fieldErrors.get(0).getDefaultMessage();
-			resultVO.setOk(false);
-			resultVO.setMsg(errorMessage);
-			return resultVO;
-		}
-		// 验证登录
-		UsernamePasswordToken token = new UsernamePasswordToken(cmsAccount.getUserName(), cmsAccount.getPassword());
-		token.setRememberMe(cmsAccount.isRememberMe());
-		Subject subject = SecurityUtils.getSubject();
-		try {
-			subject.login(token);
-
-		} catch (AuthenticationException e) {
-			e.printStackTrace();
-			resultVO.setOk(false);
-			resultVO.setMsg("账号或者密码错误");
-			return resultVO;
-		}
-		List<CmsAccount> account = cmsAccountService.queryByCondition(cmsAccount);
-		// session当前用户
-		Session session = subject.getSession();
-		session.setAttribute(Constants.DEFAULT_SESSION_ACCOUNT, account.get(0));
-		return resultVO;
-	}
 }
