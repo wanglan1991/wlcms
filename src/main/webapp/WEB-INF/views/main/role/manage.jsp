@@ -1,3 +1,4 @@
+
 <%--
   Created by IntelliJ IDEA.
   User: sxjun
@@ -16,6 +17,12 @@
 <div class='span12 box bordered-box blue-border' style='margin-bottom:0;'>
   <div class='box-header' id="role-header">
     <div class='title'>角色设置</div>
+    	<div class="actions">
+    		<a href="#" id="addRole" data-toggle="modal" class="btn btn-success btn-small" style="margin-left:5px">
+    		<i class="icon-plus"></i>添加</a>
+    		<a href="#" id="delRoles" class="btn btn-danger btn-small" style="margin-left:5px">
+    		<i class="icon-remove"></i>删除</a>
+    	</div>
     <div class='actions'></div>
   </div>
   <div class='box-content box-no-padding'>

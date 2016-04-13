@@ -1,15 +1,21 @@
 package com.ekt.cms.common;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ekt.cms.account.entity.CmsAccount;
 import com.ekt.cms.common.entity.Result;
+import com.ekt.cms.menu.entity.CmsMenu;
+import com.ekt.cms.utils.Constants;
 import com.ekt.cms.utils.JSONUtils;
 import com.ekt.cms.utils.page.Pagination;
 import com.sun.javafx.collections.MappingChange.Map;
@@ -65,24 +71,21 @@ public class BaseController<T>  {
 		JSONUtils.printStr(jsonStr, response);
 	}
 	/**
-	 * 获取session中的登录用户
-	 * @param request
+	 * 获取当前session用户
 	 * @return
 	 */
-    public CmsAccount getSessionAccout(HttpServletRequest request) {  
-        return (CmsAccount) request.getSession().getAttribute(  
-        		"account");  
-    }  
-     
-    /**
-     * 将用户写入session中去 
-     * @param request
-     * @param account
-     */
-    public  void setSessionAccount(HttpServletRequest request,CmsAccount account) {  
-        request.getSession().setAttribute("account",  
-        		account);  
-    } 
+	public CmsAccount getCurrentAccount(){
+		Subject curAccount=SecurityUtils.getSubject();
+		Session session=curAccount.getSession();
+		return (CmsAccount)session.getAttribute(Constants.DEFAULT_SESSION_ACCOUNT);
+	}
+	/**
+	 * 销毁session
+	 */
+	public void destroySession(){
+		Subject curAccount=SecurityUtils.getSubject();
+		curAccount.getSession().removeAttribute(Constants.DEFAULT_SESSION_ACCOUNT);
+	}
 	
 	
 }

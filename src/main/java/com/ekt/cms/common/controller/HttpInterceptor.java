@@ -29,13 +29,12 @@ public class HttpInterceptor extends BaseController implements HandlerIntercepto
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 					String url = request.getRequestURI();
-					Subject subject = SecurityUtils.getSubject();
-					Session session = subject.getSession();
-					CmsAccount account = (CmsAccount) session.getAttribute(Constants.DEFAULT_SESSION_ACCOUNT);
+					System.out.println(url);
+					CmsAccount account = getCurrentAccount();
 					//如果session中的用户为null
 					if(account == null){
 						//如果用户请求包含url
-						if(url.equals("/cms/index/login") || url.equals("/cms/index/check-login")){
+						if(url.equals("/cms/index/login") || url.equals("/cms/index/check-login")||url.contains("/cms/assets/")){
 							return true;
 						}else{
 							//否侧跳转至登录首页

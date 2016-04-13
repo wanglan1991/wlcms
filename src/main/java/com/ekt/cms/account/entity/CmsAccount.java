@@ -97,3 +97,4 @@ public class CmsAccount {
 		this.cmsPermissions = cmsPermissions;
 	}
 }
+

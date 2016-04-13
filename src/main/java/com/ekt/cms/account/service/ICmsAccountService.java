@@ -13,3 +13,4 @@ public interface ICmsAccountService {
 	public SimpleAuthorizationInfo getAccountRolePermission(int id);
 	
 }
+

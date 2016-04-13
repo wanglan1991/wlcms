@@ -24,18 +24,33 @@ import com.ekt.cms.index.entity.ResultVO;
 import com.ekt.cms.menu.service.CmsMenuService;
 import com.ekt.cms.account.entity.CmsAccount;
 import com.ekt.cms.account.service.CmsAccountService;
+import com.ekt.cms.common.BaseController;
 import com.ekt.cms.utils.Constants;
 
 @Controller
 @RequestMapping(value = "/index")
-public class IndexController {
+public class IndexController extends BaseController {
 
 	@Resource
 	private CmsAccountService cmsAccountService;
 	@Resource
 	private CmsMenuService cmsMenuService;
 
-
+	
+	/**
+	 * 退出登录状态
+	 * @return
+	 */
+	@RequestMapping(value = "/exit")
+	public String exit(){
+		//销毁session
+		destroySession();
+		return "user/login";
+	}
+	
+	
+	
+	
 	@RequestMapping(value = "/toTable")
 	public String toTable(HttpServletRequest request, HttpServletResponse response) {
 
