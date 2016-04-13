@@ -9,8 +9,7 @@
 	    http://www.springframework.org/schema/context/spring-context.xsd
 	    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 	    http://www.springframework.org/schema/cache
-	    http://www.springframework.org/schema/cache/spring-cache.xsd
-	    http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd">
+	    http://www.springframework.org/schema/cache/spring-cache.xsd">
 
 	<!--加载属性文件 -->
 	<bean

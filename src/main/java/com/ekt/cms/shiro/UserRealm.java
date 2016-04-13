@@ -11,13 +11,15 @@ import org.apache.shiro.subject.PrincipalCollection;
 //
 ///** */
 public class UserRealm extends AuthorizingRealm {
-
+	
+	//权限验证
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection arg0) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	//登录验证
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken arg0) throws AuthenticationException {
 		// TODO Auto-generated method stub
