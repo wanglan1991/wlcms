@@ -35,12 +35,6 @@ public class IndexController {
 	@Resource
 	private CmsMenuService cmsMenuService;
 
-	@RequestMapping(value = "/doLogin")
-	public String doLogin(HttpServletRequest request, HttpServletResponse response) {
-
-		System.out.print("doLogin");
-		return "main/index";
-	}
 
 	@RequestMapping(value = "/toTable")
 	public String toTable(HttpServletRequest request, HttpServletResponse response) {

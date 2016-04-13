@@ -17,6 +17,7 @@ import com.ekt.cms.menu.service.ICmsMenuService;
 import com.ekt.cms.role.entity.CmsRole;
 import com.ekt.cms.role.service.ICmsRoleService;
 import com.ekt.cms.account.entity.CmsAccount;
+import com.ekt.cms.utils.AuthPassport;
 import com.ekt.cms.utils.Constants;
 
 @SuppressWarnings("rawtypes")
@@ -29,6 +30,7 @@ public class CmsMenuController extends BaseController {
 	@Resource
 	private ICmsRoleService cmsRoleService;
 	
+	@AuthPassport
 	@RequestMapping("/list")
 	@ResponseBody
 	public List<CmsMenu>  getMenu(HttpServletRequest request)throws Exception{

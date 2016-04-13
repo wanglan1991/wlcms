@@ -35,4 +35,3 @@ public interface CmsAccountMapper {
 	 */
 	List<CmsAccount> listPage(@Param("cmsAccount") CmsAccount cmsAccount, @Param("pagination") Pagination pagination);
 }
-    

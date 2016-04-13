@@ -69,7 +69,7 @@ public class BaseController<T>  {
 	 * @param request
 	 * @return
 	 */
-    protected CmsAccount getSessionAccout(HttpServletRequest request) {  
+    public CmsAccount getSessionAccout(HttpServletRequest request) {  
         return (CmsAccount) request.getSession().getAttribute(  
         		"account");  
     }  
@@ -79,7 +79,7 @@ public class BaseController<T>  {
      * @param request
      * @param account
      */
-    protected void setSessionAccount(HttpServletRequest request,CmsAccount account) {  
+    public  void setSessionAccount(HttpServletRequest request,CmsAccount account) {  
         request.getSession().setAttribute("account",  
         		account);  
     } 
