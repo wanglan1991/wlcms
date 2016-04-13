@@ -10,6 +10,7 @@
 		<result column="level" property="level" jdbcType="INTEGER" />
 		<result column="status" property="status" jdbcType="INTEGER" />
 		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="log" property="log" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
@@ -112,4 +113,47 @@
 			and level=#{ cmsMenu.level }
 		</if>
 	</select>
+	<select id="getParentMenuListByRole" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+			m.id,
+			m.menu_name,
+			m.url,
+			m.level,
+			m.log
+		FROM
+			cms_role_menu r
+			LEFT JOIN cms_menu m ON m.id = r.menu_id
+		WHERE 1=1
+		<if test= "roleId != null and roleId !=1 ">
+		AND	r.role_id = #{roleId}
+		</if>
+		AND m.status&lt;&gt;0
+		AND m.level = 1
+		ORDER BY m.order_no ASC	
+	</select>
+	
+	<select id="getSonMenuListByRole" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+			m.id,
+			m.menu_name,
+			m.url,
+			m.level,
+			m.log
+		FROM
+			cms_menu m
+			LEFT JOIN cms_role_menu r ON r.menu_id = m.id
+		WHERE
+			m.parent_id = #{parentId}
+		<if test="roleId != null and roleId !=1 ">
+			AND r.role_id = #{roleId}
+		</if>
+		AND m.status&lt;&gt;0
+		ORDER BY m.order_no ASC
+	</select>
+	
+	
+	
+	
+	
+	
 </mapper>

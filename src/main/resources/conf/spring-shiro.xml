@@ -15,7 +15,6 @@
 		<property name="cachingEnabled" value="true" />
 		<property name="authenticationCachingEnabled" value="true" />
 		<property name="authenticationCacheName" value="authenticationCache_" />
-<!-- 		<property name="accountService" ref="accountService" /> -->
 		<property name="cacheManager" ref="cacheManager" />
 	</bean>
 
@@ -26,7 +25,7 @@
 	</bean>
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
-		<property name="loginUrl" value="/user/login" />
+		<property name="loginUrl" value="/index/login" />
 		<property name="filters">
 			<map>
 				<entry key="o" value-ref="onLineFilter" />

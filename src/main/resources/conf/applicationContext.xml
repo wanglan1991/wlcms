@@ -41,7 +41,7 @@
 		</property>
 	</bean>
 	<!--注解扫描的包 -->
-	<context:component-scan base-package="com.larva.*,com.mini.core.cfg" />
+	<context:component-scan base-package="com.ekt.*,com.mini.core.cfg" />
 	<!-- 启动对@AspectJ注解的支持 -->
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 

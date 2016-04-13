@@ -91,6 +91,11 @@
 		<servlet-name>DruidStatView</servlet-name>
 		<url-pattern>/druid/*</url-pattern>
 	</servlet-mapping>
+	
+	<!-- 配置session过期时间 -->
+	<session-config>
+		<session-timeout>1</session-timeout>
+	</session-config>
 
 	<!-- 日志记录 -->
 	<!-- Log4j配置 -->
@@ -120,5 +125,7 @@
 	<welcome-file-list>
 		<welcome-file>index/doLogin</welcome-file>
 	</welcome-file-list>
+	
+	
 
 </web-app>

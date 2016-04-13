@@ -25,7 +25,7 @@
                 	<div class='control-group'>
 	                	<div class='controls'>
 		                    <div class='span12 icon-over-input'>
-		                        <input class="span12 form-control" required name="account" placeholder="账 号" type="text" value="admin" />
+		                        <input class="span12 form-control" required name="userName" placeholder="账 号" type="text" value="admin" />
 		                        <i class='icon-user muted'></i>
 		                    </div>
                    		</div>

@@ -37,4 +37,19 @@ public interface CmsMenuMapper {
 	 * @return 返回包含对象的List
 	 */
 	List<CmsMenu> listPage(@Param("cmsMenu") CmsMenu cmsMenu, @Param("pagination") Pagination pagination);
+	
+	/**
+	 * 
+	 * @param roleId
+	 * @return 根据角色id返回父级菜单
+	 */
+	List<CmsMenu> getParentMenuListByRole(@Param("roleId")Integer roleId);
+	/**
+	 * 
+	 * @param roleId
+	 * @return 根据角色id、父级菜单id获得父级菜单中的子菜单
+	 */
+	List<CmsMenu> getSonMenuListByRole(@Param("parentId")Integer parentId,@Param("roleId")Integer roleId);
+	
+	
 }
