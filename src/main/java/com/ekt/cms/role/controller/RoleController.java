@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.plaf.synth.SynthStyle;
 
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,7 +50,9 @@ public class RoleController {
 	 * @param id
 	 * @return
 	 */
+	
 	@RequestMapping(value="/delete")
+	@RequiresRoles("role:delete") 
 	@ResponseBody
 	public Map<String,Object> delete(@RequestParam("id")Integer id){
 		return cmsRoleService.deleteCmsRole(id);
