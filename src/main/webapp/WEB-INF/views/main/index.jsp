@@ -187,9 +187,9 @@
                             </li>
                             <li class='divider'></li>
                             <li>
-                                <a href='${ctx}/user/exit'>
+                                <a href='${ctx}/index/exit'>
                                     <i class='icon-signout'></i>
-                                    	退出
+                                    	安全退出
                                 </a>
                             </li>
                         </ul>
