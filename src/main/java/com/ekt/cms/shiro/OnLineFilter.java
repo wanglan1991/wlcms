@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 
@@ -33,7 +34,8 @@ public class OnLineFilter extends FormAuthenticationFilter {
 	}
 
 	@Override
-	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+	protected boolean isAccessAllowed (ServletRequest request, ServletResponse response, Object mappedValue){
+
 		Subject subject = SecurityUtils.getSubject();
 		Session session = subject.getSession();
 		if (session != null) {
@@ -44,11 +46,10 @@ public class OnLineFilter extends FormAuthenticationFilter {
 			}
 
 			if (subject.isAuthenticated()) {
-				System.out.println("身份验证");
+				System.out.println("---身份验证");
 				return true;
 			}
 		}
-
 		return false;
 	}
 

@@ -18,6 +18,10 @@ public class CmsPermission {
 	private Date roleCreateTime;
 
 	private int roleStatus;
+	
+	private Integer order;
+	
+	private String value;
 
 	public String getRoleName() {
 		return roleName;
@@ -59,8 +63,6 @@ public class CmsPermission {
 		this.roleStatus = roleStatus;
 	}
 
-	private Integer order;
-
 	public Integer getRoleId() {
 		return roleId;
 	}
@@ -93,4 +95,13 @@ public class CmsPermission {
 		this.order = order;
 	}
 
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	
 }

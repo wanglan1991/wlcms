@@ -2,10 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ekt.cms.permission.dao.CmsPermissionMapper">
 	<resultMap id="BaseResultMap" type="com.ekt.cms.permission.entity.CmsPermission">
-		<id column="id" property="id" jdbcType="INTEGER" />
-		<result column="name" property="name" jdbcType="VARCHAR" />
+		<id column="PermissionId" property="PermissionId" jdbcType="INTEGER" />
+		<result column="PermissionName" property="PermissionName" jdbcType="VARCHAR" />
 		<result column="key" property="key" jdbcType="VARCHAR" />
 		<result column="order" property="order" jdbcType="INTEGER" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<resultMap id="PermissionResultMap" type="com.ekt.cms.permission.entity.CmsPermission">
@@ -13,35 +14,55 @@
 		<id column="PermissionId" property="PermissionId" jdbcType="INTEGER" />
 		<result column="encoding" property="encoding" jdbcType="VARCHAR" />
 		<result column="key" property="key" jdbcType="VARCHAR" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
 	</resultMap>
 
-	<sql id="Base_Column_List">
-		id, name, key, order
-	</sql>
-
+	
+	<!-- 按roleId查询 -->
 	<select id="queryPermissionByRoleId" resultMap="PermissionResultMap"
 		parameterType="java.lang.Integer">
 		SELECT
-		r.id roleId ,r.encoding,p.id PermissionId,p.key
+		r.id roleId ,r.encoding,p.id
+		PermissionId,p.key,p.value
 		FROM cms_role r
-		LEFT JOIN cms_role_permission c ON c.role_id =r.id
+		LEFT JOIN cms_role_permission
+		c ON c.role_id =r.id
 		LEFT JOIN cms_permission p ON p.id=c.permission_id
 		WHERE r.id = #{id,jdbcType=INTEGER}
 	</select>
-
+	<!-- 按主键查询 -->
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
 		SELECT
-		<include refid="Base_Column_List" />
+		id PermissionId,name PermissionName,key,order,value
 		FROM cms_permission
 		WHERE id = #{id,jdbcType=INTEGER}
 	</select>
-
+	<!-- 查询所有权限 -->
+	<select id="selectAll" resultMap="BaseResultMap">
+		SELECT
+		*
+		FROM cms_permission
+		WHERE 1=1
+		AND
+		name is not null 
+		AND 
+		name  &lt;&gt;''
+		AND
+		'key' is not null 
+		AND 
+		'key'  &lt;&gt;''
+<!-- 		AND -->
+<!-- 		value is not null  -->
+<!-- 		AND value &lt;&gt;'' -->
+	</select>
+	<!-- 按主键删除 -->
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		DELETE FROM cms_permission
+		DELETE FROM
+		cms_permission
 		WHERE id = #{id,jdbcType=INTEGER}
 	</delete>
-
+	<!-- 插入 -->
 	<insert id="insert" parameterType="com.ekt.cms.permission.entity.CmsPermission">
 		<selectKey resultType="java.lang.Integer" keyProperty="id"
 			order="AFTER">
@@ -49,17 +70,21 @@
 		</selectKey>
 		INSERT INTO cms_permission (id, name, key,
 		order)
-		VALUES (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		VALUES
+		(#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
 		#{key,jdbcType=VARCHAR},
 		#{order,jdbcType=INTEGER})
 	</insert>
-
+	<!-- 按主键更新 -->
 	<update id="updateByPrimaryKey" parameterType="com.ekt.cms.permission.entity.CmsPermission">
-		UPDATE cms_permission
+		UPDATE
+		cms_permission
 		SET name = #{name,jdbcType=VARCHAR},
-		key = #{key,jdbcType=VARCHAR},
+		key =
+		#{key,jdbcType=VARCHAR},
 		order = #{order,jdbcType=INTEGER}
-		WHERE id = #{id,jdbcType=INTEGER}
+		WHERE id =
+		#{id,jdbcType=INTEGER}
 	</update>
 
 </mapper>

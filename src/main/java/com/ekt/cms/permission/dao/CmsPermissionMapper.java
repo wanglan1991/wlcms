@@ -22,4 +22,7 @@ public interface CmsPermissionMapper {
 
 	// 根据角色ID查询
 	public List<CmsPermission> queryPermissionByRoleId(Integer id);
+	
+	//查询所有权限
+	public List<CmsPermission> selectAll();
 }
