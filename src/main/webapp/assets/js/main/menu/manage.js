@@ -240,18 +240,18 @@ define(function (require, exports, module) {
         },
         operateFormatter:function (value, row, index) {
         	var _btnAction = "";
-        	if (base.perList.menu.grant) {
+//        	if (base.perList.menu.grant) {
         		_btnAction += "<a class='distributePermission btn btn-primary btn-small' href='#' title='菜单授权' style='margin-left:5px'>授权</a>";
-        	}
-        	if (base.perList.menu.checkPermission) {
+//        	}
+//        	if (base.perList.menu.checkPermission) {
         		_btnAction += "<a class='checkPermission btn btn-info btn-small' href='#' title='查看授权' style='margin-left:5px'>查看</a>";
-        	}
-        	if (base.perList.menu.edit) {
+//        	}
+//        	if (base.perList.menu.edit) {
         		_btnAction += "<a data-toggle='modal' class='editMenu btn btn-success btn-small' href='#' title='编辑菜单' style='margin-left:5px'>编辑</a>";
-        	}
-        	if (base.perList.menu.del) {
+//        	}
+//        	if (base.perList.menu.del) {
         		_btnAction += "<a class='delMenu btn btn-danger btn-small' href='#' title='删除菜单' style='margin-left:5px'>删除</a>";
-        	}
+//        	}
         	return _btnAction;
         },picFormatter:function (value, row, index) {
         	if(row.icon!=null&&row.icon!="")

@@ -16,6 +16,16 @@ public class CmsAccount {
 	private String realName;
 
 	private Integer role;
+	
+	private String roleName;
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
 
 	private String cellphone;
 

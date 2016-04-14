@@ -16,8 +16,11 @@ import com.ekt.cms.account.entity.CmsAccount;
 import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.menu.entity.CmsMenu;
 import com.ekt.cms.utils.Constants;
+import com.ekt.cms.utils.JSONUtil;
 import com.ekt.cms.utils.JSONUtils;
+import com.ekt.cms.utils.page.Page;
 import com.ekt.cms.utils.page.Pagination;
+import com.github.pagehelper.PageHelper;
 import com.sun.javafx.collections.MappingChange.Map;
 import com.sun.net.httpserver.HttpServer;
 
@@ -33,15 +36,18 @@ public class BaseController<T>  {
 	 * @throws Exception
 	 */
 	    @Autowired
-	    protected HttpServletRequest request;
+	    public HttpServletRequest request;
 
 	    @Autowired
-	    protected HttpServletResponse response;
+	    public HttpServletResponse response;
 
 	    @Autowired
-	    protected HttpSession session;
+	    public HttpSession session;
 	    
-	
+	    
+	    public JSONUtil jsonUtil;
+	    
+
 	
 	public void printStr(List<T> list, Pagination pagination, HttpServletResponse response,String sEcho) throws Exception{
 		JSONArray jsonArray = JSONArray.fromObject(list);
@@ -86,6 +92,15 @@ public class BaseController<T>  {
 		Subject curAccount=SecurityUtils.getSubject();
 		curAccount.getSession().removeAttribute(Constants.DEFAULT_SESSION_ACCOUNT);
 	}
+	/**
+	 * 分页工具
+	 * @param page
+	 */
+	public void startPage(Page page){
+		;
+	}
+
+	
 	
 	
 }

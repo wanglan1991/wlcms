@@ -8,6 +8,25 @@
 			<property name="dialect" value="mysql" />
 			<property name="pageSqlId" value=".*listPage.*" />
 		</plugin>
+		
+		
+
     </plugins>
+    
+  
+<!--     plugins在配置文件中的位置必须符合要求，否则会报错，顺序如下: -->
+<!--     properties?, settings?,  -->
+<!--     typeAliases?, typeHandlers?,  -->
+<!--     objectFactory?,objectWrapperFactory?,  -->
+<!--     plugins?,  -->
+<!--     environments?, databaseIdProvider?, mappers? -->
+
+
+    
+    
+    
+    
+    
+    
 	
 </configuration>
