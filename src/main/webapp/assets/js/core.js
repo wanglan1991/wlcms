@@ -1,4 +1,5 @@
 define(function (require, exports, module) {
+
 	var base = require('base');
 	var E = module.exports = {
 		/**
