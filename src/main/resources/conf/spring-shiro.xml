@@ -9,6 +9,8 @@
 		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
 		<property name="securityManager" ref="securityManager" />
 	</bean>
+	
+	<!-- 自定义Realm，用来进行登录验证和授权管理 -->
 	<bean id="adminRealm" class="com.ekt.cms.shiro.UserRealm">
 		<property name="authorizationCachingEnabled" value="true" />
 		<property name="authorizationCacheName" value="authorizationCache_" />
@@ -17,15 +19,18 @@
 		<property name="authenticationCacheName" value="authenticationCache_" />
 		<property name="cacheManager" ref="cacheManager" />
 	</bean>
-
+	
+	<!-- shiro 权限管理 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="adminRealm" />
 		<property name="sessionManager" ref="sessionManager" />
 		<property name="rememberMeManager" ref="rememberMeManager" />
 	</bean>
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<!-- Shiro的核心安全接口，这个属性是必须的 -->
 		<property name="securityManager" ref="securityManager" />
-		<property name="loginUrl" value="/index/login" />
+		<!-- 要求登录时的contoller(登录页面地址 user/login.jsp)，非必须的属性，默认会自动寻找Web工程根目录下的"/login.jsp"页面 --> 
+		<property name="loginUrl" value="/login" />
 		<property name="filters">
 			<map>
 				<entry key="o" value-ref="onLineFilter" />
@@ -34,76 +39,26 @@
 		</property>
 		<property name="filterChainDefinitions">
 			<value>
-				/main/index=o
-				/main/welcomePage=o
-				/main/get-menu-show-permissions=o,p[menupermisson:check]
-				/main/get-menu-check-permissions=o,p[menupermisson:check]
-				/main/get-show-permissions=o,p[permission:check]
-				/main/get-all-permissions=o,p[permission:check]
-				<!-- /main/get-show-permissions-except-children=o,p[permission:check:notselfchildren] -->
-				/main/get-role-show-permissions=o,p[rolepermission:check]
-				/main/get-role-check-permissions=o,p[rolepermission:check]
-
-				/main/permission/manage=o,p[permission:manage]
-				/main/permission/create=o,p[permission:add]
-				/main/permission/del=o,p[permission:delete]
-				/main/permission/edit=o,p[permission:edit]
-
-				/main/menu/manage=o,p[menu:manage]
-				/main/menu/create=o,p[menu:add]
-				/main/menu/edit=o,p[menu:edit]
-				/main/menu/del=o,p[menu:delete]
-				/main/menu/grant=o,p[menu:grant]
-				/main/menu/get-show-menus=o
-				<!-- /main/menu/get-show-menus-except-children=o,p[menu:check:notselfchildren] -->
-
-				/main/role/get-all-roles=o
-				/main/role/manage=o,p[role:manage]
-				/main/role/del=o,p[role:delete]
-				/main/role/grant=o,p[role:grant]
-				/main/role/edit=o,p[role:edit]
-				/main/role/show-roles=o,p[role:check]
-				/main/role/create=o,p[role:add]
-
-				/main/department/manage=o
-				<!-- /main/department/get-show-departments=o /main/department/get-show-departments-except-children=o -->
-				/main/department/get-list-departments=o
-				/main/department/get-all-departments=o
-				/main/department/del=o
-				/main/department/create=o
-				/main/department/edit=o
-
-				/user/get-manage-user=o
-				/user/manage=o
-				/user/delete=o,p[user:delete]
-
-				/main/log/login=o,p[loginlog:manage]
-				/main/log/query-login=o,p[loginlog:check]
-				/main/log/user-locations=o,p[loginlog:userlocations]
-				/main/log/getLocations=o,p[loginlog:getuserlocations]
-
-				/user/get-manage-user=o,p[user:check]
-				/user/create=o,p[user:add]
-				/user/manage=o,p[user:manage]
-				/user/edit-user-dep=o,p[edituser:dep]
-
-				/main/monitor/manage=o
-				/main/monitor/get-list-monitors=o
-				/main/monitor/get-all-monitors=o
-
-				/user/login=anon
+				<!-- 登录相关，所有人可用，不需要权限验证 -->
+				/login=anon
+				/check-login=anon
+				<!-- 用户注销相关，所有人可用，不需要权限验证 -->
 				/user/exit=anon
-				/*=o
+				<!-- 静态资源，所有人可用，不需要权限验证 -->
+				/assets/**=anon
+				<!-- 除开不需要权限验证的资源外，其他所有请求都要通过Shiro权限验证 -->
+				/** = authc
+<!-- 				/*=o -->
 				<!-- /*=anon /*/*=anon -->
 
 			</value>
 		</property>
 	</bean>
 	<bean id="onLineFilter" class="com.ekt.cms.shiro.OnLineFilter">
-		<property name="noLoginUrl" value="index/login"></property>
+		<property name="noLoginUrl" value="2121login"></property>
 	</bean>
 	<bean id="permissionFilter" class="com.ekt.cms.shiro.PermissionFilter">
-		<property name="noPermissionUrl" value="index/login" />
+		<property name="noPermissionUrl" value="1212login" />
 	</bean>
 
 	<!-- 会话验证调度器 -->

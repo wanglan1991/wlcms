@@ -20,4 +20,7 @@ public interface DictMapper {
     int updateByPrimaryKey(Dict record);
     
     public List<Dict> queryByCondition(@Param("dict")Dict dict);
+    
+    public List<Dict> listDictPage(@Param("dict")Dict dict);
+    
 }
