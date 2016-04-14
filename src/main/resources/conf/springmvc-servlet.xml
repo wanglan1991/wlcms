@@ -34,9 +34,9 @@
 
 <!-- 	<aop:aspectj-autoproxy proxy-target-class="true" /> -->
 
-	<mvc:interceptors>
-		<bean class="com.ekt.cms.common.controller.HttpInterceptor"></bean>
-	</mvc:interceptors>
+<!-- 	<mvc:interceptors> -->
+<!-- 		<bean class="com.ekt.cms.common.controller.HttpInterceptor"></bean> -->
+<!-- 	</mvc:interceptors> -->
 
 
 	<!--JSP视图解析器 -->

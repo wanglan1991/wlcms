@@ -25,7 +25,7 @@
                 	<div class='control-group'>
 	                	<div class='controls'>
 		                    <div class='span12 icon-over-input'>
-		                        <input class="span12 form-control" required name="userName" placeholder="账 号" type="text" value="admin" />
+		                        <input class="span12 form-control" required name="userName" placeholder="账 号" type="text" />
 		                        <i class='icon-user muted'></i>
 		                    </div>
                    		</div>
@@ -35,7 +35,7 @@
                 	<div class='control-group'>
 	                	<div class='controls'>
 		                    <div class='span12 icon-over-input'>
-		                        <input class="span12 form-control" required name="password" placeholder="密 码" type="password" value="123456" />
+		                        <input class="span12 form-control" required name="password" placeholder="密 码" type="password" />
 		                        <i class='icon-lock muted'></i>
 		                    </div>
                     	</div>
