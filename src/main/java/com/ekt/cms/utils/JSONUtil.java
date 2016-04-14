@@ -74,7 +74,7 @@ public abstract class JSONUtil {
     	requireNonNull(obj, "obj is null");
     	
         return JSON.toJSONString(obj, DEFAULT_FORMAT);
-//        return Json.toJson(obj);
+
     }
     
     /**

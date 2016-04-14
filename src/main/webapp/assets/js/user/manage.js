@@ -1,6 +1,8 @@
+
+var core='';
 define(function (require, exports, module) {
         var base = require('base');
-        var core = require('core');
+        core = require('core');
         // 通过 require 引入依赖
         var F = module.exports = {
             basepath: '',
@@ -14,16 +16,16 @@ define(function (require, exports, module) {
             	/**
                  * 是否具有添加部门权限
                  */
-                if(base.perList.user.create){
+//                if(base.perList.user.create){
                 	$("#user-header .actions").append("<a href='#' id='addUser' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px'><i class='icon-plus'></i>添加</a>");
-                }
+//                }
                 
                 /**
                  * 是否具有删除部门权限
                  */
-                if(base.perList.user.del){
+//                if(base.perList.user.del){
                 	$("#user-header .actions").append("<a href='#' id='delUsers' class='btn btn-danger btn-small' style='margin-left:5px'><i class='icon-remove'></i>删除</a>");
-                }
+//                }
                 
                 /**
                  * 加载树
@@ -52,9 +54,18 @@ define(function (require, exports, module) {
         				 */
         		        'click .delUser': function (e, value, row, index) {
         		        	base.bootConfirm("是否确定删除？",function(){
-        		        		var ids = new Array();  
-        		        		ids.push(row.id);   
-        		    			F.delUser(ids);
+        		        		$.ajax({
+        		        			url: F.basepath+'/account/delete',
+        		        			type:'POST',
+        		        			data:{id:row.id},
+        		        			success:function(data){
+        		        				if(data.result>0){
+        		        					F.reload();
+        		        				}else{
+        		        					alert("异常！")
+        		        				}
+        		        			}
+        		        		});
         		    		});
         		        },
         		        /**
@@ -74,14 +85,22 @@ define(function (require, exports, module) {
         				 * 分配角色
         				 */
         		        'click .distributeRole': function (e, value, row, index) {
-        		        	core.openModel('modal-UserRoleTree','角色分配',function(){
-        		        		F.checkTree.load();
-        		            	if(row!=null){
-        		            		$('#userId').val(row.id);
-        		    				$("#"+F.checkTree.showId).val(row.roleNames);
-        		    				$("#"+F.checkTree.hideId).val(row.roleIds);
-        		            	}
-        		        	});
+        		        	var html='';
+        		        	core.openModel('modal-UserRoleTree','角色赋值',function(){});
+        		        	$.ajax({
+    		        			url: F.basepath+'/account/roleList',
+    		        			type:'POST',
+    		        			success:function(data){
+    		        				html="<select id='role'>";
+    		        				for(var i=0;i<data.result.length;i++){
+    		        					html+="<option value="+data.result[i].id+">"+data.result[i].name+"</option>"
+    		        				}
+    		        				html+="</select>" 
+    		        					$("#roleEdit").append(html);
+    		        			}
+    		        		});
+        		        	$("#role").find("option[value='"+row.role+"']").attr("selected","true");
+        		        	$("#modal-UserRoleTree").attr("role",row.id)
         		        }
         		    };
             	
@@ -89,33 +108,30 @@ define(function (require, exports, module) {
      	                    {
      	        		        checkbox:true
      	        		    }, {
-     	        		        field: 'account',
-     	        		        title: '账号'
+     	        		        field: 'id',
+     	        		        title: '主键'
      	        		    }, {
-     	        		        field: 'dep_name',
-     	        		        title: '部门名称'
+     	        		        field: 'realName',
+     	        		        title: '姓名'
      	        		    },{
-     	    			        field: 'roleNames',
-     	    			        title: '角色名称'
+     	        		        field: 'userName',
+     	        		        title: '用户名'
+     	        		    },{
+     	        		        field: 'cellphone',
+     	        		        title: '手机号码'
+     	        		    },{
+     	        		        field: 'role',
+     	        		        title: '角色ID',
+     	        		       visible:false
+     	        		    },{
+     	    			        field: 'roleName',
+     	    			        title: '角色'
      	    		        },{
-     	    			        field: 'id',
-     	    			        title: '用户主键',
-     	    			        visible:false
-     	    		        },{
-     	    			        field: 'password',
-     	    			        title: '密码',
-     	    			        visible:false
-     	    		        },{
-     	    			        field: 'dep_id',
-     	    			        title: '部门主键',
-     	    			        visible:false
-     	    		        },{
-     	    			        field: 'roleIds',
-     	    			        title: '角色ids',
-     	    			        visible:false
+     	    			        field: 'status',
+     	    			        title: '状态',
      	    		        }];
      	        //是否需要操作列
-     	        if(base.perList.user.edit || base.perList.user.del || base.perList.user.edit_dep || base.perList.user.distribute_role)
+//     	        if(base.perList.user.edit || base.perList.user.del || base.perList.user.edit_dep || base.perList.user.distribute_role)
      		        cols.push({
      			    	align: 'center',
      			        title: '操作',
@@ -126,7 +142,7 @@ define(function (require, exports, module) {
      	       /**
             	 * 用户列表
             	 */	
-        		F.table.init(F.basepath+'/user/get-manage-user',cols);
+        		F.table.init(F.basepath+'/account/list',cols);
         		
         		/**
     			 * 批量删除
@@ -146,11 +162,24 @@ define(function (require, exports, module) {
     			 * 打开模态框
     			 */
     			$('#addUser').click(function(){
+    				var html='';
     				core.openModel('modal-UserTree','新增用户',function(){
-    					F.radioTree.load();
+    					$.ajax({
+		        			url: F.basepath+'/account/roleList',
+		        			type:'POST',
+		        			success:function(data){
+		        				for(var i=0;i<data.result.length;i++){
+		        					html+="<option value="+data.result[i].id+">"+data.result[i].name+"</option>"
+		        				}
+		        					$("#roles").append(html);
+		        			}
+		        		});
+    					
+    				
     				});
     				return false;
     			});
+    			
     			
     			/**
     			 * 关闭模态框
@@ -164,6 +193,7 @@ define(function (require, exports, module) {
     			});
     			
     			$('#btnRoleClose').click(function(){
+    				$("#role").remove();
     				core.closeModel('modal-UserRoleTree');
     			});
     			
@@ -171,15 +201,53 @@ define(function (require, exports, module) {
     			 * 提交表单
     			 */
     			$('#btnSubmit').click(function(){
-    				F.submit();
+    				var role=$("#roles").val();
+    				var userName=$("#account").val();
+    				var password=$("#password").val();
+    				var repassword=$("#repassword").val();
+    				var cellphone=$("#cellphone").val();
+    				var realName=$("#realName").val();
+//    				if(userName.length>6&&password.length>5&&repassword.length>5&&cellphone.length>11&&realName.length>3&&password==repassword){
+    					
+    					$.ajax({
+    						url: F.basepath+'/account/addAccount',
+    	        			type:'POST',
+    	        			dataType:'json',
+    	        			data:{role:role,userName:userName,password:password,cellphone:cellphone,realName:realName},
+    	        			success:function(data){
+    	        				
+    	        			}	
+    					})
+    					
+//    				}
+    					
+    				
                 });
     			
     			$('#btnDeptSubmit').click(function(){
     				F.deptSubmit();
     			});
     			
+    			
+    			/**
+    			 * 修改用户角色
+    			 */
     			$('#btnRoleSubmit').click(function(){
-    				F.roleSubmit();
+    				var id=$("#modal-UserRoleTree").attr("role");
+    				var role=$("#role").val();
+    				$.ajax({
+    					url: F.basepath+'/account/roleEdit',
+	        			type:'POST',
+	        			dataType:'json',
+	        			data:{id:id,role:role},
+	        			success:function(data){
+	        				if(data.result>0){
+	            				core.closeModel('modal-UserRoleTree');
+	            				$("#role").remove();
+	            				F.reload();
+	        				}
+	        			}
+    				})
     			});
         		
             },roleSubmit:function(){
@@ -239,18 +307,18 @@ define(function (require, exports, module) {
             },
             operateFormatter:function (value, row, index) {
             	var _btnAction = "";
-            	if (base.perList.user.edit_dep) {
-            		_btnAction += "<a class='editDep btn btn-primary btn-small' href='#' title='分配部门' style='margin-left:5px'>分配部门</a>";
-            	}
-            	if (base.perList.user.distribute_role) {
+//            	if (base.perList.user.edit_dep) {
+//            		_btnAction += "<a class='editDep btn btn-primary btn-small' href='#' title='' style='margin-left:5px'>分配部门</a>";
+//            	}
+//            	if (base.perList.user.distribute_role) {
             		_btnAction += "<a class='distributeRole btn btn-info btn-small' href='#' title='分配角色' style='margin-left:5px'>分配角色</a>";
-            	}
-            	if (base.perList.user.edit) {
+//            	}
+//            	if (base.perList.user.edit) {
             		_btnAction += "<a data-toggle='modal' class='editUser btn btn-success btn-small' href='#' title='编辑用户' style='margin-left:5px'>编辑</a>";
-            	}
-            	if (base.perList.user.del) {
+//            	}
+//            	if (base.perList.user.del) {
             		_btnAction += "<a class='delUser btn btn-danger btn-small' href='#' title='删除用户' style='margin-left:5px'>删除</a>";
-            	}
+//            	}
             	return _btnAction;
             },delUser:function(ids){
             	base.ajaxRequest(F.basepath+'/user/delete',{"userIds":ids},function(data){
@@ -276,7 +344,17 @@ define(function (require, exports, module) {
             	if (base.perList.user.distribute_role) {
             		F.checkTree = core.initDropDownCheckTree('roleId',F.basepath+'/main/role/get-all-roles');
             	}
-            }
+            },
+			
+			
+
         }
     }
 );
+//function roleEdit(id){
+//	core.openModel('modal-UserRoleTree','角色分配',function(){
+//	});
+//	
+	
+	
+//}

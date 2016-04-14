@@ -1,7 +1,9 @@
 package com.ekt.cms.account.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Resource;
@@ -13,6 +15,8 @@ import com.ekt.cms.account.dao.CmsAccountMapper;
 import com.ekt.cms.account.entity.CmsAccount;
 import com.ekt.cms.permission.entity.CmsPermission;
 import com.ekt.cms.permission.service.IPermissionService;
+import com.ekt.cms.utils.page.Pager;
+import com.ekt.cms.utils.page.Pagination;
 
 @Service("cmsAccountService")
 public class CmsAccountService implements ICmsAccountService {
@@ -22,8 +26,8 @@ public class CmsAccountService implements ICmsAccountService {
 	private IPermissionService permissionService;
 
 	@Override
-	public List<CmsAccount> queryByCondition(CmsAccount cmsuser) {
-		return cmsAccountMapper.queryByCondition(cmsuser);
+	public List<CmsAccount> listPage( Pagination pagination ,CmsAccount cmsAccount) {
+		return cmsAccountMapper.listPage(pagination,cmsAccount);
 	}
 
 	@Override
@@ -49,5 +53,30 @@ public class CmsAccountService implements ICmsAccountService {
 		AuthorizationInfo.addRoles(roleEncoding);
 		return AuthorizationInfo;
 	}
+	
+	@Override
+	public List<CmsAccount> queryByCondition(CmsAccount cmsAccount) {
+		return cmsAccountMapper.queryByCondition(cmsAccount);
+	}
+	
+	@Override
+	public int update(CmsAccount cmsAccount) {
+		return cmsAccountMapper.updateByPrimaryKey(cmsAccount);
+	}
+
+	@Override
+	public int delete(int id) {
+		return cmsAccountMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public int addAccount(CmsAccount cmsAccount) {
+		return cmsAccountMapper.insert(cmsAccount);
+	}
+	
+
+
+
+
 
 }

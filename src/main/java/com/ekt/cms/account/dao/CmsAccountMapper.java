@@ -1,5 +1,7 @@
 package com.ekt.cms.account.dao;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 import com.ekt.cms.account.entity.CmsAccount;
 import com.ekt.cms.utils.page.Pagination;
@@ -18,18 +20,22 @@ public interface CmsAccountMapper {
     CmsAccount selectByPrimaryKey(Integer id);
     
     // 更新   
-    int updateByPrimaryKey(CmsAccount cmsAccount);
+    int updateByPrimaryKey(@Param("cmsAccount")CmsAccount cmsAccount);
     /**
      * 按条件查询
      */
-    List<CmsAccount> queryByCondition(@Param("cmsAccount")CmsAccount cmsAccount);
-    /**
-	 * 分页查找
-	 * 
-	 * @param 传入带查询条件的对象参数
-	 * @param 传入分页对象参数
-	 * @return 返回包含对象的List
-	 */
-	List<CmsAccount> listPage(@Param("cmsAccount") CmsAccount cmsAccount, @Param("pagination") Pagination pagination);
+    List<CmsAccount> listPage(@Param("pagination") Pagination pagination,@Param("cmsAccount")CmsAccount cmsAccount);
+//    /**
+//	 * 分页查找
+//	 * 
+//	 * @param 传入带查询条件的对象参数
+//	 * @param 传入分页对象参数
+//	 * @return 返回包含对象的List
+//	 */
+//	List<CmsAccount> listPage(@Param("cmsAccount") CmsAccount cmsAccount, @Param("pagination") Pagination pagination);
+	
+	
+	
+    List<CmsAccount> queryByCondition(@Param("cmsAccount") CmsAccount cmsAccount);
 }
  

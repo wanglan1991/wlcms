@@ -12,22 +12,8 @@
     <title></title>
 </head>
 <body>
-<div class='span3 box bordered-box blue-border' style='margin-bottom:0;margin-left:0px'>
-  <div class='box-header'>
-    <div class='title'>部门树</div>
-  </div>
-  <div class='box-content box-no-padding'>
-    <div class='responsive-table'>
-      <div class='scrollable-area-y'>
-       	<ul id="departTree" class="ztree" style="height:365px;"></ul>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class='span9 box bordered-box blue-border' style='margin-bottom:0;'>
+<!-- <div class='span9 box bordered-box blue-border' style='margin-bottom:0;'> -->
   <div class='box-header' id="user-header">
-    <div class='title'>用户管理</div>
     <div class='actions'></div>
   </div>
   <div class='box-content box-no-padding'>
@@ -37,28 +23,39 @@
       </div>
     </div>
   </div>
-</div>
+<!-- </div> -->
 
 <div class='modal hide fade' id='modal-UserTree' role='dialog' tabindex='-1'>
     <div class='modal-header'>
         <button class='close' data-dismiss='modal' type='button'>&times;</button>
         <h3></h3>
     </div>
-    <form class='form validate-form' id='submit-form' method="post" role="form"  style='margin-bottom: 0;'>
+    <form class='form validate-form' id='submit-form'  role="form"  style='margin-bottom: 0;'>
     <div class='modal-body'>
         <div class='control-group'>
-            <label class='control-label'>用户部门</label>
+            <label class='control-label'>用户角色</label>
             <div class='controls'>
                 <div class='input-append'>
-               		<input type='hidden' id='id' name="id"/>
-                    <input class='span6' id='dep' name="dep" type='hidden' />
+               		<select id='roles'></select>
                 </div>
             </div>
         </div>
         <div class='control-group'>
+            <label class='control-label'>真实姓名</label>
+            <div class='controls'>
+                <input class='span8' id='realName' rangelength="[3,10]" required  placeholder='真实姓名' type='text' />
+            </div>
+        </div>
+         <div class='control-group'>
+            <label class='control-label'>手机号码</label>
+            <div class='controls'>
+                <input class='span8' id='cellphone' required rangelength="[11,20]"  placeholder='手机号码' type='text' />
+            </div>
+        </div>
+         <div class='control-group'>
             <label class='control-label'>账户</label>
             <div class='controls'>
-                <input class='span8' id='account' required name="account" placeholder='账户名' type='text' />
+                <input class='span8' id='userName' required name="account" placeholder='账户名' type='text' />
             </div>
         </div>
         <div class='control-group'>
@@ -76,7 +73,7 @@
     </div>
     <div class='modal-footer'>
         <button type="button" id="btnClose" class='btn'>关闭</button>
-        <button type="submit" id="btnSubmit" class='btn btn-primary'>保存</button>
+        <button type="button" id="btnSubmit" class='btn btn-primary'>保存</button>
     </div>
     </form>
 </div>
@@ -111,15 +108,14 @@
         <button class='close' data-dismiss='modal' type='button'>&times;</button>
         <h3></h3>
     </div>
-    <form class='form validate-form' id='userRole-form' method="post" role="form"  style='margin-bottom: 0;'>
     <div class='modal-body'>
         <div class='control-group'>
-            <label class='control-label'>用户角色</label>
-            <div class='controls'>
-                <div class='input-append'>
-               		<input type='hidden' id='userId' name="userId"/>
-                    <input class='span6' id='roleId' name="roleId" type='hidden' />
-                </div>
+            <label class='control-label'>请选择用户角色</label>
+            <div class='controls' id="roleEdit">
+<!--                 <div class='input-append'> -->
+<!--                		<input type='hidden' id='userId' name="userId"/> -->
+<!--                     <input class='span6' id='roleId' name="roleId" type='hidden' /> -->
+<!--                 </div> -->
             </div>
         </div>
     </div>
@@ -127,7 +123,6 @@
         <button type="button" id="btnRoleClose" class='btn'>关闭</button>
         <button type="button" id="btnRoleSubmit" class='btn btn-primary'>保存</button>
     </div>
-    </form>
 </div>
 
 <script>
@@ -135,6 +130,9 @@
 	b.init();
     m.init('${ctx}');
   });
+  
+  
+  
 </script>
 </body>
 </html>
