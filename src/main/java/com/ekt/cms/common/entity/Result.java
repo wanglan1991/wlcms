@@ -1,44 +1,59 @@
 package com.ekt.cms.common.entity;
 
-import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * 返回页面用的包装类
+ * 
  * @author 王岚
+ * @param <T>
  *
  */
-public final class Result {
-	//返回信息提示
-   private  String msg;
-   //时间参
-   private Date date;
-   //返回值
-   private Integer result ;
-   //返回结果
-   private Object data;
-   
+public class Result {
+
+	private String msg;
+	
+	private List <Object> list;
+
+	public List<Object> getList() {
+		return list;
+	}
+
+	public void setList(List<Object> list) {
+		this.list = list;
+	}
+
 	public String getMsg() {
 		return msg;
 	}
+
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
-	public Date getDate() {
-		return date;
-	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	public Integer getResult() {
+
+	public int getResult() {
 		return result;
 	}
-	public void setResult(Integer result) {
+
+	public void setResult(int result) {
 		this.result = result;
 	}
-	public Object getData() {
-		return data;
+
+	public Object getValue() {
+		return value;
 	}
-	public void setData(Object data) {
-		this.data = data;
+
+	public void setValue(Object value) {
+		this.value = value;
+	}
+
+	private int result;
+
+	private Object value;
+	public static Result getResults(){
+		return new Result();
 	}
 
 }

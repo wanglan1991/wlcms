@@ -1,31 +1,20 @@
 package com.ekt.cms.common;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.ekt.cms.account.entity.CmsAccount;
-import com.ekt.cms.common.entity.Result;
-import com.ekt.cms.menu.entity.CmsMenu;
 import com.ekt.cms.utils.Constants;
 import com.ekt.cms.utils.JSONUtil;
 import com.ekt.cms.utils.JSONUtils;
-import com.ekt.cms.utils.page.Page;
 import com.ekt.cms.utils.page.Pagination;
-import com.github.pagehelper.PageHelper;
-import com.sun.javafx.collections.MappingChange.Map;
-import com.sun.net.httpserver.HttpServer;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
 
 public class BaseController<T>  {
 	/**
@@ -47,8 +36,7 @@ public class BaseController<T>  {
 	    
 	    public JSONUtil jsonUtil;
 	    
-
-	
+	  
 	public void printStr(List<T> list, Pagination pagination, HttpServletResponse response,String sEcho) throws Exception{
 		JSONArray jsonArray = JSONArray.fromObject(list);
 		JSONObject json = new JSONObject();
@@ -92,15 +80,4 @@ public class BaseController<T>  {
 		Subject curAccount=SecurityUtils.getSubject();
 		curAccount.getSession().removeAttribute(Constants.DEFAULT_SESSION_ACCOUNT);
 	}
-	/**
-	 * 分页工具
-	 * @param page
-	 */
-	public void startPage(Page page){
-		;
-	}
-
-	
-	
-	
 }

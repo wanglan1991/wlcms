@@ -1,10 +1,7 @@
 package com.ekt.cms.account.dao;
 import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.annotations.Param;
 import com.ekt.cms.account.entity.CmsAccount;
-import com.ekt.cms.utils.page.Pagination;
 /**
  * notice： 这是一个接口文件，mybatis3 只需要定义dao接口，不需要实现类， 会自动匹配，名字和mapper文件夹下面的 xml文件名字要一致
  **/
@@ -24,18 +21,35 @@ public interface CmsAccountMapper {
     /**
      * 按条件查询
      */
-    List<CmsAccount> listPage(@Param("pagination") Pagination pagination,@Param("cmsAccount")CmsAccount cmsAccount);
-//    /**
-//	 * 分页查找
-//	 * 
-//	 * @param 传入带查询条件的对象参数
-//	 * @param 传入分页对象参数
-//	 * @return 返回包含对象的List
-//	 */
-//	List<CmsAccount> listPage(@Param("cmsAccount") CmsAccount cmsAccount, @Param("pagination") Pagination pagination);
+    List<CmsAccount> listPage(@Param("cmsAccount")CmsAccount cmsAccount);
 	
-	
-	
+    
     List<CmsAccount> queryByCondition(@Param("cmsAccount") CmsAccount cmsAccount);
+    /**
+     * 根据用户名查询
+     * @param userName
+     * @return 用户entity
+     */
+    CmsAccount queryByUserName(@Param("userName")String userName);
+    
+    /**
+     * 根据用户id停用或启用用户
+     * @param cmsAccount
+     * @return
+     */
+    int confine(@Param("cmsAccount")CmsAccount cmsAccount);
+    
+    /**
+     * 重置用户密码
+     * @param cmsAccount
+     * @return
+     */
+    int setPwd(@Param("cmsAccount")CmsAccount cmsAccount);
+    /**
+     * 修改用户信息
+     * @param cmsAccount
+     * @return
+     */
+    int updateAccount(@Param("cmsAccount")CmsAccount cmsAccount);
 }
  

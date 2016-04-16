@@ -1,22 +1,20 @@
 package com.ekt.cms.account.controller;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.ekt.cms.account.entity.CmsAccount;
 import com.ekt.cms.account.service.ICmsAccountService;
 import com.ekt.cms.common.BaseController;
+import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.role.service.CmsRoleService;
-import com.ekt.cms.utils.AuthPassport;
-import com.ekt.cms.utils.page.Pagination;
+import com.ekt.cms.utils.Md5Utils;
+import com.ekt.cms.utils.pageHelper.PageBean;
+import com.ekt.cms.utils.pageHelper.PageContext;
 @Controller
 @RequestMapping(value="/account")
 public class CmsAccountController extends BaseController {
@@ -25,7 +23,7 @@ public class CmsAccountController extends BaseController {
 	
 	@Resource CmsRoleService cmsRoleService;
 	
-	@AuthPassport
+	
 	@RequestMapping(value="/manage")
 	public String manage(){
 		return "/user/manage";
@@ -33,14 +31,9 @@ public class CmsAccountController extends BaseController {
 
 	@RequestMapping("/list")
 	@ResponseBody
-	public Map<String,Object> accountList(Pagination pag ,CmsAccount cmsAccount){
-		pag.setPage(pag.getOffset()/pag.getLimit()+1);
-		pag.setRows(pag.getLimit());
-		Map<String,Object>map=new HashMap<String,Object>();
-		List<CmsAccount>list=cmsAccountService.listPage(pag,cmsAccount);
-		map.put("rows",list);
-		map.put("total",pag.getTotal());
-		return map;
+	public PageBean<CmsAccount> accountList(PageContext page ,CmsAccount cmsAccount){
+		page.paging();
+		return cmsAccountService.listPage(cmsAccount);
 	}
 	
 	/**
@@ -49,41 +42,109 @@ public class CmsAccountController extends BaseController {
 	 */
 	@RequestMapping("/roleList")
 	@ResponseBody
-	public Map<String,Object> getRoleList(){
-		Map<String,Object>map=new HashMap<String,Object>();
-		System.out.println("进来了");
-		map.put("result", cmsRoleService.getCmsRoleList());
-		return map;
+	public Result getRoleList(){
+		Result result=Result.getResults();
+		result.setValue(cmsRoleService.getCmsRoleList());
+		return result;
 	}
 	/**
 	 * 修改角色
 	 */
 	@RequestMapping("/roleEdit")
 	@ResponseBody
-	public Map<String,Object> roleEdit(CmsAccount cmsAccount ,HttpServletRequest request){
-			Map<String,Object>map=new HashMap<String,Object>();
-			map.put("result", cmsAccountService.update(cmsAccount));
-		return map;
+	public Result roleEdit(CmsAccount cmsAccount ,HttpServletRequest request){
+			Result result=Result.getResults();
+			result.setResult(cmsAccountService.update(cmsAccount));
+		return result;
 	}
 	/**
 	 * 删除用户
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
-	public Map<String,Object> accountDelete(@RequestParam("id") int id){
-		Map<String,Object>map=new HashMap<String,Object>();
-		map.put("result", cmsAccountService.delete(id));
-		return map;
+	public Result accountDelete(@RequestParam("id") int id){
+		Result result=Result.getResults();
+		result.setResult(cmsAccountService.delete(id));
+		return result;
 		
 	}
 	/**
 	 * 添加用户
+	 * @throws Exception 
 	 */
 	@RequestMapping("/addAccount")
 	@ResponseBody
-	public Map<String,Object> addAccount(CmsAccount cmsAccount){
-		Map<String,Object>map=new HashMap<String,Object>();
-		map.put("result", cmsAccountService.addAccount(cmsAccount));
-		return map;
+	public Object addAccount(CmsAccount cmsAccount) throws Exception {
+			Result re=Result.getResults();
+			CmsAccount Account = cmsAccountService.queryByUserName(cmsAccount.getUserName());
+			if(Account != null){
+				re.setMsg("用户名已经存在！");
+				return re;
+			}
+			//设置用户密码
+			cmsAccount.setPassword(Md5Utils.getMd5Encode(cmsAccount.getPassword()));
+			//添加用户
+			re.setResult(cmsAccountService.addAccount(cmsAccount));
+			
+		return re;
 	}
-}
+	/**
+	 * 启用或停用用户
+	 * @param cmsAccount
+	 * @return 
+	 */
+	@RequestMapping("/confine")
+	@ResponseBody
+	public Object confine(CmsAccount cmsAccount){
+		Result result =new Result();
+		result.setResult(cmsAccountService.confine(cmsAccount));
+		return result;
+		
+	}
+	/**
+	 * 重置密码
+	 * @param id
+	 * @return 操作成功
+	 */
+	@RequestMapping("/resetPwd")
+	@ResponseBody
+	public Object resetPwd(CmsAccount cmsAccount){
+		Result result =Result.getResults();
+			cmsAccount.setPassword(Md5Utils.getMd5Encode("123456789"));
+			result.setResult(cmsAccountService.setPwd(cmsAccount));
+		return result;
+	}
+	/**
+	 * 编辑用户
+	 * @param cmsAccount
+	 * @return
+	 */
+	@RequestMapping("/editAccount")
+	@ResponseBody
+	public Object EditAccount(CmsAccount cmsAccount){
+		Result result=Result.getResults();
+		result.setResult(cmsAccountService.updateAccount(cmsAccount));
+		return result;
+		
+	}
+	/**
+	 * 批量删除用户
+	 * @param arr
+	 * @return
+	 */
+	@RequestMapping("/deletes")
+	@ResponseBody
+	public Object deletes(@RequestParam("ids")String ids){
+		Result result=Result.getResults();
+		String[]arr=ids.split(",");
+		int total=0;
+		for(int i=0;i<arr.length;i++){
+			total+=cmsAccountService.delete(Integer.parseInt(arr[i].toString()));
+		}
+		result.setResult(total);
+		return result;
+	}
+	
+	
+	
+	}

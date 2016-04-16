@@ -31,7 +31,7 @@ define(function (require, exports, module) {
         		    	 }
         		      },  
         		      error : function() {  
-        		           alert("异常！");  
+        		         
         		      }  
         		});
         	}

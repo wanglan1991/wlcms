@@ -32,7 +32,7 @@
     </div>
     <form class='form validate-form' id='submit-form'  role="form"  style='margin-bottom: 0;'>
     <div class='modal-body'>
-        <div class='control-group'>
+        <div class='control-group' id='roleOption'>
             <label class='control-label'>用户角色</label>
             <div class='controls'>
                 <div class='input-append'>
@@ -43,37 +43,64 @@
         <div class='control-group'>
             <label class='control-label'>真实姓名</label>
             <div class='controls'>
-                <input class='span8' id='realName' rangelength="[3,10]" required  placeholder='真实姓名' type='text' />
+                <input class='span8' id='realName' accountId='' maxlength='10' rangelength="[1,10]" required  placeholder='真实姓名' type='text' />
             </div>
         </div>
          <div class='control-group'>
             <label class='control-label'>手机号码</label>
             <div class='controls'>
-                <input class='span8' id='cellphone' required rangelength="[11,20]"  placeholder='手机号码' type='text' />
+                <input class='span8' id='cellphone' required maxlength='11' required rangelength="[11,12]"  placeholder='手机号码' type='text' />
             </div>
         </div>
-         <div class='control-group'>
+         <div class='control-group' id="account">
             <label class='control-label'>账户</label>
             <div class='controls'>
-                <input class='span8' id='userName' required name="account" placeholder='账户名' type='text' />
+                <input class='span8' id='userName'  maxlength='16' required rangelength="[8,16]" placeholder='账户名' type='text' />
             </div>
         </div>
-        <div class='control-group'>
+        <div class='control-group' id='password1'>
             <label class='control-label'>密码</label>
             <div class='controls'>
-                <input class='span8' id='password' required rangelength="[5,20]" name='password' placeholder='密码' type='password' />
+                <input class='span8' id='password' required maxlength='20' rangelength="[6,20]"  placeholder='密码' type='password' />
             </div>
         </div>
-        <div class='control-group'>
+        <div class='control-group' id='repassword1'>
             <label class='control-label'>重复密码</label>
             <div class='controls'>
-                <input class='span8' id='repassword' required equalTo="#password" placeholder='重复密码' type='password' />
+                <input class='span8' id='repassword' maxlength='20' required placeholder='重复密码' type='password' />
             </div>
         </div>
     </div>
     <div class='modal-footer'>
         <button type="button" id="btnClose" class='btn'>关闭</button>
         <button type="button" id="btnSubmit" class='btn btn-primary'>保存</button>
+    </div>
+    </form>
+</div>
+
+<div class='modal hide fade' id='modal-EditUser' role='dialog' tabindex='-1'>
+    <div class='modal-header'>
+        <button class='close' id="tatil" data-dismiss='modal' type='button'>&times;</button>
+        <h3></h3>
+    </div>
+    <form class='form validate-form' id='submit-form'  role="form"  style='margin-bottom: 0;'>
+    <div class='modal-body'>
+        <div class='control-group'>
+            <label class='control-label'>真实姓名</label>
+            <div class='controls'>
+                 <input class='span8' id='EditrealName' accountId='' name="realName" maxlength='10' rangelength="[1,10]" required  placeholder='真实姓名' type='text' />
+            </div>
+        </div>
+         <div class='control-group'>
+            <label class='control-label'>手机号码</label>
+            <div class='controls'>
+                <input class='span8' id='Editcellphone' name="cellphone" onkeyup="this.value=this.value.replace(/[^0-9-]+/,'')" required maxlength='11' required rangelength="[11,12]" required maxlength='11'  placeholder='手机号码' type='text' />
+            </div>
+        </div>
+    </div>
+    <div class='modal-footer'>
+        <button type="button" id="EditbtnClose" class='btn'>关闭</button>
+        <button type="button" id="EditbtnSubmit" class='btn btn-primary'>保存</button>
     </div>
     </form>
 </div>
