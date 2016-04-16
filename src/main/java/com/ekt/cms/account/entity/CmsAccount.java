@@ -12,10 +12,20 @@ public class CmsAccount {
 	private String userName;
 	@NotBlank(message = "密码不能为空")
 	private String password;
-
+	
 	private String realName;
 
 	private Integer role;
+	
+	private String roleName;
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
 
 	private String cellphone;
 

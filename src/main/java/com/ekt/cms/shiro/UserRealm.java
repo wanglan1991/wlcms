@@ -9,6 +9,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 
 import com.ekt.cms.account.entity.CmsAccount;
 import com.ekt.cms.account.service.ICmsAccountService;
+import com.ekt.cms.utils.Md5Utils;
 
 /**
 *
@@ -34,17 +35,17 @@ public class UserRealm extends AuthorizingRealm {
 		CmsAccount cmsAccount = new CmsAccount();
 		cmsAccount.setUserName(username);
 		cmsAccount.setStatus(1);
-		List<CmsAccount> account = cmsAccountService.queryByCondition(cmsAccount);
+		CmsAccount account=cmsAccountService.queryByUserName(username);
 		if (account == null) {
 			throw new UnknownAccountException();
+			
 		}
-		String accountPassword = account.get(0).getPassword();
 		// 判断输入密码是否和用户密码一致
-		if (!password.equals(accountPassword)) {
+		if (!account.getPassword().equals(Md5Utils.getMd5Encode(password))) {
 			throw new IncorrectCredentialsException();
 		}
 		
-		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(account.get(0).getId(),
+		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(account.getId(),
 				password, getName());
 		return authenticationInfo;
 	}

@@ -1,14 +1,15 @@
 package com.ekt.cms.common.entity;
 
-public class Dict {
+public class CmsDict {
+	//主键
     private Integer id;
-
-    private String name;
-
+    //字典值
+    private String value;
+    //父级ID，如果存在
     private Integer parentId;
-
+    //字典类型
     private String type;
-
+    //状态 0 不可用  1 可用
     private Integer status;
 
     private String remark;
@@ -21,15 +22,19 @@ public class Dict {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
+    public String getValue() {
+		return value;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setValue(String value) {
+		this.value = value;
+	}
 
-    public Integer getParentId() {
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
+	}
+
+	public Integer getParentId() {
         return parentId;
     }
 

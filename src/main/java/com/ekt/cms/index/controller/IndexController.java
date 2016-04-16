@@ -34,6 +34,13 @@ public class IndexController extends BaseController {
 	 * @return
 	 */
 
+	@RequestMapping(value = "/exit")
+	public String exit(){
+		//销毁session
+		destroySession();
+		return "user/login";
+	}
+	
 
 	@RequestMapping(value = "/index")
 	public String toIndex(HttpServletRequest request, HttpServletResponse response) throws Exception {

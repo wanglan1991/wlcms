@@ -7,6 +7,7 @@
 package com.ekt.cms.utils.page;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Pagination implements Serializable {
 
@@ -25,8 +26,26 @@ public class Pagination implements Serializable {
 	// private int totalResult; //总记录数
 	private int totalPage; // 总页数
 	private int page = DEFAULT_CURRENT_SKIP; // 当前页
+	private int offset=0;
+	private int limit=0;
 
 	// private int currentResult; //当前记录起始索引
+
+	public int getOffset() {
+		return offset;
+	}
+
+	public void setOffset(int offset) {
+		this.offset = offset;
+	}
+
+	public int getLimit() {
+		return limit;
+	}
+
+	public void setLimit(int limit) {
+		this.limit = limit;
+	}
 
 	public Pagination() {
 
@@ -77,5 +96,6 @@ public class Pagination implements Serializable {
 	public void setTotalPage(int totalPage) {
 		this.totalPage = totalPage;
 	}
+	
 
 }

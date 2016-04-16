@@ -23,7 +23,7 @@ import com.ekt.cms.utils.ValidatorUtils;
 import com.ekt.cms.utils.page.Pagination;
 
 @Controller
-@RequestMapping(value="/region")  //地域controller
+@RequestMapping(value="/region")  //地域controller 
 public class RegionController extends BaseController {
 	/** 日志实例 */
     private static final Logger logger = Logger.getLogger(RegionController.class);
@@ -59,16 +59,20 @@ public class RegionController extends BaseController {
     @RequestMapping("/toListRegion")
     public String tolistRegion() {
 //    	return "region/regionPageList";
-    	return "region/regionPage";
+    	return "main/region/regionPage";
     }
     
     @SuppressWarnings("unchecked")
 	@RequestMapping("/listRegionPage")
-    public List<Region> listRegion(Region region, Pagination pagination, HttpServletRequest request ,HttpServletResponse response)  throws Exception{
+    public List<Region> listRegion(Region a, Pagination pagination, HttpServletRequest request ,HttpServletResponse response)  throws Exception{
     	try{
+    		Region region=new Region();
+    		region.setId(1);
     		String sEcho = request.getParameter("sEcho");
-    		int iDisplayStart = Integer.decode(request.getParameter("iDisplayStart"));  //开始数字
-    		int iDisplayLength = Integer.decode(request.getParameter("iDisplayLength"));  //页大小
+    		int iDisplayStart = 0;
+//    				Integer.decode(request.getParameter("iDisplayStart"));  //开始数字
+    		int iDisplayLength = 3;
+//    		Integer.decode(request.getParameter("iDisplayLength"));  //页大小
     		pagination.setRows(iDisplayLength);
         	int page = iDisplayStart/iDisplayLength + 1;
         	pagination.setPage(page);
