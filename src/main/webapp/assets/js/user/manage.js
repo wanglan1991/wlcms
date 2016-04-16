@@ -37,16 +37,31 @@ define(function (require, exports, module) {
         				 *修改用户
         				 */
         		        'click .editUser': function (e, value, row, index) {
-        		        	core.openModel('modal-UserTree','修改用户',function(){
-        		            	F.radioTree.load();
-        		            	if(row!=null){
-        		            		$('#id').val(row.id);
-        		            		$('#account').val(row.account);
-        		            		$('#password').val(row.password);
-        		            		$('#repassword').val(row.password);
-        		    				$("#"+F.radioTree.showId).val(row.dep_name);
-        		    				$("#"+F.radioTree.hideId).val(row.dep_id);
-        		            	}
+        		        	core.openModel('modal-EditUser','修改用户',function(){
+        		        		$("#EditrealName").val(row.realName);
+        		        		$("#Editcellphone").val(row.cellphone);
+        		        		$("#EditrealName").attr("accountId",row.id);
+        		        		$("#tatil").next("h3").html("编辑用户          "+row.userName);
+        		        	
+        		        	});
+        		        },
+        		        /**
+        		         * 重置密码
+        		         */
+        		        'click .resetPwd':function(e,value,row,index) {
+        		        	base.bootConfirm("您确定需要重置"+row.userName+"用户的密码？",function(){
+	        		        	$.ajax({
+	        		        		url: F.basepath+'/account/resetPwd',
+	    		        			type:'POST',
+	    		        			data:{id:row.id},
+	    		        			success:function(data){
+	    		        				if(data.result>0){
+	    		        					alert("密码重置成功，为123456789  ！");
+	    		        				}else{
+	    		        					alert("重置失败！稍后再试")
+	    		        				}
+	    		        			}
+	        		        	})
         		        	});
         		        },
         		        /**
@@ -69,17 +84,22 @@ define(function (require, exports, module) {
         		    		});
         		        },
         		        /**
-        				 * 修改部门
+        				 * 启用或停用用户
         				 */
-        		        'click .editDep': function (e, value, row, index) {
-        		        	core.openModel('modal-UserDeptTree','修改部门',function(){
-        		            	F.radioDeptTree.load();
-        		            	if(row!=null){
-        		            		$('#userId').val(row.id);
-        		    				$("#"+F.radioDeptTree.showId).val(row.dep_name);
-        		    				$("#"+F.radioDeptTree.hideId).val(row.dep_id);
-        		            	}
-        		        	});
+        		        'click .editDep': function (e, value, row, index) {	
+        		        	$.ajax({
+        		        		url: F.basepath+'/account/confine',
+        		        		type:'POST',
+        		        		data:{id:row.id,status:row.status==1?0:1},
+        		        		success:function(data){
+        		        			if(data.result>0){        		        				
+        		        				F.reload();
+        		        			}else{
+        		        				alert("操作失败！")
+        		        			}
+        		        		}
+        		        	})
+        		        	
         		        },
         		        /**
         				 * 分配角色
@@ -92,8 +112,8 @@ define(function (require, exports, module) {
     		        			type:'POST',
     		        			success:function(data){
     		        				html="<select id='role'>";
-    		        				for(var i=0;i<data.result.length;i++){
-    		        					html+="<option value="+data.result[i].id+">"+data.result[i].name+"</option>"
+    		        				for(var i=0;i<data.value.length;i++){
+    		        					html+="<option value="+data.value[i].id+">"+data.value[i].name+"</option>"
     		        				}
     		        				html+="</select>" 
     		        					$("#roleEdit").append(html);
@@ -101,7 +121,8 @@ define(function (require, exports, module) {
     		        		});
         		        	$("#role").find("option[value='"+row.role+"']").attr("selected","true");
         		        	$("#modal-UserRoleTree").attr("role",row.id)
-        		        }
+        		        }  
+        		        
         		    };
             	
             	var cols = [
@@ -129,6 +150,7 @@ define(function (require, exports, module) {
      	    		        },{
      	    			        field: 'status',
      	    			        title: '状态',
+     	    			       visible:false
      	    		        }];
      	        //是否需要操作列
 //     	        if(base.perList.user.edit || base.perList.user.del || base.perList.user.edit_dep || base.perList.user.distribute_role)
@@ -151,13 +173,24 @@ define(function (require, exports, module) {
     				var ids = F.table.getIdSelections();
     				if(ids!=null&&ids.length>0){
     					base.bootConfirm("是否确定删除选定的"+ids.length+"个用户？",function(){
-    						F.delUser(ids);
+    						$.ajax({
+    							url: F.basepath+'/account/deletes',
+    		        			type:'POST',
+    		        			data:{ids:ids.toString()},
+    		        			success:function(data){
+    		        				if(data.result>0){
+    		        					F.reload();
+    		        				}else{
+    		        					alert("异常！")
+    		        				}
+    		        			}					
+    						});
     					});
     				}else{
     					base.bootAlert({"ok":false,"msg":"请选择你要删除的用户！"});
     				}
     			});
-    			
+
     			/**
     			 * 打开模态框
     			 */
@@ -168,8 +201,8 @@ define(function (require, exports, module) {
 		        			url: F.basepath+'/account/roleList',
 		        			type:'POST',
 		        			success:function(data){
-		        				for(var i=0;i<data.result.length;i++){
-		        					html+="<option value="+data.result[i].id+">"+data.result[i].name+"</option>"
+		        				for(var i=0;i<data.value.length;i++){
+		        					html+="<option value="+data.value[i].id+">"+data.value[i].name+"</option>"
 		        				}
 		        					$("#roles").append(html);
 		        			}
@@ -181,11 +214,19 @@ define(function (require, exports, module) {
     			});
     			
     			
+    			
+    			
     			/**
-    			 * 关闭模态框
+    			 * 关闭模态框 
     			 */
     			$('#btnClose').click(function(){
     				core.closeModel('modal-UserTree');
+    				F.reload();
+    			});
+    			
+    			$('#EditbtnClose').click(function(){
+    				core.closeModel('modal-EditUser');
+    				F.reload();
     			});
     			
     			$('#btnDeptClose').click(function(){
@@ -198,29 +239,60 @@ define(function (require, exports, module) {
     			});
     			
     			/**
-    			 * 提交表单
+    			 * 修改用户
+    			 */
+    			$("#EditbtnSubmit").click(function(){
+    				var accountId=$("#EditrealName").attr("accountId");
+    				var realName=$("#EditrealName").val();
+    				var cellphone=$("#Editcellphone").val();
+    				if(realName.length<1||cellphone.length<11){return };
+    				$.ajax({
+						url: F.basepath+'/account/editAccount',
+	        			type:'POST',
+	        			data:{id:accountId,cellphone:cellphone,realName:realName},
+	        			success:function(data){
+	        				if(data.result>0){
+	        					core.closeModel('modal-EditUser');
+	        					F.reload();
+	        				}else{
+	        					alert("操作异常！")
+	        				}
+	        			}
+	        			
+					});
+    				
+    				
+    				
+    				
+    			});
+    			/**
+    			 * 提交添加用户
     			 */
     			$('#btnSubmit').click(function(){
     				var role=$("#roles").val();
-    				var userName=$("#account").val();
+    				var userName=$("#userName").val();
     				var password=$("#password").val();
     				var repassword=$("#repassword").val();
     				var cellphone=$("#cellphone").val();
     				var realName=$("#realName").val();
-//    				if(userName.length>6&&password.length>5&&repassword.length>5&&cellphone.length>11&&realName.length>3&&password==repassword){
-    					
+    				if(userName.length>8&&cellphone.length==11&&realName.length>
+    				0&&password.length>6&&repassword.length>6&&password==repassword){
     					$.ajax({
     						url: F.basepath+'/account/addAccount',
     	        			type:'POST',
-    	        			dataType:'json',
     	        			data:{role:role,userName:userName,password:password,cellphone:cellphone,realName:realName},
     	        			success:function(data){
-    	        				
-    	        			}	
-    					})
-    					
-//    				}
-    					
+    	        				if(data.result>0){
+    	        					core.closeModel('modal-UserTree');
+    	        					F.reload();
+    	        				}else{
+    	        					$("#userName-error").html(data.msg);
+    	        					$("#userName-error").css('color','red');
+    	        				}
+    	        			}
+    	        			
+    					});
+    				}
     				
                 });
     			
@@ -308,14 +380,17 @@ define(function (require, exports, module) {
             operateFormatter:function (value, row, index) {
             	var _btnAction = "";
 //            	if (base.perList.user.edit_dep) {
-//            		_btnAction += "<a class='editDep btn btn-primary btn-small' href='#' title='' style='margin-left:5px'>分配部门</a>";
+            		_btnAction += "<a class='editDep btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"+(row.status==1?"停用":"启用")+"</a>";
 //            	}
 //            	if (base.perList.user.distribute_role) {
-            		_btnAction += "<a class='distributeRole btn btn-info btn-small' href='#' title='分配角色' style='margin-left:5px'>分配角色</a>";
+            		_btnAction += "<a class='distributeRole btn btn-info btn-small' href='#' title='配置角色' style='margin-left:5px'>配置角色</a>";
 //            	}
 //            	if (base.perList.user.edit) {
             		_btnAction += "<a data-toggle='modal' class='editUser btn btn-success btn-small' href='#' title='编辑用户' style='margin-left:5px'>编辑</a>";
 //            	}
+//            	if (base.perList.user.edit) {
+                	_btnAction += "<a data-toggle='modal' class='resetPwd btn btn-success btn-small' href='#' style='margin-left:5px'>重置密码</a>";
+//                	}
 //            	if (base.perList.user.del) {
             		_btnAction += "<a class='delUser btn btn-danger btn-small' href='#' title='删除用户' style='margin-left:5px'>删除</a>";
 //            	}

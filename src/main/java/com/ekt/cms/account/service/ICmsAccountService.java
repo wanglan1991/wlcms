@@ -8,10 +8,12 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import com.ekt.cms.account.entity.CmsAccount;
 import com.ekt.cms.utils.page.Pager;
 import com.ekt.cms.utils.page.Pagination;
+import com.ekt.cms.utils.pageHelper.PageBean;
 
 public interface ICmsAccountService {
 	
-	public List<CmsAccount> listPage(Pagination pagination,CmsAccount cmsAccount);
+	public PageBean<CmsAccount> listPage(CmsAccount cmsAccount);
+	
 	public List<CmsAccount> queryByCondition(CmsAccount cmsAccount);
 
 	public SimpleAuthorizationInfo getAccountRolePermission(int id);
@@ -19,20 +21,45 @@ public interface ICmsAccountService {
 	/**
 	 * 修改用户
 	 * @param cmsAccount
-	 * @return
+	 * @return 操作是否成功
 	 */
 	public int update(CmsAccount cmsAccount);
 	/**
-	 * 删除用户
+	 * 根据id删除用户
 	 * @param id
-	 * @return
+	 * @return 操作是否成功
 	 */
 	public int delete(int id);
 	/**
 	 * 添加用户
 	 * @param cmsAccount
-	 * @return
+	 * @return 操作是否成功
 	 */
 	public int addAccount(CmsAccount cmsAccount);
+	/**
+	 * 根据用户名查询用户
+	 * @param userName
+	 * @return 用户
+	 */
+	public CmsAccount queryByUserName(String userName);
+	/**
+	 * 根据用户id启用或停用用户
+	 * @param cmsAccount
+	 * @return 是否成功
+	 */
+	public int confine(CmsAccount cmsAccount);
+	/**
+	 * 根据用户id修改密码
+	 * @param id
+	 * @return
+	 */
+	public int setPwd(CmsAccount cmsAccount);
+	/**
+	 * 修改用户信息
+	 * @param cmsAccount
+	 * @return
+	 */
+	public int updateAccount(CmsAccount cmsAccount);
+	
 }
 
