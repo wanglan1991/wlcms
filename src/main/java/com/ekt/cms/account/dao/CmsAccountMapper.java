@@ -1,9 +1,6 @@
 package com.ekt.cms.account.dao;
-
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
-
 import com.ekt.cms.account.entity.CmsAccount;
 import com.ekt.cms.utils.page.Pagination;
 /**
@@ -35,4 +32,4 @@ public interface CmsAccountMapper {
 	 */
 	List<CmsAccount> listPage(@Param("cmsAccount") CmsAccount cmsAccount, @Param("pagination") Pagination pagination);
 }
-    
+ 

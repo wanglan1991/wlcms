@@ -12,4 +12,7 @@ public interface ICmsAccountService {
 
 	public SimpleAuthorizationInfo getAccountRolePermission(int id);
 	
+	public CmsAccount selectByPrimaryKey(Integer id);
+	
 }
+

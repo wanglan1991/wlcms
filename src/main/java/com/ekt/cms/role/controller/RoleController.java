@@ -7,7 +7,10 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.swing.plaf.synth.SynthStyle;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,6 +35,9 @@ public class RoleController {
 	 */
 	@RequestMapping(value="/manage")
 	public String manager(HttpServletRequest request){
+		Subject currentUser = SecurityUtils.getSubject();  
+		Session session = currentUser.getSession();
+		System.out.println(session.getAttribute("username"));
 		request.setAttribute("list", cmsRoleService.getCmsRoleList() );
 		return "main/role/manage";
 	}
@@ -50,9 +56,8 @@ public class RoleController {
 	 * @param id
 	 * @return
 	 */
-	
 	@RequestMapping(value="/delete")
-	@RequiresRoles("role:delete") 
+	@RequiresRoles("role:delete")
 	@ResponseBody
 	public Map<String,Object> delete(@RequestParam("id")Integer id){
 		return cmsRoleService.deleteCmsRole(id);
@@ -68,7 +73,5 @@ public class RoleController {
 		System.out.println(cmsRole.getEncoding()+"--"+cmsRole.getName()+"---"+cmsRole.getId());
 		return cmsRoleService.updateCmsRole(cmsRole);
 	}
-	
-	
-
+		
 }

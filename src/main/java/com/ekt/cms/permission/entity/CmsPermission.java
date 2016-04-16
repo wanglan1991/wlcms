@@ -1,3 +1,4 @@
+
 package com.ekt.cms.permission.entity;
 
 import java.sql.Date;
@@ -102,6 +103,5 @@ public class CmsPermission {
 	public void setValue(String value) {
 		this.value = value;
 	}
-
-	
 }
+

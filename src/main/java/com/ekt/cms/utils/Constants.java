@@ -18,6 +18,8 @@ public interface Constants {
 	
 	public final static String DEFAULT_WEBSOCKET_HOSTNAME = "hostname";
 	
+	
+	
 	public enum VERSIONTYPE{  
 	    MQ_MAIN("0");
 		private final String value;

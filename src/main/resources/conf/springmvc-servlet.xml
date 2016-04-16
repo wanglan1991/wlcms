@@ -12,16 +12,12 @@
 	          http://www.springframework.org/schema/mvc
 	          http://www.springframework.org/schema/mvc/spring-mvc.xsd
 	          http://www.springframework.org/schema/util
-	          http://www.springframework.org/schema/aop
-			  http://www.springframework.org/schema/aop/spring-aop.xsd
+	          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 	          http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<!-- 对静态资源文件的访问，交给default servlet handler处理 -->
 	<mvc:default-servlet-handler />
 
-	<!-- 静态资源映射 -->
-	<mvc:resources mapping="/static/**" location="/WEB-INF/static/" />
-	<mvc:resources mapping="/uploadfile/**" location="uploadfile/" />
 
 	<!-- 启用spring mvc 注解 -->
 	<context:annotation-config />
@@ -34,6 +30,8 @@
 
 <!-- 	<aop:aspectj-autoproxy proxy-target-class="true" /> -->
 
+
+
 	<!--JSP视图解析器 -->
 	<bean id="viewResolverJsp"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -44,62 +42,6 @@
 		<property name="order" value="0" />
 	</bean>
 
-	<!-- 配置freeMarker视图解析器 -->
-	<bean id="viewResolverFtl"
-		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
-		<property name="viewClass"
-			value="com.ekt.cms.utils.freemarker.StaticSupportFreeMarkerView" />
-		<property name="contentType" value="text/html; charset=UTF-8" />
-		<property name="requestContextAttribute" value="ctp" />
-		<property name="exposeRequestAttributes" value="true" />
-		<property name="exposeSessionAttributes" value="true" />
-		<property name="exposeSpringMacroHelpers" value="true" />
-		<property name="cache" value="false" />
-		<property name="suffix" value=".html" />
-		<property name="order" value="1" />
-	</bean>
-
-	<!-- 配置freeMarker的模板路径 -->
-	<bean id="freemarkerConfig"
-		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-		<property name="templateLoaderPath" value="/WEB-INF/html/" />
-		<property name="freemarkerVariables">
-			<map>
-				<entry key="xml_escape" value-ref="fmXmlEscape" />
-			</map>
-		</property>
-		<property name="defaultEncoding" value="UTF-8" />
-		<property name="freemarkerSettings">
-			<props>
-				<prop key="template_update_delay">0</prop>
-				<prop key="locale">zh_CN</prop>
-				<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
-				<prop key="date_format">yyyy-MM-dd</prop>
-				<prop key="number_format">#.##</prop>
-				<prop key="auto_import">"/common/taglib.html" as h</prop>
-			</props>
-		</property>
-	</bean>
-
-	<bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape" />
-
-	<!-- json 转换 -->
-	<!-- <bean id="mappingJacksonHttpMessageConverter" -->
-	<!-- class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"> -->
-	<!-- <property name="supportedMediaTypes"> -->
-	<!-- <list> -->
-	<!-- <value>text/html;charset=UTF-8</value> -->
-	<!-- </list> -->
-	<!-- </property> -->
-	<!-- </bean> -->
-	<!-- <bean -->
-	<!-- class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"> -->
-	<!-- <property name="messageConverters"> -->
-	<!-- <list> -->
-	<!-- <ref bean="mappingJacksonHttpMessageConverter" /> -->
-	<!-- </list> -->
-	<!-- </property> -->
-	<!-- </bean> -->
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">

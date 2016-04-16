@@ -25,4 +25,5 @@ public interface CmsPermissionMapper {
 	
 	//查询所有权限
 	public List<CmsPermission> selectAll();
+
 }

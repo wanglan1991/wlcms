@@ -189,7 +189,7 @@
                             <li>
                                 <a href='${ctx}/user/exit'>
                                     <i class='icon-signout'></i>
-                                    	退出
+                                    	安全退出
                                 </a>
                             </li>
                         </ul>

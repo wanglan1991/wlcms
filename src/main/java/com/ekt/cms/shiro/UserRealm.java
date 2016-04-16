@@ -1,13 +1,6 @@
 package com.ekt.cms.shiro;
-
 import java.util.List;
-
 import javax.annotation.Resource;
-
-//
-//import com.larva.model.Account;
-//import com.larva.service.IAccountService;
-//
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -28,8 +21,7 @@ public class UserRealm extends AuthorizingRealm {
 
 	@Override
 	public AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		int userId = Integer.parseInt(principals.getPrimaryPrincipal().toString());// 为什么这里获取到的是用户ID
-		System.out.println(userId);
+		int userId = Integer.parseInt(principals.getPrimaryPrincipal().toString());
 		SimpleAuthorizationInfo authorizationInfo = cmsAccountService.getAccountRolePermission(userId);
 		return authorizationInfo;
 	}
