@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ekt.cms.role.entity.CmsRole;
+import com.ekt.cms.utils.pageHelper.PageBean;
 
 /**
  * 
@@ -22,12 +23,7 @@ public interface ICmsRoleService {
 	 * @return 角色集合
 	 */
 	List<CmsRole> getCmsRoleList();
-	/**
-	 * 添加角色
-	 * @param cmsRole角色
-	 * @return 是否操作成功
-	 */
-	 Map<String,Object> addCmsRole(CmsRole cmsRole);
+	
 	 
 	 /**
 	  * 删除角色
@@ -40,5 +36,46 @@ public interface ICmsRoleService {
 	  * @param CmsRole cmsRole
 	  * @return 是否操作成功
 	  */
-	 Map<String,Object> updateCmsRole(CmsRole cmsRole);
+	int updateCmsRole(CmsRole cmsRole);
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 /**
+	  * 获取用户list
+	  * @param cmsRole
+	  * @return
+	  */
+	 
+	 List<CmsRole> listPage(CmsRole cmsRole); 
+	 /**
+	  * 根据角色编码查询角色
+	  * @param encoding
+	  * @return 角色
+	  */
+	 CmsRole getCmsRoleByEncoding(String encoding);
+	 /**
+	  * 添加角色
+	  * @param cmsRole
+	  * @return是否操作成功
+	  */
+	 int  addCmsRole(CmsRole cmsRole);
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
 }

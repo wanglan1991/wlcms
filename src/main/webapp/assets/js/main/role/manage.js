@@ -74,15 +74,15 @@ define(function (require, exports, module) {
  	                    {
  	        		        checkbox:true
  	        		    }, {
- 	        		        field: 'key',
- 	        		        title: '角色键值'
+ 	        		        field: 'id',
+ 	        		        title: '主键'
  	        		    }, {
  	        		        field: 'name',
  	        		        title: '角色名称'
+ 	        		        	
  	        		    },{
- 	    			        field: 'id',
- 	    			        title: '角色主键',
- 	    			        visible:false
+ 	    			        field: 'encoding',
+ 	    			        title: '角色编码'
  	    		        }];
  	        //是否需要操作列
  	        if(base.perList.role.edit || base.perList.role.del || base.perList.role.checkPermission || base.perList.role.grant)
@@ -96,7 +96,7 @@ define(function (require, exports, module) {
  	       /**
         	 * 角色列表
         	 */	
- 	       F.table.init(F.basepath+'/main/role/show-roles',cols);
+ 	       F.table.init(F.basepath+'/cms/role/pageList',cols);
     		
  	       F.treeLoad();
     		/**
@@ -140,7 +140,22 @@ define(function (require, exports, module) {
 			 * 提交表单
 			 */
 			$('#btnSubmit').click(function(){
-				F.submit();
+				var name=$("#name").val();
+				var encoding=$("#encoding").val();
+				if(name.lenght<1||encoding.length<1){return}
+				$.ajax({
+					url:F.basepath+"/cms/role/addRole",
+					type:"post",
+					data:{name:name,encoding:encoding},
+					success:function(data){
+						if(data.result>0){
+							F.reload();
+						}else{
+							$("#encoding-error").html(data.msg);
+						}
+					}
+				})
+				
             });
 			
 			$('#btnDistributePermissionSubmit').click(function(){
@@ -204,9 +219,6 @@ define(function (require, exports, module) {
         	
         	if (base.perList.role.grant) {
         		_btnAction += "<a class='distributePermission btn btn-primary btn-small' href='#' title='菜单授权' style='margin-left:5px'>授权</a>";
-        	}
-        	if (base.perList.role.checkPermission) {
-        		_btnAction += "<a class='checkPermission btn btn-info btn-small' href='#' title='查看授权' style='margin-left:5px'>查看</a>";
         	}
         	if (base.perList.role.edit) {
         		_btnAction += "<a data-toggle='modal' class='editRole btn btn-success btn-small' href='#' title='编辑角色' style='margin-left:5px'>编辑</a>";

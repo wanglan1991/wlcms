@@ -24,12 +24,7 @@ public interface CmsRoleMapper {
 	 * @return 角色
 	 */
 	List<CmsRole> getCmsRoleList(@Param("cmsRole")CmsRole cmsRole);
-	/**
-	 * 添加角色
-	 * @param cmsRole
-	 * @return 角色列表
-	 */
-	Integer addCmsRole(@Param("cmsRole")CmsRole cmsRole);
+	
 	/**
 	 * 根据Encoding或者角色名称获取角色对象
 	 * @param CmsRole
@@ -48,5 +43,27 @@ public interface CmsRoleMapper {
 	 * @return  是否操作成功
 	 */
 	Integer updateCmsRole(@Param("cmsRole")CmsRole cmsRole);
+
+	/**
+	 * 修改用户
+	 * @param cmsRole
+	 * @return
+	 */
+	List<CmsRole> listPage(@Param("cmsRole")CmsRole cmsRole);
+	/**
+	 * 根据用户编码查询用户
+	 * @param encoding
+	 * @return用户
+	 */
+	public CmsRole getCmsRoleByEncoding(@Param("encoding")String encoding);
+	
+	/**
+	 * 添加用户
+	 * @param cmsRole
+	 * @return 是否操作成功
+	 */
+	public int addCmsRole(@Param("cmsRole")CmsRole cmsRole);
+	
+		
 
 }

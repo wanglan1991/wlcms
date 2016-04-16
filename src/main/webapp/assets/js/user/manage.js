@@ -17,15 +17,16 @@ define(function (require, exports, module) {
                  * 是否具有添加部门权限
                  */
 //                if(base.perList.user.create){
-                	$("#user-header .actions").append("<a href='#' id='addUser' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px'><i class='icon-plus'></i>添加</a>");
+            	$("#user-header .actions").append("<a href='#' id='delUsers' class='btn btn-danger btn-small' style='margin-left:5px'><i class='icon-remove'></i>删除</a>");
 //                }
                 
                 /**
                  * 是否具有删除部门权限
                  */
 //                if(base.perList.user.del){
-                	$("#user-header .actions").append("<a href='#' id='delUsers' class='btn btn-danger btn-small' style='margin-left:5px'><i class='icon-remove'></i>删除</a>");
-//                }
+                	
+               $("#user-header .actions").append("<a href='#' id='addUser' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px'><i class='icon-plus'></i>添加</a>");
+                	
                 
                 /**
                  * 加载树
@@ -275,8 +276,8 @@ define(function (require, exports, module) {
     				var repassword=$("#repassword").val();
     				var cellphone=$("#cellphone").val();
     				var realName=$("#realName").val();
-    				if(userName.length>8&&cellphone.length==11&&realName.length>
-    				0&&password.length>6&&repassword.length>6&&password==repassword){
+//    				if(userName.length>6&&cellphone.length>10&&realName.length>
+//    				0&&password.length>6&&repassword.length>6&&password==repassword){
     					$.ajax({
     						url: F.basepath+'/account/addAccount',
     	        			type:'POST',
@@ -292,7 +293,7 @@ define(function (require, exports, module) {
     	        			}
     	        			
     					});
-    				}
+//    				}
     				
                 });
     			

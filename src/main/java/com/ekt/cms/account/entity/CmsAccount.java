@@ -26,7 +26,7 @@ public class CmsAccount {
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
-
+	@NotBlank(message = "手机号码不能为空")
 	private String cellphone;
 
 	private Integer status;

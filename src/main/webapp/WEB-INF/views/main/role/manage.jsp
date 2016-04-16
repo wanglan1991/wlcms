@@ -6,13 +6,11 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="/WEB-INF/pages/include/taglib.jsp"%>
 <html>
 <head>
   <title></title>
 </head>
 <body>
-<div class='span12 box bordered-box blue-border' style='margin-bottom:0;'>
   <div class='box-header' id="role-header">
     <div class='title'>角色设置</div>
     <div class='actions'></div>
@@ -24,7 +22,6 @@
       </div>
     </div>
   </div>
-</div>
 
 <div class='modal hide fade' id='modal-Role' role='dialog' tabindex='-1'>
     <div class='modal-header'>
@@ -34,16 +31,16 @@
     <form class='form validate-form' id='submit-form' method="post" role="form"  style='margin-bottom: 0;'>
     <div class='modal-body'>
         <div class='control-group'>
-            <label class='control-label'>角色键值</label>
+            <label class='control-label'>角色编码</label>
             <div class='controls'>
             	<input type='hidden' id='id' name="id"/>
-                <input class='span8' id='key' required name="key" placeholder='角色键值' type='text' />
+                <input class='span8' id='encoding' required name="encoding" maxlength='15' placeholder='角色键值' type='text' />
             </div>
         </div>
         <div class='control-group'>
             <label class='control-label'>角色名称</label>
             <div class='controls'>
-                <input class='span8' id='name' required name='name' placeholder='角色名称' type='text' />
+                <input class='span8' id='name' required name='name' maxlength='15'  placeholder='角色名称' type='text' />
             </div>
         </div>
     </div>
