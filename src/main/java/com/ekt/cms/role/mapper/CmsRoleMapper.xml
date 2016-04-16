@@ -9,10 +9,23 @@
 		<result column="create_time" property="createTime" jdbcType="INTEGER" />
 	</resultMap>
 
-	
+<!-- 根据用户id查询 -->
 	<select id="getCmsRoleById" resultType="com.ekt.cms.role.entity.CmsRole"  parameterType="java.lang.Integer">
 		SELECT * FROM cms_role WHERE id = #{id}
 	</select>
+	
+<!-- 	获取用户列表 -->
+	 <select id="listPage" resultMap="BaseResultMap" parameterType="com.ekt.cms.role.entity.CmsRole">
+  		SELECT * FROM cms_role 
+  		WHERE 1=1
+  			<if test="cmsRole.name !=null and cmsRole.name !='' ">
+  		AND name=#{cmsRole.name}	
+  			</if>
+  			<if test="cmsRole.encoding !=null and cmsRole.encoding !='' ">
+  		AND encoding=#{cmsRole.encoding}	
+  			</if>  
+  	</select>
+	
 	
 	<select id="getCmsRoleList" resultMap="BaseResultMap"  parameterType="com.ekt.cms.role.entity.CmsRole">
 		SELECT * FROM cms_role WHERE 1=1 
@@ -50,4 +63,10 @@
 			name=#{cmsRole.name},encoding=#{cmsRole.encoding}
 		WHERE id=#{cmsRole.id}
 	</update>
+	
+	<select id="getCmsRoleByEncoding" resultType="com.ekt.cms.role.entity.CmsRole" parameterType="java.lang.String">
+		SELECT * FROM cms_role WHERE encoding=#{encoding}
+	</select>
+	
+	
 </mapper>

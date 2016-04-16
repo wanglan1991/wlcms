@@ -55,7 +55,7 @@
          <div class='control-group' id="account">
             <label class='control-label'>账户</label>
             <div class='controls'>
-                <input class='span8' id='userName'  maxlength='16' required rangelength="[8,16]" placeholder='账户名' type='text' />
+                <input class='span8' id='userName'  maxlength='16' required rangelength="[6,16]" placeholder='账户名' type='text' />
             </div>
         </div>
         <div class='control-group' id='password1'>
@@ -67,9 +67,9 @@
         <div class='control-group' id='repassword1'>
             <label class='control-label'>重复密码</label>
             <div class='controls'>
-                <input class='span8' id='repassword' maxlength='20' required placeholder='重复密码' type='password' />
+                <input class='span8' id='repassword'  required equalTo="#password" placeholder='重复密码' type='password' />
             </div>
-        </div>
+        </div>   
     </div>
     <div class='modal-footer'>
         <button type="button" id="btnClose" class='btn'>关闭</button>

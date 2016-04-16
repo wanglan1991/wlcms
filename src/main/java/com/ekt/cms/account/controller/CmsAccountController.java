@@ -1,9 +1,12 @@
 package com.ekt.cms.account.controller;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,7 +14,7 @@ import com.ekt.cms.account.entity.CmsAccount;
 import com.ekt.cms.account.service.ICmsAccountService;
 import com.ekt.cms.common.BaseController;
 import com.ekt.cms.common.entity.Result;
-import com.ekt.cms.role.service.CmsRoleService;
+import com.ekt.cms.role.service.ICmsRoleService;
 import com.ekt.cms.utils.Md5Utils;
 import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.utils.pageHelper.PageContext;
@@ -21,7 +24,7 @@ public class CmsAccountController extends BaseController {
 	@Resource
 	private ICmsAccountService cmsAccountService;
 	
-	@Resource CmsRoleService cmsRoleService;
+	@Resource ICmsRoleService cmsRoleService;
 	
 	
 	@RequestMapping(value="/manage")
@@ -74,19 +77,27 @@ public class CmsAccountController extends BaseController {
 	 */
 	@RequestMapping("/addAccount")
 	@ResponseBody
-	public Object addAccount(CmsAccount cmsAccount) throws Exception {
-			Result re=Result.getResults();
+	public Object addAccount(@Valid CmsAccount cmsAccount, BindingResult bindingResult) throws Exception {
+			Result result=Result.getResults();
 			CmsAccount Account = cmsAccountService.queryByUserName(cmsAccount.getUserName());
+			List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+			if (fieldErrors != null && !fieldErrors.isEmpty()) {
+				for(FieldError fieldError:fieldErrors){
+					result.setMsg(fieldError.getDefaultMessage());
+				}
+				result.setOk(false);
+				return result;
+			}
 			if(Account != null){
-				re.setMsg("用户名已经存在！");
-				return re;
+				result.setMsg("用户名已经存在！");
+				return result;
 			}
 			//设置用户密码
 			cmsAccount.setPassword(Md5Utils.getMd5Encode(cmsAccount.getPassword()));
 			//添加用户
-			re.setResult(cmsAccountService.addAccount(cmsAccount));
+			result.setResult(cmsAccountService.addAccount(cmsAccount));
 			
-		return re;
+		return result;
 	}
 	/**
 	 * 启用或停用用户

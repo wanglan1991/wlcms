@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ekt.cms.account.entity.CmsAccount;
 import com.ekt.cms.account.service.CmsAccountService;
 import com.ekt.cms.index.entity.ResultVO;
+import com.ekt.cms.index.entity.User;
 import com.ekt.cms.utils.Constants;
 
 /****
@@ -50,7 +51,7 @@ public class LoginController {
 	 * 
 	*/
 	@RequestMapping(value = "/check-login")
-	public @ResponseBody ResultVO checklogin(@Valid @ModelAttribute CmsAccount cmsAccount, BindingResult bindingResult,
+	public @ResponseBody ResultVO checklogin(@Valid @ModelAttribute User user, BindingResult bindingResult,
 			HttpServletRequest request) {
 		ResultVO resultVO = new ResultVO(true);
 		
@@ -63,8 +64,8 @@ public class LoginController {
 			return resultVO;
 		}
 		// 验证登录
-		UsernamePasswordToken token = new UsernamePasswordToken(cmsAccount.getUserName(), cmsAccount.getPassword());
-		token.setRememberMe(cmsAccount.isRememberMe());
+		UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), user.getPassword());
+		token.setRememberMe(user.isRememberMe());
 		Subject subject = SecurityUtils.getSubject();
 		try {
 			//调用shiro登录方法
@@ -75,10 +76,10 @@ public class LoginController {
 			resultVO.setMsg("账号或者密码错误");
 			return resultVO;
 		}
-		List<CmsAccount> account = cmsAccountService.queryByCondition(cmsAccount);
+		CmsAccount account = cmsAccountService.queryByUserName(user.getUserName());
 		// session当前用户
 		Session session = subject.getSession();
-		session.setAttribute(Constants.DEFAULT_SESSION_ACCOUNT, account.get(0));
+		session.setAttribute(Constants.DEFAULT_SESSION_ACCOUNT, account);
 		return resultVO;
 	}
 }

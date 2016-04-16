@@ -16,6 +16,16 @@ public class Result {
 	private String msg;
 	
 	private List <Object> list;
+	
+	private Boolean ok;
+
+	public Boolean getOk() {
+		return ok;
+	}
+
+	public void setOk(Boolean ok) {
+		this.ok = ok;
+	}
 
 	public List<Object> getList() {
 		return list;
