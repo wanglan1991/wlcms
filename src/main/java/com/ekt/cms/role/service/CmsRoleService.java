@@ -1,5 +1,6 @@
 package com.ekt.cms.role.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.ekt.cms.role.dao.CmsRoleMapper;
 import com.ekt.cms.role.entity.CmsRole;
+import com.mysql.fabric.xmlrpc.base.Array;
 
 @Service("cmsRoleService")
 public class CmsRoleService implements ICmsRoleService{
@@ -28,14 +30,11 @@ public class CmsRoleService implements ICmsRoleService{
 		return cmsRoleMapper.getCmsRoleList(cmsRole);
 	}
 
-
-
 	@Override
-	public Map<String, Object> deleteCmsRole(Integer id) {
-		Map<String,Object>map=new HashMap<String,Object>();
-		map.put("result",cmsRoleMapper.deleteCmsRole(id));
-		return map;
+	public int deleteCmsRole(Integer id) {
+		return cmsRoleMapper.deleteCmsRole(id);
 	}
+	
 	public int updateCmsRole(CmsRole cmsRole){
 		 return cmsRoleMapper.updateCmsRole(cmsRole);
 	}
@@ -53,6 +52,18 @@ public class CmsRoleService implements ICmsRoleService{
 	@Override
 	public int addCmsRole(CmsRole cmsRole) {
 		return cmsRoleMapper.addCmsRole(cmsRole);
+	}
+
+	@Override
+	public int confine(CmsRole cmsRole) {
+		return cmsRoleMapper.confine(cmsRole);
+	}
+
+	@Override
+	public List<Map<String, Object>> getTree(int roleId) {
+		List<Map<String,Object>>list=new ArrayList<Map<String,Object>>();
+		cmsRoleMapper.getMenuList(roleId);
+		return list;
 	}
 
 }

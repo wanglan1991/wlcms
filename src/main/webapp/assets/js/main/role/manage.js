@@ -10,12 +10,7 @@ define(function (require, exports, module) {
         table:new core.Table('roleTable'),
         init: function (_basepath) {
             F.basepath = _basepath;
-            /**
-             * 是否具有添加角色权限
-             */
-            if(base.perList.role.create){
-            	$("#role-header .actions").append("<a href='#' id='addRole' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px'><i class='icon-plus'></i>添加</a>");
-            }
+            
             
             /**
              * 是否具有删除角色权限
@@ -24,16 +19,25 @@ define(function (require, exports, module) {
             	$("#role-header .actions").append("<a href='#' id='delRoles' class='btn btn-danger btn-small' style='margin-left:5px'><i class='icon-remove'></i>删除</a>");
             }
             
+            /**
+             * 是否具有添加角色权限
+             */
+            if(base.perList.role.create){
+            	$("#role-header .actions").append("<a href='#' id='addRole' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px'><i class='icon-plus'></i>添加</a>");
+            }
+            
+           
+            
             operateEvents = {
     				/**
     				 *修改角色
     				 */
     		        'click .editRole': function (e, value, row, index) {
-    		        	core.openModel('modal-Role','修改角色',function(){
+    		        	core.openModel('modal-editRole','修改角色     '+row.encoding,function(){
     		            	if(row!=null){
-    		            		$('#id').val(row.id);
-    		            		$('#key').val(row.key);
-    		            		$('#name').val(row.name);
+    		            		$('#editId').val(row.id);
+    		            		$('#editEncoding').val(row.encoding);
+    		            		$('#editName').val(row.name);
     		            	}
     		        	});
     		        },
@@ -50,6 +54,24 @@ define(function (require, exports, module) {
     		        /**
     				 * 菜单授权
     				 */
+    		        /**
+    				 * 启用或停用用户
+    				 */
+    		        'click .confine': function (e, value, row, index) {	
+    		        	$.ajax({
+    		        		url: F.basepath+'/cms/role/confine',
+    		        		type:'POST',
+    		        		data:{id:row.id,status:row.status==1?0:1},
+    		        		success:function(data){
+    		        			if(data.result>0){        		        				
+    		        				F.reload();
+    		        			}else{
+    		        				alert("操作失败！")
+    		        			}
+    		        		}
+    		        	})
+    		        	
+    		        },
     		        'click .distributePermission': function (e, value, row, index) {
     		        	core.openModel('modal-DistributePermission','菜单授权',function(){
     		            	if(row!=null){
@@ -125,7 +147,19 @@ define(function (require, exports, module) {
 			 * 关闭模态框
 			 */
 			$('#btnClose').click(function(){
+				$("#name").val('');
+				$("#encoding").val('');
+				$("#encoding-error").html('');
+				$("#msg").html('');
 				core.closeModel('modal-Role');
+			});
+			$('#editBtnClose').click(function(){
+				$("#editName").val('');
+				$("#editEncoding").val('');
+				$("#editId").val('');
+				$("#editEncoding-error").html('');
+				core.closeModel('modal-editRole');
+				
 			});
 			
 			$('#btnDistributePermissionClose').click(function(){
@@ -142,7 +176,9 @@ define(function (require, exports, module) {
 			$('#btnSubmit').click(function(){
 				var name=$("#name").val();
 				var encoding=$("#encoding").val();
-				if(name.lenght<1||encoding.length<1){return}
+				if(encoding.lenght<1||name.length<1){
+					$("#msg").html("角色编码以及角色名称不能为空！");$("#msg").css('color','#b94a48');
+					return}
 				$.ajax({
 					url:F.basepath+"/cms/role/addRole",
 					type:"post",
@@ -150,8 +186,49 @@ define(function (require, exports, module) {
 					success:function(data){
 						if(data.result>0){
 							F.reload();
-						}else{
+							$("#name").val('');
+							$("#encoding").val('');
+							$("#encoding-error").html('');
+							$("#msg").html('');
+							core.closeModel('modal-Role');
+						}else if(data.result==-1){
 							$("#encoding-error").html(data.msg);
+							$("#encoding-error").css('color','#b94a48');
+						}else {
+							core.closeModel('modal-Role');
+							alert("异常！")
+						}
+					}
+				})
+				
+            });
+			/**
+			 * 编辑角色
+			 */
+			$('#editBtnSubmit').click(function(){
+				var id=$("#editId").val();
+				var name=$("#editName").val();
+				var encoding=$("#editEncoding").val();
+				if(encoding.lenght<1||name.length<1){
+					$("#editMsg").html("角色编码以及角色名称不能为空！");$("#editMsg").css('color','#b94a48');
+					return}
+				$.ajax({
+					url:F.basepath+"/cms/role/editRole",
+					type:"post",
+					data:{id:id,name:name,encoding:encoding},
+					success:function(data){
+						if(data.result>0){
+							F.reload();
+							$("#encoding-error").html('');
+							$("#editMsg").html('');
+							$("#editEncoding-error").html('');
+							core.closeModel('modal-editRole');
+						}else if(data.result==-1){
+							$("#editEncoding-error").html(data.msg);
+							$("#editEncoding-error").css('color','#b94a48');
+						}else {
+							core.closeModel('modal-editRole');
+							alert("异常！")
 						}
 					}
 				})
@@ -198,13 +275,22 @@ define(function (require, exports, module) {
             	core.closeModel('modal-Role');
             	F.reload();
             }
+            /**
+             * 批量删除方法
+             */
         },delRole:function(ids){
-        	base.ajaxRequest(F.basepath+'/main/role/del',{"roleIds":ids},function(data){
-        		base.ajaxSuccess(data);
-        		F.reload();
-        	},function(){
-        		base.bootAlert({"ok":false,"msg":"网络异常"});
-        	});
+        	$.ajax({
+        		url:F.basepath+'/cms/role/delete',
+        		type:'post',
+        		data:{ids:ids.toString()},
+        		success:function(data){
+        			if(data.result>0){
+        				F.reload();
+        			}else if(data.result==0){
+        				base.bootAlert({"ok":false,"msg":"网络异常"});
+        			}
+        		}
+        	})
         },reload:function(){
         	F.table.reload();
         },treeLoad:function(){
@@ -216,7 +302,7 @@ define(function (require, exports, module) {
         	}
         },operateFormatter:function (value, row, index) {
         	var _btnAction = "";
-        	
+        	_btnAction += "<a class='confine btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"+(row.status==1?"停用":"启用")+"</a>";
         	if (base.perList.role.grant) {
         		_btnAction += "<a class='distributePermission btn btn-primary btn-small' href='#' title='菜单授权' style='margin-left:5px'>授权</a>";
         	}

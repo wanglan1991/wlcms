@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ekt.cms.common.BaseController;
@@ -67,17 +68,19 @@ public class RoleController extends BaseController {
 	public Result editRole(@Valid CmsRole cmsRole, BindingResult bindingResult) {
 		List<FieldError> fieldErrors = bindingResult.getFieldErrors();
 		Result result = Result.getResults();
-		if (fieldErrors != null && fieldErrors.isEmpty()) {
+		if (fieldErrors != null && ! fieldErrors.isEmpty()) {
 			for (FieldError fieldError : fieldErrors) {
 				result.setMsg(fieldError.getDefaultMessage());
 			}
-			result.setResult(0);
+			result.setResult(-1);
 			return result;
 		}
 
 		CmsRole role = cmsRoleService.getCmsRoleByEncoding(cmsRole.getEncoding());
 		if (role != null) {
 			result.setMsg("错误！角色已经存在。");
+			result.setResult(-1);
+			return result;
 		}
 		result.setResult(cmsRoleService.updateCmsRole(cmsRole));
 		return result;
@@ -91,20 +94,59 @@ public class RoleController extends BaseController {
 	@RequestMapping(value = "/addRole")
 	@ResponseBody
 	public Result addRole(@Valid CmsRole cmsRole, BindingResult bindingResult){
-		List<FieldError> fieldErrors = bindingResult.getFieldErrors();
 		Result result = Result.getResults();
-		if (fieldErrors != null && fieldErrors.isEmpty()) {
+		List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+		if (fieldErrors != null && ! fieldErrors.isEmpty()) {
 			for (FieldError fieldError : fieldErrors) {
 				result.setMsg(fieldError.getDefaultMessage());
 			}
-			result.setResult(0);
+			result.setResult(-1);
 			return result;
 		}		
 		CmsRole role = cmsRoleService.getCmsRoleByEncoding(cmsRole.getEncoding());
+		if(role!=null){
+			result.setMsg("错误，用户编码已存在！");
+			result.setResult(-1);
+			return result;
+		}
+		result.setResult(cmsRoleService.addCmsRole(cmsRole));
+		return result;
+	}
+	/**
+	 * 删除
+	 * @param ids
+	 * @return
+	 */
+	@RequestMapping(value = "/delete")
+	@ResponseBody
+	public Result delete(@RequestParam("ids")String ids){
+		Result result=Result.getResults();
+		String[]arr=ids.split(",");
+		int total=0;
+		for(int i=0;i<arr.length;i++){
+			total+=cmsRoleService.deleteCmsRole(Integer.parseInt(arr[i].toString()));
+		}
+		result.setResult(total);
+		return result;
 		
-		
+	}
+	/**
+	 * 停启用角色
+	 * @param cmsRole
+	 * @return
+	 */
+	@RequestMapping(value = "/confine")
+	@ResponseBody
+	public  Result confine(CmsRole cmsRole){
+		Result result=Result.getResults();
+		result.setResult(cmsRoleService.confine(cmsRole));
 		return result;
 	}
 	
+	public Result getTree(@RequestParam("roleId")int roleId){
+		Result result=Result.getResults();
+			result.setValue(cmsRoleService.getTree(roleId));
+			return  result;
+	}
 
 }

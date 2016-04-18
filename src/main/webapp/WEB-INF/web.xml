@@ -125,6 +125,4 @@
 			<taglib-location>/WEB-INF/tld/fmt.tld</taglib-location>
 		</taglib>
 	</jsp-config>
-
-
 </web-app>

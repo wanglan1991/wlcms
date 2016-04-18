@@ -107,17 +107,31 @@ define(function (require, exports, module) {
         				 */
         		        'click .distributeRole': function (e, value, row, index) {
         		        	var html='';
+        		        	var total=0;
         		        	core.openModel('modal-UserRoleTree','角色赋值',function(){});
         		        	$.ajax({
     		        			url: F.basepath+'/account/roleList',
     		        			type:'POST',
     		        			success:function(data){
-    		        				html="<select id='role'>";
+    		        				html="<select id='editRole'>";
     		        				for(var i=0;i<data.value.length;i++){
+    		        					if(data.value[i].status==0){
+    		        						continue;
+    		        					}
+    		        					total+=i;
     		        					html+="<option value="+data.value[i].id+">"+data.value[i].name+"</option>"
+    		        					
     		        				}
-    		        				html+="</select>" 
+	    		        				if(total==0){
+					        				html+="<option>无任何可选角色</option>";
+					        			
+					        				}
+	    		        				html+="</select>" 
+	    		        					
     		        					$("#roleEdit").append(html);
+	    		        				if(total==0){
+	    		        					$("#editRole").css('color','red');
+	    		        				}
     		        			}
     		        		});
         		        	$("#role").find("option[value='"+row.role+"']").attr("selected","true");
@@ -197,14 +211,24 @@ define(function (require, exports, module) {
     			 */
     			$('#addUser').click(function(){
     				var html='';
+    				var total=0;
     				core.openModel('modal-UserTree','新增用户',function(){
     					$.ajax({
 		        			url: F.basepath+'/account/roleList',
 		        			type:'POST',
 		        			success:function(data){
-		        				for(var i=0;i<data.value.length;i++){
-		        					html+="<option value="+data.value[i].id+">"+data.value[i].name+"</option>"
-		        				}
+	        				for(var i=0;i<data.value.length;i++){
+	        					if(data.value[i].status==0){
+	        						continue;
+	        						
+	        					}
+	        					html+="<option value="+data.value[i].id+">"+data.value[i].name+"</option>"
+	        					total+=i;
+	        				}
+		        			if(total==0){
+		        				html+="<option>无任何可选角色</option>"
+		        					$("#roles").css('color','red');
+		        			}
 		        					$("#roles").append(html);
 		        			}
 		        		});
@@ -235,7 +259,7 @@ define(function (require, exports, module) {
     			});
     			
     			$('#btnRoleClose').click(function(){
-    				$("#role").remove();
+    				$("#editRole").remove();
     				core.closeModel('modal-UserRoleTree');
     			});
     			
@@ -276,8 +300,6 @@ define(function (require, exports, module) {
     				var repassword=$("#repassword").val();
     				var cellphone=$("#cellphone").val();
     				var realName=$("#realName").val();
-//    				if(userName.length>6&&cellphone.length>10&&realName.length>
-//    				0&&password.length>6&&repassword.length>6&&password==repassword){
     					$.ajax({
     						url: F.basepath+'/account/addAccount',
     	        			type:'POST',
