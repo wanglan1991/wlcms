@@ -24,7 +24,7 @@
                 <div class='row-fluid'>
                 	<div class='control-group'>
 	                	<div class='controls'>
-		                    <div class='span12 icon-over-input'>
+		                    <div class='span12 icon-over-input'>		                  
 		                        <input class="span12 form-control" required name="userName" placeholder="账 号" type="text" />
 		                        <i class='icon-user muted'></i>
 		                    </div>

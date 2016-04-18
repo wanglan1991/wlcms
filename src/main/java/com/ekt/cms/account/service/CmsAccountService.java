@@ -91,4 +91,11 @@ public class CmsAccountService implements ICmsAccountService {
 
 
 
+	// 根据主键查询
+	@Override
+	public CmsAccount selectByPrimaryKey(Integer id) {
+		// TODO Auto-generated method stub
+		return cmsAccountMapper.selectByPrimaryKey(id);
+	}
+
 }

@@ -14,14 +14,14 @@ define(function (require, exports, module) {
             init:function(_basepath){
             	F.basepath = _basepath;
             	/**
-                 * 是否具有添加部门权限
+                 * 是否具有添加用户权限
                  */
 //                if(base.perList.user.create){
             	$("#user-header .actions").append("<a href='#' id='delUsers' class='btn btn-danger btn-small' style='margin-left:5px'><i class='icon-remove'></i>删除</a>");
 //                }
                 
                 /**
-                 * 是否具有删除部门权限
+                 * 是否具有删除用户权限
                  */
 //                if(base.perList.user.del){
                 	

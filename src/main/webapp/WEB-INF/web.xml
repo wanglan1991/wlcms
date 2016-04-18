@@ -3,31 +3,21 @@
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="cms" version="3.0">
-
+	<!-- 欢迎页 -->
+	<welcome-file-list>
+		<welcome-file>user/login</welcome-file>
+	</welcome-file-list>
+	<!-- 日志记录 -->
+	<!-- Log4j配置 -->
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:/conf/log4j.properties</param-value>
+	</context-param>
 	<!-- Spring 上下文参数 加载Spring配置文件 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:conf/applicationContext.xml</param-value>
 	</context-param>
-
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-
-	<!--Shiro过滤器 -->
-	<filter>
-		<filter-name>shiroFilter</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-		<init-param>
-			<param-name>targetFilterLifecycle</param-name>
-			<param-value>true</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>shiroFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	
 	<!-- 字符编码配置 -->
 	<filter>
 		<filter-name>characterEncodingFilter</filter-name>
@@ -45,7 +35,15 @@
 		<filter-name>characterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+
+	<!-- 加载log4j配置文件 -->
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
 	<!-- spring mvc 拦截器配置 -->
 	<servlet>
 		<servlet-name>springmvc</servlet-name>
@@ -61,7 +59,13 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
-	<!--BaseFilter -->
+
+
+	<!-- <listener> -->
+	<!-- <listener-class>com.ekt.cms.listener.ApplicationListener</listener-class> -->
+	<!-- </listener> -->
+
+	<!-- BaseFilter -->
 	<filter>
 		<filter-name>baseFilter</filter-name>
 		<filter-class>com.ekt.cms.index.filter.BaseFilter</filter-class>
@@ -70,7 +74,24 @@
 		<filter-name>baseFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+	<!--Shiro过滤器 -->
+	<filter>
+		<filter-name>shiroFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>shiroFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
+
+
+
 
 	<!--druid过滤器 -->
 	<filter>
@@ -93,24 +114,6 @@
 		<servlet-name>DruidStatView</servlet-name>
 		<url-pattern>/druid/*</url-pattern>
 	</servlet-mapping>
-	
-	<!-- 配置session过期时间 -->
-	<session-config>
-		<session-timeout>1</session-timeout>
-	</session-config>
-
-	<!-- 日志记录 -->
-	<!-- Log4j配置 -->
-	<context-param>
-		<param-name>log4jConfigLocation</param-name>
-		<param-value>classpath:/conf/log4j.properties</param-value>
-	</context-param>
-
-	<!-- 加载log4j配置文件 -->
-	<listener>
-		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
-	</listener>
-
 	<!-- jstl -->
 	<jsp-config>
 		<taglib>
@@ -122,12 +125,4 @@
 			<taglib-location>/WEB-INF/tld/fmt.tld</taglib-location>
 		</taglib>
 	</jsp-config>
-
-	<!-- 欢迎页 -->
-<!-- 	<welcome-file-list> -->
-<!-- 		<welcome-file>login</welcome-file> -->
-<!-- 	</welcome-file-list> -->
-	
-	
-
 </web-app>
