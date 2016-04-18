@@ -145,6 +145,7 @@ public class RoleController extends BaseController {
 	public Result getTree(@RequestParam("roleId")int roleId){
 		Result result=Result.getResults();
 			result.setValue(cmsRoleService.getTree(roleId));
+			return  result;
 	}
 
 }
