@@ -28,28 +28,59 @@
         <button class='close' data-dismiss='modal' type='button'>&times;</button>
         <h3></h3>
     </div>
-    <form class='form validate-form' id='submit-form' method="post" role="form"  style='margin-bottom: 0;'>
     <div class='modal-body'>
         <div class='control-group'>
             <label class='control-label'>角色编码</label>
             <div class='controls'>
-            	<input type='hidden' id='id' name="id"/>
-                <input class='span8' id='encoding' required name="encoding" maxlength='15' placeholder='角色键值' type='text' />
+                <input class='span8' id='encoding' required name="encoding" maxlength='15' placeholder='角色编码' type='text' />
+                <span id="encoding-error" class="help-block error"></span>
             </div>
         </div>
         <div class='control-group'>
             <label class='control-label'>角色名称</label>
             <div class='controls'>
                 <input class='span8' id='name' required name='name' maxlength='15'  placeholder='角色名称' type='text' />
+                 <span id="neme-error" class="help-block error"></span>
             </div>
         </div>
     </div>
     <div class='modal-footer'>
+    	<msg id='msg'></msg>
         <button type="button" id="btnClose" class='btn'>关闭</button>
         <button type="submit" id="btnSubmit" class='btn btn-primary'>保存</button>
     </div>
-    </form>
 </div>
+
+<div class='modal hide fade' id='modal-editRole' role='dialog' tabindex='-1'>
+    <div class='modal-header'>
+        <button class='close' data-dismiss='modal' type='button'>&times;</button>
+        <h3></h3>
+    </div>
+    <div class='modal-body'>
+        <div class='control-group'>
+            <label class='control-label'>角色编码</label>
+            <div class='controls'>
+            	<input type='hidden' id='editId' name="id"/>
+                <input class='span8' id='editEncoding' required name="encoding" maxlength='15' placeholder='角色编码' type='text' />
+                 <span id="editEncoding-error" class="help-block error"></span>
+            </div>
+        </div>
+        <div class='control-group'>
+            <label class='control-label'>角色名称</label>
+            <div class='controls'>
+                <input class='span8' id='editName' required name='name' maxlength='15'  placeholder='角色名称' type='text' />
+                 <span id="editName-error" class="help-block error"></span>
+            </div>
+        </div>
+    </div>
+    <div class='modal-footer'>
+    	<msg id='editMsg'></msg>
+        <button type="button" id="editBtnClose" class='btn'>关闭</button>
+        <button type="button" id="editBtnSubmit" class='btn btn-primary'>保存</button>
+    </div>
+</div>
+
+
 
 <div class='modal hide fade' id='modal-DistributePermission' role='dialog' tabindex='-1'>
     <div class='modal-header'>

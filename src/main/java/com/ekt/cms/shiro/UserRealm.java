@@ -39,7 +39,6 @@ public class UserRealm extends AuthorizingRealm {
 		CmsAccount account=cmsAccountService.queryByUserName(username);
 		if (account == null) {
 			throw new UnknownAccountException();
-			
 		}
 		String accountPassword = account.getPassword();
 		// 判断输入密码是否和用户密码一致

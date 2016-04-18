@@ -24,6 +24,7 @@
   			<if test="cmsRole.encoding !=null and cmsRole.encoding !='' ">
   		AND encoding=#{cmsRole.encoding}	
   			</if>  
+  		AND id&lt;&gt;1
   	</select>
 	
 	
@@ -67,6 +68,11 @@
 	<select id="getCmsRoleByEncoding" resultType="com.ekt.cms.role.entity.CmsRole" parameterType="java.lang.String">
 		SELECT * FROM cms_role WHERE encoding=#{encoding}
 	</select>
+	
+	<update id="confine" parameterType="com.ekt.cms.role.entity.CmsRole">
+		UPDATE cms_role SET status=#{cmsRole.status}
+		WHERE id=#{cmsRole.id}
+	</update>
 	
 	
 </mapper>

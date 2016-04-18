@@ -64,6 +64,17 @@ public interface CmsRoleMapper {
 	 */
 	public int addCmsRole(@Param("cmsRole")CmsRole cmsRole);
 	
-		
+	/**
+	 * 修改角色状态
+	 * @param cmsRole
+	 * @return
+	 */
+	public int confine(@Param("cmsRole")CmsRole cmsRole);
+	/**
+	 * 根据用户id获取菜单
+	 * @param roleId
+	 * @return
+	 */
+	public int getMenuList(@Param("roleId")int roleId);	
 
 }
