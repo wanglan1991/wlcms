@@ -1,54 +1,62 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ekt.cms.common.dao.DictMapper" >
-  <resultMap id="DictMap" type="com.ekt.cms.common.entity.CmsDict" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="value" property="value" jdbcType="VARCHAR" />
-    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
-    <result column="type" property="type" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
-  </resultMap>
-  
-  <sql id="Base_Column_List" >
-    id, value, parent_id, type, status, remark
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="DictMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from cms_dictionary
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from cms_dictionary
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  
-  <insert id="insert" parameterType="com.ekt.cms.common.entity.CmsDict" >
-    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into cms_dictionary (id, value, parent_id, 
-      type, status, remark
-      )
-    values (#{id,jdbcType=INTEGER}, #{value,jdbcType=VARCHAR}, #{parent_id,jdbcType=INTEGER}, 
-      #{type,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
-      )
-  </insert>
-  
-  <update id="updateByPrimaryKey" parameterType="com.ekt.cms.common.entity.CmsDict" >
-    update cms_dictionary
-    set value = #{value,jdbcType=VARCHAR},
-      parentId = #{parent_id,jdbcType=INTEGER},
-      type = #{type,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER},
-      remark = #{remark,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  
-  <!-- 根据条件查询字典表 -->
-  <select id="queryByCondition" resultMap="DictMap"
+<mapper namespace="com.ekt.cms.common.dao.CmsDictMapper">
+	<resultMap id="DictMap" type="com.ekt.cms.common.entity.CmsDict">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
+		<result column="parentId" property="parentId" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, value, parent_id, type, status, remark
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="DictMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from cms_dictionary
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		cms_dictionary
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.ekt.cms.common.entity.CmsDict">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into cms_dictionary ( value, parent_id,
+		type, remark
+		)
+		values
+		(#{value,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER},
+		#{type,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="updateByPrimaryKey" parameterType="com.ekt.cms.common.entity.CmsDict">
+		update
+		cms_dictionary
+		set value = #{value,jdbcType=VARCHAR},
+		parent_id =
+		#{parentId,jdbcType=INTEGER},
+		type = #{type,jdbcType=VARCHAR},
+		status =
+		#{status,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR}
+		where id
+		= #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 根据条件查询字典表 -->
+	<select id="queryByCondition" resultMap="DictMap"
 		parameterType="com.ekt.cms.common.entity.CmsDict">
 		select * from cms_dictionary where 1 = 1
 		<if test="CmsDict.value != null and CmsDict.value !='' ">
@@ -64,9 +72,9 @@
 			and type=#{ CmsDict.status }
 		</if>
 	</select>
-	
+
 	<!-- 根据条件分页查询字典表 -->
-  <select id="listDictPage" resultMap="DictMap"
+	<select id="listDictPage" resultMap="DictMap"
 		parameterType="com.ekt.cms.common.entity.CmsDict">
 		select * from cms_dictionary where 1 = 1
 		<if test="CmsDict.value != null and CmsDict.value !='' ">
@@ -82,5 +90,18 @@
 			and type=#{ CmsDict.status }
 		</if>
 	</select>
-  
-</mapper>
+
+	<!-- 停用启用字典 -->
+	<update id="confine" parameterType="com.ekt.cms.common.entity.CmsDict">
+		UPDATE cms_dictionary SET
+		STATUS=#{CmsDict.status}
+		WHERE id= #{CmsDict.id}
+	</update>
+
+	<!-- 根据字典值查询 -->
+	<select id="queryByDictName" resultMap="DictMap"
+		parameterType="java.lang.String">
+		SELECT * FROM cms_dictionary WHERE 1=1
+		AND value =#{value}
+	</select>
+</mapper> 

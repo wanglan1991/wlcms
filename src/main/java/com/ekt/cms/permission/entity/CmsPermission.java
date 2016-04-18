@@ -13,15 +13,15 @@ public class CmsPermission {
 	private String PermissionName;
 
 	private String encoding;
-
+	// 权限关键字
 	private String key;
 
 	private Date roleCreateTime;
 
 	private int roleStatus;
-	
+
 	private Integer order;
-	
+	// 权限对应的URL
 	private String value;
 
 	public String getRoleName() {
@@ -104,4 +104,3 @@ public class CmsPermission {
 		this.value = value;
 	}
 }
-
