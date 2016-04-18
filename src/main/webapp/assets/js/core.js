@@ -96,7 +96,44 @@ define(function (require, exports, module) {
         	var coreTree = new E.CoreTree(_treeId,_url,setting);
             return coreTree;
         },
-        initCheckTree:function(_treeId,_url,_hiddenId){
+         loadTree:function(_url){
+        	  var setting = {  
+        	            view: {  
+        	                selectedMulti: false        //禁止多点选中  
+        	            },  
+        	            data: {  
+        	                simpleData: {  
+        	                    enable:true,  
+        	                    idKey: "id",  
+        	                    pIdKey: "pId",  
+        	                    rootPId: ""  
+        	                }  
+        	            },  
+        	            callback: {  
+        	                onClick: function(treeId, treeNode) {  
+        	                    var treeObj = $.fn.zTree.getZTreeObj(treeNode);  
+        	                    var selectedNode = treeObj.getSelectedNodes()[0];  
+        	                    $("#txtId").val(selectedNode.id);  
+        	                    $("#txtAddress").val(selectedNode.name);  
+        	                }  
+        	            } 
+        	          
+        	        };  
+        	  			var zNodes =new Array();
+			        	  $.ajax({
+			         		 url:_url,
+			         		 type:'GET',
+			         		 success:function(data){
+			         $.fn.zTree.init($("#distributePermissionTree"), setting, data.value)
+			         		 }
+			         	 })
+			         	 
+			         			
+        	
+        	  
+         }
+        ,initCheckTree:function(_treeId,_url,_hiddenId){
+        	alert(_treeId);
         	var _beforeClick = function(){
         		var zTree = $.fn.zTree.getZTreeObj(_treeId);
 				zTree.checkNode(treeNode, !treeNode.checked, null, true);

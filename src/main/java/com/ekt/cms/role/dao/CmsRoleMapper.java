@@ -1,10 +1,12 @@
 package com.ekt.cms.role.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.ekt.cms.role.entity.CmsRole;
+import com.ekt.cms.role.entity.Keyword;
 /**
  * 角色Dao
  * 
@@ -76,5 +78,32 @@ public interface CmsRoleMapper {
 	 * @return
 	 */
 	public int getMenuList(@Param("roleId")int roleId);	
+	
+	
+	
+	/**
+	 * 根据角色查询父级菜单
+	 * @param map
+	 * @return
+	 */
+	public List<Map<String,Object>>getParentMenuList(@Param("keyword")Keyword keyword);
+	/**
+	 * 根据角色父级菜单Id查询子菜单
+	 * @param keword
+	 * @return
+	 */
+	public List<Map<String,Object>> getSonMenuList(@Param("keyword")Keyword keyword);
+	/**
+	 * 根据角色Id 菜单Id查询权限
+	 * @param keword
+	 * @return
+	 */
+	public List<Map<String,Object>> getPermission(@Param("keyword")Keyword keyword);
+	
+	
+	public List<Map<String,Object>> getParentTree();
+	
+	public List<Map<String,Object>> gitSonTree();
+	
 
 }

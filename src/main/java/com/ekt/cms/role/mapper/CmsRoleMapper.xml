@@ -74,5 +74,58 @@
 		WHERE id=#{cmsRole.id}
 	</update>
 	
+	<select id="getParentMenuList" parameterType="com.ekt.cms.role.entity.Keyword" resultType="java.util.Map" >
+		SELECT 
+			p.id,p.parent_id pId,p.menu_name,IF (m.menu_id IS NULL,0,1) AS isTrue
+		FROM (
+				SELECT * FROM cms_menu p WHERE p. LEVEL = 1 AND p. STATUS = 1 ) AS p
+		LEFT JOIN (
+				SELECT r.menu_id FROM cms_role_menu r
+		WHERE  
+			r.role_id = #{keyword.roleId}
+	 		) AS m ON p.id = m.menu_id
+	
+	</select>
+	<select id="getSonMenuList" parameterType="com.ekt.cms.role.entity.Keyword" resultType="java.util.Map">
+		SELECT
+			p.id,p.parent_id pId,p.menu_name,IF (m.menu_id IS NULL,0,1) AS isTrue
+	    FROM(
+			SELECT * FROM cms_menu p 
+			WHERE p.parent_id=#{keyword.parentId}
+			AND p. STATUS = 1 ) AS p
+		LEFT JOIN ( SELECT r.menu_id FROM cms_role_menu r WHERE r.role_id = #{keyword.roleId} ) AS m
+		ON p.id = m.menu_id
+	</select>
+	<select id="getPermission" parameterType="com.ekt.cms.role.entity.Keyword" resultType="java.util.Map" >
+			SELECT  a.*,if(b.permission_id is NULL,0,1)isTrue from (
+			SELECT
+				mp.menu_id,mp.permission_id,p.name
+			FROM
+				cms_menu_permission mp
+			LEFT JOIN cms_permission p ON mp.permission_id = p.id
+			WHERE
+				mp.menu_id = #{keyword.menuId}
+			)as a LEFT JOIN (SELECT permission_id from cms_role_permission 
+					WHERE role_id=#{keyword.roleId} )as b
+			on a.permission_id=b.permission_id
+	</select>
+	
+	
+	<select id='getParentTree' resultType="java.util.Map">
+	SELECT DISTINCT
+		c.id,'false'checked,'false'chkDisabled,c.menu_name name,'false'oncheck,'true'open,c.parent_id pId,
+		IF(p.permission_id is null,IF(c.level=1,'true','false'),'true')parent
+		FROM
+		cms_menu c
+		LEFT JOIN cms_menu_permission p on c.id=p.menu_id;
+	</select>
+	<select id='gitSonTree' resultType="java.util.Map">
+		SELECT p.id,'false'checked,'false'chkDisabled,p.name,'false'oncheck,'true'open,cp.menu_id pId,'false'parent 
+		FROM cms_menu_permission cp 
+		LEFT JOIN cms_permission p on cp.permission_id=p.id
+	</select>
+	
+	
+	
 	
 </mapper>

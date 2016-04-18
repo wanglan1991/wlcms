@@ -78,7 +78,7 @@ public interface ICmsRoleService {
 	  * @param cmsRole
 	  * @return
 	  */
-	 List<Map<String,Object>> getTree(int roleId);
+	 List<Map<String,Object>> getTree();
 	 
 	 
 	 
