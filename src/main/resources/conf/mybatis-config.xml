@@ -6,6 +6,7 @@
     </settings>
 	<!-- 插件配置 -->
 	<plugins>
+
 <!-- 		<plugin interceptor="com.ekt.cms.utils.page.PagePlugin"> -->
 <!-- 			<property name="dialect" value="mysql" /> -->
 <!-- 			<property name="pageSqlId" value=".*listPage.*" /> -->
@@ -38,6 +39,23 @@
 	        <!-- always总是返回PageInfo类型,check检查返回类型是否为PageInfo,none返回Page -->
 	        <property name="returnPageInfo" value="none"/>
 	    </plugin>
+
     </plugins>
+    
+  
+<!--     plugins在配置文件中的位置必须符合要求，否则会报错，顺序如下: -->
+<!--     properties?, settings?,  -->
+<!--     typeAliases?, typeHandlers?,  -->
+<!--     objectFactory?,objectWrapperFactory?,  -->
+<!--     plugins?,  -->
+<!--     environments?, databaseIdProvider?, mappers? -->
+
+
+    
+    
+    
+    
+    
+    
 	
 </configuration>

@@ -32,13 +32,6 @@
 	<!-- 扫描文件（自动注入） -->
 	<context:component-scan base-package="com.ekt.*" />
 
-<!-- 	<aop:aspectj-autoproxy proxy-target-class="true" /> -->
-
-<!-- 	<mvc:interceptors> -->
-<!-- 		<bean class="com.ekt.cms.common.controller.HttpInterceptor"></bean> -->
-<!-- 	</mvc:interceptors> -->
-
-
 	<!--JSP视图解析器 -->
 	<bean id="viewResolverJsp"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

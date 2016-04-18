@@ -31,7 +31,7 @@ define(function (require, exports, module) {
         		    	 }
         		      },  
         		      error : function() {  
-        		           alert("异常！");  
+        		         
         		      }  
         		});
         	}
@@ -354,6 +354,7 @@ define(function (require, exports, module) {
         			method:'get',
         		    columns: _cols
         		});
+        		
         	}
         	this.query = function(_query){
         		$('#'+_tableId).bootstrapTable('refresh', _query);

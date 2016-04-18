@@ -2,6 +2,8 @@ package com.ekt.cms.role.entity;
 
 import java.util.Date;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * CMS 角色实体类
  * @author wanglan
@@ -9,9 +11,11 @@ import java.util.Date;
 public class CmsRole {
 	/** 角色ID**/
 	private Integer id;
-	/** 角色编码**/
+	
+	@NotBlank(message="角色编码不能为空！")
 	private String encoding;
 	/** 角色名称**/
+	@NotBlank(message="角色名称不能为空！")
 	private String name;
 	/** 角色状态**/
 	private Integer status;

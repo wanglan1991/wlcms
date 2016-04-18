@@ -7,6 +7,7 @@
     <result column="password" property="password" jdbcType="CHAR" />
     <result column="real_name" property="realName" jdbcType="CHAR" />
     <result column="role" property="role" jdbcType="INTEGER" />
+    <result column="role_name" property="roleName" jdbcType="CHAR" />
     <result column="cellphone" property="cellphone" jdbcType="CHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
@@ -32,25 +33,52 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    INSERT INTO cms_account (id, user_name, password, 
-      real_name, role, cellphone, 
-      status)
-    VALUES (#{id,jdbcType=INTEGER}, #{userName,jdbcType=CHAR}, #{password,jdbcType=CHAR}, 
-      #{realName,jdbcType=CHAR}, #{role,jdbcType=INTEGER}, #{cellphone,jdbcType=CHAR}, 
-      #{status,jdbcType=INTEGER})
+    INSERT INTO cms_account ( user_name, password, 
+      real_name, role, cellphone,create_date 
+      )
+    VALUES (#{userName,jdbcType=CHAR}, #{password,jdbcType=CHAR}, 
+      #{realName,jdbcType=CHAR}, #{role,jdbcType=INTEGER}, #{cellphone,jdbcType=CHAR},SYSDATE())
   </insert>
   
  <!-- 更新 -->
   <update id="updateByPrimaryKey" parameterType="com.ekt.cms.account.entity.CmsAccount" >
     UPDATE cms_account
-    SET user_name = #{userName,jdbcType=CHAR},
-      password = #{password,jdbcType=CHAR},
-      real_name = #{realName,jdbcType=CHAR},
-      role = #{role,jdbcType=INTEGER},
-      cellphone = #{cellphone,jdbcType=CHAR},
-      status = #{status,jdbcType=INTEGER}
-    WHERE id = #{id,jdbcType=INTEGER}
+    SET 
+     <if test="cmsAccount.password !=null and cmsAccount.password !=''">
+      password = #{cmsAccount.password,jdbcType=CHAR},
+      </if>
+      <if test="cmsAccount.realName !=null and cmsAccount.realName !=''">
+      real_name = #{cmsAccount.realName,jdbcType=CHAR},
+      </if>
+      <if test="cmsAccount.cellphone !=null and cmsAccount.cellphone!=''">
+      cellphone = #{cmsAccount.cellphone,jdbcType=CHAR},
+      </if>
+      <if test="cmsAccount.status !=null and cmsAccount.status !=''">
+      status = #{cmsAccount.status,jdbcType=INTEGER},
+      </if>
+        <if test="cmsAccount.role !=null and cmsAccount.role !=''">
+      role = #{cmsAccount.role,jdbcType=INTEGER}
+      </if>
+    WHERE id = #{cmsAccount.id,jdbcType=INTEGER}
   </update>
+  
+    <update id="updateAccount" parameterType="com.ekt.cms.account.entity.CmsAccount" >
+    UPDATE cms_account  SET 
+    	 real_name = #{cmsAccount.realName,jdbcType=CHAR},
+      	 cellphone = #{cmsAccount.cellphone,jdbcType=CHAR}
+	WHERE id = #{cmsAccount.id,jdbcType=INTEGER}
+  </update>
+  
+  
+  
+  
+  <update id="confine" parameterType="com.ekt.cms.account.entity.CmsAccount"  >
+  	UPDATE cms_account SET STATUS=#{cmsAccount.status}
+  	WHERE id= #{cmsAccount.id}
+  </update>
+  
+  
+  
    <!-- 根据条件查询 -->
 	<select id="queryByCondition" resultMap="BaseResultMap"
 		parameterType="com.ekt.cms.account.entity.CmsAccount">
@@ -66,17 +94,28 @@
 	<!-- 分页查询 -->
 	<select id="listPage" resultMap="BaseResultMap"
 		parameterType="com.ekt.cms.account.entity.CmsAccount">
-		SELECT * FROM csm_account WHERE 1=1
+		SELECT a.*,r.name role_name FROM cms_account a 
+		LEFT JOIN cms_role r on a.role=r.id
+		WHERE 1=1
 		<if test="cmsAccount.userName != null and cmsAccount.userName !='' ">
-			AND (user_name like '%${cmsAccount.userName}%')
+			AND (a.user_name like '%${cmsAccount.userName}%')
 		</if>
+		AND a.id &lt;&gt;1 ORDER BY a.id ASC
 	</select>
 
-<!-- 	<select id="queryByUserName" resultMap="BaseResultMap" -->
-<!-- 		parameterType="com.ekt.cms.account.entity.CmsAccount"> -->
-<!-- 		SELECT * FROM cms_account WHERE 1=1 -->
-<!-- 			AND user_name =#{cmsAccount.userName} -->
-<!-- 			AND 1=#{cmsAccount.status}		 -->
-<!-- 	</select> -->
+	<select id="queryByUserName" resultType="com.ekt.cms.account.entity.CmsAccount" parameterType="java.lang.String">
+		SELECT * FROM cms_account WHERE 1=1
+			AND user_name =#{userName}	
+	</select>
+
+	<select id="listAccount" resultType="java.util.Map" parameterType="com.ekt.cms.account.entity.CmsAccount">
+		SELECT * FROM cms_account WHERE 1=1
+		<if test="cmsAccount.userName != null and cmsAccount.userName !='' ">
+		AND user_name like '%#{cmsAccount.userName}%'
+		</if>
+	</select>
 	
+	<update id="setPwd" parameterType="com.ekt.cms.account.entity.CmsAccount">
+		UPDATE cms_account SET password =#{cmsAccount.password} WHERE id=#{cmsAccount.id}		
+	</update>
 </mapper>
