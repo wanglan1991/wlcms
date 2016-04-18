@@ -22,8 +22,7 @@ public class UserRealm extends AuthorizingRealm {
 
 	@Override
 	public AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		int userId = Integer.parseInt(principals.getPrimaryPrincipal().toString());// 为什么这里获取到的是用户ID
-		System.out.println(userId);
+		int userId = Integer.parseInt(principals.getPrimaryPrincipal().toString());
 		SimpleAuthorizationInfo authorizationInfo = cmsAccountService.getAccountRolePermission(userId);
 		return authorizationInfo;
 	}
@@ -40,7 +39,6 @@ public class UserRealm extends AuthorizingRealm {
 		if (account == null) {
 			throw new UnknownAccountException();
 		}
-		String accountPassword = account.getPassword();
 		// 判断输入密码是否和用户密码一致
 		if (!account.getPassword().equals(Md5Utils.getMd5Encode(password))) {
 			throw new IncorrectCredentialsException();

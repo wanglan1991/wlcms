@@ -1,3 +1,4 @@
+
 package com.ekt.cms.permission.entity;
 
 import java.sql.Date;
@@ -12,12 +13,16 @@ public class CmsPermission {
 	private String PermissionName;
 
 	private String encoding;
-
+	// 权限关键字
 	private String key;
 
 	private Date roleCreateTime;
 
 	private int roleStatus;
+
+	private Integer order;
+	// 权限对应的URL
+	private String value;
 
 	public String getRoleName() {
 		return roleName;
@@ -59,8 +64,6 @@ public class CmsPermission {
 		this.roleStatus = roleStatus;
 	}
 
-	private Integer order;
-
 	public Integer getRoleId() {
 		return roleId;
 	}
@@ -93,4 +96,11 @@ public class CmsPermission {
 		this.order = order;
 	}
 
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
 }

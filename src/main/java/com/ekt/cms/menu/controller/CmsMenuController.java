@@ -41,8 +41,5 @@ public class CmsMenuController extends BaseController {
 			return cmsMenuService.getMenuListByRole(role.getId());
 	}
 	
-	
-	
-
 }
 

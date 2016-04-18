@@ -29,6 +29,7 @@ public class ThreadLocalUtil {
      */
     public static String getBasePath() {
         Map<String, Object> map = threadLocal.get();
+        System.out.println(map);
         if (map == null) {
             return null;
         }

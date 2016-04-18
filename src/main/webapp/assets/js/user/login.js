@@ -38,7 +38,7 @@ define(function (require, exports, module) {
                     //target: '#output',          //把服务器返回的内容放入id为output的元素中
                     beforeSubmit: E.showRequest,  //提交前的回调函数
                     success: E.showResponse,      //提交后的回调函数
-                    url: E.basepath + '/check-login',                 //默认是form的action， 如果申明，则会覆盖
+                    url: E.basepath + '/user/check-login',                 //默认是form的action， 如果申明，则会覆盖
                     type: 'post',               //默认是form的method（get or post），如果申明，则会覆盖
                     dataType: 'json',           //html(默认), xml, script, json...接受服务端返回的类型
                     //clearForm: true,          //成功提交后，清除所有表单元素的值

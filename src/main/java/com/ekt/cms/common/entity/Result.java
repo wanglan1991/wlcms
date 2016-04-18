@@ -1,8 +1,6 @@
 package com.ekt.cms.common.entity;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 返回页面用的包装类

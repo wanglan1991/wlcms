@@ -146,6 +146,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-quartz</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.github.jsqlparser</groupId>
 			<artifactId>jsqlparser</artifactId>
 			<version>0.9.1</version>
@@ -235,6 +241,12 @@
 			<artifactId>cglib-nodep</artifactId>
 			<version>3.1</version>
 			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>aopalliance</groupId>
+			<artifactId>aopalliance</artifactId>
+			<version>1.0</version>
 		</dependency>
 
 		<dependency>

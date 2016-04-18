@@ -187,7 +187,7 @@
                             </li>
                             <li class='divider'></li>
                             <li>
-                                <a href='${ctx}/index/exit'>
+                                <a href='${ctx}/user/exit'>
                                     <i class='icon-signout'></i>
                                     	安全退出
                                 </a>
@@ -195,7 +195,8 @@
                         </ul>
                     </li>
                 </ul>
-                <form accept-charset="UTF-8" action="search_results.html" id="search" class="navbar-search pull-right hidden-phone" method="get" /><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
+                <form accept-charset="UTF-8" action="search_results.html" id="search" class="navbar-search pull-right hidden-phone" method="get" />
+                <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
                 <button class="btn btn-link icon-search" name="button" type="submit"></button>
                 <input autocomplete="off" class="search-query span2" id="q_header" name="q" placeholder="Search..." type="text" value="" />
                 </form>

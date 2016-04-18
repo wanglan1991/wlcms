@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.shiro.SecurityUtils;
@@ -30,7 +31,9 @@ import com.ekt.cms.utils.Constants;
  *   date ： 2016/4/13
  *  
 */
+
 @Controller
+@RequestMapping("/user")
 public class LoginController {
 	
 	//注入账户service
@@ -41,7 +44,19 @@ public class LoginController {
 	@RequestMapping(value = "/login")
 	public String login() {
 		System.out.println("跳转到登录页面的方法！");
-		return "/user/login";
+		return "user/login";
+	}
+	
+	/**
+	 * 退出登录状态
+	 * @return
+	 */
+	@RequestMapping(value = "/exit")
+	public String exit(){
+		//销毁session
+//		destroySession();
+		SecurityUtils.getSubject().logout();
+		return "user/login";
 	}
 	
 	/**

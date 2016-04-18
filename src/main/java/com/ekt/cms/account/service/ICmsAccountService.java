@@ -18,6 +18,9 @@ public interface ICmsAccountService {
 
 	public SimpleAuthorizationInfo getAccountRolePermission(int id);
 	
+
+	public CmsAccount selectByPrimaryKey(Integer id);
+
 	/**
 	 * 修改用户
 	 * @param cmsAccount
@@ -60,6 +63,7 @@ public interface ICmsAccountService {
 	 * @return
 	 */
 	public int updateAccount(CmsAccount cmsAccount);
+
 	
 }
 

@@ -12,16 +12,12 @@
 	          http://www.springframework.org/schema/mvc
 	          http://www.springframework.org/schema/mvc/spring-mvc.xsd
 	          http://www.springframework.org/schema/util
-	          http://www.springframework.org/schema/aop
-			  http://www.springframework.org/schema/aop/spring-aop.xsd
+	          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 	          http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<!-- 对静态资源文件的访问，交给default servlet handler处理 -->
 	<mvc:default-servlet-handler />
 
-	<!-- 静态资源映射 -->
-	<mvc:resources mapping="/static/**" location="/WEB-INF/static/" />
-	<mvc:resources mapping="/uploadfile/**" location="uploadfile/" />
 
 	<!-- 启用spring mvc 注解 -->
 	<context:annotation-config />
@@ -32,6 +28,9 @@
 	<!-- 扫描文件（自动注入） -->
 	<context:component-scan base-package="com.ekt.*" />
 
+
+<!-- 	<aop:aspectj-autoproxy proxy-target-class="true" /> -->
+
 	<!--JSP视图解析器 -->
 	<bean id="viewResolverJsp"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -41,7 +40,7 @@
 			value="org.springframework.web.servlet.view.InternalResourceView" />
 		<property name="order" value="0" />
 	</bean>
-	
+
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="messageConverters">

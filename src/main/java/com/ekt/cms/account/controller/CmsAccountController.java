@@ -50,7 +50,7 @@ public class CmsAccountController extends BaseController {
 		result.setValue(cmsRoleService.getCmsRoleList());
 		return result;
 	}
-	/**
+	/** 
 	 * 修改角色
 	 */
 	@RequestMapping("/roleEdit")
@@ -77,7 +77,8 @@ public class CmsAccountController extends BaseController {
 	 */
 	@RequestMapping("/addAccount")
 	@ResponseBody
-	public Object addAccount(@Valid CmsAccount cmsAccount, BindingResult bindingResult) throws Exception {
+
+	public Result addAccount(@Valid CmsAccount cmsAccount, BindingResult bindingResult) throws Exception {
 			Result result=Result.getResults();
 			CmsAccount Account = cmsAccountService.queryByUserName(cmsAccount.getUserName());
 			List<FieldError> fieldErrors = bindingResult.getFieldErrors();
@@ -106,7 +107,7 @@ public class CmsAccountController extends BaseController {
 	 */
 	@RequestMapping("/confine")
 	@ResponseBody
-	public Object confine(CmsAccount cmsAccount){
+	public Result confine(CmsAccount cmsAccount){
 		Result result =new Result();
 		result.setResult(cmsAccountService.confine(cmsAccount));
 		return result;
@@ -119,7 +120,7 @@ public class CmsAccountController extends BaseController {
 	 */
 	@RequestMapping("/resetPwd")
 	@ResponseBody
-	public Object resetPwd(CmsAccount cmsAccount){
+	public Result resetPwd(CmsAccount cmsAccount){
 		Result result =Result.getResults();
 			cmsAccount.setPassword(Md5Utils.getMd5Encode("123456789"));
 			result.setResult(cmsAccountService.setPwd(cmsAccount));

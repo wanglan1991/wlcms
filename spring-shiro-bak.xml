@@ -39,22 +39,28 @@
 		</property>
 		<property name="filterChainDefinitions">
 			<value>
-				  /index/index=o
+				/index/index=o
+				<!-- 登录相关，所有人可用，不需要权限验证 -->
 				/user/login=anon
+				/check-login=anon
+				<!-- 用户注销相关，所有人可用，不需要权限验证 -->
 				/user/exit=anon
+				<!-- 静态资源，所有人可用，不需要权限验证 -->
+				/assets/**=anon
+<!-- 				除开不需要权限验证的资源外，表示访问该地址的用户是身份验证通过或RememberMe登录的都可以。 -->
 				/*=o
-               <!--  /*=anon
-                /*/*=anon -->
-                
+				<!-- /*=anon /*/*=anon -->
+				<!-- test -->				
+				/role/delete=p[role:delete]
 			</value>
 		</property>
 	</bean>
 	
 	<bean id="onLineFilter" class="com.ekt.cms.shiro.OnLineFilter">
-        <property name="noLoginUrl" value="user/exit"></property>
+        <property name="noLoginUrl" value="/index/exit"></property>
     </bean>
     <bean id="permissionFilter" class="com.ekt.cms.shiro.PermissionFilter">
-        <property name="noPermissionUrl" value="user/exit"/>
+        <property name="noPermissionUrl" value="index/exit"/>
     </bean>
 
 	<!-- 会话验证调度器 -->
