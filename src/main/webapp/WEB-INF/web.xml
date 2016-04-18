@@ -124,9 +124,9 @@
 	</jsp-config>
 
 	<!-- 欢迎页 -->
-	<welcome-file-list>
-		<welcome-file>login</welcome-file>
-	</welcome-file-list>
+<!-- 	<welcome-file-list> -->
+<!-- 		<welcome-file>login</welcome-file> -->
+<!-- 	</welcome-file-list> -->
 	
 	
 
