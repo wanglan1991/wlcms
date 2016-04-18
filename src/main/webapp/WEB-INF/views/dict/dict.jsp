@@ -21,13 +21,6 @@
 			<div style="margin: 0; padding: 0; display: inline">
 				<input name="utf8" type="hidden" value="&#x2713;" />
 			</div>
-<!-- 			<input autocomplete="off" class="search-query span2" id="q_header" -->
-<!-- 				name="q" placeholder="字典值模糊查询" type="text" value="" /> -->
-<!-- 			<button class="btn btn-link icon-search"  name="button" type="submit"></button> -->
-<!-- 			<input autocomplete="off" class="search-query span2" id="q_header" -->
-<!-- 				name="q" placeholder="字典类型查询" type="text" value="" /> -->
-<!-- 			<button class="btn btn-link icon-search" name="button" type="submit"></button> -->
-
 		</div>
 	</div>
 	<div class='box-content box-no-padding'>
@@ -53,6 +46,7 @@
 					<div class='controls'>
 						<input class='span8' id='value' required placeholder='字典值'
 							type='text' />
+							<span id="value-error" class="help-block error"></span>
 					</div>
 				</div>
 				<div class='control-group'>
@@ -68,12 +62,6 @@
 							type='text' />
 					</div>
 				</div>
-				<!--          <div class='control-group' > -->
-				<!--             <label class='control-label'>状态</label> -->
-				<!--             <div class='controls'> -->
-				<!--                 <input class='span8' id='status'  placeholder='状态' type='text' /> -->
-				<!--             </div> -->
-				<!--         </div> -->
 				<div class='control-group'>
 					<label class='control-label'>备注</label>
 					<div class='controls'>
@@ -83,6 +71,7 @@
 
 			</div>
 			<div class='modal-footer'>
+				<msg id='msg'></msg>
 				<button type="button" id="btnClose" class='btn'>关闭</button>
 				<button type="button" id="btnSubmit" class='btn btn-primary'>保存</button>
 			</div>
@@ -103,6 +92,7 @@
 					<div class='controls'>
 						<input class='span8' id='EditValue' name="value" valueId=''
 							required placeholder='字典值' type='text' />
+							<span id="edit-value-error" class="help-block error"></span>
 					</div>
 				</div>
 				<div class='control-group'>
@@ -116,7 +106,7 @@
 					<label class='control-label'>类型</label>
 					<div class='controls'>
 						<input class='span8' id='EditType' name="type" placeholder='类型'
-							type='text' />
+							required type='text' />
 					</div>
 				</div>
 				<div class='control-group'>
@@ -128,6 +118,7 @@
 				</div>
 			</div>
 			<div class='modal-footer'>
+				<msg id='edit-msg'></msg>
 				<button type="button" id="EditbtnClose" class='btn'>关闭</button>
 				<button type="button" id="EditbtnSubmit" class='btn btn-primary'>保存</button>
 			</div>

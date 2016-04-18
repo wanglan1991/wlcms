@@ -355,7 +355,6 @@ define(function (require, exports, module) {
         Table:function(_tableId){
         	this.tableId=_tableId;
         	this.init = function(_url,_cols){
-        		alert("init");
         		$('#'+_tableId).bootstrapTable({
         			locale:'zh-CN',
         			height:320,
