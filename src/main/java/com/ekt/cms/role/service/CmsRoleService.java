@@ -28,18 +28,7 @@ public class CmsRoleService implements ICmsRoleService{
 		return cmsRoleMapper.getCmsRoleList(cmsRole);
 	}
 
-	@Override
-	public Map<String,Object> addCmsRole(CmsRole cmsRole) {
-		Map<String,Object>map=new HashMap<String,Object>();
-		CmsRole role=cmsRoleMapper.getCmsRoleByNameOrEncoding(cmsRole);
-		if(role!=null){
-			map.put("msg", "角色名称或角色编码已存在,无法进行提交！");
-			map.put("result", 0);
-		}else{
-			map.put("result",cmsRoleMapper.addCmsRole(cmsRole));	
-		}
-		 return map;
-	}
+
 
 	@Override
 	public Map<String, Object> deleteCmsRole(Integer id) {
@@ -47,16 +36,23 @@ public class CmsRoleService implements ICmsRoleService{
 		map.put("result",cmsRoleMapper.deleteCmsRole(id));
 		return map;
 	}
-	public Map<String,Object> updateCmsRole(CmsRole cmsRole){
-		Map<String,Object>map=new HashMap<String,Object>();
-		CmsRole role=cmsRoleMapper.getCmsRoleByNameOrEncoding(cmsRole);
-		if(null!=role){
-			map.put("msg", "角色名称或角色编码已存在，无法进行提交！");
-			map.put("result", 0);
-		}else{
-			map.put("result", cmsRoleMapper.updateCmsRole(cmsRole));
-		}
-		 return map;
+	public int updateCmsRole(CmsRole cmsRole){
+		 return cmsRoleMapper.updateCmsRole(cmsRole);
+	}
+
+	@Override
+	public List<CmsRole> listPage(CmsRole cmsRole) {
+		return cmsRoleMapper.listPage(cmsRole);
+	}
+
+	@Override
+	public CmsRole getCmsRoleByEncoding(String encoding) {	
+		return cmsRoleMapper.getCmsRoleByEncoding(encoding);
+	}
+
+	@Override
+	public int addCmsRole(CmsRole cmsRole) {
+		return cmsRoleMapper.addCmsRole(cmsRole);
 	}
 
 }

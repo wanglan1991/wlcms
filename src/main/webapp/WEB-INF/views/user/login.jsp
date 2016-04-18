@@ -11,7 +11,7 @@
     <div class='application'>
         <div class='application-content'>
             <a href="login1.jsp"><div class='icon-heart'></div>
-                <span>权限管理系统</span>
+                <span>CMS系统</span>
             </a>
         </div>
     </div>

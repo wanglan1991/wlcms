@@ -10,6 +10,10 @@ public interface Constants {
 	 * HTTP Session中的用户  account
 	 */
 	public final static String DEFAULT_SESSION_ACCOUNT="account";
+	/**
+	 * HTTP session中的用户 id
+	 */
+	public final static String DEFAUL_TSESSION_ACCOUNT_ID="accountId";
 
     /**
      * WEBSOCKET Session中的用户名 Key

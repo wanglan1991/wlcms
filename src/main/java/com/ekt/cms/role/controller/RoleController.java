@@ -1,77 +1,110 @@
+
 package com.ekt.cms.role.controller;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.swing.plaf.synth.SynthStyle;
+import javax.validation.Valid;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ekt.cms.common.BaseController;
+import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.role.entity.CmsRole;
-import com.ekt.cms.role.service.CmsRoleService;
+import com.ekt.cms.role.service.ICmsRoleService;
 /**
  * 角色管理类 2016-4-8 12：36
  * @author wanglan  
  *
  */
+import com.ekt.cms.utils.pageHelper.PageBean;
+import com.ekt.cms.utils.pageHelper.PageContext;
+
 @Controller
-@RequestMapping(value="/role")
-public class RoleController {
+@RequestMapping(value = "/role")
+public class RoleController extends BaseController {
+
 	@Resource
-	CmsRoleService cmsRoleService;
+	ICmsRoleService cmsRoleService;
+
 	/**
-	 * 加载角色列表
+	 * 返回角色管理页面
+	 * 
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value="/manage")
-	public String manager(HttpServletRequest request){
-		Subject currentUser = SecurityUtils.getSubject();  
-		Session session = currentUser.getSession();
-		System.out.println(session.getAttribute("username"));
-		request.setAttribute("list", cmsRoleService.getCmsRoleList() );
+	@RequestMapping(value = "/manage")
+	public String manager() {
 		return "main/role/manage";
 	}
+
 	/**
-	 * 新增角色
+	 * 加载角色列表
+	 * 
+	 * @param page
 	 * @param cmsRole
 	 * @return
 	 */
-	@RequestMapping(value="/add")
+	@RequestMapping(value = "/pageList")
 	@ResponseBody
-	public Map<String,Object> add(CmsRole cmsRole){ 
-		return cmsRoleService.addCmsRole(cmsRole);
+	public PageBean<CmsRole> list(PageContext page, CmsRole cmsRole) {
+		page.paging();
+		return new PageBean<CmsRole>(cmsRoleService.listPage(cmsRole));
 	}
+
 	/**
-	 * 根据角色Id删除角色 
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping(value="/delete")
-	@RequiresRoles("role:delete")
-	@ResponseBody
-	public Map<String,Object> delete(@RequestParam("id")Integer id){
-		return cmsRoleService.deleteCmsRole(id);
-	}
-	/**
-	 * 编辑角色
+	 * 修改角色
+	 * 
 	 * @param cmsRole
 	 * @return
 	 */
-	@RequestMapping(value="/update")
+	@RequestMapping(value = "/editRole")
 	@ResponseBody
-	public Map<String,Object>update(CmsRole cmsRole){
-		System.out.println(cmsRole.getEncoding()+"--"+cmsRole.getName()+"---"+cmsRole.getId());
-		return cmsRoleService.updateCmsRole(cmsRole);
+	public Result editRole(@Valid CmsRole cmsRole, BindingResult bindingResult) {
+		List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+		Result result = Result.getResults();
+		if (fieldErrors != null && fieldErrors.isEmpty()) {
+			for (FieldError fieldError : fieldErrors) {
+				result.setMsg(fieldError.getDefaultMessage());
+			}
+			result.setResult(0);
+			return result;
+		}
+
+		CmsRole role = cmsRoleService.getCmsRoleByEncoding(cmsRole.getEncoding());
+		if (role != null) {
+			result.setMsg("错误！角色已经存在。");
+		}
+		result.setResult(cmsRoleService.updateCmsRole(cmsRole));
+		return result;
 	}
+	/**
+	 * 添加用户
+	 * @param cmsRole
+	 * @param bindingResult
+	 * @return
+	 */
+	@RequestMapping(value = "/addRole")
+	@ResponseBody
+	public Result addRole(@Valid CmsRole cmsRole, BindingResult bindingResult){
+		List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+		Result result = Result.getResults();
+		if (fieldErrors != null && fieldErrors.isEmpty()) {
+			for (FieldError fieldError : fieldErrors) {
+				result.setMsg(fieldError.getDefaultMessage());
+			}
+			result.setResult(0);
+			return result;
+		}		
+		CmsRole role = cmsRoleService.getCmsRoleByEncoding(cmsRole.getEncoding());
 		
+		
+		return result;
+	}
+	
+
 }
