@@ -172,6 +172,17 @@ define(function (require, exports, module) {
     			$("body").unbind("mousedown", onBodyDown);
     		}
         	
+        	function queryParams(params) {  //配置参数  
+			    var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的  
+//			      pageSize: params.limit,   //页面大小  
+//			      pageNumber: params.pageNumber,  //页码  
+			      value : $("#q_dict_value").val(),  
+			      type: $("#q_dict_type").val(),  
+			    };  
+			    return temp;  
+			  } 
+        	
+        	
         	var show=function (){
         		var _input = $('#'+_showId);
         		var _offset = $('#'+_showId).offset();
@@ -344,6 +355,7 @@ define(function (require, exports, module) {
         Table:function(_tableId){
         	this.tableId=_tableId;
         	this.init = function(_url,_cols){
+        		alert("init");
         		$('#'+_tableId).bootstrapTable({
         			locale:'zh-CN',
         			height:320,
@@ -352,10 +364,21 @@ define(function (require, exports, module) {
         			pageList:'[10, 20, 30]',
         			url: _url,
         			method:'get',
+        			searchAlign: "left",//查询框对齐方式
+                    queryParamsType: "limit",//查询参数组织方式
+                    queryParams: function getParams(params) {
+                        //params obj
+                        params.other = "语文";
+                        return params;
+                    },
+        			search: true,//是否显示右上角的搜索框  
+                    searchOnEnterKey: true,//回车搜索
+                    showRefresh: true,//刷新按钮
         		    columns: _cols
         		});
         		
         	}
+        	
         	this.query = function(_query){
         		$('#'+_tableId).bootstrapTable('refresh', _query);
         	}
