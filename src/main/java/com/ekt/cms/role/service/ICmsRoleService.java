@@ -30,7 +30,7 @@ public interface ICmsRoleService {
 	  * @param id
 	  * @return 是否操作成功
 	  */
-	 Map<String,Object> deleteCmsRole(Integer id);
+	int deleteCmsRole(Integer id);
 	 /**
 	  * 更新角色
 	  * @param CmsRole cmsRole
@@ -66,6 +66,19 @@ public interface ICmsRoleService {
 	 int  addCmsRole(CmsRole cmsRole);
 	 
 	 
+	 /**
+	  * 修改角色状态
+	  * @param cmsRole
+	  * @return
+	  */
+	 int confine(CmsRole cmsRole);
+	 
+	 /**
+	  * 获取Tree
+	  * @param cmsRole
+	  * @return
+	  */
+	 List<Map<String,Object>> getTree(int roleId);
 	 
 	 
 	 
