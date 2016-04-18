@@ -116,4 +116,14 @@ public class CmsDictController {
 		result.setResult(dictService.update(dict));
 		return result;
 	}
+	/**
+	 * 页面条件查询
+	 */
+	@RequestMapping("/query")
+	@ResponseBody
+	public Result queryByCondition(CmsDict dict){
+		Result result=Result.getResults();
+		result.setResult(dictService.update(dict));
+		return result;
+	}
 }

@@ -15,16 +15,16 @@
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="DictMap"
 		parameterType="java.lang.Integer">
-		select
+		SELECT
 		<include refid="Base_Column_List" />
-		from cms_dictionary
-		where id = #{id,jdbcType=INTEGER}
+		FROM cms_dictionary
+		WHERE id = #{id,jdbcType=INTEGER}
 	</select>
 
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		delete from
+		DELETE FROM
 		cms_dictionary
-		where id = #{id,jdbcType=INTEGER}
+		WHERE id = #{id,jdbcType=INTEGER}
 	</delete>
 
 	<insert id="insert" parameterType="com.ekt.cms.common.entity.CmsDict">
@@ -32,62 +32,62 @@
 			order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
-		insert into cms_dictionary ( value, parent_id,
+		INSERT INTO cms_dictionary ( value, parent_id,
 		type, remark
 		)
-		values
+		VALUES
 		(#{value,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER},
 		#{type,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
 		)
 	</insert>
 
 	<update id="updateByPrimaryKey" parameterType="com.ekt.cms.common.entity.CmsDict">
-		update
+		UPDATE
 		cms_dictionary
-		set value = #{value,jdbcType=VARCHAR},
+		SET value = #{value,jdbcType=VARCHAR},
 		parent_id =
 		#{parentId,jdbcType=INTEGER},
 		type = #{type,jdbcType=VARCHAR},
 		status =
 		#{status,jdbcType=INTEGER},
 		remark = #{remark,jdbcType=VARCHAR}
-		where id
+		WHERE id
 		= #{id,jdbcType=INTEGER}
 	</update>
 
 	<!-- 根据条件查询字典表 -->
 	<select id="queryByCondition" resultMap="DictMap"
 		parameterType="com.ekt.cms.common.entity.CmsDict">
-		select * from cms_dictionary where 1 = 1
+		SELECT * FROM cms_dictionary WHERE 1 = 1
 		<if test="CmsDict.value != null and CmsDict.value !='' ">
-			and (value like '%${CmsDict.value}%')
+			AND (value like '%${CmsDict.value}%')
 		</if>
 		<if test="CmsDict.parentId != null and CmsDict.parentId !=''">
-			and parent_id=#{ CmsDict.parentId }
+			AND parent_id=#{ CmsDict.parentId }
 		</if>
 		<if test="CmsDict.type != null and CmsDict.type !=''">
-			and type=#{ CmsDict.type }
+			AND type=#{ CmsDict.type }
 		</if>
 		<if test="CmsDict.status != null and CmsDict.status !=''">
-			and type=#{ CmsDict.status }
+			AND type=#{ CmsDict.status }
 		</if>
 	</select>
 
 	<!-- 根据条件分页查询字典表 -->
 	<select id="listDictPage" resultMap="DictMap"
 		parameterType="com.ekt.cms.common.entity.CmsDict">
-		select * from cms_dictionary where 1 = 1
+		SELECT * FROM cms_dictionary WHERE 1 = 1
 		<if test="CmsDict.value != null and CmsDict.value !='' ">
-			and (value like '%${CmsDict.value}%')
+			AND (value like '%${CmsDict.value}%')
 		</if>
 		<if test="CmsDict.parentId != null and CmsDict.parentId !=''">
-			and parent_id=#{ CmsDict.parentId }
+			AND parent_id=#{ CmsDict.parentId }
 		</if>
 		<if test="CmsDict.type != null and CmsDict.type !=''">
-			and type=#{ CmsDict.type }
+			AND type=#{ CmsDict.type }
 		</if>
 		<if test="CmsDict.status != null and CmsDict.status !=''">
-			and type=#{ CmsDict.status }
+			AND type=#{ CmsDict.status }
 		</if>
 	</select>
 

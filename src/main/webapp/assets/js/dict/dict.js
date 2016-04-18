@@ -12,26 +12,26 @@ define(function (require, exports, module) {
             	/**
                  * 是否具有添加字典权限
                  */
-//                if(base.perList.user.create){
+//                if(base.perList.dict.create){
                 	$("#dict-header .actions").append("<a href='#' id='addDict' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px'><i class='icon-plus'></i>添加</a>");
 //                }
                 
                 /**
                  * 是否具有删除字典权限
                  */
-//                if(base.perList.user.del){
+//                if(base.perList.dict.del){
                 	$("#dict-header .actions").append("<a href='#' id='delDicts' class='btn btn-danger btn-small' style='margin-left:5px'><i class='icon-remove'></i>删除</a>");
 //                }
                 	 /**
                      * 是否具有查询字典权限
                      * 未完
                      */
-//                if(base.perList.user.del){
-                    $("#dict-header .actions").append("<a href='#' id='delDicts' class='btn btn-danger btn-small' style='margin-left:5px'><i class='icon-remove'></i>查询</a>");
-//                    }
-//                  if(base.perList.user.del){
-                    $("#dict-header .actions").append("<a href='#' id='delDicts' class='btn btn-danger btn-small' style='margin-left:5px'><i class='icon-remove'></i>查询</a>");
-//                        }
+//                if(base.perList.dict.query){
+//                	$("#dict-header .actions").append("<form accept-charset='UTF-8' action='search_results.html' id='search' class='navbar-search pull-right hidden-phone' method='get' /><div style='margin:0;padding:0;display:inline'><input name='utf8' type='hidden' value='#x2713; /></div><input autocomplete='off' class='search-query span2' id='q_header' name='q' placeholder='Search...' type='text' value='' /><button class='btn btn-link icon-search' name='button' type='submit'></button></form>");
+//                    $("#dict-header .actions").append("<a href='#' id='delDicts' class='btn btn-danger btn-small' style='margin-left:5px'><i class='icon-remove'></i>查询</a>");
+//
+//                    $("#dict-header .actions").append("<a href='#' id='delDicts' class='btn btn-danger btn-small' style='margin-left:5px'><i class='icon-remove'></i>查询</a>");
+//                      }
                 /**
                  * 加载树
                  */
