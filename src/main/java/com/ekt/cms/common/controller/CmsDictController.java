@@ -19,6 +19,8 @@ import com.ekt.cms.common.service.ICmsDictService;
 import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.utils.pageHelper.PageContext;
 
+import jdk.nashorn.internal.ir.RuntimeNode.Request;
+
 @Controller
 @RequestMapping(value="/dict")  //地域controller
 public class CmsDictController {
@@ -46,7 +48,8 @@ public class CmsDictController {
     
     @RequestMapping("/pageList")
     @ResponseBody
-    public PageBean<CmsDict> queryListDictPage(PageContext page,CmsDict cmsDict) { 	
+    public PageBean<CmsDict> queryListDictPage(PageContext page,CmsDict cmsDict,HttpServletRequest request) {
+    	System.out.println(request.getParameter("other"));
     	page.paging();
     	PageBean<CmsDict> returnPageBean = dictService.listDictPage(cmsDict);
     	return returnPageBean;

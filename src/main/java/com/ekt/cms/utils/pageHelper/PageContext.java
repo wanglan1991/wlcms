@@ -7,9 +7,9 @@ public class PageContext {
 	 // 定义两个threadLocal变量：pageNum和pageSize
     private static ThreadLocal<Integer> pageNum = new ThreadLocal<Integer>();    // 保存第几页
     private static ThreadLocal<Integer> pageSize = new ThreadLocal<Integer>();    // 保存每页记录条数
-    private int total ;
-	private int offset;//偏移量
-	private int limit;//分页中一页的数量
+    private int total = 0;
+	private int offset = 0;//偏移量
+	private int limit = 10;//分页中一页的数量
 
 
     /*
@@ -78,6 +78,7 @@ public class PageContext {
      * 分页需调用的方法
      */
     public void paging(){
+    	
     	PageHelper.startPage(getOffset()/getLimit()+1,(getOffset()/getLimit()+1)==1?10:getOffset());
     }
     
