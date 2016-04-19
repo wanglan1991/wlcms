@@ -96,7 +96,63 @@ define(function (require, exports, module) {
         	var coreTree = new E.CoreTree(_treeId,_url,setting);
             return coreTree;
         },
-        initCheckTree:function(_treeId,_url,_hiddenId){
+        
+        
+        
+        
+        
+         loadTree:function(_url,_roleId){   
+        	 
+//        	 var _beforeClick = function(){
+//         		var zTree = $.fn.zTree.getZTreeObj(_treeId);
+// 				zTree.checkNode(treeNode, !treeNode.checked, null, true);
+// 				return false;
+//         	};
+         	
+//         	var _onCheck = function(){
+//         		var zTree = $.fn.zTree.getZTreeObj(_treeId);
+//         		var nodes = zTree.getCheckedNodes(true),id="";
+// 				for (var i=0, l=nodes.length; i<l; i++) {
+// 					id += nodes[i].id + ",";
+// 				}
+// 				if (id.length > 0 ) id = id.substring(0, id.length-1);
+// 				if(_hiddenId!=null&&_hiddenId.length>0)
+// 					$("#"+_hiddenId).val(id);
+// 				else
+// 					$("#"+_treeId).data(id);
+//         	};
+        	 var setting = {
+     				check: {
+     					enable: true,
+     					chkboxType:{ "Y" : "ps", "N" : "ps" }
+     				},
+     				view: {
+     					dblClickExpand: false
+     				},
+     				data: {
+     					simpleData: {
+     						enable: true
+     					}
+     				}
+//     				,callback: {
+//     					beforeClick: _beforeClick,
+//     					onCheck: _onCheck
+//     				}
+     			};
+			        	  $.ajax({
+			         		 url:_url,
+			         		 type:'GET',
+			         		 data:{roleId:_roleId},
+			         		 success:function(data){
+			         			 $.fn.zTree.init($("#distributePermissionTree"), setting, data.value)
+			         		 }
+			         	 })
+			         	 
+			         			
+        	
+        	  
+         }
+        ,initCheckTree:function(_treeId,_url,_hiddenId){
         	var _beforeClick = function(){
         		var zTree = $.fn.zTree.getZTreeObj(_treeId);
 				zTree.checkNode(treeNode, !treeNode.checked, null, true);

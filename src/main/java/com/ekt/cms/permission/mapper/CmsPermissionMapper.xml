@@ -33,7 +33,6 @@
 		LEFT JOIN cms_permission pe on pe.id=p.permission_id
 		WHERE
 			r.id =#{id,jdbcType=INTEGER} and pe.level=2
-
 	</select>
 	<!-- 按主键查询 -->
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"

@@ -75,21 +75,16 @@ define(function (require, exports, module) {
     		        'click .distributePermission': function (e, value, row, index) {
     		        	core.openModel('modal-DistributePermission','菜单授权',function(){
     		            	if(row!=null){
+    		            		var url=F.basepath+'/cms/role/tree'
     		            		$("#roleId").val(row.id)
-    		            		F.distributePermissionTree.load({"roleId":row.id},"distributePermissionTreeHidden");
+    		            		core.loadTree(url.toString(),row.id);
     		            	}
     		        	});
     		        },
     		        /**
     		         * 查看权限
     		         */
-    		        'click .checkPermission': function (e, value, row, index) {
-    		        	core.openModel('modal-CheckPermission','查看权限',function(){
-    		        		if(row!=null){
-    		        			F.checkPermissionTree.load({"roleId":row.id});
-    		        		}
-    		        	});
-    		        }
+    		       
     		    };
             
             var cols = [
@@ -236,7 +231,25 @@ define(function (require, exports, module) {
             });
 			
 			$('#btnDistributePermissionSubmit').click(function(){
-				F.permissionSubmit();
+				var treeObj = $.fn.zTree.getZTreeObj("distributePermissionTree");
+				var roleId = $("#roleId").val();
+				var arr=''
+				var nodes = treeObj.transformToArray(treeObj.getNodes()); 
+				for (var i = 0; i < nodes.length; i++) { 
+					if(nodes[i].checked==true){
+						arr+=nodes[i].id+',';
+					}
+				}
+				$.ajax({
+					url:F.basepath+"/cms/role/permissions",
+					type:'POST',
+					data:{permissionStr:arr,roleId:roleId},
+					success:function(data){
+						
+					}
+				});
+				
+	
 			});
 			
         },permissionSubmit:function(){
@@ -294,12 +307,9 @@ define(function (require, exports, module) {
         },reload:function(){
         	F.table.reload();
         },treeLoad:function(){
-        	if (base.perList.role.grant) {
-        		F.distributePermissionTree = core.initCheckTree('distributePermissionTree',F.basepath+'/main/get-role-check-permissions','distributePermissionTreeHidden')
-        	}
-        	if (base.perList.role.checkPermission) {
-        		F.checkPermissionTree = core.initCheckTree('checkPermissionTree',F.basepath+'/main/get-role-show-permissions');
-        	}
+//        	if (base.perList.role.grant) {
+        		F.distributePermissionTree = core.initCheckTree('distributePermissionTree',F.basepath+'/cms/role/tree','distributePermissionTreeHidden')
+//        	}
         },operateFormatter:function (value, row, index) {
         	var _btnAction = "";
         	_btnAction += "<a class='confine btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"+(row.status==1?"停用":"启用")+"</a>";
