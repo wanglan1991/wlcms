@@ -85,8 +85,18 @@ public interface CmsRoleMapper {
 	 * @return
 	 */
 	public List<Map<String,Object>> getTreeByRoleId(@Param("roleId")int roleId);
+	/**
+	 * 根据角色Id删除所有权限
+	 * @param roleId
+	 * @return
+	 */
+	public int delPermissionByRoleId(@Param("roleId")int roleId);
 	
-
-	
+	/**
+	 * 根据角色id插入权限
+	 * @param roleId
+	 * @return
+	 */
+	public int insertRolePermission(@Param("permissionId")int permissionId,@Param("roleId")int roleId);
 
 }

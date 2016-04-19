@@ -111,22 +111,31 @@
 	</select>
 
 	
-<select id='getTreeByRoleId' resultType='java.util.Map'  parameterType='java.lang.Integer'>
-		SELECT
-			a.id,if(b.permission_id is null ,'false','true')checked,'false'chkDisabled,a.name,'false'oncheck,'true'open,a.pId,IF(a.LEVEL=2,'false','true')parent
-		FROM
-			( SELECT id,NAME,pid,LEVEL FROM cms_permission ) AS a
-		LEFT JOIN (
-		SELECT
-			permission_id
-		FROM
-			cms_role_permission
-		WHERE
-			role_id = #{roleId}
-		) AS b ON a.id = b.permission_id
-			
-</select>	
-	
+	<select id='getTreeByRoleId' resultType='java.util.Map'  parameterType='java.lang.Integer'>
+			SELECT
+				a.id,if(b.permission_id is null ,'false','true')checked,'false'chkDisabled,a.name,'false'oncheck,'true'open,a.pId,IF(a.LEVEL=2,'false','true')parent
+			FROM
+				( SELECT id,NAME,pid,LEVEL FROM cms_permission ) AS a
+			LEFT JOIN (
+			SELECT
+				permission_id
+			FROM
+				cms_role_permission_copy
+			WHERE
+				role_id = #{roleId}
+			) AS b ON a.id = b.permission_id
+				
+	</select>	
+	<delete id="delPermissionByRoleId" parameterType='java.lang.Integer'>
+		DELETE FROM cms_role_permission_copy
+		WHERE role_id = #{roleId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insertRolePermission" parameterType="java.lang.Integer" >
+	<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO cms_role_permission_copy( role_id, permission_id) VALUES (#{roleId},#{permissionId})
+	</insert>	
 	
 	
 </mapper>

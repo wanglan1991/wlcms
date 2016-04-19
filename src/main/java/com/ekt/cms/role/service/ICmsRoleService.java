@@ -79,14 +79,17 @@ public interface ICmsRoleService {
 	  * @return
 	  */
 	 List<Map<String,Object>> getTreeByRoleId(int roleId);
+	 /**
+	  * 根据角色Id删除所有权限
+	  * @param roleId
+	  * @return
+	  */
+	 int delPermissionByRoleId(int roleId);
 	 
 	 
 	 
 	 
-	 
-	 
-	 
-	 
+	 int insertRolePermission(int permissionId,int roleId);
 	 
 	 
 	 

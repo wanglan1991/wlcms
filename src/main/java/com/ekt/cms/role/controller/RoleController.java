@@ -3,6 +3,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -149,11 +150,34 @@ public class RoleController extends BaseController {
 			result.setValue(cmsRoleService.getTreeByRoleId(roleId));
 			return  result;
 	}
+	/**
+	 * 保存提交角色权限
+	 * @param arr
+	 * @param roleId
+	 * @return
+	 */
+	@Transactional
+	@RequestMapping(value = "/permissions")
+	@ResponseBody
+	public Result setPermissions(@RequestParam("permissionStr")String arr,@RequestParam("roleId")int roleId){
+		Result result=Result.getResults();
+		CmsRole cmsRole=new CmsRole();
+		if(arr==""){
+			//根据Id删除所有权限
+			result.setResult(cmsRoleService.delPermissionByRoleId(roleId));
+		}else{
+			String[]arrs=arr.split(",");
+			//根据Id删除所有权限
+			cmsRoleService.delPermissionByRoleId(roleId);
+			for(int i=0;i<arrs.length;i++){
+				//插入角色对应权限到数据库
+				cmsRoleService.insertRolePermission(Integer.parseInt(arrs[i].toString()),roleId);
+			}
+		}
 	
-//	public Result setPermissions(@RequestParam('')String arr,@RequestParam('')){
-//		Result result=Result.getResults();
-//		return result;
-//	}
+		System.out.println(arr=="");
+		return result;
+	}
 
 }
 
