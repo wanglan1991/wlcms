@@ -65,7 +65,7 @@
 <script src='${ctxAssets}/javascripts/theme-color.js' type='text/javascript'></script>
 <%--<script src='${ctxAssets}/javascripts/tables.js' type='text/javascript'></script>--%>
 
-<%-- <script src='${ctxAssets}/javascripts/plugins/validate/jquery.metadata.js' type='text/javascript'></script> --%>
+<script src='${ctxAssets}/javascripts/plugins/validate/jquery.metadata.js' type='text/javascript'></script>
 <!-- / bootstrapValidator -->
 <%-- <script src='${ctxAssets}/javascripts/plugins/bootstrap_validator/bootstrapValidator.min.js' type='text/javascript'></script> --%>
 <!-- / timeago 将时间戳转换为更易读的时间轴 -->
