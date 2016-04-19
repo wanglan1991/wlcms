@@ -411,9 +411,9 @@ define(function (require, exports, module) {
         			method:'get',
         			searchAlign: "left",//查询框对齐方式
                     queryParamsType: "limit",//查询参数组织方式
-        			search: true,//是否显示右上角的搜索框  
+        			search: false,//是否显示右上角的搜索框  
                     searchOnEnterKey: true,//回车搜索
-                    showRefresh: true,//刷新按钮
+                    showRefresh: false,//刷新按钮
         		    columns: _cols
         		});
         		

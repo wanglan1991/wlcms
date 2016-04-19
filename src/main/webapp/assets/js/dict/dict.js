@@ -10,13 +10,40 @@ define(function(require, exports, module) {
 		table : new core.Table('dictTable'),
 		init : function(_basepath) {
 			F.basepath = _basepath;
+			
+			/**
+			 * 是否具有查询字典权限 
+			 */
+			// if(base.perList.dict.query){
+			$("#dict-header .actions")
+					.append(
+							"<input autocomplete='off'  id='q_dict_value' name='q_dict_value' placeholder='请输入字典值' type='text' />&nbsp;&nbsp;<span  id='dict_typeName'></span><a href='#' id='queryByCondition' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>");
+			
+			$.ajax({
+				url : F.basepath + "/dict/typeNameList",
+				type:"GET",						
+				success:function(data){
+    				html="<select  id='q_dict_type'> <option value=''>--请选择--</option>";
+    				for(var i=0;i<data.value.length;i++){
+    					if(data.value[i].status==0){
+    						continue;
+    					}
+    					html+="<option value="+data.value[i].typeEncoding+">"+data.value[i].typeName+"</option>"
+    					
+    				}
+        				html+="</select>" 
+        					
+    					$("#dict_typeName").append(html);
+    			}							
+			})
+			//}
 			/**
 			 * 是否具有添加字典权限
 			 */
 			// if(base.perList.dict.create){
 			$("#dict-header .actions")
 					.append(
-							"<a href='#' id='addDict' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px'><i class='icon-plus'></i>添加</a>");
+							"<a href='#' id='addDict' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>添加</a>");
 			// }
 
 			/**
@@ -25,15 +52,9 @@ define(function(require, exports, module) {
 			// if(base.perList.dict.del){
 			$("#dict-header .actions")
 					.append(
-							"<a href='#' id='delDicts' class='btn btn-danger btn-small' style='margin-left:5px'><i class='icon-remove'></i>删除</a>");
+							"<a href='#' id='delDicts' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
+			
 			// }
-			/**
-			 * 是否具有查询字典权限 未完
-			 */
-			// if(base.perList.dict.query){
-			$("#dict-header .actions")
-					.append(
-							"<form accept-charset='UTF-8' id='search' class='navbar-search pull-right hidden-phone' method='get' /><div style='margin:0 0 0 18px;padding:0;display:inline'></div><input autocomplete='off' class='search-query span2' id='q_dict_value' name='q_dict_value' placeholder='请输入字典值' type='text' />&nbsp;&nbsp;</span><input autocomplete='off' class='search-query span2' id='q_dict_type' name='q_dict_type' placeholder='请输入字典类型' type='text' /><a href='#' id='queryByCondition' class='btn btn-danger btn-small' style='margin-left:5px'><i class='icon-remove'></i>删除</a>");
 			// $("#dict-header .actions").append("<a href='#' id='delDicts'
 			// class='btn btn-danger btn-small' style='margin-left:5px'><i
 			// class='icon-remove'></i>查询</a>");
@@ -108,18 +129,10 @@ define(function(require, exports, module) {
 				},
 
 			};
+//			
+
 			
-			function queryParams() {  //配置参数  
-			    var temp = {   //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的  
-//			      pageSize: params.limit,   //页面大小  
-//			      pageNumber: params.pageNumber,  //页码  
-			      value : $("#q_dict_value").val(),  
-			      type: $("#q_dict_type").val(),  
-			    };  
-			    return temp;  
-			  } 
-			
-			//定义表格的头
+			// 定义表格的头
 			var cols = [ {
 
 				checkbox : true
@@ -130,12 +143,15 @@ define(function(require, exports, module) {
 				field : 'value',
 				title : '字典值'
 			}, {
-				field : 'type',
+				field : 'typeEncoding',
 				title : '字典类型'
 			}, {
 				field : 'status',
 				title : '状态',
 				visible : false
+			}, {
+				field : 'typeName',
+				title : '字典类型名称'
 			}, {
 				field : 'remark',
 				title : '备注'
@@ -219,8 +235,8 @@ define(function(require, exports, module) {
 			 */
 			$('#queryByCondition').click(function() {
 				var value = $("#q_dict_value").val();
-				var type = $("#q_dict_type").val();
-				var query_url = F.basepath + '/dict/pageList?value='+value+'&type='+type;
+				var typeName = $("#q_dict_type").val();
+				var query_url = F.basepath + '/dict/pageList?value='+value+'&typeEncoding='+typeName;
 				$('#dictTable').bootstrapTable('refresh',{url:query_url});
 			}),
 

@@ -20,4 +20,6 @@ public interface ICmsDictService {
 	public int insert(CmsDict dict);
 	
 	public int update(CmsDict dict);
+	
+	public List<CmsDict> queryTypeName();
 }

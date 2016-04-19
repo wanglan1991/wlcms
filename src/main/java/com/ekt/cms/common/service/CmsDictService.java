@@ -58,4 +58,11 @@ public class CmsDictService implements ICmsDictService {
 		return dictMapper.updateByPrimaryKey( dict);
 	}
 
+	@Override
+	public List<CmsDict> queryTypeName() {
+		// TODO Auto-generated method
+		
+		return dictMapper.queryTypeName();
+	}
+
 }
