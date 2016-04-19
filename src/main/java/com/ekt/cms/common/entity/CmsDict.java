@@ -7,13 +7,15 @@ public class CmsDict {
     private String value;
     //父级ID，如果存在
     private Integer parentId;
-    //字典类型
-    private String type;
+    //字典类型编码
+    private String typeEncoding;
     //状态 0 不可用  1 可用
     private Integer status;
 
     private String remark;
-
+    
+    private String typeName;
+    
     public Integer getId() {
         return id;
     }
@@ -42,14 +44,6 @@ public class CmsDict {
         this.parentId = parentId;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public Integer getStatus() {
         return status;
     }
@@ -65,4 +59,21 @@ public class CmsDict {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+
+	public String getTypeEncoding() {
+		return typeEncoding;
+	}
+
+	public void setTypeEncoding(String typeEncoding) {
+		this.typeEncoding = typeEncoding;
+	}
+    
 }

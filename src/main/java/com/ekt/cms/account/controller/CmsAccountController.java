@@ -49,6 +49,7 @@ public class CmsAccountController extends BaseController {
 		Result result=Result.getResults();
 		result.setValue(cmsRoleService.getCmsRoleList());
 		return result;
+		
 	}
 	/** 
 	 * 修改角色

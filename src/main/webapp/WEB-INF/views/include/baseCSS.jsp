@@ -41,7 +41,7 @@
 <!-- / full calendar -->
 <%--  <link href='${ctxAssets}/stylesheets/plugins/fullcalendar/fullcalendar.css' media='all' rel='stylesheet' type='text/css' /> --%>
 <!-- / select2 -->
-<%--<link href='${ctxAssets}/stylesheets/plugins/select2/select2.css' media='all' rel='stylesheet' type='text/css' />--%>
+<link href='${ctxAssets}/stylesheets/plugins/select2/select2.css' media='all' rel='stylesheet' type='text/css' />
 <!-- / mention -->
 <%--<link href='${ctxAssets}/stylesheets/plugins/mention/mention.css' media='all' rel='stylesheet' type='text/css' />--%>
 <!-- / tabdrop (responsive tabs) -->

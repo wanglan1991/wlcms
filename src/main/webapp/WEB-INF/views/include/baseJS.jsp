@@ -86,7 +86,7 @@
 <!-- / fullcalendar -->
 <%-- <script src='${ctxAssets}/javascripts/plugins/fullcalendar/fullcalendar.min.js' type='text/javascript'></script> --%>
 <!-- / select2 -->
-<%--<script src='${ctxAssets}/javascripts/plugins/select2/select2.js' type='text/javascript'></script>--%>
+<script src='${ctxAssets}/javascripts/plugins/select2/select2.js' type='text/javascript'></script>
 <!-- / mention 轻量级的实现类似微博@username功能的输入感知插件 -->
 <%--<script src='${ctxAssets}/javascripts/plugins/mention/mention.min.js' type='text/javascript'></script>--%>
 <!-- / fileinput -->

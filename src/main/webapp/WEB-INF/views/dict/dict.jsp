@@ -14,13 +14,8 @@
 <body>
 	<!-- <div class='span9 box bordered-box blue-border' style='margin-bottom:0;'> -->
 	<div class='box-header' id="dict-header">
-		<div class='actions'>
-			<!-- query test -->
-			<form accept-charset="UTF-8" action="search_results.html" id="search"
-				class="navbar-search pull-right hidden-phone" method="get" />
-			<div style="margin: 0; padding: 0; display: inline">
-				<input name="utf8" type="hidden" value="&#x2713;" />
-			</div>
+		<div class='actions'>	
+		
 		</div>
 	</div>
 	<div class='box-content box-no-padding'>
@@ -59,6 +54,13 @@
 					<label class='control-label'>类型</label>
 					<div class='controls'>
 						<input class='span8' id='type' required placeholder='字典类型'
+							type='text' />
+					</div>
+				</div>
+				<div class='control-group'>
+					<label class='control-label'>类型名称</label>
+					<div class='controls'>
+						<input class='span8' id='typeName' required placeholder='字典类型'
 							type='text' />
 					</div>
 				</div>
@@ -107,6 +109,13 @@
 					<div class='controls'>
 						<input class='span8' id='EditType' name="type" placeholder='类型'
 							required type='text' />
+					</div>
+				</div>
+				<div class='control-group'>
+					<label class='control-label'>类型名称</label>
+					<div class='controls'>
+						<input class='span8' id='EditTypeName' required placeholder='字典类型'
+							type='text' />
 					</div>
 				</div>
 				<div class='control-group'>
