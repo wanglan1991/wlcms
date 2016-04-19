@@ -10,6 +10,7 @@
 <html>
 <head>
 <title></title>
+<%-- <script src='${ctxAssets}/js/dict/dictFormValidation.js' type='text/javascript'></script> --%>
 </head>
 <body>
 	<!-- <div class='span9 box bordered-box blue-border' style='margin-bottom:0;'> -->
@@ -35,11 +36,12 @@
 		</div>
 		<form class='form validate-form' id='submit-form' role="form"
 			style='margin-bottom: 0;'>
+			<div id="info"></div>
 			<div class='modal-body'>
 				<div class='control-group'>
 					<label class='control-label'>字典值</label>
 					<div class='controls'>
-						<input class='span8' id='value' required placeholder='字典值'
+						<input class='span8' id='value' name="value" placeholder='字典值' required
 							type='text' />
 							<span id="value-error" class="help-block error"></span>
 					</div>
@@ -53,14 +55,14 @@
 				<div class='control-group'>
 					<label class='control-label'>类型</label>
 					<div class='controls'>
-						<input class='span8' id='typeEncoding' required placeholder='字典类型'
+						<input class='span8' id='typeEncoding' name="typeEncoding" required placeholder='字典类型'
 							type='text' />
 					</div>
 				</div>
 				<div class='control-group'>
 					<label class='control-label'>类型名称</label>
 					<div class='controls'>
-						<input class='span8' id='typeName' required placeholder='字典类型名称'
+						<input class='span8' id='typeName' name="typeName" required placeholder='字典类型名称'
 							type='text' />
 					</div>
 				</div>
@@ -75,7 +77,7 @@
 			<div class='modal-footer'>
 				<msg id='msg'></msg>
 				<button type="button" id="btnClose" class='btn'>关闭</button>
-				<button type="button" id="btnSubmit" class='btn btn-primary'>保存</button>
+				<button id="btnSubmit" class='btn btn-primary'>保存</button>
 			</div>
 		</form>
 	</div>
@@ -92,7 +94,7 @@
 				<div class='control-group'>
 					<label class='control-label'>字典值</label>
 					<div class='controls'>
-						<input class='span8' id='EditValue' name="value" valueId=''
+						<input class='span8' id='EditValue' name="EditValue" valueId=''
 							required placeholder='字典值' type='text' />
 							<span id="edit-value-error" class="help-block error"></span>
 					</div>
@@ -107,7 +109,7 @@
 				<div class='control-group'>
 					<label class='control-label'>类型</label>
 					<div class='controls'>
-						<input class='span8' id='EditType' name="type" placeholder='类型'
+						<input class='span8' id='EditType' name="EditType" placeholder='类型'
 							required type='text' />
 					</div>
 				</div>

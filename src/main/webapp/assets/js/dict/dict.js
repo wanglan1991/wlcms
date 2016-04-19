@@ -1,42 +1,45 @@
 define(function(require, exports, module) {
 	var base = require('base');
 	core = require('core');
-	//查询参数
+	// 查询参数
 	var value = "";
-    var type = "";
+	var type = "";
 	// 通过 require 引入依赖
 	var F = module.exports = {
 		basepath : '',
 		table : new core.Table('dictTable'),
 		init : function(_basepath) {
 			F.basepath = _basepath;
-			
+
 			/**
-			 * 是否具有查询字典权限 
+			 * 是否具有查询字典权限
 			 */
 			// if(base.perList.dict.query){
 			$("#dict-header .actions")
 					.append(
 							"<input autocomplete='off'  id='q_dict_value' name='q_dict_value' placeholder='请输入字典值' type='text' />&nbsp;&nbsp;<span  id='dict_typeName'></span><a href='#' id='queryByCondition' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>");
-			
+
 			$.ajax({
-				url : F.basepath + "/dict/typeNameList",
-				type:"GET",						
-				success:function(data){
-    				html="<select  id='q_dict_type'> <option value=''>--请选择--</option>";
-    				for(var i=0;i<data.value.length;i++){
-    					if(data.value[i].status==0){
-    						continue;
-    					}
-    					html+="<option value="+data.value[i].typeEncoding+">"+data.value[i].typeName+"</option>"
-    					
-    				}
-        				html+="</select>" 
-        					
-    					$("#dict_typeName").append(html);
-    			}							
-			})
-			//}
+						url : F.basepath + "/dict/typeNameList",
+						type : "GET",
+						success : function(data) {
+							html = "<select  id='q_dict_type'> <option value=''>--请选择--</option>";
+							for (var i = 0; i < data.value.length; i++) {
+								if (data.value[i].status == 0) {
+									continue;
+								}
+								html += "<option value="
+										+ data.value[i].typeEncoding + ">"
+										+ data.value[i].typeName + "</option>"
+
+							}
+							html += "</select>"
+
+							$("#dict_typeName").append(html);
+						}
+					})
+
+			// }
 			/**
 			 * 是否具有添加字典权限
 			 */
@@ -50,10 +53,12 @@ define(function(require, exports, module) {
 			 * 是否具有删除字典权限
 			 */
 			// if(base.perList.dict.del){
-//			$("#dict-header .actions")
-//					.append(
-//							"<a href='#' id='delDicts' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
-//			
+			// $("#dict-header .actions")
+			// .append(
+			// "<a href='#' id='delDicts' class='btn btn-danger btn-small'
+			// style='margin-left:5px;margin-bottom:11px'><i
+			// class='icon-remove'></i>删除</a>");
+			//			
 			// }
 			// $("#dict-header .actions").append("<a href='#' id='delDicts'
 			// class='btn btn-danger btn-small' style='margin-left:5px'><i
@@ -68,23 +73,23 @@ define(function(require, exports, module) {
 			 */
 
 			operateEvents = {
-					/**
-					 * 修改字典 取出字典原有值
-					 */
-					'click .editDict' : function(e, value, row, index) {
-						core.openModel('modal-EditDict', '修改字典', function() {
-						 preValue=row.value;
-							 $("#EditValue").val(row.value);
-							$("#EditParentID").val(row.parentId);
-							$("#EditType").val(row.typeEncoding);
-							$("#EditRemark").val(row.remark);
-							$("#EditTypeName").val(row.typeName);
-							$("#EditValue").attr("valueId", row.id);
-							$("#tatil").next("h3").html(
-									"编辑字典          " + row.value);
+				/**
+				 * 修改字典 取出字典原有值
+				 */
+				'click .editDict' : function(e, value, row, index) {
+					core.openModel('modal-EditDict', '修改字典', function() {
+						preValue = row.value;
+						$("#EditValue").val(row.value);
+						$("#EditParentID").val(row.parentId);
+						$("#EditType").val(row.typeEncoding);
+						$("#EditRemark").val(row.remark);
+						$("#EditTypeName").val(row.typeName);
+						$("#EditValue").attr("valueId", row.id);
+						$("#tatil").next("h3").html(
+								"编辑字典          " + row.value);
 
-						});
-					},
+					});
+				},
 				/**
 				 * 删除用户
 				 */
@@ -130,9 +135,8 @@ define(function(require, exports, module) {
 				},
 
 			};
-//			
+			//			
 
-			
 			// 定义表格的头
 			var cols = [ {
 
@@ -203,11 +207,7 @@ define(function(require, exports, module) {
 							});
 						}
 					});
-			
-			
-			
-			
-			
+
 			/**
 			 * 打开模态框
 			 */
@@ -230,16 +230,20 @@ define(function(require, exports, module) {
 				});
 				return false;
 			});
-			
+
 			/**
 			 * 根据条件查询
 			 */
-			$('#queryByCondition').click(function() {
-				var value = $("#q_dict_value").val();
-				var typeName = $("#q_dict_type").val();
-				var query_url = F.basepath + '/dict/pageList?value='+value+'&typeEncoding='+typeName;
-				$('#dictTable').bootstrapTable('refresh',{url:query_url});
-			}),
+			$('#queryByCondition').click(
+					function() {
+						var value = $("#q_dict_value").val();
+						var typeName = $("#q_dict_type").val();
+						var query_url = F.basepath + '/dict/pageList?value='
+								+ value + '&typeEncoding=' + typeName;
+						$('#dictTable').bootstrapTable('refresh', {
+							url : query_url
+						});
+					}),
 
 			/**
 			 * 关闭模态框
@@ -264,10 +268,12 @@ define(function(require, exports, module) {
 				var typeEncoding = $("#EditType").val();
 				var typeName = $("#EditTypeName").val();
 				var remark = $("#EditRemark").val();
-//				if (value.length < 1 || typeEncoding.length < 1 || typeName.length <1) {
-//					$("#edit-msg").html("字典值 类型及类型名称不能为空！");$("#edit-msg").css('color','#b94a48');
-//					return
-//				};				
+				// if (value.length < 1 || typeEncoding.length < 1 ||
+				// typeName.length <1) {
+				// $("#edit-msg").html("字典值
+				// 类型及类型名称不能为空！");$("#edit-msg").css('color','#b94a48');
+				// return
+				// };
 				$.ajax({
 					url : F.basepath + '/dict/editDict',
 					type : 'POST',
@@ -276,7 +282,7 @@ define(function(require, exports, module) {
 						value : value,
 						parentId : parentId,
 						typeEncoding : typeEncoding,
-						typeName:typeName,
+						typeName : typeName,
 						remark : remark
 					},
 					success : function(data) {
@@ -284,8 +290,8 @@ define(function(require, exports, module) {
 							core.closeModel('modal-EditDict');
 							F.table.reload();
 						} else {
-							 $("#edit-value-error").html(data.msg);
-							 $("#edit-value-error").css('color','red');
+							$("#edit-value-error").html(data.msg);
+							$("#edit-value-error").css('color', 'red');
 
 						}
 					}
@@ -295,44 +301,89 @@ define(function(require, exports, module) {
 			/**
 			 * 提交添加字典
 			 */
-			$('#btnSubmit').click(function() {
-				var value = $("#value").val();
-				var parentId = $("#parentId").val();
-				var typeEncoding = $("#typeEncoding").val();
-				var typeName= $("#typeName").val();
-				var remark = $("#remark").val();
-//				if (value.length < 1 || typeEncoding.length <1 || typeName.length <1){
-//					$("#msg").html("字典值 类型及类型名称不能为空！");$("#msg").css('color','#b94a48');
-//					return
-//				} 
-					$.ajax({
-						url : F.basepath + '/dict/addDict',
-						type : 'POST',
-						data : {
-							value : value,
-							parentId : parentId,
-							typeEncoding : typeEncoding,
-							typeName : typeName,
-							remark : remark
-						},
-						success : function(data) {
-							if (data.result > 0) {
-								core.closeModel('modal-DictTree');
-								F.table.reload();
-							}
-							 else{
-							 $("#value-error").html(data.msg);
-							 $("#value-error").css('color','red');
-							 }
-						}
-
-					});
+//			$('#btnSubmit').click(function() {
+//				alert(1);
+				jQuery('#submit-form').validate({
+					rules:{
+						value:{required:true},
+						typeEncoding:{required:email},
+					},
+					messages:{
+						value:{required:'商品名称不能为空'},
+						typeEncoding:'字典编码不能为空',
+					},
+					submitHandler:function(form){
+						var value = $("#value").val();
+						var parentId = $("#parentId").val();
+						var typeEncoding = $("#typeEncoding").val();
+						var typeName = $("#typeName").val();
+						var remark = $("#remark").val();
+						var options = {
+								url : F.basepath + '/dict/addDict',
+								type:'post',
+								dataType:'json',
+								data : {
+									value : value,
+									parentId : parentId,
+									typeEncoding : typeEncoding,
+									typeName : typeName,
+									remark : remark
+								},
+								success:function(data){
+										if (data.result > 0) {
+											core.closeModel('modal-DictTree');
+											F.table.reload();
+										} else{
+										//错误提示
+										$('#info').fadeOut('slow');
+										$('#info').empty().text(data.msg);
+										$('#info').removeClass('alert alert-success').addClass('alert alert-danger');
+										$('#info').fadeIn('slow');
+									}
+								}				
+						};
+						$(form).ajaxSubmit(options);
+					}
+					
+				});
 				
+//				var value = $("#value").val();
+//				var parentId = $("#parentId").val();
+//				var typeEncoding = $("#typeEncoding").val();
+//				var typeName = $("#typeName").val();
+//				var remark = $("#remark").val();
+				// if (value.length < 1 || typeEncoding.length <1 ||
+				// typeName.length <1){
+				// $("#msg").html("字典值
+				// 类型及类型名称不能为空！");$("#msg").css('color','#b94a48');
+				// return
+				// }
+//				$.ajax({
+//					url : F.basepath + '/dict/addDict',
+//					type : 'POST',
+//					data : {
+//						value : value,
+//						parentId : parentId,
+//						typeEncoding : typeEncoding,
+//						typeName : typeName,
+//						remark : remark
+//					},
+//					success : function(data) {
+//						if (data.result > 0) {
+//							core.closeModel('modal-DictTree');
+//							F.table.reload();
+//						} else {
+//							$("#value-error").html(data.msg);
+//							$("#value-error").css('color', 'red');
+//						}
+//					}
+//
+//				});
 
-			});
+//			});
 
 		},
-		
+
 		operateFormatter : function(value, row, index) {
 			var _btnAction = "";
 			// if (base.perList.user.edit_dep) {
@@ -345,7 +396,8 @@ define(function(require, exports, module) {
 			// }
 
 			// if (base.perList.user.del) {
-//			_btnAction += "<a class='delDict btn btn-danger btn-small' href='#' title='删除用户' style='margin-left:5px'>删除</a>";
+			// _btnAction += "<a class='delDict btn btn-danger btn-small'
+			// href='#' title='删除用户' style='margin-left:5px'>删除</a>";
 			// }
 			return _btnAction;
 		},
@@ -370,7 +422,6 @@ define(function(require, exports, module) {
 				}
 			});
 		},
-		
-		
+
 	}
 });
