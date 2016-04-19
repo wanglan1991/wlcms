@@ -283,6 +283,22 @@
     <shiro:hasPermission name="edituser:dep">
         <span id="basejs_user_edit_dep" style="display:none;"/>
     </shiro:hasPermission>
+    
+        <shiro:hasPermission name="dict:add">
+        <span id="basejs_dict_create" style="display:none;"/>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="dict:check">
+        <span id="basejs_dict_check" style="display:none;"/>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="dict:edit">
+        <span id="basejs_dict_edit" style="display:none;"/>
+    </shiro:hasPermission>
+    <shiro:hasPermission name="dict:delete">
+        <span id="basejs_dict_del" style="display:none;"/>
+    </shiro:hasPermission>
+      <shiro:hasPermission name="dict:confine">
+        <span id="basejs_dict_confine" style="display:none;"/>
+    </shiro:hasPermission>
                 
             </div>
         </div>
@@ -444,6 +460,18 @@ $(document).ready(function(){
         }
         if ($('#basejs_user_edit_dep').length > 0) {
             base.perList.user.edit_dep = true;
+        }
+        if ($('#basejs_dict_create').length > 0) {
+            base.perList.user.create = true;
+        }
+        if ($('#basejs_dict_check').length > 0) {
+            base.perList.user.check = true;
+        }
+        if ($('#basejs_dict_edit').length > 0) {
+            base.perList.user.edit = true;
+        }
+        if ($('#basejs_dict_del').length > 0) {
+            base.perList.user.del = true;
         }
     	index.init('${ctx}');
     });

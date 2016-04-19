@@ -35,7 +35,7 @@ public class CmsDictController {
     public List<CmsDict> queryDictByCondition(HttpServletRequest request ,HttpServletResponse response) {
 		String type = request.getParameter("type");
     	CmsDict queryDict = new CmsDict();
-    	queryDict.setType(type);
+    	queryDict.setTypeEncoding(type);
     	List<CmsDict> dictList = dictService.queryDictByCondition(queryDict);
     	
     	return dictList;
