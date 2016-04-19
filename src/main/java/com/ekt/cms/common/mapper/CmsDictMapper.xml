@@ -111,4 +111,12 @@
 		SELECT * FROM cms_dictionary WHERE 1=1
 		AND value =#{value}
 	</select>
+	
+	<!-- 查询所有的字典类型名称 -->
+	<select id="queryTypeName" resultMap="DictMap">
+	SELECT  *
+	FROM 
+	cms_dictionary
+	group by type_name
+	</select>
 </mapper> 

@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,8 +17,6 @@ import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.common.service.ICmsDictService;
 import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.utils.pageHelper.PageContext;
-
-import jdk.nashorn.internal.ir.RuntimeNode.Request;
 
 @Controller
 @RequestMapping(value="/dict")  //地域controller
@@ -50,11 +47,6 @@ public class CmsDictController {
     @ResponseBody
     public PageBean<CmsDict> queryListDictPage(PageContext page,CmsDict cmsDict,HttpServletRequest request) {
     	//获取前台URL传递过来的查询参数
-    	String value = request.getParameter("value");
-    	String type = request.getParameter("type");
-    	cmsDict.setValue(value);
-    	cmsDict.setType(type);
-    	
     	page.paging();
     	PageBean<CmsDict> returnPageBean = dictService.listDictPage(cmsDict);
     	return returnPageBean;
@@ -140,5 +132,15 @@ public class CmsDictController {
 		Result result=Result.getResults();
 		result.setResult(dictService.update(dict));
 		return result;
+	}
+	/**
+	 * 查询所有的字典类型名称
+	 */
+	@RequestMapping("/typeNameList")
+	@ResponseBody
+	public Result getTypeNameList(){
+		Result result=Result.getResults();
+		result.setValue(dictService.queryTypeName());
+		return result;		
 	}
 }

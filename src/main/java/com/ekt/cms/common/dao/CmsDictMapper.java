@@ -1,6 +1,7 @@
 package com.ekt.cms.common.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -66,5 +67,10 @@ public interface CmsDictMapper {
 	 * @return cmsDict
 	 */
 	CmsDict queryByDictName(String value);
-
+	/**
+	 * 查询所有的字典类型名称
+	 * @param 
+	 * @return 
+	 */	
+	List<CmsDict> queryTypeName();
 }

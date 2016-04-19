@@ -1,22 +1,49 @@
 define(function(require, exports, module) {
 	var base = require('base');
 	core = require('core');
-	// 查询参数
+	//查询参数
 	var value = "";
-	var type = "";
+    var type = "";
 	// 通过 require 引入依赖
 	var F = module.exports = {
 		basepath : '',
 		table : new core.Table('dictTable'),
 		init : function(_basepath) {
 			F.basepath = _basepath;
+			
+			/**
+			 * 是否具有查询字典权限 
+			 */
+			// if(base.perList.dict.query){
+			$("#dict-header .actions")
+					.append(
+							"<input autocomplete='off'  id='q_dict_value' name='q_dict_value' placeholder='请输入字典值' type='text' />&nbsp;&nbsp;<span  id='dict_typeName'></span><a href='#' id='queryByCondition' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>");
+			
+			$.ajax({
+				url : F.basepath + "/dict/typeNameList",
+				type:"GET",						
+				success:function(data){
+    				html="<select  id='q_dict_type'> <option value=''>--请选择--</option>";
+    				for(var i=0;i<data.value.length;i++){
+    					if(data.value[i].status==0){
+    						continue;
+    					}
+    					html+="<option value="+data.value[i].typeEncoding+">"+data.value[i].typeName+"</option>"
+    					
+    				}
+        				html+="</select>" 
+        					
+    					$("#dict_typeName").append(html);
+    			}							
+			})
+			//}
 			/**
 			 * 是否具有添加字典权限
 			 */
 			// if(base.perList.dict.create){
 			$("#dict-header .actions")
 					.append(
-							"<a href='#' id='addDict' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px'><i class='icon-plus'></i>添加</a>");
+							"<a href='#' id='addDict' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>添加</a>");
 			// }
 
 			/**
@@ -25,37 +52,38 @@ define(function(require, exports, module) {
 			// if(base.perList.dict.del){
 			$("#dict-header .actions")
 					.append(
-							"<a href='#' id='delDicts' class='btn btn-danger btn-small' style='margin-left:5px'><i class='icon-remove'></i>删除</a>");
+							"<a href='#' id='delDicts' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
+			
 			// }
-			/**
-			 * 是否具有查询字典权限
-			 */
-			// if(base.perList.dict.query){
-			$("#dict-header .actions")
-					.append(
-							"<form accept-charset='UTF-8' id='search' class='navbar-search pull-right hidden-phone' method='get' /><div style='margin:0 0 0 18px;padding:0;display:inline'></div><input autocomplete='off' class='search-query span2' id='q_dict_value' name='q_dict_value' placeholder='请输入字典值' type='text' />&nbsp;&nbsp;</span><input autocomplete='off' class='search-query span2' id='q_dict_type' name='q_dict_type' placeholder='请输入字典类型' type='text' /><a href='#' id='queryByCondition' class='btn icon-search btn-small' style='margin-left:5px' >查询</a>");
-
+			// $("#dict-header .actions").append("<a href='#' id='delDicts'
+			// class='btn btn-danger btn-small' style='margin-left:5px'><i
+			// class='icon-remove'></i>查询</a>");
+			//
+			// $("#dict-header .actions").append("<a href='#' id='delDicts'
+			// class='btn btn-danger btn-small' style='margin-left:5px'><i
+			// class='icon-remove'></i>查询</a>");
+			// }
 			/**
 			 * 加载树
 			 */
 
 			operateEvents = {
-				/**
-				 * 修改字典 取出字典原有值
-				 */
-				'click .editDict' : function(e, value, row, index) {
-					core.openModel('modal-EditDict', '修改字典', function() {
-						preValue = row.value;
-						$("#EditValue").val(row.value);
-						$("#EditParentID").val(row.parentId);
-						$("#EditType").val(row.type);
-						$("#EditRemark").val(row.remark);
-						$("#EditValue").attr("valueId", row.id);
-						$("#tatil").next("h3").html(
-								"编辑字典          " + row.value);
+					/**
+					 * 修改字典 取出字典原有值
+					 */
+					'click .editDict' : function(e, value, row, index) {
+						core.openModel('modal-EditDict', '修改字典', function() {
+						 preValue=row.value;
+							 $("#EditValue").val(row.value);
+							$("#EditParentID").val(row.parentId);
+							$("#EditType").val(row.type);
+							$("#EditRemark").val(row.remark);
+							$("#EditValue").attr("valueId", row.id);
+							$("#tatil").next("h3").html(
+									"编辑字典          " + row.value);
 
-					});
-				},
+						});
+					},
 				/**
 				 * 删除用户
 				 */
@@ -101,17 +129,9 @@ define(function(require, exports, module) {
 				},
 
 			};
+//			
 
-			// function queryParams() { //配置参数
-			// var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-			// // pageSize: params.limit, //页面大小
-			// // pageNumber: params.pageNumber, //页码
-			// value : $("#q_dict_value").val(),
-			// type: $("#q_dict_type").val(),
-			// };
-			// return temp;
-			// }
-
+			
 			// 定义表格的头
 			var cols = [ {
 
@@ -182,7 +202,11 @@ define(function(require, exports, module) {
 							});
 						}
 					});
-
+			
+			
+			
+			
+			
 			/**
 			 * 打开模态框
 			 */
@@ -205,20 +229,16 @@ define(function(require, exports, module) {
 				});
 				return false;
 			});
-
+			
 			/**
 			 * 根据条件查询
 			 */
-			$('#queryByCondition').click(
-					function() {
-						var value = $("#q_dict_value").val();
-						var type = $("#q_dict_type").val();
-						var query_url = F.basepath + '/dict/pageList?value='
-								+ value + '&type=' + type;
-						$('#dictTable').bootstrapTable('refresh', {
-							url : query_url
-						});
-					}),
+			$('#queryByCondition').click(function() {
+				var value = $("#q_dict_value").val();
+				var typeName = $("#q_dict_type").val();
+				var query_url = F.basepath + '/dict/pageList?value='+value+'&typeEncoding='+typeName;
+				$('#dictTable').bootstrapTable('refresh',{url:query_url});
+			}),
 
 			/**
 			 * 关闭模态框
@@ -242,19 +262,15 @@ define(function(require, exports, module) {
 				var parentId = $("#EditParentID").val();
 				var type = $("#EditType").val();
 				var remark = $("#EditRemark").val();
-				if (preValue == value) {
+				if(preValue==value){
 					$("#edit-value-error").html("字典值未更改");
-					$("#edit-value-error").css('color', 'red');
-					return
-
+					 $("#edit-value-error").css('color','red');
+					 return
 				}
 				if (value.length < 1 || type.length < 1) {
-					$("#edit-msg").html("字典值以及字典类型不能为空！");
-					$("#edit-msg").css('color', '#b94a48');
+					$("#edit-msg").html("字典值以及字典类型不能为空！");$("#edit-msg").css('color','#b94a48');
 					return
-
-				}
-				;
+				};				
 				$.ajax({
 					url : F.basepath + '/dict/editDict',
 					type : 'POST',
@@ -270,8 +286,8 @@ define(function(require, exports, module) {
 							core.closeModel('modal-EditDict');
 							F.table.reload();
 						} else {
-							$("#edit-value-error").html(data.msg);
-							$("#edit-value-error").css('color', 'red');
+							 $("#edit-value-error").html(data.msg);
+							 $("#edit-value-error").css('color','red');
 
 						}
 					}
@@ -286,49 +302,49 @@ define(function(require, exports, module) {
 				var parentId = $("#parentId").val();
 				var type = $("#type").val();
 				var remark = $("#remark").val();
-				if (value.length < 1 || type.length < 1) {
-					$("#msg").html("字典值以及字典类型不能为空！");
-					$("#msg").css('color', '#b94a48');
+				if (value.length < 1 || type.length <1 ){
+					$("#msg").html("字典值以及字典类型不能为空！");$("#msg").css('color','#b94a48');
 					return
-
-				}
-				$.ajax({
-					url : F.basepath + '/dict/addDict',
-					type : 'POST',
-					data : {
-						value : value,
-						parentId : parentId,
-						type : type,
-						remark : remark
-					},
-					success : function(data) {
-						if (data.result > 0) {
-							core.closeModel('modal-DictTree');
-							F.table.reload();
-						} else {
-							$("#value-error").html(data.msg);
-							$("#value-error").css('color', 'red');
+				} 
+					$.ajax({
+						url : F.basepath + '/dict/addDict',
+						type : 'POST',
+						data : {
+							value : value,
+							parentId : parentId,
+							type : type,
+							remark : remark
+						},
+						success : function(data) {
+							if (data.result > 0) {
+								core.closeModel('modal-DictTree');
+								F.table.reload();
+							}
+							 else{
+							 $("#value-error").html(data.msg);
+							 $("#value-error").css('color','red');
+							 }
 						}
-					}
 
-				});
+					});
+				
 
 			});
 
 		},
-
+		
 		operateFormatter : function(value, row, index) {
 			var _btnAction = "";
-			// if (base.perList.dict.confine) {
+			// if (base.perList.user.edit_dep) {
 			_btnAction += "<a class='startDict btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"
 					+ (row.status == 1 ? "停用" : "启用") + "</a>";
 			// }
 			//            
-			// if (base.perList.dict.edit) {
+			// if (base.perList.user.edit) {
 			_btnAction += "<a data-toggle='modal' class='editDict btn btn-success btn-small' href='#' title='编辑用户' style='margin-left:5px'>编辑</a>";
 			// }
 
-			// if (base.perList.dict.del) {
+			// if (base.perList.user.del) {
 			_btnAction += "<a class='delDict btn btn-danger btn-small' href='#' title='删除用户' style='margin-left:5px'>删除</a>";
 			// }
 			return _btnAction;
@@ -354,6 +370,7 @@ define(function(require, exports, module) {
 				}
 			});
 		},
-
+		
+		
 	}
 });

@@ -14,7 +14,8 @@
 <body>
 	<!-- <div class='span9 box bordered-box blue-border' style='margin-bottom:0;'> -->
 	<div class='box-header' id="dict-header">
-		<div class='actions'>		
+		<div class='actions'>	
+		
 		</div>
 	</div>
 	<div class='box-content box-no-padding'>
