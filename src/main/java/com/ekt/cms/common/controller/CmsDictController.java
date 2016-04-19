@@ -49,7 +49,12 @@ public class CmsDictController {
     @RequestMapping("/pageList")
     @ResponseBody
     public PageBean<CmsDict> queryListDictPage(PageContext page,CmsDict cmsDict,HttpServletRequest request) {
-    	System.out.println(request.getParameter("other"));
+    	//获取前台URL传递过来的查询参数
+    	String value = request.getParameter("value");
+    	String type = request.getParameter("type");
+    	cmsDict.setValue(value);
+    	cmsDict.setType(type);
+    	
     	page.paging();
     	PageBean<CmsDict> returnPageBean = dictService.listDictPage(cmsDict);
     	return returnPageBean;
