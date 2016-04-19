@@ -1,18 +1,13 @@
-
 package com.ekt.cms.role.controller;
-
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.validation.Valid;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.ekt.cms.common.BaseController;
 import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.role.entity.CmsRole;
@@ -142,11 +137,23 @@ public class RoleController extends BaseController {
 		result.setResult(cmsRoleService.confine(cmsRole));
 		return result;
 	}
-	
-	public Result getTree(@RequestParam("roleId")int roleId){
+	/**
+	 * 返回Tree
+	 * @param roleId
+	 * @return
+	 */
+	@RequestMapping(value = "/tree")
+	@ResponseBody
+	public Result getTree(@RequestParam("roleId")Integer roleId){
 		Result result=Result.getResults();
-			result.setValue(cmsRoleService.getTree(roleId));
+			result.setValue(cmsRoleService.getTreeByRoleId(roleId));
 			return  result;
 	}
+	
+//	public Result setPermissions(@RequestParam('')String arr,@RequestParam('')){
+//		Result result=Result.getResults();
+//		return result;
+//	}
 
 }
+

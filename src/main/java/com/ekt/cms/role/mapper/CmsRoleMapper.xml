@@ -74,5 +74,59 @@
 		WHERE id=#{cmsRole.id}
 	</update>
 	
+	<select id="getParentMenuList" parameterType="com.ekt.cms.role.entity.Keyword" resultType="java.util.Map" >
+		SELECT 
+			p.id,p.parent_id pId,p.menu_name,IF (m.menu_id IS NULL,0,1) AS isTrue
+		FROM (
+				SELECT * FROM cms_menu p WHERE p. LEVEL = 1 AND p. STATUS = 1 ) AS p
+		LEFT JOIN (
+				SELECT r.menu_id FROM cms_role_menu r
+		WHERE  
+			r.role_id = #{keyword.roleId}
+	 		) AS m ON p.id = m.menu_id
+	
+	</select>
+	<select id="getSonMenuList" parameterType="com.ekt.cms.role.entity.Keyword" resultType="java.util.Map">
+		SELECT
+			p.id,p.parent_id pId,p.menu_name,IF (m.menu_id IS NULL,0,1) AS isTrue
+	    FROM(
+			SELECT * FROM cms_menu p 
+			WHERE p.parent_id=#{keyword.parentId}
+			AND p. STATUS = 1 ) AS p
+		LEFT JOIN ( SELECT r.menu_id FROM cms_role_menu r WHERE r.role_id = #{keyword.roleId} ) AS m
+		ON p.id = m.menu_id
+	</select>
+	<select id="getPermission" parameterType="com.ekt.cms.role.entity.Keyword" resultType="java.util.Map" >
+			SELECT  a.*,if(b.permission_id is NULL,0,1)isTrue from (
+			SELECT
+				mp.menu_id,mp.permission_id,p.name
+			FROM
+				cms_menu_permission mp
+			LEFT JOIN cms_permission p ON mp.permission_id = p.id
+			WHERE
+				mp.menu_id = #{keyword.menuId}
+			)as a LEFT JOIN (SELECT permission_id from cms_role_permission 
+					WHERE role_id=#{keyword.roleId} )as b
+			on a.permission_id=b.permission_id
+	</select>
+
+	
+<select id='getTreeByRoleId' resultType='java.util.Map'  parameterType='java.lang.Integer'>
+		SELECT
+			a.id,if(b.permission_id is null ,'false','true')checked,'false'chkDisabled,a.name,'false'oncheck,'true'open,a.pId,IF(a.LEVEL=2,'false','true')parent
+		FROM
+			( SELECT id,NAME,pid,LEVEL FROM cms_permission ) AS a
+		LEFT JOIN (
+		SELECT
+			permission_id
+		FROM
+			cms_role_permission
+		WHERE
+			role_id = #{roleId}
+		) AS b ON a.id = b.permission_id
+			
+</select>	
+	
+	
 	
 </mapper>
