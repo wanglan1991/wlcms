@@ -64,7 +64,7 @@ public class CmsRoleService implements ICmsRoleService {
 	public List<Map<String, Object>> getTree() {
 		List<Map<String, Object>> parentList = new ArrayList<Map<String, Object>>();
 				parentList=cmsRoleMapper.getParentTree();
-				parentList.addAll(cmsRoleMapper.gitSonTree());
+//				parentList.addAll(cmsRoleMapper.gitSonTree());
 		return parentList;
 	}
 //	public List<Map<String, Object>> getTree(int roleId) {

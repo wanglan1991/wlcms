@@ -77,7 +77,6 @@ define(function (require, exports, module) {
     		            	if(row!=null){
     		            		var url=F.basepath+'/cms/role/tree'
     		            		$("#roleId").val(row.id)
-//    		            		F.distributePermissionTree.load({"roleId":row.id});
     		            		core.loadTree(url.toString());
     		            	}
     		        	});

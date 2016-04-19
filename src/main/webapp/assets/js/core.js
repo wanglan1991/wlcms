@@ -97,28 +97,63 @@ define(function (require, exports, module) {
             return coreTree;
         },
          loadTree:function(_url){
-        	  var setting = {  
-        	            view: {  
-        	                selectedMulti: false        //禁止多点选中  
-        	            },  
-        	            data: {  
-        	                simpleData: {  
-        	                    enable:true,  
-        	                    idKey: "id",  
-        	                    pIdKey: "pId",  
-        	                    rootPId: ""  
-        	                }  
-        	            },  
-        	            callback: {  
-        	                onClick: function(treeId, treeNode) {  
-        	                    var treeObj = $.fn.zTree.getZTreeObj(treeNode);  
-        	                    var selectedNode = treeObj.getSelectedNodes()[0];  
-        	                    $("#txtId").val(selectedNode.id);  
-        	                    $("#txtAddress").val(selectedNode.name);  
-        	                }  
-        	            } 
-        	          
-        	        };  
+//        	  var setting = {  
+//        	            view: {  
+//        	                selectedMulti: false        //禁止多点选中  
+//        	            },  
+//        	            data: {  
+//        	                simpleData: {  
+//        	                    enable:true,  
+//        	                    idKey: "id",  
+//        	                    pIdKey: "pId",  
+//        	                    rootPId: ""  
+//        	                }  
+//        	            },  
+//        	            callback: {  
+//        	                onClick: function(treeId, treeNode) {  
+//        	                    var treeObj = $.fn.zTree.getZTreeObj(treeNode);  
+//        	                    var selectedNode = treeObj.getSelectedNodes()[0];  
+//        	                    $("#txtId").val(selectedNode.id);  
+//        	                    $("#txtAddress").val(selectedNode.name);  
+//        	                }  
+//        	            } 
+//        	          
+//        	        };  
+//        	 var _onClick = 
+         	
+         	var setting = {
+         			check: {
+     					enable: true,
+     					chkStyle: "radio",
+     					radioType: "all"
+     				},
+     				data: {
+     					simpleData: {
+     						enable: true
+     					}
+     				},
+     				callback: {
+     					onClick:function(){
+     		         		var zTree = $.fn.zTree.getZTreeObj("#distributePermissionTree");
+     		 				zTree.checkNode(treeNode, !treeNode.checked, null, true);
+     		 				return false;
+     		         	} ,
+     					onCheck:function(){
+     		        		var zTree = $.fn.zTree.getZTreeObj("#distributePermissionTree");
+     		        		var nodes = zTree.getCheckedNodes(true),id="";
+     						for (var i=0, l=nodes.length; i<l; i++) {
+     							id += nodes[i].id + ",";
+     							alert(id);
+     						}
+     						if (id.length > 0 ) id = id.substring(0, id.length-1);
+     						if(_hiddenId!=null&&_hiddenId.length>0)
+     							$("#"+_hiddenId).val(id);
+     						else
+     							$("#distributePermissionTree").data(id);
+     		        	}
+     				}
+         		};
+  
         	  			var zNodes =new Array();
 			        	  $.ajax({
 			         		 url:_url,
@@ -133,7 +168,6 @@ define(function (require, exports, module) {
         	  
          }
         ,initCheckTree:function(_treeId,_url,_hiddenId){
-        	alert(_treeId);
         	var _beforeClick = function(){
         		var zTree = $.fn.zTree.getZTreeObj(_treeId);
 				zTree.checkNode(treeNode, !treeNode.checked, null, true);
@@ -392,7 +426,6 @@ define(function (require, exports, module) {
         Table:function(_tableId){
         	this.tableId=_tableId;
         	this.init = function(_url,_cols){
-        		alert("init");
         		$('#'+_tableId).bootstrapTable({
         			locale:'zh-CN',
         			height:320,
