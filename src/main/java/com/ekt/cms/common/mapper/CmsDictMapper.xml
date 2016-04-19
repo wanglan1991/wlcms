@@ -49,9 +49,9 @@
 		parent_id =
 		#{parentId,jdbcType=INTEGER},
 		type_encoding = #{typeEncoding,jdbcType=VARCHAR},
-		status =
-		#{status,jdbcType=INTEGER},
-		remark = #{remark,jdbcType=VARCHAR}
+		status =1,		
+		remark = #{remark,jdbcType=VARCHAR},
+		type_name=#{typeName,jdbcType=VARCHAR}
 		WHERE id
 		= #{id,jdbcType=INTEGER}
 	</update>
@@ -68,6 +68,12 @@
 		</if>
 		<if test="CmsDict.typeEncoding != null and CmsDict.typeEncoding !=''">
 			AND type_encoding=#{ CmsDict.typeEncoding }
+		</if>
+		<if test="CmsDict.remark != null and CmsDict.remark !=''">
+			AND remark=#{ CmsDict.remark }
+		</if>
+		<if test="CmsDict.typeName != null and CmsDict.typeName !=''">
+			AND type_name=#{ CmsDict.typeName }
 		</if>
 		<if test="CmsDict.status != null and CmsDict.status !=''">
 			AND status=#{ CmsDict.status }
