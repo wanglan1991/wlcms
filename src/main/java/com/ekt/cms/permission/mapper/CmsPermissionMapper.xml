@@ -22,13 +22,17 @@
 	<select id="queryPermissionByRoleId" resultMap="PermissionResultMap"
 		parameterType="java.lang.Integer">
 		SELECT
-		r.id roleId ,r.encoding,p.id
-		PermissionId,p.key,p.value
-		FROM cms_role r
-		LEFT JOIN cms_role_permission
-		c ON c.role_id =r.id
-		LEFT JOIN cms_permission p ON p.id=c.permission_id
-		WHERE r.id = #{id,jdbcType=INTEGER}
+			r.id,
+			r.encoding,
+			p.permission_id,
+			pe.key,
+			pe.value
+		FROM
+			cms_role r
+		LEFT JOIN cms_role_permission p ON p.role_id = r.id
+		LEFT JOIN cms_permission pe on pe.id=p.permission_id
+		WHERE
+			r.id =#{id,jdbcType=INTEGER} and pe.level=2
 	</select>
 	<!-- 按主键查询 -->
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"

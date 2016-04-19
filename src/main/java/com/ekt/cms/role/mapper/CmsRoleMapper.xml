@@ -109,22 +109,23 @@
 					WHERE role_id=#{keyword.roleId} )as b
 			on a.permission_id=b.permission_id
 	</select>
+
 	
-	
-	<select id='getParentTree' resultType="java.util.Map">
-	SELECT DISTINCT
-		c.id,'false'checked,'false'chkDisabled,c.menu_name name,'false'oncheck,'true'open,c.parent_id pId,
-		IF(p.permission_id is null,IF(c.level=1,'true','false'),'true')parent
+<select id='getTreeByRoleId' resultType='java.util.Map'  parameterType='java.lang.Integer'>
+		SELECT
+			a.id,if(b.permission_id is null ,'false','true')checked,'false'chkDisabled,a.name,'false'oncheck,'true'open,a.pId,IF(a.LEVEL=2,'false','true')parent
 		FROM
-		cms_menu c
-		LEFT JOIN cms_menu_permission p on c.id=p.menu_id;
-	</select>
-	<select id='gitSonTree' resultType="java.util.Map">
-		SELECT p.id,'false'checked,'false'chkDisabled,p.name,'false'oncheck,'true'open,cp.menu_id pId,'false'parent 
-		FROM cms_menu_permission cp 
-		LEFT JOIN cms_permission p on cp.permission_id=p.id
-	</select>
-	
+			( SELECT id,NAME,pid,LEVEL FROM cms_permission ) AS a
+		LEFT JOIN (
+		SELECT
+			permission_id
+		FROM
+			cms_role_permission
+		WHERE
+			role_id = #{roleId}
+		) AS b ON a.id = b.permission_id
+			
+</select>	
 	
 	
 	

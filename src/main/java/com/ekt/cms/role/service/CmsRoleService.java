@@ -61,30 +61,8 @@ public class CmsRoleService implements ICmsRoleService {
 	}
 
 	@Override
-	public List<Map<String, Object>> getTree() {
-		List<Map<String, Object>> parentList = new ArrayList<Map<String, Object>>();
-				parentList=cmsRoleMapper.getParentTree();
-//				parentList.addAll(cmsRoleMapper.gitSonTree());
-		return parentList;
+	public List<Map<String, Object>> getTreeByRoleId(int roleId) {
+		return cmsRoleMapper.getTreeByRoleId(roleId);
 	}
-//	public List<Map<String, Object>> getTree(int roleId) {
-//		List<Map<String, Object>> parentList = new ArrayList<Map<String, Object>>();
-//		List<Map<String, Object>> sonList = new ArrayList<Map<String, Object>>();
-//		List<Map<String, Object>> permissionList = new ArrayList<Map<String, Object>>();
-//		Keyword keyword = new Keyword();
-//		keyword.setRoleId(roleId);
-//		parentList = cmsRoleMapper.getParentMenuList(keyword);
-//		for (Map<String, Object> parentMap : parentList) {
-//			keyword.setParentId(Integer.parseInt(parentMap.get("id").toString()));
-//			sonList = cmsRoleMapper.getSonMenuList(keyword);
-//			parentMap.put("sonList", sonList);
-//			for (Map<String, Object> sonMap : sonList) {
-//				keyword.setMenuId(Integer.parseInt(sonMap.get("id").toString()));
-//				permissionList = cmsRoleMapper.getPermission(keyword);
-//				sonMap.put("permissionList", permissionList);
-//			}
-//		}
-//		return parentList;
-//	}
 
 }

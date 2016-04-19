@@ -96,70 +96,55 @@ define(function (require, exports, module) {
         	var coreTree = new E.CoreTree(_treeId,_url,setting);
             return coreTree;
         },
-         loadTree:function(_url){
-//        	  var setting = {  
-//        	            view: {  
-//        	                selectedMulti: false        //禁止多点选中  
-//        	            },  
-//        	            data: {  
-//        	                simpleData: {  
-//        	                    enable:true,  
-//        	                    idKey: "id",  
-//        	                    pIdKey: "pId",  
-//        	                    rootPId: ""  
-//        	                }  
-//        	            },  
-//        	            callback: {  
-//        	                onClick: function(treeId, treeNode) {  
-//        	                    var treeObj = $.fn.zTree.getZTreeObj(treeNode);  
-//        	                    var selectedNode = treeObj.getSelectedNodes()[0];  
-//        	                    $("#txtId").val(selectedNode.id);  
-//        	                    $("#txtAddress").val(selectedNode.name);  
-//        	                }  
-//        	            } 
-//        	          
-//        	        };  
-//        	 var _onClick = 
+        
+        
+        
+        
+        
+         loadTree:function(_url,_roleId){   
+        	 
+//        	 var _beforeClick = function(){
+//         		var zTree = $.fn.zTree.getZTreeObj(_treeId);
+// 				zTree.checkNode(treeNode, !treeNode.checked, null, true);
+// 				return false;
+//         	};
          	
-         	var setting = {
-         			check: {
+//         	var _onCheck = function(){
+//         		var zTree = $.fn.zTree.getZTreeObj(_treeId);
+//         		var nodes = zTree.getCheckedNodes(true),id="";
+// 				for (var i=0, l=nodes.length; i<l; i++) {
+// 					id += nodes[i].id + ",";
+// 				}
+// 				if (id.length > 0 ) id = id.substring(0, id.length-1);
+// 				if(_hiddenId!=null&&_hiddenId.length>0)
+// 					$("#"+_hiddenId).val(id);
+// 				else
+// 					$("#"+_treeId).data(id);
+//         	};
+        	 var setting = {
+     				check: {
      					enable: true,
-     					chkStyle: "radio",
-     					radioType: "all"
+     					chkboxType:{ "Y" : "ps", "N" : "ps" }
+     				},
+     				view: {
+     					dblClickExpand: false
      				},
      				data: {
      					simpleData: {
      						enable: true
      					}
-     				},
-     				callback: {
-     					onClick:function(){
-     		         		var zTree = $.fn.zTree.getZTreeObj("#distributePermissionTree");
-     		 				zTree.checkNode(treeNode, !treeNode.checked, null, true);
-     		 				return false;
-     		         	} ,
-     					onCheck:function(){
-     		        		var zTree = $.fn.zTree.getZTreeObj("#distributePermissionTree");
-     		        		var nodes = zTree.getCheckedNodes(true),id="";
-     						for (var i=0, l=nodes.length; i<l; i++) {
-     							id += nodes[i].id + ",";
-     							alert(id);
-     						}
-     						if (id.length > 0 ) id = id.substring(0, id.length-1);
-     						if(_hiddenId!=null&&_hiddenId.length>0)
-     							$("#"+_hiddenId).val(id);
-     						else
-     							$("#distributePermissionTree").data(id);
-     		        	}
      				}
-         		};
-  
-        	  			var zNodes =new Array();
+//     				,callback: {
+//     					beforeClick: _beforeClick,
+//     					onCheck: _onCheck
+//     				}
+     			};
 			        	  $.ajax({
 			         		 url:_url,
 			         		 type:'GET',
+			         		 data:{roleId:_roleId},
 			         		 success:function(data){
-			         $.fn.zTree.init($("#distributePermissionTree"), setting, data.value)
+			         			 $.fn.zTree.init($("#distributePermissionTree"), setting, data.value)
 			         		 }
 			         	 })
 			         	 

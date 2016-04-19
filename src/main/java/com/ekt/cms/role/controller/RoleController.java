@@ -144,11 +144,16 @@ public class RoleController extends BaseController {
 	 */
 	@RequestMapping(value = "/tree")
 	@ResponseBody
-	public Result getTree(){
+	public Result getTree(@RequestParam("roleId")Integer roleId){
 		Result result=Result.getResults();
-			result.setValue(cmsRoleService.getTree());
+			result.setValue(cmsRoleService.getTreeByRoleId(roleId));
 			return  result;
 	}
+	
+//	public Result setPermissions(@RequestParam('')String arr,@RequestParam('')){
+//		Result result=Result.getResults();
+//		return result;
+//	}
 
 }
 

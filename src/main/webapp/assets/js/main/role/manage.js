@@ -77,7 +77,7 @@ define(function (require, exports, module) {
     		            	if(row!=null){
     		            		var url=F.basepath+'/cms/role/tree'
     		            		$("#roleId").val(row.id)
-    		            		core.loadTree(url.toString());
+    		            		core.loadTree(url.toString(),row.id);
     		            	}
     		        	});
     		        },
@@ -231,7 +231,25 @@ define(function (require, exports, module) {
             });
 			
 			$('#btnDistributePermissionSubmit').click(function(){
-				F.permissionSubmit();
+				var treeObj = $.fn.zTree.getZTreeObj("distributePermissionTree");
+				var roleId = $("#roleId").val();
+				var arr=''
+				var nodes = treeObj.transformToArray(treeObj.getNodes()); 
+				for (var i = 0; i < nodes.length; i++) { 
+					if(nodes[i].checked==true){
+						arr+=nodes[i].id+',';
+					}
+				}
+				$.ajax({
+					url:F.basepath+"/cms/role/permissions",
+					type:'POST',
+					data:{permissionStr:arr,roleId:roleId},
+					success:function(data){
+						
+					}
+				});
+				
+	
 			});
 			
         },permissionSubmit:function(){

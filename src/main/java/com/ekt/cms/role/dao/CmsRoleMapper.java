@@ -79,31 +79,14 @@ public interface CmsRoleMapper {
 	 */
 	public int getMenuList(@Param("roleId")int roleId);	
 	
-	
-	
 	/**
-	 * 根据角色查询父级菜单
-	 * @param map
+	 * 查询权限 以及角色对应权限
+	 * @param roleId
 	 * @return
 	 */
-	public List<Map<String,Object>>getParentMenuList(@Param("keyword")Keyword keyword);
-	/**
-	 * 根据角色父级菜单Id查询子菜单
-	 * @param keword
-	 * @return
-	 */
-	public List<Map<String,Object>> getSonMenuList(@Param("keyword")Keyword keyword);
-	/**
-	 * 根据角色Id 菜单Id查询权限
-	 * @param keword
-	 * @return
-	 */
-	public List<Map<String,Object>> getPermission(@Param("keyword")Keyword keyword);
+	public List<Map<String,Object>> getTreeByRoleId(@Param("roleId")int roleId);
 	
-	
-	public List<Map<String,Object>> getParentTree();
-	
-	public List<Map<String,Object>> gitSonTree();
+
 	
 
 }
