@@ -47,23 +47,22 @@ define(function(require, exports, module) {
 			 */
 
 			operateEvents = {
-				/**
-				 * 修改字典 取出字典原有值
-				 */
-				'click .editDict' : function(e, value, row, index) {
-					console.log("进入编辑")
-					core.openModel('modal-EditDict', '修改字典', function() {
-						$("#EditValue").val(row.value);
-						$("#EditParentID").val(row.parentId);
-						$("#EditType").val(row.type);
-						$("#EditRemark").val(row.remark);
-						$("#EditValue").attr("valueId", row.id);
-						$("#tatil").next("h3").html(
-								"编辑字典          " + row.value);
+					/**
+					 * 修改字典 取出字典原有值
+					 */
+					'click .editDict' : function(e, value, row, index) {
+						core.openModel('modal-EditDict', '修改字典', function() {
+						 preValue=row.value;
+							 $("#EditValue").val(row.value);
+							$("#EditParentID").val(row.parentId);
+							$("#EditType").val(row.type);
+							$("#EditRemark").val(row.remark);
+							$("#EditValue").attr("valueId", row.id);
+							$("#tatil").next("h3").html(
+									"编辑字典          " + row.value);
 
-					});
-				},
-
+						});
+					},
 				/**
 				 * 删除用户
 				 */
@@ -247,10 +246,15 @@ define(function(require, exports, module) {
 				var parentId = $("#EditParentID").val();
 				var type = $("#EditType").val();
 				var remark = $("#EditRemark").val();
-				if (value.length < 0 || type.length < 0) {
-					return
+				if(preValue==value){
+					$("#edit-value-error").html("字典值未更改");
+					 $("#edit-value-error").css('color','red');
+					 return
 				}
-				;
+				if (value.length < 1 || type.length < 1) {
+					$("#edit-msg").html("字典值以及字典类型不能为空！");$("#edit-msg").css('color','#b94a48');
+					return
+				};				
 				$.ajax({
 					url : F.basepath + '/dict/editDict',
 					type : 'POST',
@@ -266,7 +270,9 @@ define(function(require, exports, module) {
 							core.closeModel('modal-EditDict');
 							F.table.reload();
 						} else {
-							alert("操作异常！")
+							 $("#edit-value-error").html(data.msg);
+							 $("#edit-value-error").css('color','red');
+
 						}
 					}
 
@@ -280,7 +286,10 @@ define(function(require, exports, module) {
 				var parentId = $("#parentId").val();
 				var type = $("#type").val();
 				var remark = $("#remark").val();
-				if (value.length > 0 && type.length > 0) {
+				if (value.length < 1 || type.length <1 ){
+					$("#msg").html("字典值以及字典类型不能为空！");$("#msg").css('color','#b94a48');
+					return
+				} 
 					$.ajax({
 						url : F.basepath + '/dict/addDict',
 						type : 'POST',
@@ -295,17 +304,17 @@ define(function(require, exports, module) {
 								core.closeModel('modal-DictTree');
 								F.table.reload();
 							}
-							// 错误格式处理暂未写
-							// else{
-							// $("#userName-error").html(data.msg);
-							// $("#userName-error").css('color','red');
-							// }
+							 else{
+							 $("#value-error").html(data.msg);
+							 $("#value-error").css('color','red');
+							 }
 						}
 
 					});
-				}
+				
 
 			});
+
 		},
 		
 		operateFormatter : function(value, row, index) {
