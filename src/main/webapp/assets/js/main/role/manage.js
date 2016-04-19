@@ -245,9 +245,10 @@ define(function (require, exports, module) {
 					type:'POST',
 					data:{permissionStr:arr,roleId:roleId},
 					success:function(data){
-						
+						core.closeModel('modal-DistributePermission');
 					}
 				});
+				
 				
 	
 			});

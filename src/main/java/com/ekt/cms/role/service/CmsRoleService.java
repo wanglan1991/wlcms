@@ -65,4 +65,14 @@ public class CmsRoleService implements ICmsRoleService {
 		return cmsRoleMapper.getTreeByRoleId(roleId);
 	}
 
+	@Override
+	public int delPermissionByRoleId(int roleId) {
+		return cmsRoleMapper.delPermissionByRoleId(roleId);
+	}
+
+	@Override
+	public  int insertRolePermission(int permissionId,int roleId){
+		return cmsRoleMapper.insertRolePermission(permissionId, roleId);
+	}
+
 }
