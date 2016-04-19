@@ -114,13 +114,14 @@ public class CmsDictController {
 	@ResponseBody
 	public Result dictEdit(CmsDict dict){
 		Result result=Result.getResults();
-		CmsDict cmsDict=dictService.queryByDictName(dict.getValue());
-		if(cmsDict!=null){
-			result.setMsg("字典值已存在");
+		List<CmsDict> cmsDict=dictService.queryDictByCondition(dict);
+		if(cmsDict.size()>0){
+			result.setMsg("该字典已存在");
 			return result;}
 		else
 			{
-		result.setResult(dictService.update(dict));}
+		result.setResult(dictService.update(dict));
+		}
 		return result;
 	}
 	/**

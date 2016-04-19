@@ -53,14 +53,14 @@
 				<div class='control-group'>
 					<label class='control-label'>类型</label>
 					<div class='controls'>
-						<input class='span8' id='type' required placeholder='字典类型'
+						<input class='span8' id='typeEncoding' required placeholder='字典类型'
 							type='text' />
 					</div>
 				</div>
 				<div class='control-group'>
 					<label class='control-label'>类型名称</label>
 					<div class='controls'>
-						<input class='span8' id='typeName' required placeholder='字典类型'
+						<input class='span8' id='typeName' required placeholder='字典类型名称'
 							type='text' />
 					</div>
 				</div>
