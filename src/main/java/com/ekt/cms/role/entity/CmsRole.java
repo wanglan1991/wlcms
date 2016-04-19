@@ -21,8 +21,15 @@ public class CmsRole {
 	private Integer status;
 	/**创建时间**/
 	private Date createTime;
+	/**权限ID**/
+	private Integer permissionId;
 	
-	
+	public Integer getPermissionId() {
+		return permissionId;
+	}
+	public void setPermissionId(Integer permissionId) {
+		this.permissionId = permissionId;
+	}
 	public Date getCreateTime() {
 		return createTime;
 	}
