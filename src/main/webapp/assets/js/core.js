@@ -347,7 +347,7 @@ define(function (require, exports, module) {
         	this.init = function(_url,_cols){
         		$('#'+_tableId).bootstrapTable({
         			locale:'zh-CN',
-        			height:320,
+        			height:490,
         			sidePagination:'server',
         			pagination:true,
         			pageList:'[10, 20, 30]',

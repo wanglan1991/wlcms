@@ -50,10 +50,10 @@ define(function(require, exports, module) {
 			 * 是否具有删除字典权限
 			 */
 			// if(base.perList.dict.del){
-			$("#dict-header .actions")
-					.append(
-							"<a href='#' id='delDicts' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
-			
+//			$("#dict-header .actions")
+//					.append(
+//							"<a href='#' id='delDicts' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
+//			
 			// }
 			// $("#dict-header .actions").append("<a href='#' id='delDicts'
 			// class='btn btn-danger btn-small' style='margin-left:5px'><i
@@ -76,8 +76,9 @@ define(function(require, exports, module) {
 						 preValue=row.value;
 							 $("#EditValue").val(row.value);
 							$("#EditParentID").val(row.parentId);
-							$("#EditType").val(row.type);
+							$("#EditType").val(row.typeEncoding);
 							$("#EditRemark").val(row.remark);
+							$("#EditTypeName").val(row.typeName);
 							$("#EditValue").attr("valueId", row.id);
 							$("#tatil").next("h3").html(
 									"编辑字典          " + row.value);
@@ -260,17 +261,13 @@ define(function(require, exports, module) {
 				var valueId = $("#EditValue").attr("valueId");
 				var value = $("#EditValue").val();
 				var parentId = $("#EditParentID").val();
-				var type = $("#EditType").val();
+				var typeEncoding = $("#EditType").val();
+				var typeName = $("#EditTypeName").val();
 				var remark = $("#EditRemark").val();
-				if(preValue==value){
-					$("#edit-value-error").html("字典值未更改");
-					 $("#edit-value-error").css('color','red');
-					 return
-				}
-				if (value.length < 1 || type.length < 1) {
-					$("#edit-msg").html("字典值以及字典类型不能为空！");$("#edit-msg").css('color','#b94a48');
-					return
-				};				
+//				if (value.length < 1 || typeEncoding.length < 1 || typeName.length <1) {
+//					$("#edit-msg").html("字典值 类型及类型名称不能为空！");$("#edit-msg").css('color','#b94a48');
+//					return
+//				};				
 				$.ajax({
 					url : F.basepath + '/dict/editDict',
 					type : 'POST',
@@ -278,7 +275,8 @@ define(function(require, exports, module) {
 						id : valueId,
 						value : value,
 						parentId : parentId,
-						type : type,
+						typeEncoding : typeEncoding,
+						typeName:typeName,
 						remark : remark
 					},
 					success : function(data) {
@@ -300,19 +298,21 @@ define(function(require, exports, module) {
 			$('#btnSubmit').click(function() {
 				var value = $("#value").val();
 				var parentId = $("#parentId").val();
-				var type = $("#type").val();
+				var typeEncoding = $("#typeEncoding").val();
+				var typeName= $("#typeName").val();
 				var remark = $("#remark").val();
-				if (value.length < 1 || type.length <1 ){
-					$("#msg").html("字典值以及字典类型不能为空！");$("#msg").css('color','#b94a48');
-					return
-				} 
+//				if (value.length < 1 || typeEncoding.length <1 || typeName.length <1){
+//					$("#msg").html("字典值 类型及类型名称不能为空！");$("#msg").css('color','#b94a48');
+//					return
+//				} 
 					$.ajax({
 						url : F.basepath + '/dict/addDict',
 						type : 'POST',
 						data : {
 							value : value,
 							parentId : parentId,
-							type : type,
+							typeEncoding : typeEncoding,
+							typeName : typeName,
 							remark : remark
 						},
 						success : function(data) {
@@ -345,7 +345,7 @@ define(function(require, exports, module) {
 			// }
 
 			// if (base.perList.user.del) {
-			_btnAction += "<a class='delDict btn btn-danger btn-small' href='#' title='删除用户' style='margin-left:5px'>删除</a>";
+//			_btnAction += "<a class='delDict btn btn-danger btn-small' href='#' title='删除用户' style='margin-left:5px'>删除</a>";
 			// }
 			return _btnAction;
 		},
