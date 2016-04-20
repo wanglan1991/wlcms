@@ -8,17 +8,27 @@ import org.springframework.stereotype.Service;
 
 import com.ekt.cms.permission.dao.CmsPermissionMapper;
 import com.ekt.cms.permission.entity.CmsPermission;
-
+/**
+ * 
+ * @author 王岚
+ * 2016-04-20 15:14
+ *
+ */
 @Service("permissionService")
 public class PermissionService implements IPermissionService {
 	@Resource
 	private CmsPermissionMapper cmsPermissionMapper;
 
-	// 根据角色ID查询所有权限
+	@Override
+	public List<CmsPermission> listPage(CmsPermission cmsPermission) {
+		return cmsPermissionMapper.listPage(cmsPermission);
+	}
+
 	@Override
 	public List<CmsPermission> queryPermissionByRoleId(Integer roleId) {
-		// TODO Auto-generated method stub
 		return cmsPermissionMapper.queryPermissionByRoleId(roleId);
 	}
+
+
 
 }

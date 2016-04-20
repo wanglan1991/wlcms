@@ -1,106 +1,83 @@
-
 package com.ekt.cms.permission.entity;
-
-import java.sql.Date;
-
 public class CmsPermission {
-	private Integer roleId;
-
-	private Integer PermissionId;
-
-	private String roleName;
-
-	private String PermissionName;
-
-	private String encoding;
-	// 权限关键字
+	private int id;
+	private String name;
 	private String key;
-
-	private Date roleCreateTime;
-
-	private int roleStatus;
-
-	private Integer order;
-	// 权限对应的URL
+	private int order;
 	private String value;
-
-	public String getRoleName() {
-		return roleName;
-	}
-
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
-
-	public String getPermissionName() {
-		return PermissionName;
-	}
-
-	public void setPermissionName(String permissionName) {
-		PermissionName = permissionName;
-	}
-
+	private int pid;
+	private String type;
+	private int level;
+	private String icon;
+	private int status;
+	private String encoding;
 	public String getEncoding() {
 		return encoding;
 	}
-
 	public void setEncoding(String encoding) {
 		this.encoding = encoding;
 	}
-
-	public Date getRoleCreateTime() {
-		return roleCreateTime;
+	public int getId() {
+		return id;
 	}
-
-	public void setRoleCreateTime(Date roleCreateTime) {
-		this.roleCreateTime = roleCreateTime;
+	public void setId(int id) {
+		this.id = id;
 	}
-
-	public int getRoleStatus() {
-		return roleStatus;
+	public String getName() {
+		return name;
 	}
-
-	public void setRoleStatus(int roleStatus) {
-		this.roleStatus = roleStatus;
+	public void setName(String name) {
+		this.name = name;
 	}
-
-	public Integer getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(Integer roleId) {
-		this.roleId = roleId;
-	}
-
-	public Integer getPermissionId() {
-		return PermissionId;
-	}
-
-	public void setPermissionId(Integer permissionId) {
-		PermissionId = permissionId;
-	}
-
 	public String getKey() {
 		return key;
 	}
-
 	public void setKey(String key) {
 		this.key = key;
 	}
-
-	public Integer getOrder() {
+	public int getOrder() {
 		return order;
 	}
-
-	public void setOrder(Integer order) {
+	public void setOrder(int order) {
 		this.order = order;
 	}
-
 	public String getValue() {
 		return value;
 	}
-
 	public void setValue(String value) {
 		this.value = value;
 	}
+	public int getPid() {
+		return pid;
+	}
+	public void setPid(int pid) {
+		this.pid = pid;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public int getLevel() {
+		return level;
+	}
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	public String getIcon() {
+		return icon;
+	}
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	
+	
+	
 }

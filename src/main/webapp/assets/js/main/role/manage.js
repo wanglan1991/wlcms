@@ -115,7 +115,6 @@ define(function (require, exports, module) {
         	 */	
  	       F.table.init(F.basepath+'/cms/role/pageList',cols);
     		
- 	       F.treeLoad();
     		/**
 			 * 批量删除
 			 */
