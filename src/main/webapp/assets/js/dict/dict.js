@@ -301,86 +301,85 @@ define(function(require, exports, module) {
 			/**
 			 * 提交添加字典
 			 */
-//			$('#btnSubmit').click(function() {
-//				alert(1);
-				jQuery('#submit-form').validate({
-					rules:{
-						value:{required:true},
-						typeEncoding:{required:email},
-					},
-					messages:{
-						value:{required:'商品名称不能为空'},
-						typeEncoding:'字典编码不能为空',
-					},
+//			$(document).ready(function() {  	
+//				$('#submit-form').validate();
+//				});
+//			$("#btnSubmit").click(function(){
+//				alert('http://localhost:8080/cms' + '/dict/addDict')
+//				    if($("#submit-form").validate()){
+//				     $("#submit-form").submit();
+//				 }
+//				});
+			$("#btnSubmit").click(function() {	
+				alert("btnSubmit");
+			jQuery('#submit-form').validate({
 					submitHandler:function(form){
+						alert(111111);
 						var value = $("#value").val();
 						var parentId = $("#parentId").val();
 						var typeEncoding = $("#typeEncoding").val();
 						var typeName = $("#typeName").val();
 						var remark = $("#remark").val();
-						var options = {
-								url : F.basepath + '/dict/addDict',
-								type:'post',
-								dataType:'json',
-								data : {
-									value : value,
-									parentId : parentId,
-									typeEncoding : typeEncoding,
-									typeName : typeName,
-									remark : remark
-								},
-								success:function(data){
-										if (data.result > 0) {
-											core.closeModel('modal-DictTree');
-											F.table.reload();
-										} else{
-										//错误提示
-										$('#info').fadeOut('slow');
-										$('#info').empty().text(data.msg);
-										$('#info').removeClass('alert alert-success').addClass('alert alert-danger');
-										$('#info').fadeIn('slow');
-									}
-								}				
-						};
-						$(form).ajaxSubmit(options);
-					}
-					
-				});
-				
-//				var value = $("#value").val();
-//				var parentId = $("#parentId").val();
-//				var typeEncoding = $("#typeEncoding").val();
-//				var typeName = $("#typeName").val();
-//				var remark = $("#remark").val();
-				// if (value.length < 1 || typeEncoding.length <1 ||
-				// typeName.length <1){
-				// $("#msg").html("字典值
-				// 类型及类型名称不能为空！");$("#msg").css('color','#b94a48');
-				// return
-				// }
-//				$.ajax({
-//					url : F.basepath + '/dict/addDict',
-//					type : 'POST',
-//					data : {
-//						value : value,
-//						parentId : parentId,
-//						typeEncoding : typeEncoding,
-//						typeName : typeName,
-//						remark : remark
-//					},
-//					success : function(data) {
-//						if (data.result > 0) {
-//							core.closeModel('modal-DictTree');
-//							F.table.reload();
-//						} else {
-//							$("#value-error").html(data.msg);
-//							$("#value-error").css('color', 'red');
-//						}
-//					}
-//
-//				});
+						$.ajax({
+							url : 'http://localhost:8080/cms' + '/dict/addDict',
+							type : 'POST',
+							data : {
+								value : value,
+								parentId : parentId,
+								type : type,
+								remark : remark
+							},
+							success : function(data) {
+								if (data.result > 0) {
+									core.closeModel('modal-DictTree');
+									F.table.reload();
+								}
+								 else{
+								 $("#value-error").html(data.msg);
+								 $("#value-error").css('color','red');
+								 }
+							}
 
-//			});
+						});
+//						var options = {
+//								url : F.basepath + '/dict/addDict',
+//								type:'post',
+//								dataType:'json',
+//								data : {
+//									value : value,
+//									parentId : parentId,
+//									typeEncoding : typeEncoding,
+//									typeName : typeName,
+//									remark : remark
+//								},
+//								success:function(data){
+//										if (data.result > 0) {
+//											core.closeModel('modal-DictTree');
+//											F.table.reload();
+//										} else{
+//										//错误提示
+//										$('#info').fadeOut('slow');
+//										$('#info').empty().text(data.msg);
+//										$('#info').removeClass('alert alert-success').addClass('alert alert-danger');
+//										$('#info').fadeIn('slow');
+//									}
+//								}				
+//						};
+//						alert(2);
+//						$(form).ajaxSubmit(options);
+					},
+				rules:{
+					value:{required:true},
+					typeEncoding:{required:true},
+				},
+				messages:{
+					value:{required:'字典名称不能为空'},
+					typeEncoding:'字典编码不能为空',
+				},
+//					
+				});
+			});
+//				
 
 		},
 
@@ -422,6 +421,58 @@ define(function(require, exports, module) {
 				}
 			});
 		},
-
+		
 	}
+	
+	
+	jQuery(document).ready(function() { 
+		alert(11);
+		$('#submit-form').validate({
+//			$('#modal-DictTree').validate({
+		
+			submitHandler:function(form){
+				alert(22);
+				var value = $("#value").val();
+				alert(value);
+// 				var parentId = $("#parentId").val();
+// 				var typeEncoding = $("#typeEncoding").val();
+// 				var typeName = $("#typeName").val();
+// 				var remark = $("#remark").val();
+				var url = "http://localhost:8080/cms/dict/addDict"
+				alert(url);
+				var data = {};
+				$.ajax({
+					url : url,
+					type : 'POST',
+					data : data,
+					dataType: "json", 
+					success : function(data) {
+						if (data.result > 0) {
+							core.closeModel('modal-DictTree');
+							F.table.reload();
+						}
+						 else{
+						 $("#value-error").html(data.msg);
+						 $("#value-error").css('color','red');
+						 }
+					}
+
+				});
+				alert(33);
+// 				$(form).ajaxSubmit(options);
+			},
+		rules:{
+			value:{required:true},
+			typeEncoding:{required:true},
+		},
+		messages:{
+			value:{required:'字典名称不能为空'},
+			typeEncoding:'字典编码不能为空',
+		},
+			
+		});
+	}); 
+	
+	
+	
 });

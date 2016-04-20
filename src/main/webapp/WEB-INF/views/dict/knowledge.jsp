@@ -139,54 +139,55 @@
 	
 	
 	
-// 	jQuery(document).ready(function() { 
-// 		alert(11);
-// 		$('#submit-form').validate({
-// //			$('#modal-DictTree').validate({
+	jQuery(document).ready(function() { 
+		$('#submit-form').validate({
+//			$('#modal-DictTree').validate({
 		
-// 			submitHandler:function(form){
-// 				alert(22);
-// 				var value = $("#value").val();
-// 				alert(value);
-// // 				var parentId = $("#parentId").val();
-// // 				var typeEncoding = $("#typeEncoding").val();
-// // 				var typeName = $("#typeName").val();
-// // 				var remark = $("#remark").val();
-// 				var url = "http://localhost:8080/cms/dict/addDict"
-// 				alert(url);
-// 				var data = {};
-// 				$.ajax({
-// 					url : url,
-// 					type : 'POST',
-// 					data : data,
-// 					dataType: "json", 
-// 					success : function(data) {
-// 						if (data.result > 0) {
-// 							core.closeModel('modal-DictTree');
-// 							F.table.reload();
-// 						}
-// 						 else{
-// 						 $("#value-error").html(data.msg);
-// 						 $("#value-error").css('color','red');
-// 						 }
-// 					}
-
-// 				});
-// 				alert(33);
-// // 				$(form).ajaxSubmit(options);
-// 			},
-// 		rules:{
-// 			value:{required:true},
-// 			typeEncoding:{required:true},
-// 		},
-// 		messages:{
-// 			value:{required:'字典名称不能为空'},
-// 			typeEncoding:'字典编码不能为空',
-// 		},
+			submitHandler:function(form){
+				alert(111111);
+				var value = $("#value").val();
+				var parentId = $("#parentId").val();
+				var typeEncoding = $("#typeEncoding").val();
+				var typeName = $("#typeName").val();
+				var remark = $("#remark").val();
+				var options = {
+						url : F.basepath + '/dict/addDict',
+						type:'post',
+						dataType:'json',
+						data : {
+							value : value,
+							parentId : parentId,
+							typeEncoding : typeEncoding,
+							typeName : typeName,
+							remark : remark
+						},
+						success:function(data){
+								if (data.result > 0) {
+									core.closeModel('modal-DictTree');
+									F.table.reload();
+								} else{
+								//错误提示
+								$('#info').fadeOut('slow');
+								$('#info').empty().text(data.msg);
+								$('#info').removeClass('alert alert-success').addClass('alert alert-danger');
+								$('#info').fadeIn('slow');
+							}
+						}				
+				};
+				$(form).ajaxSubmit(options);
+			},
+		rules:{
+			value:{required:true},
+			typeEncoding:{required:true},
+		},
+		messages:{
+			value:{required:'字典名称不能为空'},
+			typeEncoding:'字典编码不能为空',
+		},
 			
-// 		});
-// 	}); 
-  	</script> 
+		});
+	}); 
+ 	</script>
 
 
 	<script>
