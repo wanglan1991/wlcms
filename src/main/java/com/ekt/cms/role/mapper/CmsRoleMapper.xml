@@ -120,21 +120,21 @@
 			SELECT
 				permission_id
 			FROM
-				cms_role_permission_copy
+				cms_role_permission
 			WHERE
 				role_id = #{roleId}
 			) AS b ON a.id = b.permission_id
 				
 	</select>	
 	<delete id="delPermissionByRoleId" parameterType='java.lang.Integer'>
-		DELETE FROM cms_role_permission_copy
+		DELETE FROM cms_role_permission
 		WHERE role_id = #{roleId,jdbcType=INTEGER}
 	</delete>
 	<insert id="insertRolePermission" parameterType="java.lang.Integer" >
 	<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
-		INSERT INTO cms_role_permission_copy( role_id, permission_id) VALUES (#{roleId},#{permissionId})
+		INSERT INTO cms_role_permission ( role_id, permission_id) VALUES (#{roleId},#{permissionId})
 	</insert>	
 	
 	

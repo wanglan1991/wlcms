@@ -16,14 +16,14 @@ define(function (require, exports, module) {
              * 是否具有删除角色权限
              */
             if(base.perList.role.del){
-            	$("#role-header .actions").append("<a href='#' id='delRoles' class='btn btn-danger btn-small' style='margin-left:5px'><i class='icon-remove'></i>删除</a>");
+            	$("#role-header .actions").append("<a href='#' id='delRoles' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
             }
             
             /**
              * 是否具有添加角色权限
              */
             if(base.perList.role.create){
-            	$("#role-header .actions").append("<a href='#' id='addRole' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px'><i class='icon-plus'></i>添加</a>");
+            	$("#role-header .actions").append("<a href='#' id='addRole' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>添加</a>");
             }
             
            
@@ -307,10 +307,6 @@ define(function (require, exports, module) {
         	})
         },reload:function(){
         	F.table.reload();
-        },treeLoad:function(){
-//        	if (base.perList.role.grant) {
-        		F.distributePermissionTree = core.initCheckTree('distributePermissionTree',F.basepath+'/cms/role/tree','distributePermissionTreeHidden')
-//        	}
         },operateFormatter:function (value, row, index) {
         	var _btnAction = "";
         	_btnAction += "<a class='confine btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"+(row.status==1?"停用":"启用")+"</a>";
