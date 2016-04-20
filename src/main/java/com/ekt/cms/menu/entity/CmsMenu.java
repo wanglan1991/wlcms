@@ -51,13 +51,13 @@ public class CmsMenu implements Serializable {
 	/**
 	 * 图标
 	 */
-	private String log;
-	public String getLog() {
-		return log;
+	private String icon;
+	public String getIcon() {
+		return icon;
 	}
 
-	public void setLog(String log) {
-		this.log = log;
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 
 	/**

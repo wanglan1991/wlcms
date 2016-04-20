@@ -9,7 +9,7 @@
 		<result column="order_no" property="orderNo" jdbcType="INTEGER" />
 		<result column="level" property="level" jdbcType="INTEGER" />
 		<result column="status" property="status" jdbcType="INTEGER" />
-		<result column="log" property="log" jdbcType="VARCHAR" />
+		<result column="icon" property="icon" jdbcType="VARCHAR" />
 	</resultMap>
 
 	<sql id="Base_Column_List">
@@ -116,7 +116,7 @@
 		SELECT
 			pe.id,
 			pe.name,
-			pe.log
+			pe.icon
 		FROM
 			cms_role_permission p
 		LEFT JOIN cms_permission pe ON p.permission_id = pe.id
@@ -133,7 +133,7 @@
 			pe.id,
 			pe.name,
 			pe.value,
-			pe.log 
+			pe.icon 
 		FROM 
 			cms_role_permission p
 		LEFT JOIN 
