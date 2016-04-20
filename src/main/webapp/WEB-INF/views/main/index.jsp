@@ -354,7 +354,7 @@ $(document).ready(function(){
 				 menusTxt+=" <li class=''><a  target='mainFrame' class='dropdown-collapse  in' href='"+parentMenu.url+"'><i class='"+parentMenu.log+"'></i><span>"+parentMenu.menuName+"</span></a><ul class='nav nav-stacked'>";
 					var sonMenuArr = parentMenu.menuList;	
 						 for(var i=0;i<sonMenuArr.length;i++){
-							 menusTxt+="<li><a  target='mainFrame' href='${ctx}/"+sonMenuArr[i].url+"'><i class='"+sonMenuArr[i].log+"'></i><span>"+sonMenuArr[i].menuName+"<span></a><li>" 
+							 menusTxt+="<li><a  target='mainFrame' href='${ctx}/"+sonMenuArr[i].url+"'><i class='"+sonMenuArr[i].icon+"'></i><span>"+sonMenuArr[i].menuName+"<span></a><li>" 
 									
 							}
 						 menusTxt+="</ul></li>";

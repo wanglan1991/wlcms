@@ -16,6 +16,22 @@
 		<result column="key" property="key" jdbcType="VARCHAR" />
 		<result column="value" property="value" jdbcType="VARCHAR" />
 	</resultMap>
+	
+	<resultMap id="PermissionMap" type="com.ekt.cms.permission.entity.CmsPermission">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<id column="name" property="id" jdbcType="INTEGER" />
+		<id column="key" property="id" jdbcType="INTEGER" />
+		<id column="order" property="id" jdbcType="INTEGER" />
+		<id column="value" property="id" jdbcType="INTEGER" />
+		<id column="pid" property="id" jdbcType="INTEGER" />
+		<id column="type" property="id" jdbcType="INTEGER" />
+		<id column="level" property="id" jdbcType="INTEGER" />
+		<id column="icon" property="id" jdbcType="VARCHAR" />
+		<id column="status" property="id" jdbcType="INTEGER" />
+		
+	
+	
+	</resultMap>
 
 	
 	<!-- 按roleId查询 -->
@@ -56,9 +72,6 @@
 		'key' is not null 
 		AND 
 		'key'  &lt;&gt;''
-<!-- 		AND -->
-<!-- 		value is not null  -->
-<!-- 		AND value &lt;&gt;'' -->
 	</select>
 	<!-- 按主键删除 -->
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -90,4 +103,8 @@
 		WHERE id =
 		#{id,jdbcType=INTEGER}
 	</update>
+	
+	
+	
+	
 </mapper>
