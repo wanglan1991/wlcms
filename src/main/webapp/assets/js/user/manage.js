@@ -16,17 +16,20 @@ define(function (require, exports, module) {
             	/**
                  * 是否具有添加用户权限
                  */
-//                if(base.perList.user.create){
-            	$("#user-header .actions").append("<a href='#' id='delUsers' class='btn btn-danger btn-small' style='margin-left:5px'><i class='icon-remove'></i>删除</a>");
+            	//加载查询框
+//               	  if(base.perList.user.check){
+              		$("#user-header .actions").append("<input autocomplete='off'  id='realName'  placeholder='请输入用户姓名' type='text' />&nbsp;&nbsp;<input autocomplete='off'  id='accountName'  placeholder='请输入账户名'" +
+              				" type='text' />&nbsp;&nbsp;<span  id='dict_typeName'></span><a href='#' id='queryByAccount' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>&nbsp;&nbsp;&nbsp;&nbsp;");
+//              	}
+            	//添加账户
+//                if(base.perList.user.add){
+                	$("#user-header .actions").append("<a href='#' id='delUsers' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
 //                }
-                
-                /**
-                 * 是否具有删除用户权限
-                 */
+                //删除账户
 //                if(base.perList.user.del){
-                	
-               $("#user-header .actions").append("<a href='#' id='addUser' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px'><i class='icon-plus'></i>添加</a>");
-                	
+                	$("#user-header .actions").append("<a href='#' id='addUser' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>添加</a>");
+//                }	
+           
                 
                 /**
                  * 加载树
@@ -205,6 +208,17 @@ define(function (require, exports, module) {
     					base.bootAlert({"ok":false,"msg":"请选择你要删除的用户！"});
     				}
     			});
+    			/**
+    			 * 带参查询
+    			 */
+    			$('#queryByAccount').click(function(){
+    				
+    				var userName=$("#accountName").val();
+    				var realName=$("#realName").val();
+    				var url= F.basepath+'/account/list?userName='+userName+'&realName='+realName;
+    				$("#userTable").bootstrapTable('refresh',{url:url});
+    				
+    			});
 
     			/**
     			 * 打开模态框
@@ -329,7 +343,7 @@ define(function (require, exports, module) {
     			 */
     			$('#btnRoleSubmit').click(function(){
     				var id=$("#modal-UserRoleTree").attr("role");
-    				var role=$("#role").val();
+    				var role=$("#editRole").val();
     				$.ajax({
     					url: F.basepath+'/account/roleEdit',
 	        			type:'POST',

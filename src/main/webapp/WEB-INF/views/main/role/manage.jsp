@@ -5,7 +5,6 @@
 </head>
 <body>
   <div class='box-header' id="role-header">
-    <div class='title'>角色设置</div>
     <div class='actions'></div>
   </div>
   <div class='box-content box-no-padding'>
