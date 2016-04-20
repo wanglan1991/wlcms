@@ -19,18 +19,15 @@
 	
 	<resultMap id="PermissionMap" type="com.ekt.cms.permission.entity.CmsPermission">
 		<id column="id" property="id" jdbcType="INTEGER" />
-		<id column="name" property="id" jdbcType="INTEGER" />
-		<id column="key" property="id" jdbcType="INTEGER" />
-		<id column="order" property="id" jdbcType="INTEGER" />
-		<id column="value" property="id" jdbcType="INTEGER" />
-		<id column="pid" property="id" jdbcType="INTEGER" />
-		<id column="type" property="id" jdbcType="INTEGER" />
-		<id column="level" property="id" jdbcType="INTEGER" />
-		<id column="icon" property="id" jdbcType="VARCHAR" />
-		<id column="status" property="id" jdbcType="INTEGER" />
-		
-	
-	
+		<id column="name" property="name" jdbcType="INTEGER" />
+		<id column="key" property="key" jdbcType="VARCHAR" />
+		<id column="order" property="order" jdbcType="INTEGER" />
+		<id column="value" property="value" jdbcType="VARCHAR" />
+		<id column="pid" property="pid" jdbcType="INTEGER" />
+		<id column="type" property="type" jdbcType="VARCHAR" />
+		<id column="level" property="leve" jdbcType="INTEGER" />
+		<id column="icon" property="icon" jdbcType="VARCHAR" />
+		<id column="status" property="status" jdbcType="INTEGER" />
 	</resultMap>
 
 	
@@ -103,8 +100,20 @@
 		WHERE id =
 		#{id,jdbcType=INTEGER}
 	</update>
+	<select id="listPage" resultMap="PermissionMap" parameterType="com.ekt.cms.permission.entity.CmsPermission">
+		SELECT * FROM 
+			cms_permission
+		WHERE 1=1
+		<if test="cmsPermission.name !=null and cmsPermission.name!='' ">
+		AND( name like '%${cmsPermission.name}%')
+		</if>
+		<if test="cmsPermission.level !=null and cmsPermission.level !=''">
+		AND level=#{cmsPermission.level}		
+		</if>
 	
 	
+	</select>
+		
 	
 	
 </mapper>

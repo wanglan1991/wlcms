@@ -2,6 +2,8 @@ package com.ekt.cms.permission.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.ekt.cms.permission.entity.CmsPermission;
 
 /**
@@ -27,6 +29,6 @@ public interface CmsPermissionMapper {
 	public List<CmsPermission> selectAll();
 	
 	//查询permission list
-	public List<CmsPermission> listPage(CmsPermission cmsPermission);
+	public List<CmsPermission> listPage(@Param("cmsPermission")CmsPermission cmsPermission);
 
 }

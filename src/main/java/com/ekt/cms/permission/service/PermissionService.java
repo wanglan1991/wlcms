@@ -14,9 +14,9 @@ import com.ekt.cms.permission.entity.CmsPermission;
  * 2016-04-20 15:14
  *
  */
-@Service("permissionService")
+//@Service("iPermissionService")
 public class PermissionService implements IPermissionService {
-	@Resource
+//	@Resource
 	private CmsPermissionMapper cmsPermissionMapper;
 
 	@Override
