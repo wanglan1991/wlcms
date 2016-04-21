@@ -102,26 +102,21 @@
 					</div>
 				</div>
 				<div class='control-group'>
-					<label class='control-label'>类型</label>
+					<label class='control-label'>年级</label>
 					<div class='controls'>
-						<input class='span8' id='EditType' name="EditType" placeholder='类型'
-							required type='text' />
+						 <div class='input-append'>
+		               		<select id='Editgrade'></select>
+		                </div>
 					</div>
 				</div>
 				<div class='control-group'>
-					<label class='control-label'>类型名称</label>
+					<label class='control-label'>科目</label>
 					<div class='controls'>
-						<input class='span8' id='EditTypeName' required placeholder='字典类型'
-							type='text' />
+						 <div class='input-append'>
+		               		<select id='EditSubject'></select>
+		                </div>
 					</div>
-				</div>
-				<div class='control-group'>
-					<label class='control-label'>备注</label>
-					<div class='controls'>
-						<input class='span8' id='EditRemark' name="remark"
-							placeholder='备注' type='text' />
-					</div>
-				</div>
+				</div>			
 			</div>
 			<div class='modal-footer'>
 				<msg id='edit-msg'></msg>
@@ -131,58 +126,7 @@
 		</form>
 	</div>
 	<script type="text/javascript"> 
-	
-	
-	
-	jQuery(document).ready(function() { 
-		$('#submit-form').validate({
-//			$('#modal-DictTree').validate({
-		
-			submitHandler:function(form){
-				alert(111111);
-				var value = $("#value").val();
-				var parentId = $("#parentId").val();
-				var typeEncoding = $("#typeEncoding").val();
-				var typeName = $("#typeName").val();
-				var remark = $("#remark").val();
-				var options = {
-						url : F.basepath + '/knowledge/addKnowledge',
-						type:'post',
-						dataType:'json',
-						data : {
-							value : value,
-							parentId : parentId,
-							typeEncoding : typeEncoding,
-							typeName : typeName,
-							remark : remark
-						},
-						success:function(data){
-								if (data.result > 0) {
-									core.closeModel('modal-KnowledgeTree');
-									F.table.reload();
-								} else{
-								//错误提示
-								$('#info').fadeOut('slow');
-								$('#info').empty().text(data.msg);
-								$('#info').removeClass('alert alert-success').addClass('alert alert-danger');
-								$('#info').fadeIn('slow');
-							}
-						}				
-				};
-				$(form).ajaxSubmit(options);
-			},
-		rules:{
-			value:{required:true},
-			typeEncoding:{required:true},
-		},
-		messages:{
-			value:{required:'字典名称不能为空'},
-			typeEncoding:'字典编码不能为空',
-		},
-			
-		});
-	}); 
- 	</script>
+
 
 
 	<script>
