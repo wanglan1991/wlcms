@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ekt.cms.permission.dao.CmsPermissionMapper;
 import com.ekt.cms.permission.entity.CmsPermission;
+import com.ekt.cms.utils.pageHelper.PageBean;
 /**
  * 
  * @author 王岚
@@ -21,8 +22,8 @@ public class PermissionService implements IPermissionService {
 	private CmsPermissionMapper cmsPermissionMapper;
 
 	@Override
-	public List<CmsPermission> listPage(CmsPermission cmsPermission) {
-		return cmsPermissionMapper.listPage(cmsPermission);
+	public PageBean<CmsPermission> listPage(CmsPermission cmsPermission) {
+		return new PageBean<CmsPermission>(cmsPermissionMapper.listPage(cmsPermission));
 	}
 
 	@Override
@@ -53,6 +54,16 @@ public class PermissionService implements IPermissionService {
 	@Override
 	public int addPermission(CmsPermission cmsPermission) {
 		return cmsPermissionMapper.addPermission(cmsPermission);
+	}
+
+	@Override
+	public int deleteRolePermission(int id) {
+		return cmsPermissionMapper.deleteRolePermission(id);
+	}
+
+	@Override
+	public int updatePermission(CmsPermission cmsPermission) {
+		return cmsPermissionMapper.updatePermission(cmsPermission);
 	}
 
 

@@ -102,6 +102,25 @@ define(function (require, exports, module) {
         
         
          loadTree:function(_url,_roleId){   
+        	 
+//        	 var _beforeClick = function(){
+//         		var zTree = $.fn.zTree.getZTreeObj(_treeId);
+// 				zTree.checkNode(treeNode, !treeNode.checked, null, true);
+// 				return false;
+//         	};
+         	
+//         	var _onCheck = function(){
+//         		var zTree = $.fn.zTree.getZTreeObj(_treeId);
+//         		var nodes = zTree.getCheckedNodes(true),id="";
+// 				for (var i=0, l=nodes.length; i<l; i++) {
+// 					id += nodes[i].id + ",";
+// 				}
+// 				if (id.length > 0 ) id = id.substring(0, id.length-1);
+// 				if(_hiddenId!=null&&_hiddenId.length>0)
+// 					$("#"+_hiddenId).val(id);
+// 				else
+// 					$("#"+_treeId).data(id);
+//         	};
         	 var setting = {
      				check: {
      					enable: true,
@@ -115,6 +134,10 @@ define(function (require, exports, module) {
      						enable: true
      					}
      				}
+//     				,callback: {
+//     					beforeClick: _beforeClick,
+//     					onCheck: _onCheck
+//     				}
      			};
 			        	  $.ajax({
 			         		 url:_url,
@@ -385,7 +408,7 @@ define(function (require, exports, module) {
         			pagination:true,
         			pageList:'[10, 20, 30]',
         			url: _url,
-        			method:'post',
+        			method:'get',
         			searchAlign: "left",//查询框对齐方式
                     queryParamsType: "limit",//查询参数组织方式
         			search: false,//是否显示右上角的搜索框  

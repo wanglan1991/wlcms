@@ -10,6 +10,7 @@ public class PageContext {
     private int total = 0;
 	private int offset = 0;//偏移量
 	private int limit = 10;//分页中一页的数量
+	private String order;
 
 
 
@@ -24,7 +25,15 @@ public class PageContext {
         return pn;
     }
 
-    public static void setPageNum(int pageNumValue) {
+    public String getOrder() {
+		return order;
+	}
+
+	public void setOrder(String order) {
+		this.order = order;
+	}
+
+	public static void setPageNum(int pageNumValue) {
         pageNum.set(pageNumValue);
     }
 
