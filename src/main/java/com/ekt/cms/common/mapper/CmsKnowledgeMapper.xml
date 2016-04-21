@@ -4,6 +4,10 @@
 	<resultMap type="com.ekt.cms.common.entity.CmsKnowledge" id="BaseMap">
 		<id column="id" property="id" jdbcType="INTEGER"></id>
 		<result column="title" property="title" jdbcType="VARCHAR"></result>
+<<<<<<< HEAD
+	
+	</resultMap>
+=======
 		<result column="grade_no" property="gradeNo" jdbcType="INTEGER"></result>
 		<result column="order_no" property="orderNo" jdbcType="INTEGER"></result>
 		<result column="subject_no" property="subjectNo" jdbcType="INTEGER"></result>
@@ -27,4 +31,5 @@
 			LEFT JOIN cms_dictionary d on d.id=k.grade_no 
 			LEFT JOIN cms_dictionary dc on dc.id=k.subject_no
 	</select>
+>>>>>>> upstream/master
 </mapper>

@@ -444,18 +444,9 @@ define(function (require, exports, module) {
 			},reload:function(){
 				F.tree.load();
 				F.table.reload();
-			},treeLoad:function(){
-            	F.tree = core.initTree("departTree",F.basepath+'/main/department/get-all-departments',F.onClick);
-            	F.tree.load();
-            	if (base.perList.user.create||base.perList.user.edit) {
-            		F.radioTree = core.initDropDownRadioTree('dep',F.basepath+'/main/department/get-all-departments');
-            	}
-            	if (base.perList.user.edit_dep) {
-            		F.radioDeptTree = core.initDropDownRadioTree('depId',F.basepath+'/main/department/get-all-departments');
-            	}
-            	if (base.perList.user.distribute_role) {
-            		F.checkTree = core.initDropDownCheckTree('roleId',F.basepath+'/main/role/get-all-roles');
-            	}
+			}
+			,treeLoad:function(){
+            	F.tree = core.initTree("departTree",F.basepath+'/main/department/get-all-departments',F.onClick);         
             },
 			
 			
@@ -463,10 +454,3 @@ define(function (require, exports, module) {
         }
     }
 );
-//function roleEdit(id){
-//	core.openModel('modal-UserRoleTree','角色分配',function(){
-//	});
-//	
-	
-	
-//}

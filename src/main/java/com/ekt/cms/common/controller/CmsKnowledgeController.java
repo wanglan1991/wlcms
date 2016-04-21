@@ -1,5 +1,13 @@
 package com.ekt.cms.common.controller;
 
+<<<<<<< HEAD
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping(value="/dict")  //知识点controller
+public class CmsKnowledgeController {
+=======
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -19,14 +27,18 @@ public class CmsKnowledgeController {
 	
 	@Resource
 	private ICmsKnowledgeService cmsKnowledgeService;
+>>>>>>> upstream/master
 	 @RequestMapping("/toKnowledge")
 	    public String toDictPage() {
 	    	return "dict/knowledge";
 	    }
+<<<<<<< HEAD
+=======
 		@RequestMapping("/listPage")
 		@ResponseBody
 		public PageBean<CmsKnowledge> accountList(PageContext page ,CmsKnowledge cmsKnowledge){
 			page.paging();
 			return cmsKnowledgeService.listPage(cmsKnowledge);
 		}
+>>>>>>> upstream/master
 }

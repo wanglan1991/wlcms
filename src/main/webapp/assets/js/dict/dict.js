@@ -268,7 +268,102 @@ define(function(require, exports, module) {
 				F.table.reload();
 			});
 
+<<<<<<< HEAD
+			/**
+			 * 修改字典
+			 */
+			$("#EditbtnSubmit").click(function() {
+				$('#Editsubmit-form').validate({		
+					submitHandler:function(form){
+						var value = $("#value").val();
+		 				var parentId = $("#parentId").val();
+		 				var typeEncoding = $("#typeEncoding").val();
+		 				var typeName = $("#typeName").val();
+		 				var remark = $("#remark").val();
+		 				var data={value:value,typeEncoding:typeEncoding,typeName:typeName,remark:remark};
+							$.ajax({
+							url :  F.basepath + '/dict/editDict',
+							type : 'POST',
+							data : data,
+							dataType: "json", 
+							success : function(data) {
+								if (data.result > 0) {
+									core.closeModel('modal-EditDict');
+									F.table.reload();
+								}
+								 else{
+								 $("#value-error").html(data.msg);
+								 $("#value-error").css('color','red');
+								 }
+							}
+
+						});
+					},
+				rules:{
+					value:{required:true},
+					typeEncoding:{required:true},
+					typeName:{required:true},
+				},
+				messages:{
+					value: '字典名称不能为空',
+					typeEncoding:'字典编码不能为空',
+					typeName:'字典编码不能为空'
+				},
+					
+				});
+		
+			});
 			
+			/**
+			 * 提交添加字典
+			 */
+			$("#btnSubmit").click(function(){
+			$('#submit-form').validate({		
+				submitHandler:function(form){
+					var value = $("#value").val();
+	 				var parentId = $("#parentId").val();
+	 				var typeEncoding = $("#typeEncoding").val();
+	 				var typeName = $("#typeName").val();
+	 				var remark = $("#remark").val();
+						$.ajax({
+						url :  F.basepath + '/dict/addDict',
+						type : 'POST',
+						data : {
+							value : value,
+							parentId : parentId,
+							type : type,
+							remark : remark
+						},
+						dataType: "json", 
+						success : function(data) {
+							if (data.result > 0) {
+								core.closeModel('modal-DictTree');
+								F.table.reload();
+							}
+							 else{
+							 $("#value-error").html(data.msg);
+							 $("#value-error").css('color','red');
+							 }
+						}
+
+					});
+				},
+			rules:{
+				value:{required:true},
+				typeEncoding:{required:true},
+				typeName:{required:true},
+			},
+			messages:{
+				value: '字典名称不能为空',
+				typeEncoding:'字典编码不能为空',
+				typeName:'字典编码不能为空'
+			},
+				
+			});
+			});
+=======
+			
+>>>>>>> upstream/master
 		
 		},
 
@@ -315,6 +410,9 @@ define(function(require, exports, module) {
 	
 	
 	jQuery(document).ready(function() { 
+<<<<<<< HEAD
+
+=======
 		/**
 		 * 表单验证 提交修改字典
 		 */
@@ -414,6 +512,7 @@ define(function(require, exports, module) {
 	
 		
 		
+>>>>>>> upstream/master
 	}); 
 	
 	

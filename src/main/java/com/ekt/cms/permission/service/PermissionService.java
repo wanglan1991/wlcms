@@ -1,6 +1,7 @@
 package com.ekt.cms.permission.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -27,6 +28,16 @@ public class PermissionService implements IPermissionService {
 	@Override
 	public List<CmsPermission> queryPermissionByRoleId(Integer roleId) {
 		return cmsPermissionMapper.queryPermissionByRoleId(roleId);
+	}
+
+	@Override
+	public List<CmsPermission> getTypeList() {
+		return cmsPermissionMapper.getTypeList();
+	}
+
+	@Override
+	public List<CmsPermission> getPidList(int type) {
+		return cmsPermissionMapper.getPidList(type);
 	}
 
 

@@ -123,11 +123,6 @@ define(function (require, exports, module) {
             $.jGrowl(data.msg, { life: 5000 });
 
         },
-        loadError: function (msg) {
-        	if (data.msg && $.trim(data.msg).length > 0) {
-        		$.jGrowl(msg, { life: 5000 });
-        	}
-        },
         perList: {
             permission: {
                 del: false,

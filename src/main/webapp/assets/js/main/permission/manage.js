@@ -13,15 +13,51 @@ define(function (require, exports, module) {
             /**
              * 是否具有添加权限权限
              */
-            if(base.perList.permission.create){
-            	$("#perm-header .actions").append("<a href='#' id='addPerm' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px'><i class='icon-plus'></i>添加</a>");
-            }
+            	$("#perm-header .actions").append("<input autocomplete='off'  id='name'  placeholder='请输入名称' type='text' />&nbsp;&nbsp;<select  id='permType' style='width:8%'>" +
+				"</select>&nbsp;&nbsp;<select  id='permPid' style='width:8%'></select><span  id='perm_nameame'></span><a href='#' id='queryByPerm' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>&nbsp;&nbsp;&nbsp;&nbsp;");
+            	//加载可选类型列表
+            	$.ajax({
+            		url:F.basepath+'/cms/permission/typeList',
+            		type:"POST",
+            		success:function(data){
+            		var typeHtml="<option value='-1'>--请选择类型--</option>";
+            		for(var i=0;i<data.value.length;i++){ typeHtml+="<option value='"+data.value[i].level+"'>"+data.value[i].type+"</option>";}
+            		$("#permType").append(typeHtml);
+            		}
+            	});	
+            	$("#permPid").append("<option value='-1'>--无--</option>")            	
+//            if(base.perList.permission.create){
+            	$("#perm-header .actions").append("<a href='#' id='addPerm' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>添加</a>");
+//            }
             /**
              * 是否具有删除权限权限
              */
-            if(base.perList.permission.del){
-            	$("#perm-header .actions").append("<a href='#' id='delPerms' class='btn btn-danger btn-small' style='margin-left:5px'><i class='icon-remove'></i>删除</a>");
-            }
+//            if(base.perList.permission.del){
+            	$("#perm-header .actions").append("<a href='#' id='delPerms' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
+//            }
+            	//触发二级菜单
+            	$("#permType").change(function(){
+            		$("#permPid").empty();
+            		var type=$("#permType").val();
+            		if(type==2||type==-1){
+            		$("#permPid").append("<option value='-1'>--无--</option>");
+            		return ;}
+            		
+            		$.ajax({
+            			url:F.basepath+'/cms/permission/pidList',
+            			type:"GET",
+            			data:{type:type},
+            			success:function(data){
+            				var pidHtml="<option value='-1'>--无--</option>";
+            				for(var i=0;i<data.value.length;i++){
+            					pidHtml+="<option value='"+data.value[i].pid+"'>"+data.value[i].name+"</option>";
+            				}
+            				$("#permPid").append(pidHtml);
+            			}
+            			
+            		});
+            	});
+            	
 			
 			/**
 			 * 请求权限数据
@@ -62,29 +98,30 @@ define(function (require, exports, module) {
 	                    {
 	        		        checkbox:true
 	        		    }, {
+	        		        field: 'id',
+	        		        title: '主键'
+	        		    }, {
 	        		        field: 'name',
-	        		        title: '权限名称'
+	        		        title: '名称'
 	        		    }, {
 	        		        field: 'key',
-	        		        title: '权限key'
-	        		    }, {
-	        		        field: 'order',
-	        		        title: '排序'
+	        		        title: 'key值'
 	        		    },{
-	    			        field: 'parentId',
-	    			        title: '上级权限',
-	    			        visible:false
+	    			        field: 'value',
+	    			        title: 'URL',
 	    		        },{
-	    			        field: 'id',
-	    			        title: '权限主键',
-	    			        visible:false
+	    			        field: 'type',
+	    			        title: '类型',
 	    		        },{
-	    			        field: 'parentName',
-	    			        title: '上级权限',
+	    			        field: 'pid',
+	    			        title: '父级id',
+	    		        },{
+	    			        field: 'status',
+	    			        title: '状态',
 	    			        visible:false
 	    		        }];
 	        //是否需要操作列
-	        if(base.perList.permission.edit||base.perList.permission.del)
+//	        if(base.perList.permission.edit||base.perList.permission.del)
 		        cols.push({
 			    	align: 'center',
 			        title: '操作',
@@ -92,7 +129,22 @@ define(function (require, exports, module) {
 			        formatter:F.operateFormatter
 			    });
         		
-    		F.table.init(F.basepath+'/main/get-show-permissions',cols);
+    		F.table.init(F.basepath+'/cms/permission/pageList',cols);
+    		
+    		/**
+    		 * 带参查询
+    		 */
+    		$('#queryByPerm').click(function(){
+//    			alert(11111);
+    			var name=$("#name").val();
+    			var level=$("#permType").val();
+    			var pid=$("#permPid").val();
+//    			alert(name+"----"+pid+"----"+level);
+    			var url= F.basepath+'/cms/permission/pageList?name='+name+'&level='+level+'&pid='+pid;
+//    			alert(url);
+    			
+				$("#permTable").bootstrapTable('refresh',{url:url});	
+    		});
     		
 			/**
 			 * 打开模态框
@@ -174,12 +226,12 @@ define(function (require, exports, module) {
         },
         operateFormatter:function (value, row, index) {
         	var _btnAction = "";
-        	if (base.perList.permission.edit) {
+//        	if (base.perList.permission.edit) {
         		_btnAction += "<a data-toggle='modal' class='editPerm btn btn-success btn-small' href='#' title='编辑权限' style='margin-left:5px'>编辑</a>";
-        	}
-        	if (base.perList.permission.del) {
+//        	}
+//        	if (base.perList.permission.del) {
         		_btnAction += "<a class='delPerm btn btn-danger btn-small' href='#' title='删除权限' style='margin-left:5px'>删除</a>";
-        	}
+//        	}
         	return _btnAction;
         } 
     };
