@@ -4,13 +4,13 @@
   <title></title>
 </head>
 <body>
-  <div class='box-header' id="role-header">
+  <div class='box-header' id="perm-header">
     <div class='actions'></div>
   </div>
   <div class='box-content box-no-padding'>
     <div class='responsive-table'>
       <div class='scrollable-area-x'>
-        <table id="roleTable"></table>
+        <table id="permTable"></table>
       </div>
     </div>
   </div>
@@ -165,7 +165,7 @@
     </div>
 </div>
 <script>
-  seajs.use(['base','main/role/manage'],function(b,m){
+  seajs.use(['base','main/permission/manage'],function(b,m){
 	b.init();
     m.init('${ctx}');
   });

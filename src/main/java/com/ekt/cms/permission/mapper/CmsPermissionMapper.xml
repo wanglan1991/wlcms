@@ -25,7 +25,7 @@
 		<id column="value" property="value" jdbcType="VARCHAR" />
 		<id column="pid" property="pid" jdbcType="INTEGER" />
 		<id column="type" property="type" jdbcType="VARCHAR" />
-		<id column="level" property="leve" jdbcType="INTEGER" />
+		<id column="level" property="level" jdbcType="INTEGER" />
 		<id column="icon" property="icon" jdbcType="VARCHAR" />
 		<id column="status" property="status" jdbcType="INTEGER" />
 	</resultMap>
@@ -45,7 +45,7 @@
 		LEFT JOIN cms_role_permission p ON p.role_id = r.id
 		LEFT JOIN cms_permission pe on pe.id=p.permission_id
 		WHERE
-			r.id =#{id,jdbcType=INTEGER} and pe.level=2
+			r.id =#{id,jdbcType=INTEGER} and pe.level=3
 	</select>
 	<!-- 按主键查询 -->
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
@@ -100,6 +100,7 @@
 		WHERE id =
 		#{id,jdbcType=INTEGER}
 	</update>
+<!-- 	菜单列表 -->
 	<select id="listPage" resultMap="PermissionMap" parameterType="com.ekt.cms.permission.entity.CmsPermission">
 		SELECT * FROM 
 			cms_permission
@@ -107,13 +108,18 @@
 		<if test="cmsPermission.name !=null and cmsPermission.name!='' ">
 		AND( name like '%${cmsPermission.name}%')
 		</if>
-		<if test="cmsPermission.level !=null and cmsPermission.level !=''">
+		<if test="cmsPermission.level !=null and cmsPermission.level !=-1  and cmsPermission.level !=0">
 		AND level=#{cmsPermission.level}		
 		</if>
-	
-	
+		<if test="cmsPermission.pid !=null and cmsPermission.pid !=-1  and cmsPermission.level !=0">
+		AND pid=#{cmsPermission.pid}		
+		</if>
 	</select>
-		
-	
+	<select id="getTypeList" resultMap="PermissionMap">
+		SELECT type,level FROM cms_permission GROUP BY type order by level
+	</select>		
+	<select id="getPidList" resultMap="PermissionMap" parameterType="java.lang.Integer">
+		SELECT name,pid FROM  cms_permission WHERE level=#{type} and level&lt;&gt;2
+	</select>
 	
 </mapper>

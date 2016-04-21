@@ -41,7 +41,7 @@
 				<div class='control-group'>
 					<label class='control-label'>字典值</label>
 					<div class='controls'>
-						<input class='span8' id='value' name="value" placeholder='字典值' 
+						<input class='span8' id='value' name="value" placeholder='字典值' required
 							type='text' />
 							<span id="value-error" class="help-block error"></span>
 					</div>
@@ -55,14 +55,14 @@
 				<div class='control-group'>
 					<label class='control-label'>类型</label>
 					<div class='controls'>
-						<input class='span8' id='typeEncoding' name="typeEncoding"  placeholder='字典类型'
+						<input class='span8' id='typeEncoding' name="typeEncoding" required placeholder='字典类型'
 							type='text' />
 					</div>
 				</div>
 				<div class='control-group'>
 					<label class='control-label'>类型名称</label>
 					<div class='controls'>
-						<input class='span8' id='typeName' name="typeName"  placeholder='字典类型名称'
+						<input class='span8' id='typeName' name="typeName" required placeholder='字典类型名称'
 							type='text' />
 					</div>
 				</div>
@@ -88,14 +88,14 @@
 			<button class='close' id="tatil" data-dismiss='modal' type='button'>&times;</button>
 			<h3></h3>
 		</div>
-		<form class='form validate-form' id='Editsubmit-form' role="form"
+		<form class='form validate-form' id='submit-form' role="form"
 			style='margin-bottom: 0;'>
 			<div class='modal-body'>
 				<div class='control-group'>
 					<label class='control-label'>字典值</label>
 					<div class='controls'>
 						<input class='span8' id='EditValue' name="EditValue" valueId=''
-							 placeholder='字典值' type='text' />
+							required placeholder='字典值' type='text' />
 							<span id="edit-value-error" class="help-block error"></span>
 					</div>
 				</div>
@@ -110,13 +110,13 @@
 					<label class='control-label'>类型</label>
 					<div class='controls'>
 						<input class='span8' id='EditType' name="EditType" placeholder='类型'
-							 type='text' />
+							required type='text' />
 					</div>
 				</div>
 				<div class='control-group'>
 					<label class='control-label'>类型名称</label>
 					<div class='controls'>
-						<input class='span8' id='EditTypeName'  placeholder='字典类型'
+						<input class='span8' id='EditTypeName' required placeholder='字典类型'
 							type='text' />
 					</div>
 				</div>
@@ -135,6 +135,61 @@
 			</div>
 		</form>
 	</div>
+	<script type="text/javascript"> 
+	
+	
+	
+	jQuery(document).ready(function() { 
+		$('#submit-form').validate({
+//			$('#modal-DictTree').validate({
+		
+			submitHandler:function(form){
+				alert(111111);
+				var value = $("#value").val();
+				var parentId = $("#parentId").val();
+				var typeEncoding = $("#typeEncoding").val();
+				var typeName = $("#typeName").val();
+				var remark = $("#remark").val();
+				var options = {
+						url : F.basepath + '/dict/addDict',
+						type:'post',
+						dataType:'json',
+						data : {
+							value : value,
+							parentId : parentId,
+							typeEncoding : typeEncoding,
+							typeName : typeName,
+							remark : remark
+						},
+						success:function(data){
+								if (data.result > 0) {
+									core.closeModel('modal-DictTree');
+									F.table.reload();
+								} else{
+								//错误提示
+								$('#info').fadeOut('slow');
+								$('#info').empty().text(data.msg);
+								$('#info').removeClass('alert alert-success').addClass('alert alert-danger');
+								$('#info').fadeIn('slow');
+							}
+						}				
+				};
+				$(form).ajaxSubmit(options);
+			},
+		rules:{
+			value:{required:true},
+			typeEncoding:{required:true},
+		},
+		messages:{
+			value:{required:'字典名称不能为空'},
+			typeEncoding:'字典编码不能为空',
+		},
+			
+		});
+	}); 
+ 	</script>
+
+
 	<script>
 		seajs.use([ 'base', 'dict/dict' ], function(b, m) {
 			b.init();
