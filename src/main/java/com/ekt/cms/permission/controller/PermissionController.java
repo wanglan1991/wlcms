@@ -72,5 +72,38 @@ public Result getPidList(@RequestParam("type")int type){
 	return result;
 }
 
+/**
+ * 启用或停用
+ * @param cmsPermission
+ * @return
+ */
+@RequestMapping(value="/confine")
+@ResponseBody
+public Result confine(CmsPermission cmsPermission){
+	Result result =Result.getResults();
+	result.setResult(permissionService.confine(cmsPermission));
+	return result;
+	
+}
+/**
+ * 删除
+ * @param ids
+ * @return
+ */
+@RequestMapping(value = "/delete")
+@ResponseBody
+public Result delete(@RequestParam("ids")String ids){
+	Result result=Result.getResults();
+	String[]arr=ids.split(",");
+	int total=0;
+	for(int i=0;i<arr.length;i++){
+//		total+=permissionService.deleteCmsPermission(Integer.parseInt(arr[i].toString()));
+	}
+	result.setResult(total);
+	return result;
+	
+}
+
+
 }
 

@@ -95,11 +95,8 @@
 					<label class='control-label'>字典值</label>
 					<input type="hidden" id="id" />
 					<div class='controls'>
-<<<<<<< HEAD
-						<input class='span8' id='EditValue' name="EditValue" valueId=''
-=======
+
 						<input class='span8' id='EditValue' name="EditValue"
->>>>>>> upstream/master
 							 placeholder='字典值' type='text' />
 							<span id="edit-value-error" class="help-block error"></span>
 					</div>
@@ -114,22 +111,17 @@
 				<div class='control-group'>
 					<label class='control-label'>类型</label>
 					<div class='controls'>
-<<<<<<< HEAD
-						<input class='span8' id='EditType' name="EditType" placeholder='类型'
-=======
+
 						<input class='span8' id='EditTypeEncoding' name="EditTypeEncoding" placeholder='类型'
->>>>>>> upstream/master
+
 							 type='text' />
 					</div>
 				</div>
 				<div class='control-group'>
 					<label class='control-label'>类型名称</label>
 					<div class='controls'>
-<<<<<<< HEAD
-						<input class='span8' id='EditTypeName'  placeholder='字典类型'
-=======
+
 						<input class='span8' id='EditTypeName'  name='EditTypeName' placeholder='字典类型'
->>>>>>> upstream/master
 							type='text' />
 					</div>
 				</div>

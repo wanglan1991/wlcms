@@ -1,10 +1,5 @@
 package com.ekt.cms.common.dao;
 
-<<<<<<< HEAD
-public class CmsKnowledgeMapper {
-
-}
-=======
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -19,4 +14,3 @@ public interface CmsKnowledgeMapper {
 	 * @return
 	 */
 	List<CmsKnowledge> listPage(@Param("CmsKnowledge")CmsKnowledge cmsKnowledge);}
->>>>>>> upstream/master
