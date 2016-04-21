@@ -213,6 +213,7 @@ define(function (require, exports, module) {
 				var type=$("#addPermType").val();
 				var pid=$("#permPrent").val();
 				var name=$("#permName").val();
+				var level=$("#addPermType").val();
 				var key=$("#key").val();
 				var value=$("#value").val();
 				var order=$("#order").val();
@@ -226,7 +227,8 @@ define(function (require, exports, module) {
 				$.ajax({
 					url:F.basepath+'/cms/permission/addPermission',
 					type:'post',
-					data:{type:type==1?"模块":type==2?"页面":"按钮",pid:pid==null?0:pid,name:name,key:key,value:value,order:order,icon:icon},
+					data:{type:type==1?"模块":type==2?"页面":"按钮",pid:pid==null?0:pid,
+							level:level,name:name,key:key,value:value,order:order,icon:icon},
 					success:function(data){
 						if(data.result>0){
 							clear();
