@@ -37,6 +37,10 @@ public interface CmsPermissionMapper {
 	public List<CmsPermission> getPidList(@Param("type")int type);
 	//停用启用
 	public int confine(@Param("cmsPermission")CmsPermission cmsPermission);
+	//根据id删除
+	public int deleteCmsPermission(@Param("cmsPermissionId")int cmsPermissionId);
+	//添加权限
+	public int addPermission(@Param("cmsPermission")CmsPermission cmsPermission);
 	
 
 

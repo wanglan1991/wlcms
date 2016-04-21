@@ -40,5 +40,18 @@ public interface IPermissionService {
 	 * @return
 	 */
 	public int confine(CmsPermission cmsPermission);
+	/**
+	 * 根据Id删除
+	 * @param id
+	 * @return
+	 */
+	public int deleteCmsPermission(int id);
+	/**
+	 * 添加权限
+	 * @param cmsPermission
+	 * @return
+	 */
+	public  int addPermission(CmsPermission cmsPermission);
+	
 	
 }

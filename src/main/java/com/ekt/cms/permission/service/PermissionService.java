@@ -45,6 +45,16 @@ public class PermissionService implements IPermissionService {
 		return cmsPermissionMapper.confine(cmsPermission);
 	}
 
+	@Override
+	public int deleteCmsPermission(int id) {
+		return cmsPermissionMapper.deleteCmsPermission(id);
+	}
+
+	@Override
+	public int addPermission(CmsPermission cmsPermission) {
+		return cmsPermissionMapper.addPermission(cmsPermission);
+	}
+
 
 
 }

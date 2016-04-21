@@ -70,24 +70,30 @@
 		AND 
 		'key'  &lt;&gt;''
 	</select>
-	<!-- 按主键删除 -->
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		DELETE FROM
-		cms_permission
-		WHERE id = #{id,jdbcType=INTEGER}
-	</delete>
 	<!-- 插入 -->
-	<insert id="insert" parameterType="com.ekt.cms.permission.entity.CmsPermission">
+	<insert id="addPermission" parameterType="com.ekt.cms.permission.entity.CmsPermission">
 		<selectKey resultType="java.lang.Integer" keyProperty="id"
 			order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
-		INSERT INTO cms_permission (id, name, key,
-		order)
-		VALUES
-		(#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
-		#{key,jdbcType=VARCHAR},
-		#{order,jdbcType=INTEGER})
+		INSERT INTO `cms_permission` (
+				`name`,
+				`key`,
+				`order`,
+				`value`,
+				`pid`,
+				`type`,
+				`level`,
+				`icon`
+		)VALUES(
+				#{cmsPermission.name},
+				#{cmsPermission.key},
+				#{cmsPermission.order},
+				#{cmsPermission.value},
+				#{cmsPermission.pid},
+				#{cmsPermission.type},
+				#{cmsPermission.level},
+				#{cmsPermission.icon})
 	</insert>
 	<!-- 按主键更新 -->
 	<update id="updateByPrimaryKey" parameterType="com.ekt.cms.permission.entity.CmsPermission">
@@ -116,10 +122,16 @@
 		SELECT type,level FROM cms_permission GROUP BY type order by level
 	</select>		
 	<select id="getPidList" resultMap="PermissionMap" parameterType="java.lang.Integer">
-		SELECT name,pid FROM  cms_permission WHERE level=#{type} and level&lt;&gt;2
+		SELECT name,pid FROM  cms_permission WHERE level=#{type} 
 	</select>
 	
 	<update id="confine" parameterType="com.ekt.cms.permission.entity.CmsPermission">
 		UPDATE cms_permission SET  STATUS=#{cmsPermission.status} WHERE id=#{cmsPermission.id}
 	</update>
+	<delete id="deleteCmsPermission" parameterType="java.lang.Integer">
+		DELETE FROM
+		cms_permission
+		WHERE id = #{cmsPermissionId}
+	</delete>
+	
 </mapper>
