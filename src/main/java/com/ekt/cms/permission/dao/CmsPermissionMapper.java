@@ -35,6 +35,9 @@ public interface CmsPermissionMapper {
 	public List<CmsPermission> getTypeList() ;
 	//获取父级pidList
 	public List<CmsPermission> getPidList(@Param("type")int type);
+	//停用启用
+	public int confine(@Param("cmsPermission")CmsPermission cmsPermission);
+	
 
 
 }

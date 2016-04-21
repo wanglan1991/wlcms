@@ -72,5 +72,20 @@ public Result getPidList(@RequestParam("type")int type){
 	return result;
 }
 
+/**
+ * 启用或停用
+ * @param cmsPermission
+ * @return
+ */
+@RequestMapping(value="/confine")
+@ResponseBody
+public Result confine(CmsPermission cmsPermission){
+	Result result =Result.getResults();
+	result.setResult(permissionService.confine(cmsPermission));
+	return result;
+	
+}
+
+
 }
 

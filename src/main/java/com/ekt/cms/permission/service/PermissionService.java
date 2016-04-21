@@ -40,6 +40,11 @@ public class PermissionService implements IPermissionService {
 		return cmsPermissionMapper.getPidList(type);
 	}
 
+	@Override
+	public int confine(CmsPermission cmsPermission) {
+		return cmsPermissionMapper.confine(cmsPermission);
+	}
+
 
 
 }
