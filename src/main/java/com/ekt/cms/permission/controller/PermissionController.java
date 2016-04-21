@@ -85,6 +85,24 @@ public Result confine(CmsPermission cmsPermission){
 	return result;
 	
 }
+/**
+ * 删除
+ * @param ids
+ * @return
+ */
+@RequestMapping(value = "/delete")
+@ResponseBody
+public Result delete(@RequestParam("ids")String ids){
+	Result result=Result.getResults();
+	String[]arr=ids.split(",");
+	int total=0;
+	for(int i=0;i<arr.length;i++){
+//		total+=permissionService.deleteCmsPermission(Integer.parseInt(arr[i].toString()));
+	}
+	result.setResult(total);
+	return result;
+	
+}
 
 
 }
