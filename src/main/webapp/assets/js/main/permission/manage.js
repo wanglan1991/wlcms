@@ -10,6 +10,7 @@ define(function (require, exports, module) {
         table:new core.Table('permTable'),
         init: function (_basepath) {
             F.basepath = _basepath;
+            core.PicSelect('icon');	
             /**
              * 是否具有添加权限权限
              */
@@ -25,7 +26,7 @@ define(function (require, exports, module) {
             		$("#permType").append(typeHtml);
             		}
             	});	
-            	$("#permPid").append("<option value='-1'>--无--</option>")            	
+            	          	
 //            if(base.perList.permission.create){
             	$("#perm-header .actions").append("<a href='#' id='addPerm' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>添加</a>");
 //            }
@@ -43,19 +44,7 @@ define(function (require, exports, module) {
 //            		$("#permPid").append("<option value='-1'>--无--</option>");
 //            		return ;}
 //            		
-//            		$.ajax({
-//            			url:F.basepath+'/cms/permission/pidList',
-//            			type:"GET",
-//            			data:{type:type},
-//            			success:function(data){
-//            				var pidHtml="<option value='-1'>--无--</option>";
-//            				for(var i=0;i<data.value.length;i++){
-//            					pidHtml+="<option value='"+data.value[i].pid+"'>"+data.value[i].name+"</option>";
-//            				}
-//            				$("#permPid").append(pidHtml);
-//            			}
-//            			
-//            		});
+            		
 //            	});
             	
 			
@@ -163,23 +152,89 @@ define(function (require, exports, module) {
 			 * 打开模态框
 			 */
 			$('#addPerm').click(function(){
-				core.openModel('modal-PermTree','新增权限',function(){
-					F.radioTree.load();
-				});
+				core.openModel('modal-addPerm','新增权限',function(){
+					$("#icons").show();
+								});
+			});
+			$("#addPermType").change(function (){
+				$("#permPrent").empty();
+				$("#permissionParent").show();
+				var type=$("#addPermType").val();
+				if(type==-1||type==1){$("#permissionParent").hide();return}
+					$.ajax({
+	        			url:F.basepath+'/cms/permission/pidList',
+	        			type:"GET",
+	        			data:{type:type==2?1:2},
+	        			success:function(data){
+	        				var pidHtml='';
+	        				for(var i=0;i<data.value.length;i++){
+	        					pidHtml+="<option value='"+data.value[i].pid+"'>"+data.value[i].name+"</option>";
+	        				}
+	        				$("#permPrent").append(pidHtml);
+	        			}
+        			
+        		});
+				
+				
 			});
 			
 			/**
 			 * 关闭模态框
 			 */
 			$('#btnClose').click(function(){
-				core.closeModel('modal-PermTree');
+				clear();
 			});
+			
+			function clear(){
+				core.closeModel('modal-addPerm');
+				$("#addPermType").val(-1);
+				$("#permissionParent").hide();
+				$("#permName").val('');
+				$("#key").val('');
+				$("#value").val('');
+				$("#order").val('');
+				$("#PermType-error").html("");
+				$("#permName-error").html("");
+				$("#key-error").html("");
+				$("#url-error").html("");
+				$("#icon-error").html("");
+				$("#icon").val('');
+			}
+			
+			
+			
+			
+			
 			
 			/**
 			 * 提交表单
 			 */
 			$('#btnSubmit').click(function(){
-				F.submit();
+				var type=$("#addPermType").val();
+				var pid=$("#permPrent").val();
+				var name=$("#permName").val();
+				var key=$("#key").val();
+				var value=$("#value").val();
+				var order=$("#order").val();
+				var icon=$("#icon").val();
+				if(type==-1){$("#PermType-error").html("请选择类型!");$("#PermType-error").css("color","#b94a48");return ;}
+				if(name.length<1){$("#permName-error").html("请输入名称!");$("#permName-error").css("color","#b94a48");return ;}
+				if(key.length<1){$("#key-error").html("请输入key!");$("#key-error").css("color","#b94a48");return ;}
+				if(value.length<1){$("#url-error").html("请输入URL!");$("#url-error").css("color","#b94a48");return ;}
+				if(icon.length<1){$("#icon-error").html("请选择图标!");$("#icon-error").css("color","#b94a48");return ;}
+			
+				$.ajax({
+					url:F.basepath+'/cms/permission/addPermission',
+					type:'post',
+					data:{type:type==1?"模块":type==2?"页面":"按钮",pid:pid==null?0:pid,name:name,key:key,value:value,order:order,icon:icon},
+					success:function(data){
+						if(data.result>0){
+							clear();
+							F.reload();
+						}
+					}
+				})
+				
             });
 			
 			/**
