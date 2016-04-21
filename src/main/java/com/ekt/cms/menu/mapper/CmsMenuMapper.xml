@@ -122,7 +122,7 @@
 		LEFT JOIN cms_permission pe ON p.permission_id = pe.id
 		WHERE
 			p.role_id = #{roleId}
-		AND pe.LEVEL = 0
+		AND pe.LEVEL = 1
 		AND pe.status&lt;&gt;0
 		ORDER BY pe.order asc;
 		

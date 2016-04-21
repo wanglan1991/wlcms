@@ -11,7 +11,11 @@ public class CmsKnowledge {
 	
 	private int status;
 	
-	private String grade;
+	private int subjectNo;
+	
+	private String  grade;
+	
+	private String subject;
 
 	public int getId() {
 		return id;
@@ -53,6 +57,14 @@ public class CmsKnowledge {
 		this.status = status;
 	}
 
+	public int getSubjectNo() {
+		return subjectNo;
+	}
+
+	public void setSubjectNo(int subjectNo) {
+		this.subjectNo = subjectNo;
+	}
+
 	public String getGrade() {
 		return grade;
 	}
@@ -60,6 +72,16 @@ public class CmsKnowledge {
 	public void setGrade(String grade) {
 		this.grade = grade;
 	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+
 	
 	
 
