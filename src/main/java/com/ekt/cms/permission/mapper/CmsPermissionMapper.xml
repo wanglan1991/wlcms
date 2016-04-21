@@ -111,9 +111,6 @@
 		<if test="cmsPermission.level !=null and cmsPermission.level !=-1  and cmsPermission.level !=0">
 		AND level=#{cmsPermission.level}		
 		</if>
-		<if test="cmsPermission.pid !=null and cmsPermission.pid !=-1  and cmsPermission.level !=0">
-		AND pid=#{cmsPermission.pid}		
-		</if>
 	</select>
 	<select id="getTypeList" resultMap="PermissionMap">
 		SELECT type,level FROM cms_permission GROUP BY type order by level
@@ -122,4 +119,7 @@
 		SELECT name,pid FROM  cms_permission WHERE level=#{type} and level&lt;&gt;2
 	</select>
 	
+	<update id="confine" parameterType="com.ekt.cms.permission.entity.CmsPermission">
+		UPDATE cms_permission SET  STATUS=#{cmsPermission.status} WHERE id=#{cmsPermission.id}
+	</update>
 </mapper>

@@ -14,7 +14,7 @@ define(function (require, exports, module) {
              * 是否具有添加权限权限
              */
             	$("#perm-header .actions").append("<input autocomplete='off'  id='name'  placeholder='请输入名称' type='text' />&nbsp;&nbsp;<select  id='permType' style='width:8%'>" +
-				"</select>&nbsp;&nbsp;<select  id='permPid' style='width:8%'></select><span  id='perm_nameame'></span><a href='#' id='queryByPerm' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>&nbsp;&nbsp;&nbsp;&nbsp;");
+				"</select>&nbsp;&nbsp;<span  id='perm_nameame'></span><a href='#' id='queryByPerm' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>&nbsp;&nbsp;&nbsp;&nbsp;");
             	//加载可选类型列表
             	$.ajax({
             		url:F.basepath+'/cms/permission/typeList',
@@ -35,28 +35,28 @@ define(function (require, exports, module) {
 //            if(base.perList.permission.del){
             	$("#perm-header .actions").append("<a href='#' id='delPerms' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
 //            }
-            	//触发二级菜单
-            	$("#permType").change(function(){
-            		$("#permPid").empty();
-            		var type=$("#permType").val();
-            		if(type==2||type==-1){
-            		$("#permPid").append("<option value='-1'>--无--</option>");
-            		return ;}
-            		
-            		$.ajax({
-            			url:F.basepath+'/cms/permission/pidList',
-            			type:"GET",
-            			data:{type:type},
-            			success:function(data){
-            				var pidHtml="<option value='-1'>--无--</option>";
-            				for(var i=0;i<data.value.length;i++){
-            					pidHtml+="<option value='"+data.value[i].pid+"'>"+data.value[i].name+"</option>";
-            				}
-            				$("#permPid").append(pidHtml);
-            			}
-            			
-            		});
-            	});
+//            	//触发二级菜单
+//            	$("#permType").change(function(){
+//            		$("#permPid").empty();
+//            		var type=$("#permType").val();
+//            		if(type==2||type==-1){
+//            		$("#permPid").append("<option value='-1'>--无--</option>");
+//            		return ;}
+//            		
+//            		$.ajax({
+//            			url:F.basepath+'/cms/permission/pidList',
+//            			type:"GET",
+//            			data:{type:type},
+//            			success:function(data){
+//            				var pidHtml="<option value='-1'>--无--</option>";
+//            				for(var i=0;i<data.value.length;i++){
+//            					pidHtml+="<option value='"+data.value[i].pid+"'>"+data.value[i].name+"</option>";
+//            				}
+//            				$("#permPid").append(pidHtml);
+//            			}
+//            			
+//            		});
+//            	});
             	
 			
 			/**
@@ -83,6 +83,23 @@ define(function (require, exports, module) {
 					return false;
 		        },
 		        /**
+		         * 停用或启用
+		         */
+		        'click .confine':function(e,value,row,index){
+		        	$.ajax({
+		        		url:F.basepath+'/cms/permission/confine',
+		        		type:'get',
+		        		data:{id:row.id,status:row.status==1?0:1},
+		        		success:function(data){
+		        			if(data.result>0){
+		        				F.reload();
+		        			}else{
+		        				alert("异常！ 稍后再试");
+		        			}
+		        		}
+		        	});
+		        },
+		        /**
 				 * 删除权限
 				 */
 		        'click .delPerm': function (e, value, row, index) {
@@ -93,6 +110,7 @@ define(function (require, exports, module) {
 		    		});
 		        }
 		    };
+	        	
 	        
 	        var cols = [
 	                    {
@@ -135,14 +153,9 @@ define(function (require, exports, module) {
     		 * 带参查询
     		 */
     		$('#queryByPerm').click(function(){
-//    			alert(11111);
     			var name=$("#name").val();
     			var level=$("#permType").val();
-    			var pid=$("#permPid").val();
-//    			alert(name+"----"+pid+"----"+level);
-    			var url= F.basepath+'/cms/permission/pageList?name='+name+'&level='+level+'&pid='+pid;
-//    			alert(url);
-    			
+    			var url= F.basepath+'/cms/permission/pageList?name='+name+'&level='+level;
 				$("#permTable").bootstrapTable('refresh',{url:url});	
     		});
     		
@@ -198,12 +211,17 @@ define(function (require, exports, module) {
                 }
         	$('#submit-form').ajaxForm(options);
         },delPerm:function(ids){
-        	base.ajaxRequest(F.basepath+'/main/permission/del',{"permIds":ids},function(data){
-        		base.ajaxSuccess(data);
-        		F.reload();
-        	},function(){
-        		base.bootAlert({"ok":false,"msg":"网络异常"});
-        	});
+        	$.ajax({
+        		url:F.basepath+'/cms/permission/delete',
+        		type:'post',
+        		data:{ids:ids.toString()},
+        		success:function(data){
+        			if(data.result>0){
+        				F.reload();
+        			}
+        		}
+        	})
+        	
         },showRequest:function showRequest(formData, jqForm, options){
             return true; 
         },showResponse:function(data, status){
@@ -226,6 +244,9 @@ define(function (require, exports, module) {
         },
         operateFormatter:function (value, row, index) {
         	var _btnAction = "";
+//        	if (base.perList.permission.edit) {
+        	_btnAction += "<a class='confine btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"+(row.status==1?"停用":"启用")+"</a>";
+//        	}
 //        	if (base.perList.permission.edit) {
         		_btnAction += "<a data-toggle='modal' class='editPerm btn btn-success btn-small' href='#' title='编辑权限' style='margin-left:5px'>编辑</a>";
 //        	}

@@ -34,5 +34,11 @@ public interface IPermissionService {
 	 * @return
 	 */
 	public List<CmsPermission> getPidList(int type);
+	/**
+	 * 根据id停用或启用
+	 * @param cmsPermission
+	 * @return
+	 */
+	public int confine(CmsPermission cmsPermission);
 	
 }
