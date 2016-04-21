@@ -36,16 +36,7 @@ define(function (require, exports, module) {
 //            if(base.perList.permission.del){
             	$("#perm-header .actions").append("<a href='#' id='delPerms' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
 //            }
-//            	//触发二级菜单
-//            	$("#permType").change(function(){
-//            		$("#permPid").empty();
-//            		var type=$("#permType").val();
-//            		if(type==2||type==-1){
-//            		$("#permPid").append("<option value='-1'>--无--</option>");
-//            		return ;}
-//            		
-            		
-//            	});
+//   
             	
 			
 			/**
