@@ -79,10 +79,9 @@ define(function(require, exports, module) {
 				 */
 				'click .editDict' : function(e, value, row, index) {
 					core.openModel('modal-EditDict', '修改字典', function() {
-						preValue = row.value;
 						$("#EditValue").val(row.value);
 						$("#EditParentID").val(row.parentId);
-						$("#EditType").val(row.typeEncoding);
+						$("#EditTypeEncoding").val(row.typeEncoding);
 						$("#EditRemark").val(row.remark);
 						$("#EditTypeName").val(row.typeName);
 						$("#EditValue").attr("valueId", row.id);
@@ -250,15 +249,26 @@ define(function(require, exports, module) {
 			 * 关闭模态框
 			 */
 			$('#btnClose').click(function() {
+				//关闭模态框时清除报错信息
+				$("#value-error").html('');
+				$("#svalue-error").html('');
+				$("#typeEncoding-error").html('');
+				$("#typeName-error").html('');
 				core.closeModel('modal-DictTree');
 				F.table.reload();
 			});
 
 			$('#EditbtnClose').click(function() {
+				//关闭模态框时清除报错信息
+				$("#EditValue-error").html('');
+				$("#edit-value-error").html('');
+				$("#EditTypeEncoding-error").html('');
+				$("#EditTypeName-error").html('');
 				core.closeModel('modal-EditDict');
 				F.table.reload();
 			});
 
+<<<<<<< HEAD
 			/**
 			 * 修改字典
 			 */
@@ -351,6 +361,9 @@ define(function(require, exports, module) {
 				
 			});
 			});
+=======
+			
+>>>>>>> upstream/master
 		
 		},
 
@@ -397,7 +410,109 @@ define(function(require, exports, module) {
 	
 	
 	jQuery(document).ready(function() { 
+<<<<<<< HEAD
 
+=======
+		/**
+		 * 表单验证 提交修改字典
+		 */
+		$('#Editsubmit-form').validate({				
+			submitHandler:function(form){
+				alert("Editsubmit-form");
+					var value = $("#EditValue").val();
+					var valueId = $("#EditValue").attr("valueId");
+					var parentId = $("#EditParentID").val();
+					var typeEncoding = $("#EditTypeEncoding").val();
+					var typeName = $("#EditTypeName").val();
+					var remark = $("#EditRemark").val();
+					$.ajax({
+						url : F.basepath + '/dict/editDict',
+						type : 'POST',
+						data : {
+							id : valueId,
+							value : value,
+							parentId : parentId,
+							typeEncoding : typeEncoding,
+							typeName : typeName,
+							remark : remark
+						},
+						success : function(data) {
+							if (data.result > 0) {
+								core.closeModel('modal-EditDict');								
+								F.table.reload();
+								
+							} else {
+								$("#edit-value-error").html(data.msg);
+								$("#edit-value-error").css('color', 'red');
+
+							}
+						}
+
+					});
+			},
+		rules:{
+			EditValue:{required:true},
+			EditTypeEncoding:{required:true},
+			EditTypeName:{required:true},
+		},
+		messages:{
+			EditValue: '字典名称不能为空',
+			EditTypeEncoding:'字典类型编码不能为空',
+			EditTypeName:'字典类型名称不能为空'
+		},
+			
+		});
+		/**
+		 * 表单验证 提交添加字典
+		 */
+		$('#submit-form').validate({				
+		submitHandler:function(form){
+			var value = $("#value").val();
+				var parentId = $("#parentId").val();
+				var typeEncoding = $("#typeEncoding").val();
+				var typeName = $("#typeName").val();
+				var remark = $("#remark").val();
+				$.ajax({
+				url :  F.basepath + '/dict/addDict',
+				type : 'POST',
+				data : {
+					value : value,
+					parentId : parentId,
+					typeEncoding : typeEncoding,
+					typeName:typeName,
+					remark : remark
+				},
+				dataType: "json", 
+				success : function(data) {
+					if (data.result > 0) {
+						core.closeModel('modal-DictTree');
+						F.table.reload();
+						
+					}
+					 else{
+					 $("#svalue-error").html(data.msg);
+					 $("#svalue-error").css('color','red');
+					 }
+				}
+
+			});
+		},
+	rules:{
+		value:{required:true},
+		typeEncoding:{required:true},
+		typeName:{required:true},
+	},
+	messages:{
+		value: '字典名称不能为空',
+		typeEncoding:'字典类型编码不能为空',
+		typeName:'字典类型名称不能为空'
+	},
+		
+	});
+	
+		
+		
+>>>>>>> upstream/master
 	}); 
 	
 	

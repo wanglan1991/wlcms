@@ -4,6 +4,32 @@
 	<resultMap type="com.ekt.cms.common.entity.CmsKnowledge" id="BaseMap">
 		<id column="id" property="id" jdbcType="INTEGER"></id>
 		<result column="title" property="title" jdbcType="VARCHAR"></result>
+<<<<<<< HEAD
 	
 	</resultMap>
+=======
+		<result column="grade_no" property="gradeNo" jdbcType="INTEGER"></result>
+		<result column="order_no" property="orderNo" jdbcType="INTEGER"></result>
+		<result column="subject_no" property="subjectNo" jdbcType="INTEGER"></result>
+		<result column="grade" property="grade" jdbcType="INTEGER"></result>
+		<result column="suject" property="subject" jdbcType="INTEGER"></result>
+		<result column="status" property="status" jdbcType="INTEGER"></result>              
+	</resultMap>
+	<!-- listpage -->
+	<select id="listPage" resultMap="BaseMap" 
+	parameterType="com.ekt.cms.common.entity.CmsKnowledge">
+			SELECT
+			 k.id id,
+			 title, 
+			 k.grade_no grade_no , 
+			 k.subject_no subject_no, 
+			 order_no, 
+			 k.status status,
+			 d.value  grade ,
+			 dc.value  subject
+			FROM cms_knowledge_point k
+			LEFT JOIN cms_dictionary d on d.id=k.grade_no 
+			LEFT JOIN cms_dictionary dc on dc.id=k.subject_no
+	</select>
+>>>>>>> upstream/master
 </mapper>

@@ -11,7 +11,15 @@ public class CmsKnowledge {
 	
 	private int status;
 	
+<<<<<<< HEAD
 	private String grade;
+=======
+	private int subjectNo;
+	
+	private String  grade;
+	
+	private String subject;
+>>>>>>> upstream/master
 
 	public int getId() {
 		return id;
@@ -53,6 +61,17 @@ public class CmsKnowledge {
 		this.status = status;
 	}
 
+<<<<<<< HEAD
+=======
+	public int getSubjectNo() {
+		return subjectNo;
+	}
+
+	public void setSubjectNo(int subjectNo) {
+		this.subjectNo = subjectNo;
+	}
+
+>>>>>>> upstream/master
 	public String getGrade() {
 		return grade;
 	}
@@ -60,6 +79,19 @@ public class CmsKnowledge {
 	public void setGrade(String grade) {
 		this.grade = grade;
 	}
+<<<<<<< HEAD
+=======
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+
+>>>>>>> upstream/master
 	
 	
 

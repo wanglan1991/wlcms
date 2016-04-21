@@ -14,7 +14,11 @@
 </head>
 <body>
 	<!-- <div class='span9 box bordered-box blue-border' style='margin-bottom:0;'> -->
+<<<<<<< HEAD
 	<div class='box-header' id="dict-header">
+=======
+	<div class='box-header' id="knowledge-header">
+>>>>>>> upstream/master
 		<div class='actions'>	
 		
 		</div>
@@ -22,13 +26,21 @@
 	<div class='box-content box-no-padding'>
 		<div class='responsive-table'>
 			<div class='scrollable-area-x'>
+<<<<<<< HEAD
 				<table id="dictTable"></table>
+=======
+				<table id="KnowledgeTable"></table>
+>>>>>>> upstream/master
 			</div>
 		</div>
 	</div>
 	<!-- </div> -->
 	<!-- 新增字典模态框 -->
+<<<<<<< HEAD
 	<div class='modal hide fade' id='modal-DictTree' role='dialog'
+=======
+	<div class='modal hide fade' id='modal-KnowledgeTree' role='dialog'
+>>>>>>> upstream/master
 		tabindex='-1'>
 		<div class='modal-header'>
 			<button class='close' data-dismiss='modal' type='button'>&times;</button>
@@ -39,6 +51,7 @@
 			<div id="info"></div>
 			<div class='modal-body'>
 				<div class='control-group'>
+<<<<<<< HEAD
 					<label class='control-label'>字典值</label>
 					<div class='controls'>
 						<input class='span8' id='value' name="value" placeholder='字典值' required
@@ -73,6 +86,36 @@
 					</div>
 				</div>
 
+=======
+					<label class='control-label'>知识点</label>
+					<div class='controls'>
+						<input class='span8' id='title' name="title" placeholder='知识点' 
+							type='text' />
+							<span id="stitle-error" class="help-block error"></span>
+					</div>
+				</div>
+				<div class='control-group'>
+					<label class='control-label'>序号</label>
+					<div class='controls'>
+						<input class='span8' id='orderNo' placeholder='序号' type='text' />
+					</div>
+				</div>
+				<div class='control-group'>
+					<label class='control-label'>年级</label>
+					<div class='controls'>
+						 <div class='input-append'>
+		               		<select id='grade'></select>
+		                </div>
+					</div>
+				</div>
+				<div class='control-group'>
+					<label class='control-label'>科目</label>
+					<div class='controls'>
+						<div class='input-append'>
+		               		<select id='subject'></select>
+		                </div>
+				</div>
+>>>>>>> upstream/master
 			</div>
 			<div class='modal-footer'>
 				<msg id='msg'></msg>
@@ -82,12 +125,17 @@
 		</form>
 	</div>
 	<!-- 编辑字典模态框 -->
+<<<<<<< HEAD
 	<div class='modal hide fade' id='modal-EditDict' role='dialog'
+=======
+	<div class='modal hide fade' id='modal-EditKnowledge' role='dialog'
+>>>>>>> upstream/master
 		tabindex='-1'>
 		<div class='modal-header'>
 			<button class='close' id="tatil" data-dismiss='modal' type='button'>&times;</button>
 			<h3></h3>
 		</div>
+<<<<<<< HEAD
 		<form class='form validate-form' id='submit-form' role="form"
 			style='margin-bottom: 0;'>
 			<div class='modal-body'>
@@ -104,6 +152,25 @@
 					<div class='controls'>
 						<input class='span8' id='EditParentID' name="parentId"
 							placeholder='父级ID' type='text' />
+=======
+		<form class='form validate-form' id='Editsubmit-form' role="form"
+			style='margin-bottom: 0;'>
+			<div class='modal-body'>
+				<div class='control-group'>
+					<label class='control-label'>知识点</label>
+					<input id="id" type="hidden"/>
+					<div class='controls'>						
+						<input class='span8' id='EditTitle' name="EditTitle" 
+							required placeholder='知识点' type='text' />
+							<span id="edit-title-error" class="help-block error"></span>
+					</div>
+				</div>
+				<div class='control-group'>
+					<label class='control-label'>序号</label>
+					<div class='controls'>
+						<input class='span8' id='EditOrderNo' name="EditOrderNo"
+							placeholder='序号' type='text' />
+>>>>>>> upstream/master
 					</div>
 				</div>
 				<div class='control-group'>
@@ -151,7 +218,11 @@
 				var typeName = $("#typeName").val();
 				var remark = $("#remark").val();
 				var options = {
+<<<<<<< HEAD
 						url : F.basepath + '/dict/addDict',
+=======
+						url : F.basepath + '/knowledge/addKnowledge',
+>>>>>>> upstream/master
 						type:'post',
 						dataType:'json',
 						data : {
@@ -163,7 +234,11 @@
 						},
 						success:function(data){
 								if (data.result > 0) {
+<<<<<<< HEAD
 									core.closeModel('modal-DictTree');
+=======
+									core.closeModel('modal-KnowledgeTree');
+>>>>>>> upstream/master
 									F.table.reload();
 								} else{
 								//错误提示
@@ -191,7 +266,11 @@
 
 
 	<script>
+<<<<<<< HEAD
 		seajs.use([ 'base', 'dict/dict' ], function(b, m) {
+=======
+		seajs.use([ 'base', 'dict/knowledge' ], function(b, m) {
+>>>>>>> upstream/master
 			b.init();
 			m.init('${ctx}');
 		});

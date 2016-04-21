@@ -43,7 +43,7 @@
 					<div class='controls'>
 						<input class='span8' id='value' name="value" placeholder='字典值' 
 							type='text' />
-							<span id="value-error" class="help-block error"></span>
+							<span id="svalue-error" class="help-block error"></span>
 					</div>
 				</div>
 				<div class='control-group'>
@@ -93,8 +93,13 @@
 			<div class='modal-body'>
 				<div class='control-group'>
 					<label class='control-label'>字典值</label>
+					<input type="hidden" id="id" />
 					<div class='controls'>
+<<<<<<< HEAD
 						<input class='span8' id='EditValue' name="EditValue" valueId=''
+=======
+						<input class='span8' id='EditValue' name="EditValue"
+>>>>>>> upstream/master
 							 placeholder='字典值' type='text' />
 							<span id="edit-value-error" class="help-block error"></span>
 					</div>
@@ -102,28 +107,36 @@
 				<div class='control-group'>
 					<label class='control-label'>父级ID</label>
 					<div class='controls'>
-						<input class='span8' id='EditParentID' name="parentId"
+						<input class='span8' id='EditParentID' name="EditParentID"
 							placeholder='父级ID' type='text' />
 					</div>
 				</div>
 				<div class='control-group'>
 					<label class='control-label'>类型</label>
 					<div class='controls'>
+<<<<<<< HEAD
 						<input class='span8' id='EditType' name="EditType" placeholder='类型'
+=======
+						<input class='span8' id='EditTypeEncoding' name="EditTypeEncoding" placeholder='类型'
+>>>>>>> upstream/master
 							 type='text' />
 					</div>
 				</div>
 				<div class='control-group'>
 					<label class='control-label'>类型名称</label>
 					<div class='controls'>
+<<<<<<< HEAD
 						<input class='span8' id='EditTypeName'  placeholder='字典类型'
+=======
+						<input class='span8' id='EditTypeName'  name='EditTypeName' placeholder='字典类型'
+>>>>>>> upstream/master
 							type='text' />
 					</div>
 				</div>
 				<div class='control-group'>
 					<label class='control-label'>备注</label>
 					<div class='controls'>
-						<input class='span8' id='EditRemark' name="remark"
+						<input class='span8' id='EditRemark' name="EditRemark"
 							placeholder='备注' type='text' />
 					</div>
 				</div>
@@ -131,7 +144,7 @@
 			<div class='modal-footer'>
 				<msg id='edit-msg'></msg>
 				<button type="button" id="EditbtnClose" class='btn'>关闭</button>
-				<button type="button" id="EditbtnSubmit" class='btn btn-primary'>保存</button>
+				<button id="EditbtnSubmit" class='btn btn-primary'>保存</button>
 			</div>
 		</form>
 	</div>
