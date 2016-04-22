@@ -15,28 +15,21 @@ define(function (require, exports, module) {
             /**
              * 是否具有添加权限权限
              */
-            	$("#perm-header .actions").append("<input autocomplete='off'  id='name'  placeholder='请输入名称' type='text' />&nbsp;&nbsp;<select  id='permType' style='width:10%'>" +
+            if(base.perList.permission.check){
+            	$("#perm-header .actions").append("<input autocomplete='off'  id='name'  placeholder='请输入名称' type='text' />&nbsp;&nbsp;" +
+            	"<select  id='permType' style='width:10%'><option value='-1'>--请选择类型--</option><option value='1'>模块</option><option value='2'>页面</option><option value='3'>按钮</option>" +
 				"</select>&nbsp;&nbsp;<span  id='perm_nameame'></span><a href='#' id='queryByPerm' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>&nbsp;&nbsp;&nbsp;&nbsp;");
-            	//加载可选类型列表00
-            	$.ajax({
-            		url:F.basepath+'/cms/permission/typeList',
-            		type:"POST",
-            		success:function(data){
-            		var typeHtml="<option value='-1'>--请选择类型--</option>";
-            		for(var i=0;i<data.value.length;i++){ typeHtml+="<option value='"+data.value[i].level+"'>"+data.value[i].type+"</option>";}
-            		$("#permType").append(typeHtml);
-            		}
-            	});	
-            	          	
-//            if(base.perList.permission.create){
+            }	
+            //加载可选类型列表00        	
+            if(base.perList.permission.create){
             	$("#perm-header .actions").append("<a href='#' id='addPerm' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>添加</a>");
-//            }
+            }
             /**
              * 是否具有删除权限权限
              */
-//            if(base.perList.permission.del){
+            if(base.perList.permission.del){
             	$("#perm-header .actions").append("<a href='#' id='delPerms' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
-//            }
+            }
 //   
             	
 //			
@@ -120,7 +113,7 @@ define(function (require, exports, module) {
 	    			        visible:false
 	    		        },];
 	        //是否需要操作列
-//	        if(base.perList.permission.edit||base.perList.permission.del)
+	        if(base.perList.permission.edit||base.perList.permission.del||base.perList.permission.confine)
 		        cols.push({
 			    	align: 'center',
 			        title: '操作',
@@ -162,7 +155,7 @@ define(function (require, exports, module) {
 	        			success:function(data){
 	        				var pidHtml='';
 	        				for(var i=0;i<data.value.length;i++){
-	        					pidHtml+="<option value='"+data.value[i].pid+"'>"+data.value[i].name+"</option>";
+	        					pidHtml+="<option value='"+data.value[i].id+"'>"+data.value[i].name+"</option>";
 	        				}
 	        				$("#permPrent").append(pidHtml);
 	        			}
@@ -207,7 +200,7 @@ define(function (require, exports, module) {
 				var orderNo=$("#editOrder").val();
 				var icon=$("#editIcon").val();
 				var id=$("#modal-editPerm").attr('Perm');
-				alert(name+"----"+key+"----"+value+"-----"+orderNo+"----"+icon)
+//				alert(name+"----"+key+"----"+value+"-----"+orderNo+"----"+icon)
 				if(name.length<1){$("#editPermName-error").html("请输入名称!");$("#editPermName-error").css("color","#b94a48");return ;}
 				if(key.length<1){$("#editKey-error").html("请输入key!");$("#editKey-error").css("color","#b94a48");return ;}
 				if(value.length<1){$("#editUrl-error").html("请输入URL!");$("#editUrl-error").css("color","#b94a48");return ;}
@@ -218,9 +211,10 @@ define(function (require, exports, module) {
 					type:'post',
 					data:{id:id,name:name,key:key,value:value,orderNo:orderNo,icon:icon},
 					success:function(data){
+						core.closeModel('modal-editPerm');
 						if(data.result>0){
 							F.reload();
-							core.closeModel('modal-editPerm');
+							
 						}
 					}
         		})	
@@ -254,10 +248,9 @@ define(function (require, exports, module) {
 					data:{type:type==1?"模块":type==2?"页面":"按钮",pid:pid==null?0:pid,
 							level:level,name:name,key:key,value:value,order:type==3?0:order,icon:icon},
 					success:function(data){
-						if(data.result>0){
 							clear();
 							F.reload();
-						}
+					
 					}
 				})
 				
@@ -330,15 +323,15 @@ define(function (require, exports, module) {
         ,
         operateFormatter:function (value, row, index) {
         	var _btnAction = "";
-//        	if (base.perList.permission.edit) {
+        	if (base.perList.permission.confine) {
         	_btnAction += "<a class='confine btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"+(row.status==1?"停用":"启用")+"</a>";
-//        	}
-//        	if (base.perList.permission.edit) {
+        	}
+        	if (base.perList.permission.edit) {
         		_btnAction += "<a data-toggle='modal' class='editPerm btn btn-success btn-small' href='#' title='编辑权限' style='margin-left:5px'>编辑</a>";
-//        	}
-//        	if (base.perList.permission.del) {
+        	}
+        	if (base.perList.permission.del) {
         		_btnAction += "<a class='delPerm btn btn-danger btn-small' href='#' title='删除权限' style='margin-left:5px'>删除</a>";
-//        	}
+        	}
         	return _btnAction;
         } 
     };

@@ -17,18 +17,18 @@ define(function (require, exports, module) {
                  * 是否具有添加用户权限
                  */
             	//加载查询框
-//               	  if(base.perList.user.check){
+               	  if(base.perList.user.check){
               		$("#user-header .actions").append("<input autocomplete='off'  id='realName'  placeholder='请输入用户姓名' type='text' />&nbsp;&nbsp;<input autocomplete='off'  id='accountName'  placeholder='请输入账户名'" +
               				" type='text' />&nbsp;&nbsp;<span  id='dict_typeName'></span><a href='#' id='queryByAccount' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>&nbsp;&nbsp;&nbsp;&nbsp;");
-//              	}
-            	//添加账户
-//                if(base.perList.user.add){
+              	}
+            	//删除账户
+                if(base.perList.user.del){
                 	$("#user-header .actions").append("<a href='#' id='delUsers' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
-//                }
-                //删除账户
-//                if(base.perList.user.del){
+                }
+                //添加账户
+                if(base.perList.user.add){
                 	$("#user-header .actions").append("<a href='#' id='addUser' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>添加</a>");
-//                }	
+                }	
            
                 
                 /**
@@ -73,6 +73,7 @@ define(function (require, exports, module) {
         				 */
         		        'click .delUser': function (e, value, row, index) {
         		        	base.bootConfirm("是否确定删除？",function(){
+        		        		if(row.id==1){alert("ERRO ! 您不能这么做")}
         		        		$.ajax({
         		        			url: F.basepath+'/account/delete',
         		        			type:'POST',
@@ -123,18 +124,11 @@ define(function (require, exports, module) {
     		        					}
     		        					total+=i;
     		        					html+="<option value="+data.value[i].id+">"+data.value[i].name+"</option>"
-    		        					
     		        				}
-	    		        				if(total==0){
-					        				html+="<option>无任何可选角色</option>";
-					        			
-					        				}
 	    		        				html+="</select>" 
 	    		        					
     		        					$("#roleEdit").append(html);
-	    		        				if(total==0){
-	    		        					$("#editRole").css('color','red');
-	    		        				}
+	    		        				
     		        			}
     		        		});
         		        	$("#role").find("option[value='"+row.role+"']").attr("selected","true");
@@ -171,7 +165,7 @@ define(function (require, exports, module) {
      	    			       visible:false
      	    		        }];
      	        //是否需要操作列
-//     	        if(base.perList.user.edit || base.perList.user.del || base.perList.user.edit_dep || base.perList.user.distribute_role)
+     	        if(base.perList.user.confine || base.perList.user.del || base.perList.user.edit || base.perList.user.roleEdit|| base.perList.user.resetPwd)
      		        cols.push({
      			    	align: 'center',
      			        title: '操作',
@@ -211,8 +205,7 @@ define(function (require, exports, module) {
     			/**
     			 * 带参查询
     			 */
-    			$('#queryByAccount').click(function(){
-    				
+    			$('#queryByAccount').click(function(){				
     				var userName=$("#accountName").val();
     				var realName=$("#realName").val();
     				var url= F.basepath+'/account/list?userName='+userName+'&realName='+realName;
@@ -225,7 +218,6 @@ define(function (require, exports, module) {
     			 */
     			$('#addUser').click(function(){
     				var html='';
-    				var total=0;
     				core.openModel('modal-UserTree','新增用户',function(){
     					$.ajax({
 		        			url: F.basepath+'/account/roleList',
@@ -234,15 +226,9 @@ define(function (require, exports, module) {
 	        				for(var i=0;i<data.value.length;i++){
 	        					if(data.value[i].status==0){
 	        						continue;
-	        						
 	        					}
 	        					html+="<option value="+data.value[i].id+">"+data.value[i].name+"</option>"
-	        					total+=i;
 	        				}
-		        			if(total==0){
-		        				html+="<option>无任何可选角色</option>"
-		        					$("#roles").css('color','red');
-		        			}
 		        					$("#roles").append(html);
 		        			}
 		        		});
@@ -313,7 +299,7 @@ define(function (require, exports, module) {
     				var password=$("#password").val();
     				var repassword=$("#repassword").val();
     				var cellphone=$("#cellphone").val();
-    				var realName=$("#realName").val();
+    				var realName=$("#real_Name").val();
     					$.ajax({
     						url: F.basepath+'/account/addAccount',
     	        			type:'POST',
@@ -328,8 +314,7 @@ define(function (require, exports, module) {
     	        				}
     	        			}
     	        			
-    					});
-//    				}
+    					})
     				
                 });
     			
@@ -416,21 +401,21 @@ define(function (require, exports, module) {
             },
             operateFormatter:function (value, row, index) {
             	var _btnAction = "";
-//            	if (base.perList.user.edit_dep) {
+            	if (base.perList.user.confine&&row.id!=1) {
             		_btnAction += "<a class='editDep btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"+(row.status==1?"停用":"启用")+"</a>";
-//            	}
-//            	if (base.perList.user.distribute_role) {
+            	}
+            	if (base.perList.user.roleEdit&&row.id!=1) {
             		_btnAction += "<a class='distributeRole btn btn-info btn-small' href='#' title='配置角色' style='margin-left:5px'>配置角色</a>";
-//            	}
-//            	if (base.perList.user.edit) {
+            	}
+            	if (base.perList.user.edit) {
             		_btnAction += "<a data-toggle='modal' class='editUser btn btn-success btn-small' href='#' title='编辑用户' style='margin-left:5px'>编辑</a>";
-//            	}
-//            	if (base.perList.user.edit) {
+            	}
+            	if (base.perList.user.resetPwd) {
                 	_btnAction += "<a data-toggle='modal' class='resetPwd btn btn-success btn-small' href='#' style='margin-left:5px'>重置密码</a>";
-//                	}
-//            	if (base.perList.user.del) {
+                	}
+            	if (base.perList.user.del&&row.id!=1) {
             		_btnAction += "<a class='delUser btn btn-danger btn-small' href='#' title='删除用户' style='margin-left:5px'>删除</a>";
-//            	}
+            	}
             	return _btnAction;
             },delUser:function(ids){
             	base.ajaxRequest(F.basepath+'/user/delete',{"userIds":ids},function(data){
