@@ -27,6 +27,7 @@
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     DELETE FROM cms_account
     WHERE id = #{id,jdbcType=INTEGER}
+    AND id &lt;&gt; 1
   </delete>
   <!-- 插入 -->
   <insert id="insert" parameterType="com.ekt.cms.account.entity.CmsAccount" >
@@ -103,11 +104,26 @@
 		<if test="cmsAccount.realName !=null and cmsAccount.realName!='' ">
 			AND (a.real_name like '%${cmsAccount.realName}%')
 		</if>
-		AND a.id &lt;&gt;1 ORDER BY a.id ASC
+		<if test="cmsAccount.id !=1">	
+			AND a.id &lt;&gt;1 
+		</if>
+		
+		ORDER BY a.id ASC
 	</select>
 
 	<select id="queryByUserName" resultType="com.ekt.cms.account.entity.CmsAccount" parameterType="java.lang.String">
-		SELECT * FROM cms_account WHERE 1=1
+		SELECT
+			id,
+			user_name userName,
+			`password`,
+			real_name realName,
+			role,
+			cellphone,
+			`status`,
+			create_date createDate
+		FROM
+			cms_account
+		WHERE 1=1
 			AND user_name =#{userName}	
 	</select>
 

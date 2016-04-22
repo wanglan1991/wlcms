@@ -14,7 +14,7 @@
 		SELECT * FROM cms_role WHERE id = #{id}
 	</select>
 	
-<!-- 	获取用户列表 -->
+<!-- 	获取角色列表 -->
 	 <select id="listPage" resultMap="BaseResultMap" parameterType="com.ekt.cms.role.entity.CmsRole">
   		SELECT * FROM cms_role 
   		WHERE 1=1
@@ -24,7 +24,9 @@
   			<if test="cmsRole.encoding !=null and cmsRole.encoding !='' ">
   		AND encoding=#{cmsRole.encoding}	
   			</if>  
-  		AND id&lt;&gt;1
+		<if test="cmsRole.id !=1">
+			AND id&lt;&gt;1
+		</if>
   	</select>
 	
 	
@@ -57,6 +59,7 @@
 	<delete id="deleteCmsRole" parameterType="java.lang.Integer">
 		DELETE FROM cms_role
 		WHERE id = #{id,jdbcType=INTEGER}
+		AND id &lt;&gt; 1
 	</delete>
 	
 	<update id="updateCmsRole" parameterType="com.ekt.cms.role.entity.CmsRole">

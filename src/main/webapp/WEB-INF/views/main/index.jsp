@@ -210,6 +210,9 @@
     <shiro:hasPermission name="permission:add">
         <span id="basejs_permission_create" style="display:none;"/>
     </shiro:hasPermission>
+     <shiro:hasPermission name="permission:confine">
+        <span id="basejs_permission_confine" style="display:none;"/>
+    </shiro:hasPermission>
     <shiro:hasPermission name="permission:check">
         <span id="basejs_permission_check" style="display:none;"/>
     </shiro:hasPermission>
@@ -243,6 +246,9 @@
     <shiro:hasPermission name="role:edit">
         <span id="basejs_role_edit" style="display:none;"/>
     </shiro:hasPermission>
+     <shiro:hasPermission name="role:confine">
+        <span id="basejs_role_confine" style="display:none;"/>
+    </shiro:hasPermission>
     <shiro:hasPermission name="role:grant">
         <span id="basejs_role_grant" style="display:none;"/>
     </shiro:hasPermission>
@@ -253,37 +259,30 @@
         <span id="basejs_role_check" style="display:none;"/>
     </shiro:hasPermission>
 
-    <shiro:hasPermission name="dep:add">
-        <span id="basejs_department_create" style="display:none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="dep:delete">
-        <span id="basejs_department_del" style="display:none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="dep:edit">
-        <span id="basejs_department_edit" style="display:none;"/>
-    </shiro:hasPermission>
 
 
-    <shiro:hasPermission name="user:add">
-        <span id="basejs_user_create" style="display:none;"/>
+    <shiro:hasPermission name="account:add">
+        <span id="basejs_account_add" style="display:none;"/>
     </shiro:hasPermission>
-    <shiro:hasPermission name="user:check">
-        <span id="basejs_user_check" style="display:none;"/>
+    <shiro:hasPermission name="account:check">
+        <span id="basejs_account_check" style="display:none;"/>
     </shiro:hasPermission>
-    <shiro:hasPermission name="user:edit">
-        <span id="basejs_user_edit" style="display:none;"/>
+    <shiro:hasPermission name="account:edit">
+        <span id="basejs_account_edit" style="display:none;"/>
     </shiro:hasPermission>
-    <shiro:hasPermission name="user:delete">
-        <span id="basejs_user_del" style="display:none;"/>
+    <shiro:hasPermission name="account:del">
+        <span id="basejs_account_del" style="display:none;"/>
     </shiro:hasPermission>
+    <shiro:hasPermission name="account:confine">
+        <span id="basejs_account_confine" style="display:none;"/> 
+    </shiro:hasPermission>
+     <shiro:hasPermission name="account:roleEdit">
+     	<span id="basejs_account_roleEdit" style="display:none;"/>
+     </shiro:hasPermission>
+      <shiro:hasPermission name="account:resetPwd">
+     	<span id="basejs_account_resetPwd" style="display:none;"/>
+     </shiro:hasPermission>
 
-    <shiro:hasPermission name="distribute:role">
-        <span id="basejs_user_distribute_role" style="display:none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="edituser:dep">
-        <span id="basejs_user_edit_dep" style="display:none;"/>
-    </shiro:hasPermission>
-    
         <shiro:hasPermission name="dict:add">
         <span id="basejs_dict_create" style="display:none;"/>
     </shiro:hasPermission>
@@ -395,6 +394,9 @@ $(document).ready(function(){
         if ($('#basejs_permission_create').length > 0) {
             base.perList.permission.create = true;
         }
+        if ($('#basejs_permission_confine').length > 0) {
+            base.perList.permission.confine = true;
+        }
         if ($('#basejs_permission_check').length > 0) {
             base.perList.permission.check = true;
         }
@@ -412,6 +414,9 @@ $(document).ready(function(){
         }
         if ($('#basejs_role_del').length > 0) {
             base.perList.role.del = true;
+        }
+        if ($('#basejs_role_confine').length > 0) {
+            base.perList.role.confine = true;
         }
         if ($('#basejs_role_edit').length > 0) {
             base.perList.role.edit = true;
@@ -443,24 +448,32 @@ $(document).ready(function(){
         if ($('#basejs_menu_grant').length > 0) {
             base.perList.menu.grant = true;
         }
-        if ($('#basejs_user_create').length > 0) {
-            base.perList.user.create = true;
+        
+        
+        if ($('#basejs_account_add').length > 0) {
+            base.perList.user.add = true;
         }
-        if ($('#basejs_user_check').length > 0) {
+        if ($('#basejs_account_check').length > 0) {
             base.perList.user.check = true;
         }
-        if ($('#basejs_user_edit').length > 0) {
+        if ($('#basejs_account_edit').length > 0) {
             base.perList.user.edit = true;
         }
-        if ($('#basejs_user_del').length > 0) {
+        if ($('#basejs_account_del').length > 0) {
             base.perList.user.del = true;
         }
-        if ($('#basejs_user_distribute_role').length > 0) {
-            base.perList.user.distribute_role = true;
+        if ($('#basejs_account_confine').length > 0) {
+            base.perList.user.confine = true;
         }
-        if ($('#basejs_user_edit_dep').length > 0) {
-            base.perList.user.edit_dep = true;
+        if ($('#basejs_account_roleEdit').length > 0) {
+            base.perList.user.roleEdit = true;
         }
+        if ($('#basejs_account_resetPwd').length > 0) {
+            base.perList.user.resetPwd = true;
+        }
+        
+        
+        
         if ($('#basejs_dict_create').length > 0) {
             base.perList.user.create = true;
         }

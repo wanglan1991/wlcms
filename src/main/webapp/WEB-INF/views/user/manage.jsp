@@ -43,7 +43,7 @@
         <div class='control-group'>
             <label class='control-label'>真实姓名</label>
             <div class='controls'>
-                <input class='span8' id='realName' accountId='' maxlength='10' rangelength="[1,10]" required  placeholder='真实姓名' type='text' />
+                <input class='span8' id='real_Name' accountId='' maxlength='10' rangelength="[1,10]" required  placeholder='真实姓名' type='text' />
             </div>
         </div>
          <div class='control-group'>

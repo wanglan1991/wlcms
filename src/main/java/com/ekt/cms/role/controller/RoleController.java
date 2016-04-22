@@ -9,6 +9,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ekt.cms.account.entity.CmsAccount;
 import com.ekt.cms.common.BaseController;
 import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.role.entity.CmsRole;
@@ -50,6 +52,11 @@ public class RoleController extends BaseController {
 	@ResponseBody
 	public PageBean<CmsRole> list(PageContext page, CmsRole cmsRole) {
 		page.paging();
+		CmsAccount account=getCurrentAccount();
+		//从session中获取用户如用户不为空并且用户名等于CMSROOT就显示自己的角色
+		if(account!=null&&account.getUserName().equals("CMSROOT")){
+			cmsRole.setId(account.getRole());
+		}
 		return new PageBean<CmsRole>(cmsRoleService.listPage(cmsRole));
 	}
 
@@ -64,6 +71,11 @@ public class RoleController extends BaseController {
 	public Result editRole(@Valid CmsRole cmsRole, BindingResult bindingResult) {
 		List<FieldError> fieldErrors = bindingResult.getFieldErrors();
 		Result result = Result.getResults();
+		if(getCurrentAccount()==null){
+			result.setResult(-1);
+			result.setMsg("非法请求！");
+			return result;
+		}
 		if (fieldErrors != null && ! fieldErrors.isEmpty()) {
 			for (FieldError fieldError : fieldErrors) {
 				result.setMsg(fieldError.getDefaultMessage());
@@ -117,6 +129,11 @@ public class RoleController extends BaseController {
 	@ResponseBody
 	public Result delete(@RequestParam("ids")String ids){
 		Result result=Result.getResults();
+		if(getCurrentAccount()==null){
+			result.setResult(-1);
+			result.setMsg("非法请求！");
+			return result;
+		}
 		String[]arr=ids.split(",");
 		int total=0;
 		for(int i=0;i<arr.length;i++){
@@ -135,6 +152,11 @@ public class RoleController extends BaseController {
 	@ResponseBody
 	public  Result confine(CmsRole cmsRole){
 		Result result=Result.getResults();
+		if(getCurrentAccount()==null){
+			result.setResult(-1);
+			result.setMsg("非法请求！");
+			return result;
+		}
 		result.setResult(cmsRoleService.confine(cmsRole));
 		return result;
 	}
@@ -161,7 +183,11 @@ public class RoleController extends BaseController {
 	@ResponseBody
 	public Result setPermissions(@RequestParam("permissionStr")String arr,@RequestParam("roleId")int roleId){
 		Result result=Result.getResults();
-		CmsRole cmsRole=new CmsRole();
+		if(getCurrentAccount()==null){
+			result.setResult(-1);
+			result.setMsg("非法请求！");
+			return result;
+		}
 		if(arr==""){
 			//根据Id删除所有权限
 			result.setResult(cmsRoleService.delPermissionByRoleId(roleId));
@@ -174,8 +200,6 @@ public class RoleController extends BaseController {
 				cmsRoleService.insertRolePermission(Integer.parseInt(arrs[i].toString()),roleId);
 			}
 		}
-	
-		System.out.println(arr=="");
 		return result;
 	}
 

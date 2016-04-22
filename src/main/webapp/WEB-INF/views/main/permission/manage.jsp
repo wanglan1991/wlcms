@@ -57,14 +57,14 @@
          <div class='control-group'>
             <label class='control-label'>URL</label>
             <div class='controls'>
-                <input class='span8' id='value' required name='value' maxlength='30'  placeholder='url' type='text' />
+                <input class='span8' id='value' required name='value' maxlength='30'   placeholder='url' type='text' />
                  <span id="url-error" class="help-block error"></span>
             </div>
         </div>
          <div class='control-group' id='orderNo'>
             <label class='control-label'>排序</label>
             <div class='controls'>
-                <input class='span8' id='order' required name='order' maxlength='30'  placeholder='order' type='text' />
+                <input class='span8' id='order' required name='order' maxlength='4' onkeyup="value=value.replace(/[^01]/g,'') "  placeholder='order' type='text' />
                  <span id="order-error" class="help-block error"></span>
             </div>
         </div>
@@ -117,7 +117,7 @@
          <div class='control-group' id='editErderNo'>
             <label class='control-label'>排序</label>
             <div class='controls'>
-                <input class='span8' id='editOrder' required name='order' maxlength='30'  placeholder='order' type='text' />
+                <input class='span8' id='editOrder' required name='order' maxlength='4'  placeholder='order' type='text' />
                  <span id="editOrder-error" class="help-block error"></span>
             </div>
         </div>

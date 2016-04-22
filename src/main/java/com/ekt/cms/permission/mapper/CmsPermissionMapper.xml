@@ -125,7 +125,7 @@
 		SELECT type,level FROM cms_permission GROUP BY type order by level
 	</select>		
 	<select id="getPidList" resultMap="PermissionMap" parameterType="java.lang.Integer">
-		SELECT name,IF(pid =0,id ,pid)pid FROM  cms_permission WHERE level=#{type} 
+		SELECT name,id FROM  cms_permission WHERE level=#{type} 
 	</select>
 	
 	<update id="confine" parameterType="com.ekt.cms.permission.entity.CmsPermission">
@@ -147,11 +147,11 @@
 			cms_permission 
 		SET 
 			`name`=#{cmsPermission.name},
-			`key`=#{cmsPermission.value}, 
+			`key`=#{cmsPermission.key}, 
 			`order`=#{cmsPermission.orderNo},
 			`value`=#{cmsPermission.value}, 
-			`icon`=#{cmsPermission.icon}, 
-		WHERE (id=#{cmsPermission.id});
+			`icon`=#{cmsPermission.icon} 
+		WHERE id=#{cmsPermission.id}
 		
 	</update>
 	
