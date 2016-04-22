@@ -25,9 +25,27 @@ public interface CmsKnowledgeMapper {
 	 */
 	int  insert(@Param("CmsKnowledge") CmsKnowledge cmsKnowledge);
 	/**
-	 * 新增
+	 * 根据知识点查询
+	 * @param cmsDict
+	 * @return
+	 */
+	List<CmsKnowledge>  queryByTitle(@Param("CmsKnowledge") CmsKnowledge cmsKnowledge);
+	/**
+	 * 启用停用知识点
+	 * @param cmsDict
+	 * @return
+	 */
+	int  confine(@Param("CmsKnowledge") CmsKnowledge cmsKnowledge);
+	/**
+	 * 根据条件查询
 	 * @param cmsDict
 	 * @return
 	 */
 	List<CmsKnowledge>  queryByCondition(@Param("CmsKnowledge") CmsKnowledge cmsKnowledge);
+	/**
+	 * 根据主键删除
+	 *  @param id
+	 * @return
+	 */
+	int  delete(Integer id);
 	}

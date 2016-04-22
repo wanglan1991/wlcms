@@ -107,7 +107,7 @@
 	<!-- 停用启用字典 -->
 	<update id="confine" parameterType="com.ekt.cms.common.entity.CmsDict">
 		UPDATE cms_dictionary SET
-		STATUS=#{CmsDict.status}
+		status=#{CmsDict.status}
 		WHERE id= #{CmsDict.id}
 	</update>
 

@@ -43,7 +43,7 @@ public class CmsKnowledgeController {
 		@ResponseBody
 		public Result insert(CmsKnowledge cmsKnowledge){
 			Result result=new Result();
-			List<CmsKnowledge> list=cmsKnowledgeService.queryByCondition(cmsKnowledge);
+			List<CmsKnowledge> list=cmsKnowledgeService.queryByTitle(cmsKnowledge);
 			if( list.size()>0){
 				result.setMsg("该知识点已存在");
 			}else {
@@ -51,5 +51,33 @@ public class CmsKnowledgeController {
 			}
 			return result;
 		}
-
-}
+		@RequestMapping("/confine")
+		@ResponseBody
+		public Result confine(CmsKnowledge cmsKnowledge){
+			Result result=new Result();
+			result.setResult(cmsKnowledgeService.confine(cmsKnowledge));
+			return result;
+		}
+		
+		@RequestMapping("/deletes")
+		@ResponseBody
+		public Result deletes(String ids){			
+			Result result=new Result();
+			String[] arr=ids.split(",");
+			int total=0;
+			for(String id:arr){
+				total+=	cmsKnowledgeService.delete(Integer.parseInt(id));
+				 
+			}
+			result.setResult(total);
+			return result;
+		}
+		@RequestMapping("/delete")
+		@ResponseBody
+		public Result delete(int id){			
+			Result result=new Result();					
+			result.setResult(cmsKnowledgeService.delete(id));
+			return result;
+		}
+		}
+		

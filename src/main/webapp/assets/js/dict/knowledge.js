@@ -18,8 +18,7 @@ define(function(require, exports, module) {
 			// if(base.perList.dict.query){
 			$("#knowledge-header .actions")
 					.append(
-							"<input autocomplete='off'  id='q_dict_value' name='q_dict_value' placeholder='请输入知识点' type='text' />&nbsp;&nbsp;<span  id='k_subject'></span><a href='#' id='queryByCondition' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>");
-			
+							"<input autocomplete='off'  id='q_k_title' name='q_k_title' placeholder='请输入知识点' type='text' />&nbsp;&nbsp;<select  id='q_k_grade' data-placeholder='请选择年级'></select>&nbsp;&nbsp;<select  id='q_k_subject'></select><a href='#' id='queryByCondition' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>");
 
 			// }
 			/**
@@ -34,22 +33,13 @@ define(function(require, exports, module) {
 			/**
 			 * 是否具有删除字典权限
 			 */
-			// if(base.perList.dict.del){
-			// $("#knowledge-header .actions")
-			// .append(
-			// "<a href='#' id='delDicts' class='btn btn-danger btn-small'
-			// style='margin-left:5px;margin-bottom:11px'><i
-			// class='icon-remove'></i>删除</a>");
-			//			
-			// }
-			// $("#knowledge-header .actions").append("<a href='#' id='delDicts'
-			// class='btn btn-danger btn-small' style='margin-left:5px'><i
-			// class='icon-remove'></i>查询</a>");
-			//
-			// $("#knowledge-header .actions").append("<a href='#' id='delDicts'
-			// class='btn btn-danger btn-small' style='margin-left:5px'><i
-			// class='icon-remove'></i>查询</a>");
-			// }
+//			 if(base.perList.dict.del){
+//			 $("#knowledge-header .actions")
+//			 .append(
+//			 "<a href='#' id='delKnowledges' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
+						
+//			 }
+			
 			/**
 			 * 加载树
 			 */
@@ -76,10 +66,10 @@ define(function(require, exports, module) {
 				/**
 				 * 删除用户
 				 */
-				'click .delDict' : function(e, value, row, index) {
+				'click .delKnowledge' : function(e, value, row, index) {
 					base.bootConfirm("是否确定删除？", function() {
 						$.ajax({
-							url : F.basepath + '/dict/delete',
+							url : F.basepath + '/knowledge/delete',
 							type : 'POST',
 							data : {
 								id : row.id
@@ -97,9 +87,9 @@ define(function(require, exports, module) {
 				/**
 				 * 启用或停用用户
 				 */
-				'click .startDict' : function(e, value, row, index) {
+				'click .startKnowledge ' : function(e, value, row, index) {
 					$.ajax({
-						url : F.basepath + '/dict/confine',
+						url : F.basepath + '/knowledge/confine',
 						type : 'POST',
 						data : {
 							id : row.id,
@@ -171,14 +161,14 @@ define(function(require, exports, module) {
 			/**
 			 * 批量删除
 			 */
-			$('#delDicts').click(
+			$('#delKnowledges').click(
 					function() {
 						var ids = F.table.getIdSelections();
 						if (ids != null && ids.length > 0) {
 							base.bootConfirm("是否确定删除选定的" + ids.length + "个用户？",
 									function() {
 										$.ajax({
-											url : F.basepath + '/dict/deletes',
+											url : F.basepath + '/knowledge/deletes',
 											type : 'POST',
 											data : {
 												ids : ids.toString()
@@ -199,13 +189,19 @@ define(function(require, exports, module) {
 							});
 						}
 					});
+			
 			/**
 			 * 加载下拉框
 			 * param : 查询条件
 			 * selectId ： select元素ID
 			 */
 			var dictList= function(url,param ,selectId) {
-				var html = '';
+				//查询条件的下拉框给出提示信息
+				if(selectId=="#q_k_grade" || selectId=="#q_k_subject" ){
+					var html = "<option value='0' >"+"--请选择"+(param == 'grade' ? "年级--" : "学科--")+"</option>";
+				}else{
+					var html='';
+				}
 				$.ajax({
 			 url: F.basepath+ url,
 			 data : {typeEncoding:param},
@@ -220,14 +216,17 @@ define(function(require, exports, module) {
 			}
 			dictList("/dict/queryDictByCondition" , "grade" ,"#EditGrade");
 			dictList("/dict/queryDictByCondition" , "subject" ,"#EditSubject");
+			dictList("/dict/queryDictByCondition" , "grade" ,"#q_k_grade");
+			dictList("/dict/queryDictByCondition" , "subject" ,"#q_k_subject");
+			dictList("/dict/queryDictByCondition" , "grade" ,"#grade");
+			dictList("/dict/queryDictByCondition" , "subject" ,"#subject");
 			/**
 			 * 打开模态框
 			 */
 			$('#addKnowledge').click(function() {
 				
 				core.openModel('modal-Knowledge', '新增知识点', function() {
-					dictList("/dict/queryDictByCondition" , "grade" ,"#grade");
-					dictList("/dict/queryDictByCondition" , "subject" ,"#subject");
+					
 				});
 				return false;
 			});
@@ -237,11 +236,12 @@ define(function(require, exports, module) {
 			 */
 			$('#queryByCondition').click(
 					function() {
-						var value = $("#q_k_grade").val();
-						var typeName = $("#q_dict_type").val();
-						var query_url = F.basepath + '/dict/pageList?value='
-								+ value + '&typeEncoding=' + typeName;
-						$('#dictTable').bootstrapTable('refresh', {
+						var title = $("#q_k_title").val();
+						var gradeNo = $("#q_k_grade").val();
+						var subjectNo=$("#q_k_subject").val();
+						var query_url = F.basepath + '/knowledge/listPage?title='
+								+ title + '&gradeNo=' + gradeNo+'&subjectNo='+subjectNo;
+						$('#KnowledgeTable').bootstrapTable('refresh', {
 							url : query_url
 						});
 					}),
@@ -251,20 +251,17 @@ define(function(require, exports, module) {
 			 */
 			$('#btnClose').click(function() {
 				//关闭模态框时清除报错信息
-//				$("#value-error").html('');
-//				$("#svalue-error").html('');
-//				$("#typeEncoding-error").html('');
-//				$("#typeName-error").html('');
+				$("#title-error").html('');
+				$("#stitle-error").html('');
+				$("#orderNo-error").html('');
 				core.closeModel('modal-Knowledge');
 				F.table.reload();
 			});
 
 			$('#EditbtnClose').click(function() {
 				//关闭模态框时清除报错信息
-//				$("#EditValue-error").html('');
-//				$("#edit-value-error").html('');
-//				$("#EditTypeEncoding-error").html('');
-//				$("#EditTypeName-error").html('');
+				$("#EditTitle-error").html('');
+				$("#EditOrderNo-error").html('');
 				core.closeModel('modal-EditKnowledge');
 				F.table.reload();
 			});
@@ -276,7 +273,7 @@ define(function(require, exports, module) {
 		operateFormatter : function(value, row, index) {
 			var _btnAction = "";
 			// if (base.perList.user.edit_dep) {
-			_btnAction += "<a class='startDict btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"
+			_btnAction += "<a class='startKnowledge btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"
 					+ (row.status == 1 ? "停用" : "启用") + "</a>";
 			// }
 			//            
@@ -285,14 +282,13 @@ define(function(require, exports, module) {
 			// }
 
 			// if (base.perList.user.del) {
-			// _btnAction += "<a class='delDict btn btn-danger btn-small'
-			// href='#' title='删除用户' style='margin-left:5px'>删除</a>";
+//			 _btnAction += "<a class='delKnowledge btn btn-danger btn-small' href='#' title='删除用户' style='margin-left:5px'>删除</a>";
 			// }
 			return _btnAction;
 		},
-		delDict : function(id) {
+		delKnowledge : function(id) {
 			console.log(id);
-			base.ajaxRequest(F.basepath + '/dict/delete', {
+			base.ajaxRequest(F.basepath + '/knowledge/delete', {
 				"id" : id
 			}, function(data) {
 				base.ajaxSuccess(data);
@@ -326,7 +322,6 @@ define(function(require, exports, module) {
 					var orderNo = $("#EditOrderNo").val();
 					var gradeNo = $("#EditGrade").val();
 					var subjectNo = $("#EditSubject").val();
-					alert(subjectNo);
 					$.ajax({
 						url : F.basepath + '/knowledge/editKnowledge',
 						type : 'POST',
@@ -366,7 +361,6 @@ define(function(require, exports, module) {
 		 */
 		$('#submit-form').validate({
 		submitHandler:function(form){
-			alert("dd");
 			var title = $("#title").val();
 			var orderNo = $("#orderNo").val();
 			var gradeNo = $("#grade").val();
