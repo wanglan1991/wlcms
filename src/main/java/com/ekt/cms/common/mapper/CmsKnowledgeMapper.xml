@@ -28,6 +28,17 @@
 		LEFT JOIN cms_dictionary d on
 		d.id=k.grade_no
 		LEFT JOIN cms_dictionary dc on dc.id=k.subject_no
+		WHERE 1=1
+		<if test="CmsKnowledge.title !=null and CmsKnowledge.title != ''">
+			AND (title like '%${CmsKnowledge.title}%')
+		</if>
+		<if test="CmsKnowledge.gradeNo !=null and CmsKnowledge.gradeNo !=0" >
+			AND grade_no=#{CmsKnowledge.gradeNo ,jdbcType=INTEGER}
+		</if>
+		<if test="CmsKnowledge.subjectNo !=null and CmsKnowledge.subjectNo !=0">
+			AND subject_no=#{CmsKnowledge.subjectNo, jdbcType=INTEGER}
+		</if>
+		
 	</select>
 	<!-- update -->
 	<update id="updateByPrimaryKey" parameterType="com.ekt.cms.common.entity.CmsKnowledge">
@@ -62,11 +73,35 @@
 		(#{CmsKnowledge.title,jdbcType=VARCHAR},#{CmsKnowledge.orderNo,jdbcType=INTEGER},#{CmsKnowledge.gradeNo,jdbcType=INTEGER},#{CmsKnowledge.subjectNo,jdbcType=INTEGER},1
 		)
 	</insert>
+	<!-- 按条件查询 -->
 	<select id="queryByCondition" resultMap="BaseMap"
 		parameterType="com.ekt.cms.common.entity.CmsKnowledge">
-		select *
-		from cms_knowledge_point
-		where 1=1
+		SELECT *
+		FROM cms_knowledge_point
+		WHERE 1=1
+		<if test="CmsKnowledge.title !=null and CmsKnowledge.title != ''">
+			AND (title like '%${CmsKnowledge.title}%')
+		</if>
+		<if test="CmsKnowledge.gradeNo !=null ">
+			AND grade_no=#{CmsKnowledge.gradeNo ,jdbcType=INTEGER}
+		</if>
+		<if test="CmsKnowledge.subjectNo !=null ">
+			AND subject_no=#{CmsKnowledge.subjectNo, jdbcType=INTEGER}
+		</if>
+	</select>
+	<!-- 启用/停用知识点 -->
+		<update id="confine" parameterType="com.ekt.cms.common.entity.CmsKnowledge">
+			UPDATE cms_knowledge_point
+			SET 
+			status=#{CmsKnowledge.status}
+			WHERE
+			id=#{CmsKnowledge.id }
+		</update>
+	<!-- 按知识点名字查询 -->
+		<select id="queryByTitle" resultMap="BaseMap" parameterType="com.ekt.cms.common.entity.CmsKnowledge">
+		SELECT *
+		FROM cms_knowledge_point
+		WHERE 1=1
 		<if test="CmsKnowledge.title !=null and CmsKnowledge.title != ''">
 			AND title=#{CmsKnowledge.title, jdbcType=VARCHAR}
 		</if>
@@ -76,6 +111,11 @@
 		<if test="CmsKnowledge.subjectNo !=null ">
 			AND subject_no=#{CmsKnowledge.subjectNo, jdbcType=INTEGER}
 		</if>
-
-	</select>
+		</select>
+	<!-- 删除 -->
+		<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM
+		cms_knowledge_point
+		WHERE id = #{id,jdbcType=INTEGER}
+	</delete>
 </mapper>

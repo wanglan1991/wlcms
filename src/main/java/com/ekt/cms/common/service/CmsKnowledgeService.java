@@ -34,10 +34,24 @@ public class CmsKnowledgeService implements ICmsKnowledgeService {
 	}
 
 	@Override
-	public List<CmsKnowledge> queryByCondition(CmsKnowledge cmsKnowledge) {
+	public List<CmsKnowledge> queryByTitle(CmsKnowledge cmsKnowledge) {
 		// TODO Auto-generated method stub
-		return CmsKnowledgeMapper.queryByCondition(cmsKnowledge);
+		return CmsKnowledgeMapper.queryByTitle(cmsKnowledge);
 	}
-	
 
+	@Override
+	public int confine(CmsKnowledge cmsKnowledge) {
+		// TODO Auto-generated method stub
+		return CmsKnowledgeMapper.confine(cmsKnowledge);
+	}
+
+	@Override
+	public PageBean<CmsKnowledge> queryByCondition(CmsKnowledge cmsKnowledge) {
+		// TODO Auto-generated method stub
+		return new PageBean<CmsKnowledge>(CmsKnowledgeMapper.queryByCondition(cmsKnowledge));
+	}
+
+	public  int delete(int id){
+		return CmsKnowledgeMapper.delete(id);
+	}
 }

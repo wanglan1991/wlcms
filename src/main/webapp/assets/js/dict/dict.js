@@ -61,14 +61,7 @@ define(function(require, exports, module) {
 			// class='icon-remove'></i>删除</a>");
 			//			
 			// }
-			// $("#dict-header .actions").append("<a href='#' id='delDicts'
-			// class='btn btn-danger btn-small' style='margin-left:5px'><i
-			// class='icon-remove'></i>查询</a>");
-			//
-			// $("#dict-header .actions").append("<a href='#' id='delDicts'
-			// class='btn btn-danger btn-small' style='margin-left:5px'><i
-			// class='icon-remove'></i>查询</a>");
-			// }
+		
 			/**
 			 * 加载树
 			 */
@@ -186,7 +179,7 @@ define(function(require, exports, module) {
 							base.bootConfirm("是否确定删除选定的" + ids.length + "个用户？",
 									function() {
 										$.ajax({
-											url : F.basepath + '/dict/deletes',
+											url : F.basepath + '/knowledge/deletes',
 											type : 'POST',
 											data : {
 												ids : ids.toString()
@@ -214,19 +207,7 @@ define(function(require, exports, module) {
 			$('#addDict').click(function() {
 				var html = '';
 				core.openModel('modal-DictTree', '新增字典', function() {
-					// 加载role的选择框
-					// $.ajax({
-					// url: F.basepath+'/dict/dictList',
-					// type:'POST',
-					// success:function(data){
-					// for(var i=0;i<data.value.length;i++){
-					// html+="<option
-					// value="+data.value[i].id+">"+data.value[i].name+"</option>"
-					// }
-					// $("#roles").append(html);
-					// }
-					// });
-
+					
 				});
 				return false;
 			});

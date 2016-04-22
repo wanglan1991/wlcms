@@ -50,14 +50,15 @@
 				<div class='control-group'>
 					<label class='control-label'>序号</label>
 					<div class='controls'>
-						<input class='span8' id='orderNo' placeholder='序号' type='text' />
+						<input class='span8' id='orderNo' name="orderNo"
+							placeholder='序号' type='text' />
 					</div>
 				</div>
 				<div class='control-group'>
 					<label class='control-label'>年级</label>
 					<div class='controls'>
 						 <div class='input-append'>
-		               		<select id='grade'></select>
+		               		<select id='grade' name='grade' ></select>
 		                </div>
 					</div>
 				</div>
@@ -65,7 +66,7 @@
 					<label class='control-label'>科目</label>
 					<div class='controls'>
 						<div class='input-append'>
-		               		<select id='subject'>
+		               		<select id='subject' name='subject'>
 		               		</select>
 		                </div>
 				</div>
