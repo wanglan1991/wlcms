@@ -9,22 +9,73 @@
 		<result column="subject_no" property="subjectNo" jdbcType="INTEGER"></result>
 		<result column="grade" property="grade" jdbcType="INTEGER"></result>
 		<result column="suject" property="subject" jdbcType="INTEGER"></result>
-		<result column="status" property="status" jdbcType="INTEGER"></result>              
+		<result column="status" property="status" jdbcType="INTEGER"></result>
 	</resultMap>
 	<!-- listpage -->
-	<select id="listPage" resultMap="BaseMap" 
-	parameterType="com.ekt.cms.common.entity.CmsKnowledge">
-			SELECT
-			 k.id id,
-			 title, 
-			 k.grade_no grade_no , 
-			 k.subject_no subject_no, 
-			 order_no, 
-			 k.status status,
-			 d.value  grade ,
-			 dc.value  subject
-			FROM cms_knowledge_point k
-			LEFT JOIN cms_dictionary d on d.id=k.grade_no 
-			LEFT JOIN cms_dictionary dc on dc.id=k.subject_no
+	<select id="listPage" resultMap="BaseMap"
+		parameterType="com.ekt.cms.common.entity.CmsKnowledge">
+		SELECT
+		k.id id,
+		title,
+		k.grade_no grade_no ,
+		k.subject_no
+		subject_no,
+		order_no,
+		k.status status,
+		d.value grade ,
+		dc.value subject
+		FROM cms_knowledge_point k
+		LEFT JOIN cms_dictionary d on
+		d.id=k.grade_no
+		LEFT JOIN cms_dictionary dc on dc.id=k.subject_no
+	</select>
+	<!-- update -->
+	<update id="updateByPrimaryKey" parameterType="com.ekt.cms.common.entity.CmsKnowledge">
+		UPDATE cms_knowledge_point
+		SET
+		<if test="CmsKnowledge.title !=null and CmsKnowledge.title != ''">
+			title=#{CmsKnowledge.title, jdbcType=VARCHAR},
+		</if>
+		<if test="CmsKnowledge.gradeNo !=null ">
+			grade_no=#{CmsKnowledge.gradeNo ,jdbcType=INTEGER},
+		</if>
+		<if test="CmsKnowledge.subjectNo !=null ">
+			subject_no=#{CmsKnowledge.subjectNo, jdbcType=INTEGER},
+		</if>
+		<if test="CmsKnowledge.orderNo !=null ">
+			order_no=#{CmsKnowledge.orderNo ,jdbcType=INTEGER},
+		</if>
+		status=1
+		WHERE
+		id=#{CmsKnowledge.id ,jdbcType=INTEGER}
+	</update>
+	<!-- 新增 -->
+	<insert id="insert" parameterType="com.ekt.cms.common.entity.CmsKnowledge">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO
+		cms_knowledge_point
+		(title ,order_no, grade_no ,subject_no, status)
+		VALUES
+		(#{CmsKnowledge.title,jdbcType=VARCHAR},#{CmsKnowledge.orderNo,jdbcType=INTEGER},#{CmsKnowledge.gradeNo,jdbcType=INTEGER},#{CmsKnowledge.subjectNo,jdbcType=INTEGER},1
+		)
+	</insert>
+	<select id="queryByCondition" resultMap="BaseMap"
+		parameterType="com.ekt.cms.common.entity.CmsKnowledge">
+		select *
+		from cms_knowledge_point
+		where 1=1
+		<if test="CmsKnowledge.title !=null and CmsKnowledge.title != ''">
+			AND title=#{CmsKnowledge.title, jdbcType=VARCHAR}
+		</if>
+		<if test="CmsKnowledge.gradeNo !=null ">
+			AND grade_no=#{CmsKnowledge.gradeNo ,jdbcType=INTEGER}
+		</if>
+		<if test="CmsKnowledge.subjectNo !=null ">
+			AND subject_no=#{CmsKnowledge.subjectNo, jdbcType=INTEGER}
+		</if>
+
 	</select>
 </mapper>

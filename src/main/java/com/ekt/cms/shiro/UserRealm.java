@@ -1,12 +1,10 @@
 package com.ekt.cms.shiro;
-import java.util.List;
 import javax.annotation.Resource;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-
 import com.ekt.cms.account.entity.CmsAccount;
 import com.ekt.cms.account.service.ICmsAccountService;
 import com.ekt.cms.utils.Md5Utils;

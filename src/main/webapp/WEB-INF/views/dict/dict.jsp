@@ -93,8 +93,9 @@
 			<div class='modal-body'>
 				<div class='control-group'>
 					<label class='control-label'>字典值</label>
-					<input type="hidden" id="id" />
+					<input type="hidden" id="EditId" />
 					<div class='controls'>
+
 						<input class='span8' id='EditValue' name="EditValue"
 							 placeholder='字典值' type='text' />
 							<span id="edit-value-error" class="help-block error"></span>
