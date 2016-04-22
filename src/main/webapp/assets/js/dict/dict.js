@@ -299,37 +299,36 @@ define(function(require, exports, module) {
 		 */
 		$('#Editsubmit-form').validate({				
 			submitHandler:function(form){
-				alert("Editsubmit-form");
-					var value = $("#EditValue").val();
-					var valueId = $("#EditId").val();
-					var parentId = $("#EditParentID").val();
-					var typeEncoding = $("#EditTypeEncoding").val();
-					var typeName = $("#EditTypeName").val();
-					var remark = $("#EditRemark").val();
-					$.ajax({
-						url : F.basepath + '/dict/editDict',
-						type : 'POST',
-						data : {
-							id : valueId,
-							value : value,
-							parentId : parentId,
-							typeEncoding : typeEncoding,
-							typeName : typeName,
-							remark : remark
-						},
-						success : function(data) {
-							if (data.result > 0) {
-								core.closeModel('modal-EditDict');								
-								F.table.reload();
-								
-							} else {
-								$("#edit-value-error").html(data.msg);
-								$("#edit-value-error").css('color', 'red');
+				var value = $("#EditValue").val();
+				var valueId = $("#EditId").val();
+				var parentId = $("#EditParentID").val();
+				var typeEncoding = $("#EditTypeEncoding").val();
+				var typeName = $("#EditTypeName").val();
+				var remark = $("#EditRemark").val();
+				$.ajax({
+					url : F.basepath + '/dict/editDict',
+					type : 'POST',
+					data : {
+						id : valueId,
+						value : value,
+						parentId : parentId,
+						typeEncoding : typeEncoding,
+						typeName : typeName,
+						remark : remark
+					},
+					success : function(data) {
+						if (data.result > 0) {
+							core.closeModel('modal-EditDict');								
+							F.table.reload();
+							
+						} else {
+							$("#edit-value-error").html(data.msg);
+							$("#edit-value-error").css('color', 'red');
 
-							}
 						}
+					}
 
-					});
+				});
 			},
 		rules:{
 			EditValue:{required:true},

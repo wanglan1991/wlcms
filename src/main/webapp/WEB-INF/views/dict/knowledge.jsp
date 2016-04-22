@@ -42,7 +42,7 @@
 				<div class='control-group'>
 					<label class='control-label'>知识点</label>
 					<div class='controls'>
-						<input class='span8' id='title' name="title" placeholder='知识点' 
+						<input class='span8' id='title' name="title" placeholder='請輸入知識點' 
 							type='text' />
 							<span id="stitle-error" class="help-block error"></span>
 					</div>
@@ -51,7 +51,7 @@
 					<label class='control-label'>序号</label>
 					<div class='controls'>
 						<input class='span8' id='orderNo' name="orderNo"
-							placeholder='序号' type='text' />
+							placeholder='請輸入序號' type='text' />
 					</div>
 				</div>
 				<div class='control-group'>
