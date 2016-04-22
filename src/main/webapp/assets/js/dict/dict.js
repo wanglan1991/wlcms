@@ -299,7 +299,6 @@ define(function(require, exports, module) {
 		 */
 		$('#Editsubmit-form').validate({				
 			submitHandler:function(form){
-				alert("Editsubmit-form");
 					var value = $("#EditValue").val();
 					var valueId = $("#EditId").val();
 					var parentId = $("#EditParentID").val();
