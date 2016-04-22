@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ekt.cms.permission.entity.CmsPermission;
+import com.ekt.cms.utils.pageHelper.PageBean;
 /**
  * 
  * @author 王岚
@@ -14,7 +15,7 @@ public interface IPermissionService {
 	 * @param cmsPermission
 	 * @return
 	 */
-	public List<CmsPermission> listPage(CmsPermission cmsPermission);
+	public PageBean<CmsPermission> listPage(CmsPermission cmsPermission);
 	/**
 	 * 根据角色名称查询权限
 	 * @param roleId
@@ -40,5 +41,32 @@ public interface IPermissionService {
 	 * @return
 	 */
 	public int confine(CmsPermission cmsPermission);
+	/**
+	 * 根据Id删除
+	 * @param id
+	 * @return
+	 */
+	public int deleteCmsPermission(int id);
+	/**
+	 * 根据permissionID删除所有与该permissionID相关的权限赋值
+	 * @param id
+	 * @return
+	 */
+	public int deleteRolePermission(int id);
+	/**
+	 * 添加权限
+	 * @param cmsPermission
+	 * @return
+	 */
+	public  int addPermission(CmsPermission cmsPermission);
+	
+	
+	/**
+	 * 更新权限
+	 * @param cmsPermission
+	 * @return
+	 */
+	public int updatePermission(CmsPermission cmsPermission);
+	
 	
 }

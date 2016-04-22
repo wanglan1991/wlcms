@@ -3,7 +3,7 @@ public class CmsPermission {
 	private int id;
 	private String name;
 	private String key;
-	private int order;
+	private int orderNo;
 	private String value;
 	private int pid;
 	private String type;
@@ -11,6 +11,13 @@ public class CmsPermission {
 	private String icon;
 	private int status;
 	private String encoding;
+	private String parentName;
+	public String getParentName() {
+		return parentName;
+	}
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
+	}
 	public String getEncoding() {
 		return encoding;
 	}
@@ -35,11 +42,11 @@ public class CmsPermission {
 	public void setKey(String key) {
 		this.key = key;
 	}
-	public int getOrder() {
-		return order;
+	public int getOrderNo() {
+		return orderNo;
 	}
-	public void setOrder(int order) {
-		this.order = order;
+	public void setOrderNo(int orderNo) {
+		this.orderNo = orderNo;
 	}
 	public String getValue() {
 		return value;

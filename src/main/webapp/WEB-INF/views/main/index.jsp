@@ -351,7 +351,7 @@ $(document).ready(function(){
 		  type:"POST",
 		  success:function(data){
 			  $.each(data, function(i, parentMenu){
-				 menusTxt+=" <li class=''><a  target='mainFrame' class='dropdown-collapse  in' href='#'><i class='"+parentMenu.log+"'></i><span>"+parentMenu.menuName+"</span></a><ul class='nav nav-stacked'>";
+				 menusTxt+=" <li class=''><a  target='mainFrame' class='dropdown-collapse  in' href='#'><i class='"+parentMenu.icon+"'></i><span>"+parentMenu.menuName+"</span></a><ul class='nav nav-stacked'>";
 					var sonMenuArr = parentMenu.menuList;	
 						 for(var i=0;i<sonMenuArr.length;i++){
 							 menusTxt+="<li><a  target='mainFrame' href='${ctx}/"+sonMenuArr[i].url+"'><i class='"+sonMenuArr[i].icon+"'></i><span>"+sonMenuArr[i].menuName+"<span></a><li>" 

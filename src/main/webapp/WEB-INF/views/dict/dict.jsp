@@ -93,7 +93,7 @@
 			<div class='modal-body'>
 				<div class='control-group'>
 					<label class='control-label'>字典值</label>
-					<input type="hidden" id="id" />
+					<input type="hidden" id="EditId" />
 					<div class='controls'>
 
 						<input class='span8' id='EditValue' name="EditValue"
@@ -111,16 +111,13 @@
 				<div class='control-group'>
 					<label class='control-label'>类型</label>
 					<div class='controls'>
-
 						<input class='span8' id='EditTypeEncoding' name="EditTypeEncoding" placeholder='类型'
-
 							 type='text' />
 					</div>
 				</div>
 				<div class='control-group'>
 					<label class='control-label'>类型名称</label>
 					<div class='controls'>
-
 						<input class='span8' id='EditTypeName'  name='EditTypeName' placeholder='字典类型'
 							type='text' />
 					</div>

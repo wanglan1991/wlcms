@@ -5,7 +5,7 @@
 		<id column="PermissionId" property="PermissionId" jdbcType="INTEGER" />
 		<result column="PermissionName" property="PermissionName" jdbcType="VARCHAR" />
 		<result column="key" property="key" jdbcType="VARCHAR" />
-		<result column="order" property="order" jdbcType="INTEGER" />
+		<result column="order" property="orderNo" jdbcType="INTEGER" />
 		<result column="value" property="value" jdbcType="VARCHAR" />
 	</resultMap>
 
@@ -21,13 +21,14 @@
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<id column="name" property="name" jdbcType="INTEGER" />
 		<id column="key" property="key" jdbcType="VARCHAR" />
-		<id column="order" property="order" jdbcType="INTEGER" />
+		<id column="order" property="orderNo" jdbcType="INTEGER" />
 		<id column="value" property="value" jdbcType="VARCHAR" />
 		<id column="pid" property="pid" jdbcType="INTEGER" />
 		<id column="type" property="type" jdbcType="VARCHAR" />
 		<id column="level" property="level" jdbcType="INTEGER" />
 		<id column="icon" property="icon" jdbcType="VARCHAR" />
 		<id column="status" property="status" jdbcType="INTEGER" />
+		<id column="parent_name" property="parentName" jdbcType="VARCHAR" />
 	</resultMap>
 
 	
@@ -70,24 +71,30 @@
 		AND 
 		'key'  &lt;&gt;''
 	</select>
-	<!-- 按主键删除 -->
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		DELETE FROM
-		cms_permission
-		WHERE id = #{id,jdbcType=INTEGER}
-	</delete>
 	<!-- 插入 -->
-	<insert id="insert" parameterType="com.ekt.cms.permission.entity.CmsPermission">
+	<insert id="addPermission" parameterType="com.ekt.cms.permission.entity.CmsPermission">
 		<selectKey resultType="java.lang.Integer" keyProperty="id"
 			order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
-		INSERT INTO cms_permission (id, name, key,
-		order)
-		VALUES
-		(#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
-		#{key,jdbcType=VARCHAR},
-		#{order,jdbcType=INTEGER})
+		INSERT INTO `cms_permission` (
+				`name`,
+				`key`,
+				`order`,
+				`value`,
+				`pid`,
+				`type`,
+				`level`,
+				`icon`
+		)VALUES(
+				#{cmsPermission.name},
+				#{cmsPermission.key},
+				#{cmsPermission.orderNo},
+				#{cmsPermission.value},
+				#{cmsPermission.pid},
+				#{cmsPermission.type},
+				#{cmsPermission.level},
+				#{cmsPermission.icon})
 	</insert>
 	<!-- 按主键更新 -->
 	<update id="updateByPrimaryKey" parameterType="com.ekt.cms.permission.entity.CmsPermission">
@@ -102,24 +109,50 @@
 	</update>
 <!-- 	菜单列表 -->
 	<select id="listPage" resultMap="PermissionMap" parameterType="com.ekt.cms.permission.entity.CmsPermission">
-		SELECT * FROM 
-			cms_permission
+		SELECT p.*,IFNULL(p2.name,"无父级") parent_name
+		FROM 
+			cms_permission p
+		LEFT JOIN  cms_permission p2 on p.pid=p2.id
 		WHERE 1=1
 		<if test="cmsPermission.name !=null and cmsPermission.name!='' ">
-		AND( name like '%${cmsPermission.name}%')
+		AND( p.name like '%${cmsPermission.name}%')
 		</if>
 		<if test="cmsPermission.level !=null and cmsPermission.level !=-1  and cmsPermission.level !=0">
-		AND level=#{cmsPermission.level}		
+		AND p.level=#{cmsPermission.level}		
 		</if>
 	</select>
 	<select id="getTypeList" resultMap="PermissionMap">
 		SELECT type,level FROM cms_permission GROUP BY type order by level
 	</select>		
 	<select id="getPidList" resultMap="PermissionMap" parameterType="java.lang.Integer">
-		SELECT name,pid FROM  cms_permission WHERE level=#{type} and level&lt;&gt;2
+		SELECT name,IF(pid =0,id ,pid)pid FROM  cms_permission WHERE level=#{type} 
 	</select>
 	
 	<update id="confine" parameterType="com.ekt.cms.permission.entity.CmsPermission">
 		UPDATE cms_permission SET  STATUS=#{cmsPermission.status} WHERE id=#{cmsPermission.id}
 	</update>
+	<delete id="deleteCmsPermission" parameterType="java.lang.Integer">
+		DELETE FROM
+			cms_permission
+		WHERE id = #{cmsPermissionId}
+	</delete>
+	<delete id="deleteRolePermission" parameterType="java.lang.Integer">
+		DELETE FROM
+			cms_role_permission
+		WHERE permission_id = #{cmsPermissionId}
+	
+	</delete>
+	<update id="updatePermission" parameterType="com.ekt.cms.permission.entity.CmsPermission">
+		UPDATE 
+			cms_permission 
+		SET 
+			`name`=#{cmsPermission.name},
+			`key`=#{cmsPermission.value}, 
+			`order`=#{cmsPermission.orderNo},
+			`value`=#{cmsPermission.value}, 
+			`icon`=#{cmsPermission.icon}, 
+		WHERE (id=#{cmsPermission.id});
+		
+	</update>
+	
 </mapper>
