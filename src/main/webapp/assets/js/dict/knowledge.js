@@ -16,56 +16,37 @@ define(function(require, exports, module) {
 			 * 是否具有查询字典权限
 			 */
 			// if(base.perList.dict.query){
-			$("#dict-header .actions")
+			$("#knowledge-header .actions")
 					.append(
-							"<input autocomplete='off'  id='q_dict_value' name='q_dict_value' placeholder='请输入字典值' type='text' />&nbsp;&nbsp;<span  id='dict_typeName'></span><a href='#' id='queryByCondition' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>");
-
-			$.ajax({
-						url : F.basepath + "/dict/typeNameList",
-						type : "GET",
-						success : function(data) {
-							html = "<select  id='q_dict_type'> <option value=''>--请选择--</option>";
-							for (var i = 0; i < data.value.length; i++) {
-								if (data.value[i].status == 0) {
-									continue;
-								}
-								html += "<option value="
-										+ data.value[i].typeEncoding + ">"
-										+ data.value[i].typeName + "</option>"
-
-							}
-							html += "</select>"
-
-							$("#dict_typeName").append(html);
-						}
-					})
+							"<input autocomplete='off'  id='q_dict_value' name='q_dict_value' placeholder='请输入知识点' type='text' />&nbsp;&nbsp;<span  id='k_subject'></span><a href='#' id='queryByCondition' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>");
+			
 
 			// }
 			/**
 			 * 是否具有添加字典权限
 			 */
 			// if(base.perList.dict.create){
-			$("#dict-header .actions")
+			$("#knowledge-header .actions")
 					.append(
-							"<a href='#' id='addDict' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>添加</a>");
+							"<a href='#' id='addKnowledge' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>添加</a>");
 			// }
 
 			/**
 			 * 是否具有删除字典权限
 			 */
 			// if(base.perList.dict.del){
-			// $("#dict-header .actions")
+			// $("#knowledge-header .actions")
 			// .append(
 			// "<a href='#' id='delDicts' class='btn btn-danger btn-small'
 			// style='margin-left:5px;margin-bottom:11px'><i
 			// class='icon-remove'></i>删除</a>");
 			//			
 			// }
-			// $("#dict-header .actions").append("<a href='#' id='delDicts'
+			// $("#knowledge-header .actions").append("<a href='#' id='delDicts'
 			// class='btn btn-danger btn-small' style='margin-left:5px'><i
 			// class='icon-remove'></i>查询</a>");
 			//
-			// $("#dict-header .actions").append("<a href='#' id='delDicts'
+			// $("#knowledge-header .actions").append("<a href='#' id='delDicts'
 			// class='btn btn-danger btn-small' style='margin-left:5px'><i
 			// class='icon-remove'></i>查询</a>");
 			// }
@@ -77,16 +58,18 @@ define(function(require, exports, module) {
 				/**
 				 * 修改字典 取出字典原有值
 				 */
-				'click .editDict' : function(e, value, row, index) {
-					core.openModel('modal-EditDict', '修改字典', function() {
-						$("#EditValue").val(row.value);
-						$("#EditParentID").val(row.parentId);
-						$("#EditTypeEncoding").val(row.typeEncoding);
-						$("#EditRemark").val(row.remark);
-						$("#EditTypeName").val(row.typeName);
-						$("#EditValue").attr("valueId", row.id);
+				'click .editKnowledge' : function(e, value, row, index) {
+					core.openModel('modal-EditKnowledge', '修改知识点', function() {
+						$("#EditId").val(row.id);
+						$("#EditTitle").val(row.title);
+						$("#EditOrderNo").val(row.orderNo);
+						$("#EditGradeNo").val(row.gradeNo);
+						$("#EditGrade").val(row.grade);
+						$("#EditSubjectNo").val(row.subjectNo);
+						$("#EditGrade     option[value='"+row.gradeNo+"']").attr("selected",true);
+						$("#EditSubject   option[value='"+row.subjectNo+"']").attr("selected",true);
 						$("#tatil").next("h3").html(
-								"编辑字典          " + row.value);
+								"编辑字典          " + row.title);
 
 					});
 				},
@@ -216,26 +199,35 @@ define(function(require, exports, module) {
 							});
 						}
 					});
-
+			/**
+			 * 加载下拉框
+			 * param : 查询条件
+			 * selectId ： select元素ID
+			 */
+			var dictList= function(url,param ,selectId) {
+				var html = '';
+				$.ajax({
+			 url: F.basepath+ url,
+			 data : {typeEncoding:param},
+			 type:'POST',
+			 success:function(data){
+			 for(var i=0;i<data.value.length;i++){
+			 html+="<option	value="+data.value[i].id+">"+data.value[i].value+"</option>";
+			 }
+			 $(selectId).append(html);
+			 }
+			 });
+			}
+			dictList("/dict/queryDictByCondition" , "grade" ,"#EditGrade");
+			dictList("/dict/queryDictByCondition" , "subject" ,"#EditSubject");
 			/**
 			 * 打开模态框
 			 */
-			$('#addDict').click(function() {
-				var html = '';
-				core.openModel('modal-DictTree', '新增字典', function() {
-					// 加载role的选择框
-					// $.ajax({
-					// url: F.basepath+'/dict/dictList',
-					// type:'POST',
-					// success:function(data){
-					// for(var i=0;i<data.value.length;i++){
-					// html+="<option
-					// value="+data.value[i].id+">"+data.value[i].name+"</option>"
-					// }
-					// $("#roles").append(html);
-					// }
-					// });
-
+			$('#addKnowledge').click(function() {
+				
+				core.openModel('modal-Knowledge', '新增知识点', function() {
+					dictList("/dict/queryDictByCondition" , "grade" ,"#grade");
+					dictList("/dict/queryDictByCondition" , "subject" ,"#subject");
 				});
 				return false;
 			});
@@ -245,7 +237,7 @@ define(function(require, exports, module) {
 			 */
 			$('#queryByCondition').click(
 					function() {
-						var value = $("#q_dict_value").val();
+						var value = $("#q_k_grade").val();
 						var typeName = $("#q_dict_type").val();
 						var query_url = F.basepath + '/dict/pageList?value='
 								+ value + '&typeEncoding=' + typeName;
@@ -259,21 +251,21 @@ define(function(require, exports, module) {
 			 */
 			$('#btnClose').click(function() {
 				//关闭模态框时清除报错信息
-				$("#value-error").html('');
-				$("#svalue-error").html('');
-				$("#typeEncoding-error").html('');
-				$("#typeName-error").html('');
-				core.closeModel('modal-DictTree');
+//				$("#value-error").html('');
+//				$("#svalue-error").html('');
+//				$("#typeEncoding-error").html('');
+//				$("#typeName-error").html('');
+				core.closeModel('modal-Knowledge');
 				F.table.reload();
 			});
 
 			$('#EditbtnClose').click(function() {
 				//关闭模态框时清除报错信息
-				$("#EditValue-error").html('');
-				$("#edit-value-error").html('');
-				$("#EditTypeEncoding-error").html('');
-				$("#EditTypeName-error").html('');
-				core.closeModel('modal-EditDict');
+//				$("#EditValue-error").html('');
+//				$("#edit-value-error").html('');
+//				$("#EditTypeEncoding-error").html('');
+//				$("#EditTypeName-error").html('');
+				core.closeModel('modal-EditKnowledge');
 				F.table.reload();
 			});
 
@@ -289,7 +281,7 @@ define(function(require, exports, module) {
 			// }
 			//            
 			// if (base.perList.user.edit) {
-			_btnAction += "<a data-toggle='modal' class='editDict btn btn-success btn-small' href='#' title='编辑用户' style='margin-left:5px'>编辑</a>";
+			_btnAction += "<a data-toggle='modal' class='editKnowledge btn btn-success btn-small' href='#' title='编辑用户' style='margin-left:5px'>编辑</a>";
 			// }
 
 			// if (base.perList.user.del) {
@@ -329,32 +321,30 @@ define(function(require, exports, module) {
 		 */
 		$('#Editsubmit-form').validate({				
 			submitHandler:function(form){
-				alert("Editsubmit-form");
-					var value = $("#EditValue").val();
-					var valueId = $("#EditValue").attr("valueId");
-					var parentId = $("#EditParentID").val();
-					var typeEncoding = $("#EditTypeEncoding").val();
-					var typeName = $("#EditTypeName").val();
-					var remark = $("#EditRemark").val();
+					var id = $("#EditId").val();
+					var title = $("#EditTitle").val();
+					var orderNo = $("#EditOrderNo").val();
+					var gradeNo = $("#EditGrade").val();
+					var subjectNo = $("#EditSubject").val();
+					alert(subjectNo);
 					$.ajax({
-						url : F.basepath + '/dict/editDict',
+						url : F.basepath + '/knowledge/editKnowledge',
 						type : 'POST',
 						data : {
-							id : valueId,
-							value : value,
-							parentId : parentId,
-							typeEncoding : typeEncoding,
-							typeName : typeName,
-							remark : remark
+							id : id,
+							title : title,
+							orderNo : orderNo,
+							gradeNo : gradeNo,
+							subjectNo : subjectNo
 						},
 						success : function(data) {
 							if (data.result > 0) {
-								core.closeModel('modal-EditDict');								
+								core.closeModel('modal-EditKnowledge');								
 								F.table.reload();
 								
 							} else {
-								$("#edit-value-error").html(data.msg);
-								$("#edit-value-error").css('color', 'red');
+								$("#edit-title-error").html(data.msg);
+								$("#edit-title-error").css('color', 'red');
 
 							}
 						}
@@ -362,67 +352,64 @@ define(function(require, exports, module) {
 					});
 			},
 		rules:{
-			EditValue:{required:true},
-			EditTypeEncoding:{required:true},
-			EditTypeName:{required:true},
+			EditTitle:{required:true},
+			EditOrderNo:{required:true},
 		},
 		messages:{
-			EditValue: '字典名称不能为空',
-			EditTypeEncoding:'字典类型编码不能为空',
-			EditTypeName:'字典类型名称不能为空'
+			EditTitle: '知识点不能为空',
+			EditOrderNo:'请给知识点标序',
 		},
 			
 		});
 		/**
 		 * 表单验证 提交添加字典
 		 */
-		$('#submit-form').validate({				
+		$('#submit-form').validate({
 		submitHandler:function(form){
-			var value = $("#value").val();
-				var parentId = $("#parentId").val();
-				var typeEncoding = $("#typeEncoding").val();
-				var typeName = $("#typeName").val();
-				var remark = $("#remark").val();
+			alert("dd");
+			var title = $("#title").val();
+			var orderNo = $("#orderNo").val();
+			var gradeNo = $("#grade").val();
+			var subjectNo = $("#subject").val();
 				$.ajax({
-				url :  F.basepath + '/dict/addDict',
+				url :  F.basepath + '/knowledge/addKnowledge',
 				type : 'POST',
 				data : {
-					value : value,
-					parentId : parentId,
-					typeEncoding : typeEncoding,
-					typeName:typeName,
-					remark : remark
+					title : title,
+					orderNo : orderNo,
+					gradeNo : gradeNo,
+					subjectNo : subjectNo
 				},
 				dataType: "json", 
 				success : function(data) {
 					if (data.result > 0) {
-						core.closeModel('modal-DictTree');
+						core.closeModel('modal-Knowledge');
 						F.table.reload();
 						
 					}
 					 else{
-					 $("#svalue-error").html(data.msg);
-					 $("#svalue-error").css('color','red');
+					 $("#stitle-error").html(data.msg);
+					 $("#stitle-error").css('color','red');
 					 }
 				}
 
 			});
 		},
 	rules:{
-		value:{required:true},
-		typeEncoding:{required:true},
-		typeName:{required:true},
+		title:{required:true},
+		orderNo:{required:true},
+		grade:{required:true},
+		subject:{required:true},
 	},
 	messages:{
-		value: '字典名称不能为空',
-		typeEncoding:'字典类型编码不能为空',
-		typeName:'字典类型名称不能为空'
+		title: '知识点不能为空',
+		orderNo:'请给知识点标序',
+		grade:'请选择所属年级',
+		subject:'请选择所属学科'
 	},
 		
 	});
-	
-		
-		
+			
 	}); 
 	
 	

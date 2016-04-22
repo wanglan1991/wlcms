@@ -21,4 +21,23 @@ public class CmsKnowledgeService implements ICmsKnowledgeService {
 		return new PageBean<CmsKnowledge>(CmsKnowledgeMapper.listPage(cmsKnowledge));
 	}
 
+	@Override
+	public int updateByPrimaryKey(CmsKnowledge cmsKnowledge) {
+		// TODO Auto-generated method stub
+		return CmsKnowledgeMapper.updateByPrimaryKey(cmsKnowledge);
+	}
+
+	@Override
+	public int insert(CmsKnowledge cmsKnowledge) {
+		// TODO Auto-generated method stub
+		return CmsKnowledgeMapper.insert(cmsKnowledge);
+	}
+
+	@Override
+	public List<CmsKnowledge> queryByCondition(CmsKnowledge cmsKnowledge) {
+		// TODO Auto-generated method stub
+		return CmsKnowledgeMapper.queryByCondition(cmsKnowledge);
+	}
+	
+
 }

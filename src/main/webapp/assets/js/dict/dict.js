@@ -84,7 +84,7 @@ define(function(require, exports, module) {
 						$("#EditTypeEncoding").val(row.typeEncoding);
 						$("#EditRemark").val(row.remark);
 						$("#EditTypeName").val(row.typeName);
-						$("#EditValue").attr("valueId", row.id);
+						$("#EditId").val(row.id);
 						$("#tatil").next("h3").html(
 								"编辑字典          " + row.value);
 
@@ -266,7 +266,7 @@ define(function(require, exports, module) {
 				$("#EditTypeName-error").html('');
 				core.closeModel('modal-EditDict');
 				F.table.reload();
-			});
+			});		
 
 		},
 
@@ -320,7 +320,7 @@ define(function(require, exports, module) {
 			submitHandler:function(form){
 				alert("Editsubmit-form");
 					var value = $("#EditValue").val();
-					var valueId = $("#EditValue").attr("valueId");
+					var valueId = $("#EditId").val();
 					var parentId = $("#EditParentID").val();
 					var typeEncoding = $("#EditTypeEncoding").val();
 					var typeName = $("#EditTypeName").val();
@@ -409,7 +409,6 @@ define(function(require, exports, module) {
 	},
 		
 	});
-
 	}); 
 	
 	
