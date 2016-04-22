@@ -12,6 +12,12 @@ public interface ICmsKnowledgeService {
 	int updateByPrimaryKey(CmsKnowledge cmsKnowledge);
 	//新增
 	int insert(CmsKnowledge cmsKnowledge);
-	//根据条件查询
-	List<CmsKnowledge>  queryByCondition(CmsKnowledge cmsKnowledge);
+	//根据知识点查询
+	List<CmsKnowledge>  queryByTitle(CmsKnowledge cmsKnowledge);
+	//启用 停用知识点
+	int confine(CmsKnowledge cmsKnowledge);
+	// 按条件查询
+	PageBean<CmsKnowledge> queryByCondition(CmsKnowledge cmsKnowledge);
+	//按主键删除
+	int delete(int id);
 }
