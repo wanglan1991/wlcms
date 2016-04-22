@@ -23,7 +23,6 @@
 	<div class='box-content box-no-padding'>
 		<div class='responsive-table'>
 			<div class='scrollable-area-x'>
-
 				<table id="KnowledgeTable"></table>
 			</div>
 		</div>
@@ -41,7 +40,6 @@
 			<div id="info"></div>
 			<div class='modal-body'>
 				<div class='control-group'>
-
 					<label class='control-label'>知识点</label>
 					<div class='controls'>
 						<input class='span8' id='title' name="title" placeholder='知识点' 
@@ -103,7 +101,8 @@
 				<div class='control-group'>
 					<label class='control-label'>序号</label>
 					<div class='controls'>
-						<input class='span8' id='EditOrderNo' placeholder='序号' type='text' />
+						<input class='span8' id='EditOrderNo' name="EditOrderNo"
+							placeholder='序号' type='text' />
 					</div>
 				</div>
 				<div class='control-group'>
@@ -136,8 +135,8 @@
 	</div>
 	
 
-	<script>
 
+	<script>
 		seajs.use([ 'base', 'dict/knowledge' ], function(b, m) {
 			b.init();
 			m.init('${ctx}');

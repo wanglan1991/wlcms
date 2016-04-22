@@ -3,10 +3,9 @@ package com.ekt.cms.common.controller;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ekt.cms.common.entity.CmsKnowledge;
@@ -25,7 +24,6 @@ public class CmsKnowledgeController {
 	    public String toDictPage() {
 	    	return "dict/knowledge";
 	    }
-	 
 		@RequestMapping("/listPage")
 		@ResponseBody
 		public PageBean<CmsKnowledge> knowledgeList(PageContext page ,CmsKnowledge cmsKnowledge){

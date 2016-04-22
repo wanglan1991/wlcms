@@ -3,6 +3,7 @@ package com.ekt.cms.permission.controller;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,7 +22,7 @@ import com.ekt.cms.utils.pageHelper.PageContext;
  *
  */
 @Controller
-@RequestMapping(value="/permission")
+@RequestMapping("/permission")
 public class PermissionController extends BaseController{
 	
 	
@@ -33,7 +34,7 @@ public class PermissionController extends BaseController{
 	 * 返回权限首页
 	 * @return
 	 */
-@RequestMapping(value="/manage")
+@RequestMapping("/manage")
 public String permission(){
 	return "main/permission/manage";
 }	
@@ -42,11 +43,11 @@ public String permission(){
  * 加载permission列表
  * @return
  */
-@RequestMapping(value="/pageList")
+@RequestMapping("/pageList")
 @ResponseBody
 public PageBean<CmsPermission> getListPage(PageContext page, CmsPermission cmsPermission) {
 	page.paging();
-	return new PageBean<CmsPermission>(permissionService.listPage(cmsPermission));
+	return permissionService.listPage(cmsPermission);
 }
 
 /**
@@ -71,6 +72,66 @@ public Result getPidList(@RequestParam("type")int type){
 	result.setValue(permissionService.getPidList(type));
 	return result;
 }
+
+/**
+ * 启用或停用
+ * @param cmsPermission
+ * @return
+ */
+@RequestMapping(value="/confine")
+@ResponseBody
+public Result confine(CmsPermission cmsPermission){
+	Result result =Result.getResults();
+	result.setResult(permissionService.confine(cmsPermission));
+	return result;
+	
+}
+/**
+ * 添加权限
+ * @param cmsPermission
+ * @return
+ */
+@RequestMapping(value = "/addPermission")
+@ResponseBody
+public Result addPermission(CmsPermission cmsPermission){
+	Result result =Result.getResults();
+	result.setResult(permissionService.addPermission(cmsPermission));
+	return result;
+}
+
+/**
+ * 删除
+ * @param ids
+ * @return
+ */
+@Transactional
+@RequestMapping(value = "/delete")
+@ResponseBody
+public Result delete(@RequestParam("ids")String ids){
+	Result result=Result.getResults();
+	String[]arr=ids.split(",");
+	int total=0;
+	for(int i=0;i<arr.length;i++){
+		total+=permissionService.deleteCmsPermission(Integer.parseInt(arr[i].toString()));
+			   permissionService.deleteRolePermission(Integer.parseInt(arr[i].toString()));
+	}
+	result.setResult(total);
+	return result;
+	
+}
+/**
+ * 编辑权限
+ * @param cmsPermission
+ * @return
+ */
+@RequestMapping(value = "/editPermission")
+@ResponseBody
+public Result editPermission(CmsPermission cmsPermission){
+	Result result=Result.getResults();
+	result.setResult(permissionService.updatePermission(cmsPermission));
+	return result;
+}
+
 
 }
 

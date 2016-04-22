@@ -2,19 +2,19 @@ package com.ekt.cms.common.entity;
 
 public class CmsKnowledge {
 	private int id;
-	
+
 	private String title;
-	
+
 	private int gradeNo;
-	
+
 	private int orderNo;
-	
+
 	private int status;
-	
+
 	private String grade;
-	
+
 	private int subjectNo;
-	
+
 	private String subject;
 
 	public String getSubject() {
@@ -80,7 +80,5 @@ public class CmsKnowledge {
 	public void setGrade(String grade) {
 		this.grade = grade;
 	}
-
-	
 
 }

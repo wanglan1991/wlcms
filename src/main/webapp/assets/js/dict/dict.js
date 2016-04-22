@@ -267,6 +267,7 @@ define(function(require, exports, module) {
 				core.closeModel('modal-EditDict');
 				F.table.reload();
 			});		
+
 		},
 
 		operateFormatter : function(value, row, index) {
@@ -408,9 +409,6 @@ define(function(require, exports, module) {
 	},
 		
 	});
-	
-		
-		
 	}); 
 	
 	
