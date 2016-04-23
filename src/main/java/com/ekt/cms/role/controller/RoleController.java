@@ -125,6 +125,7 @@ public class RoleController extends BaseController {
 	 * @param ids
 	 * @return
 	 */
+	@Transactional
 	@RequestMapping(value = "/delete")
 	@ResponseBody
 	public Result delete(@RequestParam("ids")String ids){
@@ -138,6 +139,8 @@ public class RoleController extends BaseController {
 		int total=0;
 		for(int i=0;i<arr.length;i++){
 			total+=cmsRoleService.deleteCmsRole(Integer.parseInt(arr[i].toString()));
+			//删除所有与该角色相关的所有权限
+			cmsRoleService.delPermissionByRoleId(Integer.parseInt(arr[i].toString()));
 		}
 		result.setResult(total);
 		return result;
