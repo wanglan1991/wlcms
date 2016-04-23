@@ -80,7 +80,7 @@ define(function(require, exports, module) {
 					});
 				},
 				/**
-				 * 删除用户
+				 * 删除字典
 				 */
 				'click .delDict' : function(e, value, row, index) {
 					base.bootConfirm("是否确定删除？", function() {
@@ -101,7 +101,7 @@ define(function(require, exports, module) {
 					});
 				},
 				/**
-				 * 启用或停用用户
+				 * 启用或停用字典
 				 */
 				'click .startDict' : function(e, value, row, index) {
 					$.ajax({
@@ -151,8 +151,8 @@ define(function(require, exports, module) {
 				title : '备注'
 			} ];
 			// 是否需要操作列
-			// if(base.perList.user.edit || base.perList.user.del ||
-			// base.perList.user.edit_dep || base.perList.user.distribute_role)
+			 if(base.perList.dict.edit || base.perList.dict.del ||
+			 base.perList.dict.confine)
 			cols.push({
 				align : 'center',
 				title : '操作',
@@ -161,7 +161,7 @@ define(function(require, exports, module) {
 			});
 
 			/**
-			 * 用户列表
+			 * 字典列表
 			 */
 			F.table.init(F.basepath + '/dict/pageList', cols);
 
@@ -172,7 +172,7 @@ define(function(require, exports, module) {
 					function() {
 						var ids = F.table.getIdSelections();
 						if (ids != null && ids.length > 0) {
-							base.bootConfirm("是否确定删除选定的" + ids.length + "个用户？",
+							base.bootConfirm("是否确定删除选定的" + ids.length + "个字典？",
 									function() {
 										$.ajax({
 											url : F.basepath + '/dict/delete',
@@ -192,7 +192,7 @@ define(function(require, exports, module) {
 						} else {
 							base.bootAlert({
 								"ok" : false,
-								"msg" : "请选择你要删除的用户！"
+								"msg" : "请选择你要删除的字典！"
 							});
 						}
 					});
@@ -255,11 +255,11 @@ define(function(require, exports, module) {
 			 }
 			            
 			 if (base.perList.dict.edit) {
-			_btnAction += "<a data-toggle='modal' class='editDict btn btn-success btn-small' href='#' title='编辑用户' style='margin-left:5px'>编辑</a>";
+			_btnAction += "<a data-toggle='modal' class='editDict btn btn-success btn-small' href='#' title='编辑字典' style='margin-left:5px'>编辑</a>";
 			 }
 
 			 if (base.perList.dict.del) {
-		    _btnAction += "<a class='delDict btn btn-danger btn-small'	 href='#' title='删除用户' style='margin-left:5px'>删除</a>";
+		    _btnAction += "<a class='delDict btn btn-danger btn-small'	 href='#' title='删除字典' style='margin-left:5px'>删除</a>";
 			 }
 			return _btnAction;
 		},
