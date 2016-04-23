@@ -164,7 +164,13 @@ define(function (require, exports, module) {
                 del: false,
                 create: false,
                 check:false,
-                distribute_role:false,
+                confine:false
+            },
+            knowledge: {
+                edit: false,
+                del: false,
+                create: false,
+                check:false,
                 confine:false
             }
         }

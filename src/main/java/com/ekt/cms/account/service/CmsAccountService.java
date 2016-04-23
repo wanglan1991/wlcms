@@ -32,13 +32,14 @@ public class CmsAccountService implements ICmsAccountService {
 		CmsAccount curUser = cmsAccountMapper.selectByPrimaryKey(id);
 		int roleId = curUser.getRole();
 		// 根据roleID查询所有的权限和角色
-		List<CmsPermission> cmsPermissions = (List<CmsPermission>) permissionService.queryPermissionByRoleId(roleId);
+		List<CmsPermission> cmsPermissions =permissionService.queryPermissionByRoleId(roleId);
 		curUser.setCmsPermissions(cmsPermissions);
 		Set<String> permission = new HashSet<>();
 		Set<String> roleEncoding = new HashSet<String>();
 		if (cmsPermissions != null && cmsPermissions.size() > 0) {
 			for (CmsPermission cmsPermission : cmsPermissions) {
 				permission.add(cmsPermission.getKey());
+				System.out.println(cmsPermission.getKey());
 				roleEncoding.add(cmsPermission.getEncoding());
 			}
 		}

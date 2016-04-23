@@ -15,7 +15,7 @@ define(function(require, exports, module) {
 			/**
 			 * 是否具有查询字典权限
 			 */
-			// if(base.perList.dict.query){
+			 if(base.perList.dict.check){
 			$("#dict-header .actions")
 					.append(
 							"<input autocomplete='off'  id='q_dict_value' name='q_dict_value' placeholder='请输入字典值' type='text' />&nbsp;&nbsp;<span  id='dict_typeName'></span><a href='#' id='queryByCondition' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>");
@@ -40,27 +40,23 @@ define(function(require, exports, module) {
 						}
 					})
 
-			// }
+			 }
 			/**
 			 * 是否具有添加字典权限
 			 */
-			// if(base.perList.dict.create){
+			 if(base.perList.dict.create){
 			$("#dict-header .actions")
 					.append(
 							"<a href='#' id='addDict' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>添加</a>");
-			// }
+			 }
 
 			/**
 			 * 是否具有删除字典权限
 			 */
-			// if(base.perList.dict.del){
-			// $("#dict-header .actions")
-			// .append(
-			// "<a href='#' id='delDicts' class='btn btn-danger btn-small'
-			// style='margin-left:5px;margin-bottom:11px'><i
-			// class='icon-remove'></i>删除</a>");
-			//			
-			// }
+			 if(base.perList.dict.del){
+			 $("#dict-header .actions").append( "<a href='#' id='delDicts' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
+						
+			 }
 		
 			/**
 			 * 加载树
@@ -92,7 +88,7 @@ define(function(require, exports, module) {
 							url : F.basepath + '/dict/delete',
 							type : 'POST',
 							data : {
-								id : row.id
+								ids : row.id.toString()
 							},
 							success : function(data) {
 								if (data.result > 0) {
@@ -179,7 +175,7 @@ define(function(require, exports, module) {
 							base.bootConfirm("是否确定删除选定的" + ids.length + "个用户？",
 									function() {
 										$.ajax({
-											url : F.basepath + '/knowledge/deletes',
+											url : F.basepath + '/dict/delete',
 											type : 'POST',
 											data : {
 												ids : ids.toString()
@@ -253,19 +249,18 @@ define(function(require, exports, module) {
 
 		operateFormatter : function(value, row, index) {
 			var _btnAction = "";
-			// if (base.perList.user.edit_dep) {
+			 if (base.perList.dict.confine) {
 			_btnAction += "<a class='startDict btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"
 					+ (row.status == 1 ? "停用" : "启用") + "</a>";
-			// }
-			//            
-			// if (base.perList.user.edit) {
+			 }
+			            
+			 if (base.perList.dict.edit) {
 			_btnAction += "<a data-toggle='modal' class='editDict btn btn-success btn-small' href='#' title='编辑用户' style='margin-left:5px'>编辑</a>";
-			// }
+			 }
 
-			// if (base.perList.user.del) {
-			// _btnAction += "<a class='delDict btn btn-danger btn-small'
-			// href='#' title='删除用户' style='margin-left:5px'>删除</a>";
-			// }
+			 if (base.perList.dict.del) {
+		    _btnAction += "<a class='delDict btn btn-danger btn-small'	 href='#' title='删除用户' style='margin-left:5px'>删除</a>";
+			 }
 			return _btnAction;
 		},
 		delDict : function(id) {
@@ -299,6 +294,7 @@ define(function(require, exports, module) {
 		 */
 		$('#Editsubmit-form').validate({				
 			submitHandler:function(form){
+
 				var value = $("#EditValue").val();
 				var valueId = $("#EditId").val();
 				var parentId = $("#EditParentID").val();

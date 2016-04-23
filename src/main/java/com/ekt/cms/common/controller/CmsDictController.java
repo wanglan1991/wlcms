@@ -63,18 +63,18 @@ public class CmsDictController {
 	/**
 	 * 删除用户
 	 */
-	@RequestMapping("/delete")
-	@ResponseBody
-	public Result dictDelete(@RequestParam("id") int id){
-		Result result=Result.getResults();
-		result.setResult(dictService.deleteByPrimaryKey(id));
-		return result;
-		
-	}
+//	@RequestMapping("/delete")
+//	@ResponseBody
+//	public Result dictDelete(@RequestParam("id") int id){
+//		Result result=Result.getResults();
+//		result.setResult(dictService.deleteByPrimaryKey(id));
+//		return result;
+//		
+//	}
 	/**
 	 * 批量删除用户
 	 */
-	@RequestMapping("/deletes")
+	@RequestMapping("/delete")
 	@ResponseBody
 	public Result dictDeletes(@RequestParam("ids") String ids){
 		Result result=Result.getResults();
