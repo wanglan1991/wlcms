@@ -39,6 +39,7 @@ public class CmsAccountService implements ICmsAccountService {
 		if (cmsPermissions != null && cmsPermissions.size() > 0) {
 			for (CmsPermission cmsPermission : cmsPermissions) {
 				permission.add(cmsPermission.getKey());
+				System.out.println(cmsPermission.getKey());
 				roleEncoding.add(cmsPermission.getEncoding());
 			}
 		}

@@ -59,7 +59,7 @@ public class CmsKnowledgeController {
 			return result;
 		}
 		
-		@RequestMapping("/deletes")
+		@RequestMapping("/delete")
 		@ResponseBody
 		public Result deletes(String ids){			
 			Result result=new Result();
@@ -72,12 +72,12 @@ public class CmsKnowledgeController {
 			result.setResult(total);
 			return result;
 		}
-		@RequestMapping("/delete")
-		@ResponseBody
-		public Result delete(int id){			
-			Result result=new Result();					
-			result.setResult(cmsKnowledgeService.delete(id));
-			return result;
-		}
+//		@RequestMapping("/delete")
+//		@ResponseBody
+//		public Result delete(int id){			
+//			Result result=new Result();					
+//			result.setResult(cmsKnowledgeService.delete(id));
+//			return result;
+//		}
 		}
 		

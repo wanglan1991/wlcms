@@ -195,110 +195,131 @@
                         </ul>
                     </li>
                 </ul>
-                <form accept-charset="UTF-8" action="search_results.html" id="search" class="navbar-search pull-right hidden-phone" method="get" />
-                <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
-                <button class="btn btn-link icon-search" name="button" type="submit"></button>
-                <input autocomplete="off" class="search-query span2" id="q_header" name="q" placeholder="Search..." type="text" value="" />
-                </form>
-                
-    <shiro:hasPermission name="permission:delete">
-        <span id="basejs_permission_del" style="display: none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="permission:edit">
-        <span id="basejs_permission_edit" style="display: none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="permission:add">
-        <span id="basejs_permission_create" style="display:none;"/>
-    </shiro:hasPermission>
-     <shiro:hasPermission name="permission:confine">
-        <span id="basejs_permission_confine" style="display:none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="permission:check">
-        <span id="basejs_permission_check" style="display:none;"/>
-    </shiro:hasPermission>
+               <form accept-charset="UTF-8" action="search_results.html"
+						id="search" class="navbar-search pull-right hidden-phone"
+						method="get" />
+					<div style="margin: 0; padding: 0; display: inline">
+						<input name="utf8" type="hidden" value="&#x2713;" />
+					</div>
+					<button class="btn btn-link icon-search" name="button"
+						type="submit"></button>
+					<input autocomplete="off" class="search-query span2" id="q_header"
+						name="q" placeholder="Search..." type="text" value="" />
+					</form>
 
-    <shiro:hasPermission name="menu:edit">
-        <span id="basejs_menu_edit" style="display:none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="menu:delete">
-        <span id="basejs_menu_del" style="display:none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="menu:add">
-        <span id="basejs_menu_create" style="display:none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="menu:check">
-        <span id="basejs_menu_check" style="display:none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="menupermisson:check">
-        <span id="basejs_menu_permission_check" style="display:none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="menu:grant">
-        <span id="basejs_menu_grant" style="display:none;"/>
-    </shiro:hasPermission>
+					<shiro:hasPermission name="permission:delete">
+						<span id="basejs_permission_del" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="permission:edit">
+						<span id="basejs_permission_edit" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="permission:add">
+						<span id="basejs_permission_create" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="permission:confine">
+						<span id="basejs_permission_confine" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="permission:check">
+						<span id="basejs_permission_check" style="display: none;" />
+					</shiro:hasPermission>
 
-
-    <shiro:hasPermission name="role:add">
-        <span id="basejs_role_create" style="display:none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="role:delete">
-        <span id="basejs_role_del" style="display:none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="role:edit">
-        <span id="basejs_role_edit" style="display:none;"/>
-    </shiro:hasPermission>
-     <shiro:hasPermission name="role:confine">
-        <span id="basejs_role_confine" style="display:none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="role:grant">
-        <span id="basejs_role_grant" style="display:none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="rolepermission:check">
-        <span id="basejs_role_permission_check" style="display:none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="role:check">
-        <span id="basejs_role_check" style="display:none;"/>
-    </shiro:hasPermission>
+					<shiro:hasPermission name="menu:edit">
+						<span id="basejs_menu_edit" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="menu:delete">
+						<span id="basejs_menu_del" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="menu:add">
+						<span id="basejs_menu_create" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="menu:check">
+						<span id="basejs_menu_check" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="menupermisson:check">
+						<span id="basejs_menu_permission_check" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="menu:grant">
+						<span id="basejs_menu_grant" style="display: none;" />
+					</shiro:hasPermission>
 
 
+					<shiro:hasPermission name="role:add">
+						<span id="basejs_role_create" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="role:delete">
+						<span id="basejs_role_del" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="role:edit">
+						<span id="basejs_role_edit" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="role:confine">
+						<span id="basejs_role_confine" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="role:grant">
+						<span id="basejs_role_grant" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="rolepermission:check">
+						<span id="basejs_role_permission_check" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="role:check">
+						<span id="basejs_role_check" style="display: none;" />
+					</shiro:hasPermission>
 
-    <shiro:hasPermission name="account:add">
-        <span id="basejs_account_add" style="display:none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="account:check">
-        <span id="basejs_account_check" style="display:none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="account:edit">
-        <span id="basejs_account_edit" style="display:none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="account:del">
-        <span id="basejs_account_del" style="display:none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="account:confine">
-        <span id="basejs_account_confine" style="display:none;"/> 
-    </shiro:hasPermission>
-     <shiro:hasPermission name="account:roleEdit">
-     	<span id="basejs_account_roleEdit" style="display:none;"/>
-     </shiro:hasPermission>
-      <shiro:hasPermission name="account:resetPwd">
-     	<span id="basejs_account_resetPwd" style="display:none;"/>
-     </shiro:hasPermission>
 
-        <shiro:hasPermission name="dict:add">
-        <span id="basejs_dict_create" style="display:none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="dict:check">
-        <span id="basejs_dict_check" style="display:none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="dict:edit">
-        <span id="basejs_dict_edit" style="display:none;"/>
-    </shiro:hasPermission>
-    <shiro:hasPermission name="dict:delete">
-        <span id="basejs_dict_del" style="display:none;"/>
-    </shiro:hasPermission>
-      <shiro:hasPermission name="dict:confine">
-        <span id="basejs_dict_confine" style="display:none;"/>
-    </shiro:hasPermission>
-                
+
+					<shiro:hasPermission name="account:add">
+						<span id="basejs_account_add" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="account:check">
+						<span id="basejs_account_check" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="account:edit">
+						<span id="basejs_account_edit" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="account:del">
+						<span id="basejs_account_del" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="account:confine">
+						<span id="basejs_account_confine" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="account:roleEdit">
+						<span id="basejs_account_roleEdit" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="account:resetPwd">
+						<span id="basejs_account_resetPwd" style="display: none;" />
+					</shiro:hasPermission>
+
+					<shiro:hasPermission name="dict:add">
+						<span id="basejs_dict_create" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="dict:check">
+						<span id="basejs_dict_check" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="dict:edit">
+						<span id="basejs_dict_edit" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="dict:delete">
+						<span id="basejs_dict_del" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="dict:confine">
+						<span id="basejs_dict_confine" style="display: none;" />
+					</shiro:hasPermission>
+
+					<shiro:hasPermission name="knowledge:add">
+						<span id="basejs_knowledge_create" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="knowledge:check">
+						<span id="basejs_knowledge_check" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="knowledge:edit">
+						<span id="basejs_knowledge_edit" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="knowledge:delete">
+						<span id="basejs_knowledge_del" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="knowledge:confine">
+						<span id="basejs_knowledge_confine" style="display: none;" />
+					</shiro:hasPermission>
             </div>
         </div>
     </div>
@@ -382,110 +403,127 @@ $(".icon-adjust").click(function(){
             'baidumap3':'http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js'
         } */
     });
-    seajs.use(['base','main/index'], function (base,index) {
-        if ($('#basejs_permission_del').length > 0) {
-            base.perList.permission.del = true;
-        }
-        if ($('#basejs_permission_edit').length > 0) {
-            base.perList.permission.edit = true;
-        }
-        if ($('#basejs_permission_create').length > 0) {
-            base.perList.permission.create = true;
-        }
-        if ($('#basejs_permission_confine').length > 0) {
-            base.perList.permission.confine = true;
-        }
-        if ($('#basejs_permission_check').length > 0) {
-            base.perList.permission.check = true;
-        }
-        if ($('#basejs_menu_edit').length > 0) {
-            base.perList.menu.edit = true;
-        }
-        if ($('#basejs_menu_del').length > 0) {
-            base.perList.menu.del = true;
-        }
-        if ($('#basejs_menu_create').length > 0) {
-            base.perList.menu.create = true;
-        }
-        if ($('#basejs_role_create').length > 0) {
-            base.perList.role.create = true;
-        }
-        if ($('#basejs_role_del').length > 0) {
-            base.perList.role.del = true;
-        }
-        if ($('#basejs_role_confine').length > 0) {
-            base.perList.role.confine = true;
-        }
-        if ($('#basejs_role_edit').length > 0) {
-            base.perList.role.edit = true;
-        }
-        if ($('#basejs_department_create').length > 0) {
-            base.perList.department.create = true;
-        }
-        if ($('#basejs_department_del').length > 0) {
-            base.perList.department.del = true;
-        }
-        if ($('#basejs_department_edit').length > 0) {
-            base.perList.department.edit = true;
-        }
-        if ($('#basejs_role_grant').length > 0) {
-            base.perList.role.grant = true;
-        }
-        if ($('#basejs_role_permission_check').length > 0) {
-            base.perList.role.checkPermission = true;
-        }
-        if ($('#basejs_role_check').length > 0) {
-            base.perList.role.check = true;
-        }
-        if ($('#basejs_menu_check').length > 0) {
-            base.perList.menu.check = true;
-        }
-        if ($('#basejs_menu_permission_check').length > 0) {
-            base.perList.menu.checkPermission = true;
-        }
-        if ($('#basejs_menu_grant').length > 0) {
-            base.perList.menu.grant = true;
-        }
-        
-        
-        if ($('#basejs_account_add').length > 0) {
-            base.perList.user.add = true;
-        }
-        if ($('#basejs_account_check').length > 0) {
-            base.perList.user.check = true;
-        }
-        if ($('#basejs_account_edit').length > 0) {
-            base.perList.user.edit = true;
-        }
-        if ($('#basejs_account_del').length > 0) {
-            base.perList.user.del = true;
-        }
-        if ($('#basejs_account_confine').length > 0) {
-            base.perList.user.confine = true;
-        }
-        if ($('#basejs_account_roleEdit').length > 0) {
-            base.perList.user.roleEdit = true;
-        }
-        if ($('#basejs_account_resetPwd').length > 0) {
-            base.perList.user.resetPwd = true;
-        }
-        
-        
-        
-        if ($('#basejs_dict_create').length > 0) {
-            base.perList.user.create = true;
-        }
-        if ($('#basejs_dict_check').length > 0) {
-            base.perList.user.check = true;
-        }
-        if ($('#basejs_dict_edit').length > 0) {
-            base.perList.user.edit = true;
-        }
-        if ($('#basejs_dict_del').length > 0) {
-            base.perList.user.del = true;
-        }
-    	index.init('${ctx}');
-    });
+	seajs.use([ 'base', 'main/index' ], function(base, index) {
+		if ($('#basejs_permission_del').length > 0) {
+			base.perList.permission.del = true;
+		}
+		if ($('#basejs_permission_edit').length > 0) {
+			base.perList.permission.edit = true;
+		}
+		if ($('#basejs_permission_create').length > 0) {
+			base.perList.permission.create = true;
+		}
+		if ($('#basejs_permission_confine').length > 0) {
+			base.perList.permission.confine = true;
+		}
+		if ($('#basejs_permission_check').length > 0) {
+			base.perList.permission.check = true;
+		}
+		if ($('#basejs_menu_edit').length > 0) {
+			base.perList.menu.edit = true;
+		}
+		if ($('#basejs_menu_del').length > 0) {
+			base.perList.menu.del = true;
+		}
+		if ($('#basejs_menu_create').length > 0) {
+			base.perList.menu.create = true;
+		}
+		if ($('#basejs_role_create').length > 0) {
+			base.perList.role.create = true;
+		}
+		if ($('#basejs_role_del').length > 0) {
+			base.perList.role.del = true;
+		}
+		if ($('#basejs_role_confine').length > 0) {
+			base.perList.role.confine = true;
+		}
+		if ($('#basejs_role_edit').length > 0) {
+			base.perList.role.edit = true;
+		}
+		if ($('#basejs_department_create').length > 0) {
+			base.perList.department.create = true;
+		}
+		if ($('#basejs_department_del').length > 0) {
+			base.perList.department.del = true;
+		}
+		if ($('#basejs_department_edit').length > 0) {
+			base.perList.department.edit = true;
+		}
+		if ($('#basejs_role_grant').length > 0) {
+			base.perList.role.grant = true;
+		}
+		if ($('#basejs_role_permission_check').length > 0) {
+			base.perList.role.checkPermission = true;
+		}
+		if ($('#basejs_role_check').length > 0) {
+			base.perList.role.check = true;
+		}
+		if ($('#basejs_menu_check').length > 0) {
+			base.perList.menu.check = true;
+		}
+		if ($('#basejs_menu_permission_check').length > 0) {
+			base.perList.menu.checkPermission = true;
+		}
+		if ($('#basejs_menu_grant').length > 0) {
+			base.perList.menu.grant = true;
+		}
+	
+		if ($('#basejs_account_add').length > 0) {
+			base.perList.user.add = true;
+		}
+		if ($('#basejs_account_check').length > 0) {
+			base.perList.user.check = true;
+		}
+		if ($('#basejs_account_edit').length > 0) {
+			base.perList.user.edit = true;
+		}
+		if ($('#basejs_account_del').length > 0) {
+			base.perList.user.del = true;
+		}
+		if ($('#basejs_account_confine').length > 0) {
+			base.perList.user.confine = true;
+		}
+		if ($('#basejs_account_roleEdit').length > 0) {
+			base.perList.user.roleEdit = true;
+		}
+		if ($('#basejs_account_resetPwd').length > 0) {
+			base.perList.user.resetPwd = true;
+		}
+	
+		if ($('#basejs_dict_create').length > 0) {
+			base.perList.dict.create = true;
+		}
+		if ($('#basejs_dict_check').length > 0) {
+			base.perList.dict.check = true;
+		}
+		if ($('#basejs_dict_edit').length > 0) {
+			base.perList.dict.edit = true;
+		}
+		if ($('#basejs_dict_del').length > 0) {
+			base.perList.dict.del = true;
+		}
+		if ($('#basejs_dict_confine').length > 0) {
+			base.perList.dict.confine = true;
+		}
+		
+		if ($('#basejs_knowledge_create').length > 0) {
+			base.perList.knowledge.create = true;
+		}
+		if ($('#basejs_knowledge_check').length > 0) {
+			base.perList.knowledge.check = true;
+		}
+		if ($('#basejs_knowledge_edit').length > 0) {
+			base.perList.knowledge.edit = true;
+		}
+		if ($('#basejs_knowledge_del').length > 0) {
+			base.perList.knowledge.del = true;
+		}
+		if ($('#basejs_knowledge_confine').length > 0) {
+			base.perList.knowledge.confine = true;
+		}
+		
+		index.init('${ctx}');
+	});
 
 </script>
 <!-- <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=cTYtHPV1spdnWgFSeKfXqjTh"></script> -->
