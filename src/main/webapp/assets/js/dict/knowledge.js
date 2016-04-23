@@ -13,7 +13,7 @@ define(function(require, exports, module) {
 		init : function(_basepath) {
 			F.basepath = _basepath;
 			/**
-			 * 是否具有查询字典权限
+			 * 是否具有查询知识点权限
 			 */
 			 if(base.perList.knowledge.check){
 			$("#knowledge-header .actions")
@@ -22,7 +22,7 @@ define(function(require, exports, module) {
 
 			 }
 			/**
-			 * 是否具有添加字典权限
+			 * 是否具有添加知识点权限
 			 */
 			 if(base.perList.knowledge.create){
 			$("#knowledge-header .actions")
@@ -31,7 +31,7 @@ define(function(require, exports, module) {
 			 }
 
 			/**
-			 * 是否具有删除字典权限
+			 * 是否具有删除知识点权限
 			 */
 			 if(base.perList.knowledge.del){
 			 $("#knowledge-header .actions")
@@ -46,7 +46,7 @@ define(function(require, exports, module) {
 
 			operateEvents = {
 				/**
-				 * 修改字典 取出字典原有值
+				 * 修改知识点 取出知识点原有值
 				 */
 				'click .editKnowledge' : function(e, value, row, index) {
 					core.openModel('modal-EditKnowledge', '修改知识点', function() {
@@ -59,12 +59,12 @@ define(function(require, exports, module) {
 						$("#EditGrade     option[value='"+row.gradeNo+"']").attr("selected",true);
 						$("#EditSubject   option[value='"+row.subjectNo+"']").attr("selected",true);
 						$("#tatil").next("h3").html(
-								"编辑字典          " + row.title);
+								"编辑知识点         " + row.title);
 
 					});
 				},
 				/**
-				 * 删除用户
+				 * 删除知识点
 				 */
 				'click .delKnowledge' : function(e, value, row, index) {
 					base.bootConfirm("是否确定删除？", function() {
@@ -85,7 +85,7 @@ define(function(require, exports, module) {
 					});
 				},
 				/**
-				 * 启用或停用用户
+				 * 启用或停用知识点
 				 */
 				'click .startKnowledge ' : function(e, value, row, index) {
 					$.ajax({
@@ -144,8 +144,8 @@ define(function(require, exports, module) {
 				visible : false
 			} ];
 			// 是否需要操作列
-			// if(base.perList.user.edit || base.perList.user.del ||
-			// base.perList.user.edit_dep || base.perList.user.distribute_role)
+			 if(base.perList.knowledge.edit || base.perList.knowledge.del ||
+			 base.perList.knowledge.confine)
 			cols.push({
 				align : 'center',
 				title : '操作',
@@ -165,7 +165,7 @@ define(function(require, exports, module) {
 					function() {
 						var ids = F.table.getIdSelections();
 						if (ids != null && ids.length > 0) {
-							base.bootConfirm("是否确定删除选定的" + ids.length + "个用户？",
+							base.bootConfirm("是否确定删除选定的" + ids.length + "个知识点？",
 									function() {
 										$.ajax({
 											url : F.basepath + '/knowledge/delete',
@@ -185,7 +185,7 @@ define(function(require, exports, module) {
 						} else {
 							base.bootAlert({
 								"ok" : false,
-								"msg" : "请选择你要删除的用户！"
+								"msg" : "请选择你要删除的知识点！"
 							});
 						}
 					});
@@ -278,11 +278,11 @@ define(function(require, exports, module) {
 			 }
 			            
 			 if (base.perList.knowledge.edit) {
-			_btnAction += "<a data-toggle='modal' class='editKnowledge btn btn-success btn-small' href='#' title='编辑用户' style='margin-left:5px'>编辑</a>";
+			_btnAction += "<a data-toggle='modal' class='editKnowledge btn btn-success btn-small' href='#' title='编辑知识点' style='margin-left:5px'>编辑</a>";
 			 }
 
 			 if (base.perList.knowledge.del) {
-			 _btnAction += "<a class='delKnowledge btn btn-danger btn-small' href='#' title='删除用户' style='margin-left:5px'>删除</a>";
+			 _btnAction += "<a class='delKnowledge btn btn-danger btn-small' href='#' title='删除知识点' style='margin-left:5px'>删除</a>";
 			 }
 			return _btnAction;
 		},
@@ -312,7 +312,7 @@ define(function(require, exports, module) {
 	
 	jQuery(document).ready(function() { 
 		/**
-		 * 表单验证 提交修改字典
+		 * 表单验证 提交修改知识点
 		 */
 		$('#Editsubmit-form').validate({				
 			submitHandler:function(form){
@@ -356,7 +356,7 @@ define(function(require, exports, module) {
 			
 		});
 		/**
-		 * 表单验证 提交添加字典
+		 * 表单验证 提交添加知识点
 		 */
 		$('#submit-form').validate({
 		submitHandler:function(form){
