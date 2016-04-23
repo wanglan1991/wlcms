@@ -12,10 +12,10 @@
 	
 	<!-- 自定义Realm，用来进行登录验证和授权管理 -->
 	<bean id="adminRealm" class="com.ekt.cms.shiro.UserRealm">
-		<property name="authorizationCachingEnabled" value="true" />
+		<property name="authorizationCachingEnabled" value="false" />
 		<property name="authorizationCacheName" value="authorizationCache_" />
 		<property name="cachingEnabled" value="true" />
-		<property name="authenticationCachingEnabled" value="true" />
+		<property name="authenticationCachingEnabled" value="false" />
 		<property name="authenticationCacheName" value="authenticationCache_" />
 		<property name="cacheManager" ref="cacheManager" />
 	</bean>
@@ -41,7 +41,7 @@
 			<value>
 				  /index/index=o
 				/user/login=anon
-				/user/exit=anon
+				/user/exit=anon 
 				/*=o
                <!--  /*=anon
                 /*/*=anon -->
@@ -76,13 +76,8 @@
 	<bean id="sessionIdGenerator"
 		class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator" />
 
-	<!--方案1.缓存管理 Redis -->
-	<!-- <bean id="redisSessionSessionDao" class="com.ekt.cms.shiro.RedisSessionDao"> 
-		<property name="sessionIdGenerator" ref="sessionIdGenerator" /> <property 
-		name="redisManager" ref="redisManager"/> <property name="activeSessionsCacheName" 
-		value="shiro_activeSessionCache_" /> </bean> -->
-
-	<!--方案2.缓存管理 EhCache -->
+	
+	<!--方案1.缓存管理 EhCache -->
 	<bean id="sessionDao"
 		class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
 		<property name="activeSessionsCacheName" value="shiro_activeSessionCache" />

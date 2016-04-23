@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>权限管理系统</title>
+    <title>CMS</title>
     <%@include file="/WEB-INF/views/include/baseCSS.jsp" %>
 </head>
 <body class='contrast-blue'>
@@ -13,8 +13,8 @@
         <div class='navbar-inner'>
             <div class='container-fluid'>
                 <a class='brand' href='index.html'>
-                    <i class='icon-heart-empty'></i>
-                    <span class='hidden-phone'>权限管理系统</span>
+                    <i class='icon-adjust'></i>
+                    <span class='hidden-phone'>CMS</span>
                 </a>
                 <a class='toggle-nav btn pull-left' href='#'>
                     <i class='icon-reorder'></i>
@@ -357,21 +357,19 @@ $(document).ready(function(){
 									
 							}
 						 menusTxt+="</ul></li>";
+						 
 				})
+				if( data.length==0)
+					 menusTxt+=" <li class=''><a  target='mainFrame' class='dropdown-collapse  in' href='#'><i class='icon-frown'></i><span style='color:red'>请 等 待 授 权 !</span></a><ul class='nav nav-stacked'>";
 			   $('ul#navigation-menu').append(menusTxt);
 		  }
 	  })    
 
 })
 
-
-
-
-
-
-
-
-
+$(".icon-adjust").click(function(){
+	$(".icon-adjust").attr("class","icon-globe");
+})
 
 
 

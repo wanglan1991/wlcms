@@ -3,15 +3,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>权限管理系统</title>
+    <title>EKT-CMS</title>
     <%@include file="/WEB-INF/views/include/baseCSS.jsp" %>
 </head>
 <body class='contrast-blue sign-in contrast-background'>
 <div id='wrapper'>
     <div class='application'>
         <div class='application-content'>
-            <a href="login1.jsp"><div class='icon-heart'></div>
-                <span>CMS系统</span>
+                <span>EKT-CMS</span>
             </a>
         </div>
     </div>
@@ -61,17 +60,7 @@
                 </label>
                 <button class="btn btn-block" id="submit" type="submit">登 录</button>
             </form>
-            <div class='text-center'>
-                <hr class='hr-normal' />
-                <a href="forgot_password">忘记密码?</a>
-            </div>
         </div>
-    </div>
-    <div class='login-action text-center'>
-        <a href="sign_up.html"><i class='icon-user'></i>
-            加入我们?
-            <strong>注 册</strong>
-        </a>
     </div>
 </div>
 </body>
