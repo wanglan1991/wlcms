@@ -1,4 +1,4 @@
 /target/
 /bin/
-*.[.classpath]
+*.[classpath]
 .settings
