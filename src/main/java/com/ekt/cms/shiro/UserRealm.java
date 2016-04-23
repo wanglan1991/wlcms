@@ -29,15 +29,11 @@ public class UserRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		String username = (String) token.getPrincipal();
 		String password = new String((char[]) token.getCredentials());
-		// 根据用户名查找用户是否存在
-		CmsAccount cmsAccount = new CmsAccount();
-		cmsAccount.setUserName(username);
-		cmsAccount.setStatus(1);
 		CmsAccount account=cmsAccountService.queryByUserName(username);
-		if (account == null) {
+		if (account == null||account.getStatus()==0) {
 			throw new UnknownAccountException();
 		}
-		// 判断输入密码是否和用户密码一致
+		// 判断输入密码是否和用户密码一致 并且状态必须为1
 		if (!account.getPassword().equals(Md5Utils.getMd5Encode(password))) {
 			throw new IncorrectCredentialsException();
 		}

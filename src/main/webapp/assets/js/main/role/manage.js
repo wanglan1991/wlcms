@@ -44,7 +44,7 @@ define(function (require, exports, module) {
     		        /**
 	    			 * 删除角色
 	    			 */
-    		        'click .delRole': function (e, value, row, index) {
+    		        'click .delRole': function (e, value, row, index) {   		  
     		        	base.bootConfirm("是否确定删除？",function(){
     		        		var ids = new Array();  
     		        		ids.push(row.id);   
@@ -102,7 +102,7 @@ define(function (require, exports, module) {
  	    			        title: '角色编码'
  	    		        }];
  	        //是否需要操作列
- 	        if(base.perList.role.edit || base.perList.role.del || base.perList.role.checkPermission || base.perList.role.grant)
+ 	        if(base.perList.role.edit || base.perList.role.del || base.perList.role.confine || base.perList.role.grant)
  		        cols.push({
  			    	align: 'center',
  			        title: '操作',
@@ -228,7 +228,7 @@ define(function (require, exports, module) {
 				})
 				
             });
-			
+			//提交树
 			$('#btnDistributePermissionSubmit').click(function(){
 				var treeObj = $.fn.zTree.getZTreeObj("distributePermissionTree");
 				var roleId = $("#roleId").val();
@@ -243,55 +243,55 @@ define(function (require, exports, module) {
 					url:F.basepath+"/cms/role/permissions",
 					type:'POST',
 					data:{permissionStr:arr,roleId:roleId},
-					success:function(data){
-						core.closeModel('modal-DistributePermission');
-					}
+					success:function(data){}
 				});
-				
-				
-	
+				core.closeModel('modal-DistributePermission');
 			});
 			
-        },permissionSubmit:function(){
-        	var perids = $("#distributePermissionTreeHidden").val();
-        	var peridArray = new Array();
-        	if(perids!=null && perids.length>0)
-        		peridArray = perids.split(',');
-        	var roleId = $("#roleId").val();
-        	var data = {"id":roleId,"peridArray":peridArray};
-        	var url = F.basepath+'/main/role/grant';
-        	base.ajaxRequest(url,data,function(data, status){
-        		 base.bootAlert(data);
-                 if (data.ok) {
-                 	core.closeModel('modal-DistributePermission');
-                 	F.reload();
-                 }
-        	},function(){
-        		alert("异常");
-        	});
-        },submit:function(){
-        	var url = F.basepath+'/main/role/create';
-        	if($("#id").val()!=null&&$("#id").val()!="")
-        		url =F.basepath+'/main/role/edit';
-        	var options = {
-                    success: F.showResponse,      //提交后的回调函数
-                    url: url,       //默认是form的action， 如果申明，则会覆盖
-                    type: 'post',               //默认是form的method（get or post），如果申明，则会覆盖
-                    dataType: 'json',           //html(默认), xml, script, json...接受服务端返回的类型
-                    clearForm: true,          //成功提交后，清除所有表单元素的值
-                    timeout: 30000               //限制请求的时间，当请求大于3秒后，跳出请求
-                }
-        	$('#submit-form').ajaxForm(options);
-        },showResponse:function(data, status){
-            base.bootAlert(data);
-            if (data.ok) {
-            	core.closeModel('modal-Role');
-            	F.reload();
-            }
-            /**
-             * 批量删除方法
-             */
-        },delRole:function(ids){
+        },
+//        permissionSubmit:function(){
+//        	var perids = $("#distributePermissionTreeHidden").val();
+//        	var peridArray = new Array();
+//        	if(perids!=null && perids.length>0)
+//        		peridArray = perids.split(',');
+//        	var roleId = $("#roleId").val();
+//        	var data = {"id":roleId,"peridArray":peridArray};
+//        	var url = F.basepath+'/main/role/grant';
+//        	base.ajaxRequest(url,data,function(data, status){
+//        		 base.bootAlert(data);
+//                 if (data.ok) {
+//                 	core.closeModel('modal-DistributePermission');
+//                 	F.reload();
+//                 }
+//        	},function(){
+//        		alert("异常");
+//        	});
+//        },
+//        
+//        submit:function(){
+//        	var url = F.basepath+'/main/role/create';
+//        	if($("#id").val()!=null&&$("#id").val()!="")
+//        		url =F.basepath+'/main/role/edit';
+//        	var options = {
+//                    success: F.showResponse,      //提交后的回调函数
+//                    url: url,       //默认是form的action， 如果申明，则会覆盖
+//                    type: 'post',               //默认是form的method（get or post），如果申明，则会覆盖
+//                    dataType: 'json',           //html(默认), xml, script, json...接受服务端返回的类型
+//                    clearForm: true,          //成功提交后，清除所有表单元素的值
+//                    timeout: 30000               //限制请求的时间，当请求大于3秒后，跳出请求
+//                }
+//        	$('#submit-form').ajaxForm(options);
+//        },showResponse:function(data, status){
+//            base.bootAlert(data);
+//            if (data.ok) {
+//            	core.closeModel('modal-Role');
+//            	F.reload();
+//            }
+//            /**
+//             * 批量删除方法
+//             */
+//        },
+        delRole:function(ids){
         	$.ajax({
         		url:F.basepath+'/cms/role/delete',
         		type:'post',
@@ -308,14 +308,16 @@ define(function (require, exports, module) {
         	F.table.reload();
         },operateFormatter:function (value, row, index) {
         	var _btnAction = "";
+        	if (base.perList.role.confine&&row.id!=1) {
         	_btnAction += "<a class='confine btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"+(row.status==1?"停用":"启用")+"</a>";
+        	}
         	if (base.perList.role.grant) {
         		_btnAction += "<a class='distributePermission btn btn-primary btn-small' href='#' title='菜单授权' style='margin-left:5px'>授权</a>";
         	}
         	if (base.perList.role.edit) {
         		_btnAction += "<a data-toggle='modal' class='editRole btn btn-success btn-small' href='#' title='编辑角色' style='margin-left:5px'>编辑</a>";
         	}
-        	if (base.perList.role.del) {
+        	if (base.perList.role.del&&row.id!=1) {
         		_btnAction += "<a class='delRole btn btn-danger btn-small' href='#'  title='删除角色' style='margin-left:5px'>删除</a>";
         	}
         	return _btnAction;

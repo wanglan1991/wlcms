@@ -82,6 +82,11 @@ public Result getPidList(@RequestParam("type")int type){
 @ResponseBody
 public Result confine(CmsPermission cmsPermission){
 	Result result =Result.getResults();
+	if(getCurrentAccount()==null){
+		result.setResult(-1);
+		result.setMsg("非法请求！");
+		return result;
+	}
 	result.setResult(permissionService.confine(cmsPermission));
 	return result;
 	
@@ -109,6 +114,11 @@ public Result addPermission(CmsPermission cmsPermission){
 @ResponseBody
 public Result delete(@RequestParam("ids")String ids){
 	Result result=Result.getResults();
+	if(getCurrentAccount()==null){
+		result.setResult(-1);
+		result.setMsg("非法请求！");
+		return result;
+	}
 	String[]arr=ids.split(",");
 	int total=0;
 	for(int i=0;i<arr.length;i++){

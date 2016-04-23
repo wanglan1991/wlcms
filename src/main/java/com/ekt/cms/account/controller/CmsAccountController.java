@@ -35,6 +35,11 @@ public class CmsAccountController extends BaseController {
 	@RequestMapping("/list")
 	@ResponseBody
 	public PageBean<CmsAccount> accountList(PageContext page ,CmsAccount cmsAccount){
+		CmsAccount account=getCurrentAccount();
+		//从session中获取用户如用户不为空并且用户名等于CMSROOT就显示自己的角色
+		if(account!=null&&account.getUserName().equals("CMSROOT")){
+			cmsAccount.setId(account.getId());
+		}
 		page.paging();
 		return cmsAccountService.listPage(cmsAccount);
 	}
@@ -68,6 +73,11 @@ public class CmsAccountController extends BaseController {
 	@ResponseBody
 	public Result accountDelete(@RequestParam("id") int id){
 		Result result=Result.getResults();
+		if(getCurrentAccount()==null){
+			result.setResult(-1);
+			result.setMsg("非法请求！");
+			return result;
+		}
 		result.setResult(cmsAccountService.delete(id));
 		return result;
 		
@@ -78,7 +88,6 @@ public class CmsAccountController extends BaseController {
 	 */
 	@RequestMapping("/addAccount")
 	@ResponseBody
-
 	public Result addAccount(@Valid CmsAccount cmsAccount, BindingResult bindingResult) throws Exception {
 			Result result=Result.getResults();
 			CmsAccount Account = cmsAccountService.queryByUserName(cmsAccount.getUserName());
@@ -101,6 +110,7 @@ public class CmsAccountController extends BaseController {
 			
 		return result;
 	}
+	
 	/**
 	 * 启用或停用用户
 	 * @param cmsAccount
@@ -123,6 +133,11 @@ public class CmsAccountController extends BaseController {
 	@ResponseBody
 	public Result resetPwd(CmsAccount cmsAccount){
 		Result result =Result.getResults();
+		if(getCurrentAccount()==null){
+			result.setResult(-1);
+			result.setMsg("非法请求！");
+			return result;
+		}
 			cmsAccount.setPassword(Md5Utils.getMd5Encode("123456789"));
 			result.setResult(cmsAccountService.setPwd(cmsAccount));
 		return result;
@@ -149,6 +164,11 @@ public class CmsAccountController extends BaseController {
 	@ResponseBody
 	public Object deletes(@RequestParam("ids")String ids){
 		Result result=Result.getResults();
+		if(getCurrentAccount()==null){
+			result.setResult(-1);
+			result.setMsg("非法请求！");
+			return result;
+		}
 		String[]arr=ids.split(",");
 		int total=0;
 		for(int i=0;i<arr.length;i++){
