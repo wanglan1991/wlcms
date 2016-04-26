@@ -172,6 +172,13 @@ define(function (require, exports, module) {
                 create: false,
                 check:false,
                 confine:false
+            },
+            video: {
+                edit: false,
+                del: false,
+                create: false,
+                check:false,
+                confine:false
             }
         }
     };

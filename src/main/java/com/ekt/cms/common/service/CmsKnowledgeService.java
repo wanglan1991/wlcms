@@ -50,8 +50,14 @@ public class CmsKnowledgeService implements ICmsKnowledgeService {
 		// TODO Auto-generated method stub
 		return new PageBean<CmsKnowledge>(CmsKnowledgeMapper.queryByCondition(cmsKnowledge));
 	}
-
+	@Override
 	public  int delete(int id){
 		return CmsKnowledgeMapper.delete(id);
+	}
+
+	@Override
+	public List<CmsKnowledge> query(CmsKnowledge cmsKnowledge) {
+		// TODO Auto-generated method stub
+		return CmsKnowledgeMapper.queryByCondition(cmsKnowledge);
 	}
 }

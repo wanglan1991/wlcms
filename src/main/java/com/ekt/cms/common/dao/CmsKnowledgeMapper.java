@@ -8,37 +8,37 @@ import com.ekt.cms.common.entity.CmsKnowledge;
 public interface CmsKnowledgeMapper {
 	/**
 	 * 分页查询	 
-	 * @param cmsDict
+	 * @param CmsKnowledge
 	 * @return
 	 */
 	List<CmsKnowledge> listPage(@Param("CmsKnowledge")CmsKnowledge cmsKnowledge);
 	/**
 	 * 更新
-	 * @param cmsDict
+	 * @param CmsKnowledge
 	 * @return
 	 */
 	int  updateByPrimaryKey(@Param("CmsKnowledge") CmsKnowledge cmsKnowledge);
 	/**
 	 * 新增
-	 * @param cmsDict
+	 * @param CmsKnowledge
 	 * @return
 	 */
 	int  insert(@Param("CmsKnowledge") CmsKnowledge cmsKnowledge);
 	/**
 	 * 根据知识点查询
-	 * @param cmsDict
+	 * @param CmsKnowledge
 	 * @return
 	 */
 	List<CmsKnowledge>  queryByTitle(@Param("CmsKnowledge") CmsKnowledge cmsKnowledge);
 	/**
 	 * 启用停用知识点
-	 * @param cmsDict
+	 * @param CmsKnowledge
 	 * @return
 	 */
 	int  confine(@Param("CmsKnowledge") CmsKnowledge cmsKnowledge);
 	/**
 	 * 根据条件查询
-	 * @param cmsDict
+	 * @param CmsKnowledge
 	 * @return
 	 */
 	List<CmsKnowledge>  queryByCondition(@Param("CmsKnowledge") CmsKnowledge cmsKnowledge);
