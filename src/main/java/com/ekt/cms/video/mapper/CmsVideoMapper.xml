@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ekt.cms.video.dao.CmsVideoMapper">
+	<resultMap type="com.ekt.cms.video.entity.CmsVideo" id="BaseMap">
+		<id column="id" property="id" jdbcType="INTEGER"></id>
+		<result column="video_name" property="videoName" jdbcType="VARCHAR"></result>
+		<result column="digest" property="digest" jdbcType="VARCHAR"></result>
+		<result column="url" property="url" jdbcType="VARCHAR"></result>
+		<result column="url1" property="urlBak" jdbcType="VARCHAR"></result>
+		<result column="isp" property="isp" jdbcType="VARCHAR"></result>
+		<result column="file_name" property="fileName" jdbcType="VARCHAR"></result>
+		<result column="author" property="author" jdbcType="VARCHAR"></result>
+		<result column="duration" property="duration" jdbcType="VARCHAR"></result>
+		<result column="image_url" property="imageUrl" jdbcType="VARCHAR"></result>
+		<result column="knowledge_id" property="knowledgeId" jdbcType="INTEGER"></result>
+		<result column="status" property="status" jdbcType="INTEGER"></result>
+		<result column="knowledge" property="knowledge" jdbcType="VARCHAR"></result>
+		<result column="grade_no" property="gradeNo" jdbcType="INTEGER"></result>
+		<result column="grade" property="grade" jdbcType="VARCHAR"></result>
+		<result column="subject_no" property="subjectNo" jdbcType="INTEGER"></result>
+		<result column="subject" property="subject" jdbcType="VARCHAR"></result>
+	</resultMap>
+	<select id="listPage" parameterType="com.ekt.cms.video.entity.CmsVideo" resultMap='BaseMap'>
+		SELECT
+			v.id id,
+			video_name,
+			digest,
+			url,
+			url1,
+			isp,
+			file_name,
+			author,
+			duration,
+			image_url,
+			knowledge_id,
+			v.status status,
+			p.title knowledge,
+			p.grade_no grade_no,
+			d.value grade,
+			p.subject_no subject_no,
+			d1.value subject
+		FROM
+			cms_video v
+		LEFT JOIN cms_knowledge_point p ON v.knowledge_id = p.id
+		LEFT JOIN cms_dictionary d on p.grade_no=d.id
+		LEFT JOIN cms_dictionary d1 on p.subject_no=d1.id
+		WHERE 1=1
+		<if test="CmsVideo.knowledge !=null and CmsVideo.knowledge != ''">
+			AND (p.title like '%${CmsVideo.knowledge}%')
+		</if>
+		<if test="CmsVideo.gradeNo !=null and CmsVideo.gradeNo !=0" >
+			AND p.grade_no=#{CmsVideo.gradeNo ,jdbcType=INTEGER}
+		</if>
+		<if test="CmsVideo.subjectNo !=null and CmsVideo.subjectNo !=0">
+			AND p.subject_no=#{CmsVideo.subjectNo, jdbcType=INTEGER}
+		</if>
+	</select>
+	<!-- 按主键删除 -->
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE 
+		FROM 
+			cms_video
+		WHERE
+			id=#{id}
+	</delete>
+	<!-- 停启用 -->
+	<update id="confine" parameterType="com.ekt.cms.video.entity.CmsVideo">
+		UPDATE 
+			cms_video
+		SET 
+			status=#{CmsVideo.status}
+		WHERE
+			id=#{CmsVideo.id}
+	</update>
+	<!-- 更新视频基础信息 -->
+	<update id="update" parameterType="com.ekt.cms.video.entity.CmsVideo">
+	UPDATE 
+			cms_video
+		SET 
+			video_name=#{CmsVideo.videoName}
+			digest=#{CmsVideo.digest}
+			isp=#{CmsVideo.isp}
+			file_name=#{CmsVideo.fileName}
+			author=#{CmsVideo.author}
+			knowledge_id=#{CmsVideo.knowledgeId}
+			status=#{CmsVideo.status}
+		WHERE
+			id=#{CmsVideo.id}
+	
+	
+	</update>
+	</mapper>

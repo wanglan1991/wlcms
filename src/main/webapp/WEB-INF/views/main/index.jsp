@@ -320,6 +320,22 @@
 					<shiro:hasPermission name="knowledge:confine">
 						<span id="basejs_knowledge_confine" style="display: none;" />
 					</shiro:hasPermission>
+					
+					<shiro:hasPermission name="video:add">
+					<span id="basejs_video_create" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="video:check">
+						<span id="basejs_video_check" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="video:edit">
+						<span id="basejs_video_edit" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="video:delete">
+						<span id="basejs_video_del" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="video:confine">
+						<span id="basejs_video_confine" style="display: none;" />
+					</shiro:hasPermission>
             </div>
         </div>
     </div>
@@ -520,6 +536,22 @@ $(".icon-adjust").click(function(){
 		}
 		if ($('#basejs_knowledge_confine').length > 0) {
 			base.perList.knowledge.confine = true;
+		}
+		
+		if ($('#basejs_video_create').length > 0) {
+			base.perList.video.create = true;
+		}
+		if ($('#basejs_video_check').length > 0) {
+			base.perList.video.check = true;
+		}
+		if ($('#basejs_video_edit').length > 0) {
+			base.perList.video.edit = true;
+		}
+		if ($('#basejs_video_del').length > 0) {
+			base.perList.video.del = true;
+		}
+		if ($('#basejs_video_confine').length > 0) {
+			base.perList.video.confine = true;
 		}
 		
 		index.init('${ctx}');

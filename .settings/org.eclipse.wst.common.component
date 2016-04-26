@@ -2,7 +2,8 @@
     <wb-module deploy-name="cms">
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/" source-path="/.externalToolBuilders"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/bin/main/resources"/>
         <property name="context-root" value="cms"/>
         <property name="java-output-path" value="/cms/target/classes"/>
     </wb-module>
