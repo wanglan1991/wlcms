@@ -16,6 +16,34 @@ public interface ICmsExerciseService {
 	 * @param exercise
 	 * @return
 	 */
-	List<CmsExercise> pageList(@Param("exercise") CmsExercise exercise);
+	List<CmsExercise> pageList(CmsExercise exercise);
+	/**
+	 * 停启用习题
+	 * @param id
+	 * @param status
+	 * @return
+	 */
+	int exerciseConfine(int id,int status);
+	/**
+	 * 根据id停启用答案
+	 * @param id
+	 * @param status
+	 * @return
+	 */
+	int answerConfine(int id,int status);
+	/**
+	 * 根据习题id删除习题
+	 * @param id
+	 * @return
+	 */
+	int deleteExercise(int id);
+	
+	/**
+	 * 根据习题Id删除答案
+	 * @param id
+	 * @return
+	 */
+	int deleteAnswer(int id);
+	
 
 }

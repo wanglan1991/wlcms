@@ -50,6 +50,7 @@ public class CmsKnowledgeController {
 		} else {
 			result.setResult(cmsKnowledgeService.insert(cmsKnowledge));
 		}
+
 		return result;
 	}
 
