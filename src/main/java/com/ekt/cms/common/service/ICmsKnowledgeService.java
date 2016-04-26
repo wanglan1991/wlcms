@@ -20,4 +20,6 @@ public interface ICmsKnowledgeService {
 	PageBean<CmsKnowledge> queryByCondition(CmsKnowledge cmsKnowledge);
 	//按主键删除
 	int delete(int id);
+	//模糊查询知识点
+	List<CmsKnowledge> query(CmsKnowledge cmsKnowledge);
 }
