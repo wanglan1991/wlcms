@@ -72,12 +72,5 @@ public class CmsKnowledgeController {
 			result.setResult(total);
 			return result;
 		}
-//		@RequestMapping("/delete")
-//		@ResponseBody
-//		public Result delete(int id){			
-//			Result result=new Result();					
-//			result.setResult(cmsKnowledgeService.delete(id));
-//			return result;
-//		}
 		}
 		
