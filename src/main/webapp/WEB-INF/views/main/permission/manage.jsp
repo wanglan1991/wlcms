@@ -50,7 +50,7 @@
         <div class='control-group'>
             <label class='control-label'>key值</label>
             <div class='controls'>
-                <input class='span8' id='key' required name='key' maxlength='30'  placeholder='key值' type='text' />
+                <input class='span8' id='key' required name='key'  maxlength='30'  placeholder='key值' type='text' />
                  <span id="key-error" class="help-block error"></span>
             </div>
         </div>
@@ -64,7 +64,7 @@
          <div class='control-group' id='orderNo'>
             <label class='control-label'>排序</label>
             <div class='controls'>
-                <input class='span8' id='order' required name='order' maxlength='4' onkeyup="value=value.replace(/[^01]/g,'') "  placeholder='order' type='text' />
+                <input class='span8' id='order' required name='order'  maxlength='4' onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"  placeholder='order' type='text' />
                  <span id="order-error" class="help-block error"></span>
             </div>
         </div>

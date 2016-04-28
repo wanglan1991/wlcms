@@ -24,23 +24,33 @@ public class CmsExerciseService implements ICmsExerciseService {
 	}
 
 	@Override
-	public int exerciseConfine(int id, int status) {
+	public Integer exerciseConfine(int id, int status) {
 		return cmsExerciseMapper.exerciseConfine(id, status);
 	}
 
 	@Override
-	public int answerConfine(int id, int status) {
+	public Integer answerConfine(int id, int status) {
 		return cmsExerciseMapper.answerConfine(id, status);
 	}
 
 	@Override
-	public int deleteExercise(int id) {
+	public Integer deleteExercise(int id) {
 		return cmsExerciseMapper.deleteExercise(id);
 	}
 
 	@Override
-	public int deleteAnswer(int id) {
+	public Integer deleteAnswer(int id) {
 		return cmsExerciseMapper.deleteAnswer(id);
+	}
+
+	@Override
+	public Integer insertExercise(CmsExercise exercise) {
+		return cmsExerciseMapper.insertExercise(exercise);
+	}
+
+	@Override
+	public Integer insertAnswer(Integer exerciseId, String option, String content, int isTrue) {
+		return cmsExerciseMapper.insertAnswer(exerciseId,option,content,isTrue);
 	}
 
 }

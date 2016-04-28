@@ -16,15 +16,20 @@ public interface CmsExerciseMapper {
 	List<CmsExercise> pageList(@Param("exercise") CmsExercise exercise);
 
 	// 停用习题
-	int exerciseConfine(@Param("id") int id, @Param("status") int status);
+	Integer exerciseConfine(@Param("id") int id, @Param("status") int status);
 
 	// 停用答案
-	int answerConfine(@Param("id") int id, @Param("status") int status);
+	Integer answerConfine(@Param("id") int id, @Param("status") int status);
 
 	// 根据习题id删除习题
-	int deleteExercise(@Param("id")int id);
+	Integer deleteExercise(@Param("id") int id);
 
 	// 根据习题id删除习题答案
-	int deleteAnswer(@Param("id")int id);
+	Integer deleteAnswer(@Param("id") int id);
 
+	// 插入习题并返回插入的插入记录的自增id
+	Integer insertExercise(CmsExercise exercise);
+	//插入习题答案
+	Integer insertAnswer(@Param("exerciseId") Integer exerciseId, @Param("option") String option,
+			@Param("content") String content, @Param("isTrue") int isTrue);
 }

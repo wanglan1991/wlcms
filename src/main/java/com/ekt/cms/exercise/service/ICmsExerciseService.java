@@ -23,27 +23,45 @@ public interface ICmsExerciseService {
 	 * @param status
 	 * @return
 	 */
-	int exerciseConfine(int id,int status);
+	Integer exerciseConfine(int id,int status);
 	/**
 	 * 根据id停启用答案
 	 * @param id
 	 * @param status
 	 * @return
 	 */
-	int answerConfine(int id,int status);
+	Integer answerConfine(int id,int status);
 	/**
 	 * 根据习题id删除习题
 	 * @param id
 	 * @return
 	 */
-	int deleteExercise(int id);
+	Integer deleteExercise(int id);
 	
 	/**
 	 * 根据习题Id删除答案
 	 * @param id
 	 * @return
 	 */
-	int deleteAnswer(int id);
+	Integer deleteAnswer(int id);
+	
+	
+	/**
+	 * 插入习题返回插入的记录自增的ID
+	 * @param exercise
+	 * @return
+	 */
+	Integer insertExercise(CmsExercise exercise);
+	
+	/**
+	 * 根据习题id插入答案
+	 * @param exerciseId
+	 * @param option
+	 * @param content
+	 * @param isTrue
+	 * @return
+	 */
+	Integer insertAnswer(Integer exerciseId,String option,String content,int isTrue);
 	
 
 }

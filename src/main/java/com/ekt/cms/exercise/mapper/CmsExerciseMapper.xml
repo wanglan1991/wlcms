@@ -38,7 +38,8 @@
 		c.difficulty_no,
 		d2.`value` difficulty,
 		c.publisher_no,
-		d3.`value` publisher,
+		d3.`value`
+		publisher,
 		c.create_time,
 		c.`status`,
 		c.author,
@@ -49,13 +50,18 @@
 		d5.`value` grade
 		FROM
 		cms_exercise c
-		LEFT JOIN cms_knowledge_point p ON p.id = c.knoeledge_id
-		LEFT JOIN cms_dictionary d on c.type_no =d.id
-		LEFT JOIN cms_dictionary d1 on c.category=d1.id
+		LEFT
+		JOIN cms_knowledge_point p ON p.id = c.knoeledge_id
+		LEFT JOIN
+		cms_dictionary d on c.type_no =d.id
+		LEFT JOIN cms_dictionary d1 on
+		c.category=d1.id
 		LEFT JOIN cms_dictionary d2 on c.difficulty_no=d2.id
 		LEFT JOIN cms_dictionary d3 on c.publisher_no=d3.id
-		LEFT JOIN cms_dictionary d4 on d4.id=p.subject_no
-		LEFT JOIN cms_dictionary d5 on d5.id=p.grade_no
+		LEFT JOIN
+		cms_dictionary d4 on d4.id=p.subject_no
+		LEFT JOIN cms_dictionary d5 on
+		d5.id=p.grade_no
 		WHERE 1=1
 		<if test="exercise.gradeNo != null and exercise.gradeNo!=''">
 			AND p.grade_no=#{exercise.gradeNo}
@@ -93,15 +99,59 @@
 
 	<!-- 删除习题 -->
 	<delete id="deleteExercise" parameterType="java.lang.Integer">
-		DELETE FROM cms_exercise
+		DELETE FROM
+		cms_exercise
 		WHERE id=#{id}
 	</delete>
 
 	<!-- 删除答案 -->
 	<delete id="deleteAnswer" parameterType="java.lang.Integer">
 		DELETE
-		FROM cms_exercise_answer WHERE exercise_id=#{id}
+		FROM
+		cms_exercise_answer WHERE exercise_id=#{id}
 
 	</delete>
+	<!-- 插入习题并返回插入该行的记录自增id -->
+	<!-- <insert id="insertExercise" parameterType="com.ekt.cms.exercise.entity.CmsExercise" 
+		> -->
+	<insert id="insertExercise" parameterType="com.ekt.cms.exercise.entity.CmsExercise"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO cms_exercise(
+		`content`,
+		`difficulty_no`,
+		`publisher_no`,
+		`author`,
+		`create_time`,
+		`type_no`,
+		`category`,
+		`order_no`,
+		`knoeledge_id`
+		) VALUES (
+		#{content},
+		#{difficultyNo},
+		#{publisherNo},
+		#{author},
+		SYSDATE(),
+		#{typeNo},
+		#{categoryNo},
+		#{orderNo},
+		#{knoeledgeId}
+		)
+
+	</insert>
+	<insert id="insertAnswer">
+		INSERT INTO cms_exercise_answer (
+			 	`exercise_id`, 
+				`option`,
+				`contents`, 
+				`is_true`
+				) VALUES (
+				#{exerciseId},
+				#{option},
+				#{content},
+				#{isTrue}
+				 );
+	</insert>
+
 
 </mapper>

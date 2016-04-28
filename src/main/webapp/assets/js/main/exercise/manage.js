@@ -87,6 +87,8 @@ define(function (require, exports, module) {
    			
    			
    		}
+         
+			
             
 //			
 //			/**
@@ -219,16 +221,16 @@ define(function (require, exports, module) {
 			});
 			//增加习题答案输入框
 			$("#addAnswer").click(function(){
-				var input = $("#answer").find("input").length
-				var option =input==0?'A':input==1?"B":input==2?"C":"D";
-				if(input>3){return; }
-				$("#answer").append(" <div class='controls"+option+"'>"+option+"：&nbsp;&nbsp;<input class='span8' id='answer"+option+"' required name='editKey' maxlength='30'  placeholder='key值' type='text' />" +
-						"<span id='editKey-error' class='help-block error'></span></div>");
+				var input = $("#answer").find("div").length
+				var option =input==0?'A':input==1?"B":input==2?"C":input==3?"D":input==4?"E":"F";
+				if(input>5){return; }
+				$("#answer").append(" <div class='controls"+option+"' option='"+option+"' id='answerOption'>"+option+"：&nbsp;&nbsp;<input class='span8'  style='width:52%;' required name='answer' maxlength='900'  placeholder='答案..' type='text' />" +
+						"&nbsp;&nbsp;isTrue:<input style='margin-top:-1px' name='isTrue' isTrue='0' type='checkbox' /><span id='editKey-error' class='help-block error'></span></div>");
 			});
 			$("#removeAnswer").click(function(){
-				var input = $("#answer").find("input").length
+				var input = $("#answer").find("div").length
 				if(input==0){return ;}
-				var option =input==1?'A':input==2?"B":input==3?"C":"D";
+				var option =input==1?'A':input==2?"B":input==3?"C":input==4?"D":input==5?"E":"F";
 				$(".controls"+option).remove();
 				});
 			
@@ -291,6 +293,7 @@ define(function (require, exports, module) {
 			 */
 			$('#btnClose').click(function(){
 				clear();
+			
 			});
 			$('#editBtnClose').click(function(){
 				core.closeModel('modal-editExercise');
@@ -310,72 +313,96 @@ define(function (require, exports, module) {
 				$("#addKnoeledgeOption").empty();
 				$("#addKnoeledge-error").html('');
 				$("#addpublisherOption").empty();
-				$("#addpublisher-error").html('');	
+				$("#addpublisher-error").html('');
+				$("#msg").html('');
+				$("#exerciseContent").val('');
+				$("#author").val('');
+				$("#orderNo").val('');
+				$("#answer").find("div").remove();
 				core.closeModel('modal-addExercise');	
 			}
-			/**
-			 * 修改提交
-			 */
-			$('#editBtnSubmit').click(function(){
-				var name =$("#editPermName").val();
-				var key=$("#editKey").val();
-				var value=$("#editValue").val();
-				var orderNo=$("#editOrder").val();
-				var icon=$("#editIcon").val();
-				var id=$("#modal-editPerm").attr('Perm');
-				if(name.length<1){$("#editPermName-error").html("请输入名称!");$("#editPermName-error").css("color","#b94a48");return ;}
-				if(key.length<1){$("#editKey-error").html("请输入key!");$("#editKey-error").css("color","#b94a48");return ;}
-				if(value.length<1){$("#editUrl-error").html("请输入URL!");$("#editUrl-error").css("color","#b94a48");return ;}
-				if(icon.length<1){$("#editIcon-error").html("请选择图标!");$("#editIcon-error").css("color","#b94a48");return ;}
-					
-				$.ajax({
-        			url:F.basepath+'/cms/permission/editPermission',
-					type:'post',
-					data:{id:id,name:name,key:key,value:value,orderNo:orderNo,icon:icon},
-					success:function(data){
-						core.closeModel('modal-editPerm');
-						if(data.result>0){
-							F.reload();
-							
-						}
-					}
-        		})	
-			});
-			
-			
+			//查询是否包含
+			function contains(a, obj) {
+			    var i = a.length;
+			    while (i--) {
+			       if (a[i] === obj) {
+			           return true;
+			       }
+			    }
+			    return false;
+			}
 			
 			
 			
 			/**
 			 * 提交新增
 			 */
-			$('#btnSubmit').click(function(){
-				var type=$("#addPermType").val();
-				var pid=$("#permPrent").val();
-				var name=$("#permName").val();
-				var level=$("#addPermType").val();
-				var key=$("#key").val();
-				var value=$("#value").val();
-				var order=$("#order").val();
-				var icon=$("#icon").val();
-				if(type==-1){$("#PermType-error").html("请选择类型!");$("#PermType-error").css("color","#b94a48");return ;}
-				if(name.length<1){$("#permName-error").html("请输入名称!");$("#permName-error").css("color","#b94a48");return ;}
-				if(key.length<1){$("#key-error").html("请输入key!");$("#key-error").css("color","#b94a48");return ;}
-				if(value.length<1){$("#url-error").html("请输入URL!");$("#url-error").css("color","#b94a48");return ;}
-				if(icon.length<1){$("#icon-error").html("请选择图标!");$("#icon-error").css("color","#b94a48");return ;}
-			
+			$('#btnSubmit').click(
+					function() {
+						var grade = $("#addGradeOption").val();
+						var category = $("#addCategoryOption").val();
+						var type = $("#addTypeOption").val();
+						var difficulty = $("#addDifficultyOption").val();
+						var subject = $("#addSubjectOption").val();
+						var knoeledge = $("#addKnoeledgeOption").val();
+						var publisher = $("#addpublisherOption").val();
+						var author = $("#author").val();
+						var content = $("#exerciseContent").val();
+						var order =$("#orderNo").val();
+						var answerLength = $("#answer").find("div").length;
+						if(grade==0){$("#msg").html("请选择年级！");$("#msg").css('color','#b94a48');return;}
+						if(category==0){$("#msg").html("请选择题类！");$("#msg").css('color','#b94a48');return;}
+						if(type==0){$("#msg").html("请选择题型！");$("#msg").css('color','#b94a48');return;}
+						if(difficulty==0){$("#msg").html("请选择难易度！");$("#msg").css('color','#b94a48');return;}
+						if(subject==0){$("#msg").html("请选择科目！");$("#msg").css('color','#b94a48');return;}
+						if(knoeledge==0){$("#msg").html("请选择知识点！");$("#msg").css('color','#b94a48');return;}
+						if(publisher==0){$("#msg").html("请选择出版社！");$("#msg").css('color','#b94a48');return;}
+						if(content.length<5){$("#msg").html("习题内容不能为空！不能小于5个字符");$("#msg").css('color','#b94a48');return;}
+						if(answerLength<4){$("#msg").html("至少4个答案！");$("#msg").css('color','#b94a48');return;}
+				var answerList=new Array();	
+				var length=0;
+				var list=new Array();
+				var isTrueTag=0;
+				$("#answer div").each(function(){
+					var answer=$(this).find("[name='answer']").val().replace(/\s+/g, "");
+					length=answer.length;
+					if(answer.length<1){$("#msg").html("答案内容不能为空！");$("#msg").css('color','#b94a48');return false;}
+					var isTrue=$(this).find("[name='isTrue']").attr('checked')=='checked'?1:0;
+					list.push(isTrue);
+					var option=$(this).attr('option');
+					var value={option:option,isTrue:isTrue,contents:answer};
+					answerList.push(value);
+				  });
+				if(length<1){return;}
+				
+				if(!contains(list, 1)){
+					 $("#msg").html("需要选择正确答案！");$("#msg").css('color','#b94a48');
+					 return;
+				}
+				
+				var exercise = {
+					gradeNo : grade,
+					categoryNo : category,
+					typeNo : type,
+					difficultyNo : difficulty,
+					subjectNo : subject,
+					knoeledgeId : knoeledge,
+					publisherNo : publisher,
+					author : author,
+					content : content,
+					orderNo:order,
+					answerList:answerList
+				}
+				
 				$.ajax({
-					url:F.basepath+'/cms/permission/addPermission',
-					type:'post',
-					data:{type:type==1?"模块":type==2?"页面":"按钮",pid:pid==null?0:pid,
-							level:level,name:name,key:key,value:value,order:type==3?0:order,icon:icon},
+					url:F.basepath+'/cms/exercise/addExercise',
+					type:'POST',
+					data:exercise,
 					success:function(data){
-							clear();
-							F.reload();
-					
+						clear();
+						F.reload();
 					}
 				})
-				
             });
 			
 			/**

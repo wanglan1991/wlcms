@@ -1,7 +1,8 @@
 package com.ekt.cms.exercise.controller;
 
+import java.util.List;
+import java.util.Map;
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ekt.cms.common.BaseController;
 import com.ekt.cms.common.entity.Result;
+import com.ekt.cms.exercise.entity.CmsAnswerList;
 import com.ekt.cms.exercise.entity.CmsExercise;
 import com.ekt.cms.exercise.service.ICmsExerciseService;
 import com.ekt.cms.utils.pageHelper.PageBean;
@@ -94,6 +96,27 @@ public class CmsExerciseController extends BaseController {
 		result.setResult(total);
 		return result;
 
+	}
+
+	/**
+	 * 新增习题并
+	 * 
+	 * @param answerArr
+	 * @param exercise
+	 * @return
+	 */
+	@Transactional
+	@RequestMapping("/addExercise")
+	@ResponseBody
+	public Result addExercise(CmsAnswerList answerList, CmsExercise exercise) {
+		List<Map<String, Object>> list = answerList.getAnswerList();
+		Result result=Result.getResults();
+		result.setResult(cmsExerciseService.insertExercise(exercise));
+		for (Map<String, Object> map : list) {
+			cmsExerciseService.insertAnswer(exercise.getId(), map.get("option").toString(),
+					map.get("contents").toString(), Integer.parseInt(map.get("isTrue").toString()));
+		}
+		return result;
 	}
 
 }
