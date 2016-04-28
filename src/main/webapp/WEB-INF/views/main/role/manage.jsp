@@ -24,7 +24,7 @@
         <div class='control-group'>
             <label class='control-label'>角色编码</label>
             <div class='controls'>
-                <input class='span8' id='encoding' required name="encoding" maxlength='15' placeholder='角色编码' type='text' />
+                <input class='span8' id='encoding' onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" onkeyup="value=value.replace(/[\W]/g,'') " required name="encoding" maxlength='15' placeholder='角色编码' type='text' />
                 <span id="encoding-error" class="help-block error"></span>
             </div>
         </div>

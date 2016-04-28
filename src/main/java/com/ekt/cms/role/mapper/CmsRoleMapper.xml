@@ -44,13 +44,13 @@
 			AND id&lt;&gt;1
 	</select>
 	<insert id="addCmsRole"  parameterType="com.ekt.cms.role.entity.CmsRole">
-		<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
-			SELECT LAST_INSERT_ID()
-		</selectKey>
 		INSERT INTO 
 			cms_role ( `name` , `encoding` , `create_time`) 
 		VALUES 
-		    (#{cmsRole.name,jdbcType=VARCHAR}, #{cmsRole.encoding,jdbcType=VARCHAR}, SYSDATE());
+		    (#{cmsRole.name,jdbcType=VARCHAR}, #{cmsRole.encoding,jdbcType=VARCHAR}, SYSDATE())
+		<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 	</insert>
 	<select id="getCmsRoleByNameOrEncoding"  resultType="com.ekt.cms.role.entity.CmsRole"  parameterType="com.ekt.cms.role.entity.CmsRole">
 		SELECT * FROM cms_role WHERE name=#{cmsRole.name} OR encoding=#{cmsRole.encoding}	
