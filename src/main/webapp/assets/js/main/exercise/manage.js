@@ -34,6 +34,12 @@ define(function (require, exports, module) {
             	$("#exercise-header .actions").append("<a href='#' id='addExercise' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>添加</a>");
             }
             /**
+             * 批量导入习题
+             */																								 
+            if(base.perList.permission.create){
+            	$("#exercise-header .actions").append("<a href='#' id='impExercise' data-toggle='modal' class='btn btn btn-primary btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>导入习题</a>");
+            }
+            /**
              * 是否具有删除权限权限
              */
             if(base.perList.permission.del){
@@ -219,6 +225,21 @@ define(function (require, exports, module) {
 	            	$("#addKnoeledgeOption").append("<option value='0' >-- 等待选择学科 --</option>");
 								});
 			});
+			/**
+			 * 打开导入习题模态框
+			 */
+			$('#impExercise').click(function(){
+				core.openModel('modal-impExercise','批量新增习题',function(){
+					
+				});
+			});
+			/**
+			 * 关闭习题导入框
+			 */
+			$('#impBtnClose').click(function(){
+				 core.closeModel('modal-impExercise');
+			});
+			
 			//增加习题答案输入框
 			$("#addAnswer").click(function(){
 				var input = $("#answer").find("div").length
@@ -331,6 +352,14 @@ define(function (require, exports, module) {
 			    }
 			    return false;
 			}
+			//监听文件是否已经上传
+			$('#impFile').bind('input propertychange', function() {  
+				if($("#impFile").val().length>0){
+					$("#filePath").val($('#impFile').val());
+				}
+			});  
+			
+			
 			
 			
 			
@@ -404,6 +433,17 @@ define(function (require, exports, module) {
 					}
 				})
             });
+			
+//			$('#upload').click(function(){
+//				var file = $("#impFile").val();
+//				$.ajax({
+//					url:F.basepath+'/cms/upload/exercises',
+//					type:"POST",
+//					data:{temple:file}
+//					
+//				})
+//				
+//			});
 			
 			/**
 			 * 批量删除
