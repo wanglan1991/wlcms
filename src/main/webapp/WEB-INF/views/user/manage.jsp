@@ -55,7 +55,7 @@
          <div class='control-group' id="account">
             <label class='control-label'>账户</label>
             <div class='controls'>
-                <input class='span8' id='userName'  maxlength='16' required rangelength="[6,16]" placeholder='账户名' type='text' />
+                <input class='span8' id='userName' onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" onkeyup="value=value.replace(/[\W]/g,'')" maxlength='16' required rangelength="[6,16]" placeholder='账户名' type='text' />
             </div>
         </div>
         <div class='control-group' id='password1'>

@@ -427,11 +427,11 @@ define(function (require, exports, module) {
             },onClick :function(event, treeId, treeNode, clickFlag) {
 				F.table.query({query: {'id':treeNode.id}});
 			},reload:function(){
-				F.tree.load();
+//				F.tree.load();
 				F.table.reload();
 			}
 			,treeLoad:function(){
-            	F.tree = core.initTree("departTree",F.basepath+'/main/department/get-all-departments',F.onClick);         
+//            	F.tree = core.initTree("departTree",F.basepath+'/main/department/get-all-departments',F.onClick);         
             },
 			
 			
