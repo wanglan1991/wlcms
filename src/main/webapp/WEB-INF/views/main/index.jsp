@@ -336,6 +336,9 @@
 					<shiro:hasPermission name="video:confine">
 						<span id="basejs_video_confine" style="display: none;" />
 					</shiro:hasPermission>
+					<shiro:hasPermission name="video:excelImport">
+						<span id="basejs_video_excelImport" style="display: none;" />
+					</shiro:hasPermission>
             </div>
         </div>
     </div>
@@ -552,6 +555,9 @@ $(".icon-adjust").click(function(){
 		}
 		if ($('#basejs_video_confine').length > 0) {
 			base.perList.video.confine = true;
+		}
+		if ($('#basejs_video_excelImport').length > 0) {
+			base.perList.video.excelImport = true;
 		}
 		
 		index.init('${ctx}');

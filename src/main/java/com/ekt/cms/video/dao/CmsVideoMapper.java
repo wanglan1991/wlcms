@@ -31,4 +31,10 @@ public interface CmsVideoMapper {
 	 * @return
 	 */
 	int update(@Param("CmsVideo")CmsVideo cmsVideo);
+	/**
+	 * 新增	 
+	 * @param CmsVideo
+	 * @return
+	 */
+	int insert(@Param("CmsVideo")CmsVideo cmsVideo);
 }

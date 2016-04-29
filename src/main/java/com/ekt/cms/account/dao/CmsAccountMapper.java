@@ -51,5 +51,11 @@ public interface CmsAccountMapper {
      * @return
      */
     int updateAccount(@Param("cmsAccount")CmsAccount cmsAccount);
+    /**
+     * 获取某角色的所有用户
+     * @param String
+     * @return CmsAccount
+     */
+    List<CmsAccount> listAccountByRole(@Param("role")String  role);
 }
  

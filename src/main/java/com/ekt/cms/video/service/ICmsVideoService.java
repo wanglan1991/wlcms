@@ -12,4 +12,6 @@ public interface ICmsVideoService {
 	int confine(CmsVideo cmsVideo);
 	//更新
 	int update(CmsVideo cmsVideo);
+	//新增
+	int insert(CmsVideo cmsVideo);
 }

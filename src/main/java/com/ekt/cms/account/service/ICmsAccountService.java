@@ -3,6 +3,7 @@ package com.ekt.cms.account.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 
 import com.ekt.cms.account.entity.CmsAccount;
@@ -63,6 +64,12 @@ public interface ICmsAccountService {
 	 * @return
 	 */
 	public int updateAccount(CmsAccount cmsAccount);
+	 /**
+     * 获取某角色的所有用户
+     * @param String
+     * @return CmsAccount
+     */
+    public List<CmsAccount> listAccountByRole(String  role);
 
 	
 }

@@ -177,7 +177,19 @@ public class CmsAccountController extends BaseController {
 		result.setResult(total);
 		return result;
 	}
-	
+	/**
+	 * 根据角色查询用户
+	 * @param role
+	 * @return
+	 */
+	@RequestMapping("/listAccountByRole")
+	@ResponseBody
+	public Object listAccount(@RequestParam("role")String  role){
+		Result result=Result.getResults();
+ 		result.setValue(cmsAccountService.listAccountByRole(role));
+		return result;
+		
+	}
 	
 	
 	}

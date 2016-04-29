@@ -26,6 +26,7 @@ public class CmsVideo {
 	// 简介
 	private String digest;
 	// 视频讲师
+	private int authorId;
 	private String author;
 	// 状态
 	private int status;
@@ -166,4 +167,12 @@ public class CmsVideo {
 		this.subjectNo = subjectNo;
 	}
 
+	public int getAuthorId() {
+		return authorId;
+	}
+
+	public void setAuthorId(int authorId) {
+		this.authorId = authorId;
+	}
+	
 }

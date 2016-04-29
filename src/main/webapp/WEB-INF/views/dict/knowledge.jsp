@@ -11,6 +11,11 @@
 <head>
 <title></title>
 <%-- <script src='${ctxAssets}/js/dict/dictFormValidation.js' type='text/javascript'></script> --%>
+<style>
+label.error{
+color:red;
+}
+</style>
 </head>
 <body>
 	<!-- <div class='span9 box bordered-box blue-border' style='margin-bottom:0;'> -->
@@ -121,7 +126,6 @@
 					<div class='controls'>
 						<div class='input-append'>
 		               		<select id='EditSubject'>
-<!-- 		               		<option id='preSubject' value="preSubject" selected="selected"></option> -->
 		               		</select>
 		                </div>
 				</div>

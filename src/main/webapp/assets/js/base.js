@@ -1,6 +1,6 @@
 define(function (require, exports, module) {
     var E = module.exports = {
-    		
+
     	icons:['icon-adjust','icon-anchor','icon-asterisk','icon-bar-chart','icon-beaker',
     	       'icon-beer','icon-bell-alt','icon-bell','icon-bolt','icon-book',
     	       'icon-bookmark-empty','icon-bookmark','icon-briefcase','icon-bullhorn','icon-bullseye',
@@ -178,7 +178,8 @@ define(function (require, exports, module) {
                 del: false,
                 create: false,
                 check:false,
-                confine:false
+                confine:false,
+                excelImport:false
             }
         }
     };

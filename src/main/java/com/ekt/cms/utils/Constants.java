@@ -22,7 +22,11 @@ public interface Constants {
 	
 	public final static String DEFAULT_WEBSOCKET_HOSTNAME = "hostname";
 	
-	
+	/**
+	 * 上传用到的密钥ID和key
+	 */
+	 public final static String DEFAULT_UPLOAD_SECRETID = "AKIDMlG5Jhj3qfdoU450DeRJ3l0DwAuBPTF9";
+	 public final static String DEFAULT_UPLOAD_SECRETKEY = "7A1vGGi3XoEEJnFk6ig4YykRZCDt4o7I";
 	
 	public enum VERSIONTYPE{  
 	    MQ_MAIN("0");

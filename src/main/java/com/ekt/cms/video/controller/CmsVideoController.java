@@ -22,6 +22,7 @@ public class CmsVideoController {
 
 	@RequestMapping("/toVideo")
 	public String toVideoPage() {
+//		return "main/video/testUpload";
 		return "main/video/manage";
 	}
 
@@ -64,5 +65,14 @@ public class CmsVideoController {
 		result.setResult(cmsVideoService.update(cmsVideo));
 		return result;
 	}
+	
+	//新增
+	@RequestMapping("/addVideo")
+	@ResponseBody
+	public Result insert(CmsVideo cmsVideo){
+		Result result = new Result();
+		result.setResult(cmsVideoService.insert(cmsVideo));
+		return result;
+		}
 
 }
