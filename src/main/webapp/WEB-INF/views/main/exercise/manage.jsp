@@ -79,55 +79,35 @@
 
 
 
-<div class='modal hide fade' id='modal-editPerm' Perm='' tabindex='-1'>
+<div class='modal hide fade' id='modal-impExercise' tabindex='-1'>
     <div class='modal-header'>
         <button class='close' data-dismiss='modal' type='button'>&times;</button>
         <h3></h3>
     </div>
+ <form action="/cms/upload/exercises" id="fm" method="POST" enctype="multipart/form-data">   
     <div class='modal-body'>
-         <div class='control-group'>
-            <label class='control-label'>名称</label>
-            <div class='controls'>
-                <input class='span8' id='editPermName' required name='editPermName' maxlength='15'  placeholder='名称' type='text' />
-                 <span id="editPermName-error" class="help-block error"></span>
-            </div>
-        </div>
         <div class='control-group'>
-            <label class='control-label'>key值</label>
+            <label class='control-label' style='color:blue'>导入模板下载</label>
             <div class='controls'>
-                <input class='span8' id='editKey' required name='editKey' maxlength='30'  placeholder='key值' type='text' />
-                 <span id="editKey-error" class="help-block error"></span>
+                <a href='exerciseTemplate.xlsx' style='color:red'><u>exerciseTemplate.xlsx</u></a>
             </div>
         </div>
-         <div class='control-group'>
-            <label class='control-label'>URL</label>
-            <div class='controls'>
-                <input class='span8' id='editValue' required name='value' maxlength='30'  placeholder='url' type='text' />
-                 <span id="editUrl-error" class="help-block error"></span>
-            </div>
-        </div>
-         <div class='control-group' id='editErderNo'>
-            <label class='control-label'>排序</label>
-            <div class='controls'>
-                <input class='span8' id='editOrder' required name='order' maxlength='4'  placeholder='order' type='text' />
-                 <span id="editOrder-error" class="help-block error"></span>
-            </div>
-        </div>
-        <div class="control-group" id="editIcons">
-            <label class="control-label">菜单图片</label>
-            <div class="controls">
-                <input class="span8" id="editIcon" name="editIcon" placeholder="菜单图片" type="text" style="display:none;">
-                  <span id="editIcon-error" class="help-block error"></span>
-            </div>
-        </div> 
     </div>
+    <div class='modal-body'>
+        <div class='control-group' id='editErderNo'>
+            <label class='control-label'>导入习题</label>
+            <div class='controls'>
+                <input type='file' id="impFile"  name="fileData" /><button type="submit" id='upload' >上传</button>
+                 <input type='text' id="filePath"  name="filePath" />
+            </div>
+        </div>
+    </div>
+</form>  
     <div class='modal-footer'>
     	<msg id='msg'></msg>
-        <button type="button" id="editBtnClose" class='btn'>关闭</button>
-
-        <button type="button" id="editBtnSubmit" class='btn btn-primary'>保存</button>
+        <button type="button" id="impBtnClose" class='btn'>关闭</button>
     </div>
-    </form>
+  
 </div>
 
 
