@@ -7,8 +7,8 @@
 		<result column="grade_no" property="gradeNo" jdbcType="INTEGER"></result>
 		<result column="order_no" property="orderNo" jdbcType="INTEGER"></result>
 		<result column="subject_no" property="subjectNo" jdbcType="INTEGER"></result>
-		<result column="grade" property="grade" jdbcType="INTEGER"></result>
-		<result column="suject" property="subject" jdbcType="INTEGER"></result>
+		<result column="grade" property="grade" jdbcType="VARCHAR"></result>
+		<result column="suject" property="subject" jdbcType="VARCHAR"></result>
 		<result column="status" property="status" jdbcType="INTEGER"></result>
 	</resultMap>
 	<!-- listpage -->
@@ -118,4 +118,17 @@
 		cms_knowledge_point
 		WHERE id = #{id,jdbcType=INTEGER}
 	</delete>
+<!-- 	根据年级查询科目集合 -->
+	<select id="getSubjectListByGrade"  resultMap="BaseMap" parameterType="java.lang.Integer" >
+		SELECT
+			d.id subject_no,
+			d.`value`
+			subject
+		FROM
+			cms_knowledge_point p
+		LEFT JOIN cms_dictionary d ON p.subject_no = d.id
+		WHERE
+			p.grade_no = #{ gradeNo }
+		GROUP BY p.subject_no
+	</select>
 </mapper>

@@ -48,4 +48,13 @@ public interface CmsKnowledgeMapper {
 	 * @return
 	 */
 	int  delete(Integer id);
+	/**
+	 * 根据年级Id获得科目List
+	 * @param gradeNo
+	 * @return
+	 */
+	List<CmsKnowledge> getSubjectListByGrade(@Param("gradeNo")Integer gradeNo);
+	
+	
+	
 	}

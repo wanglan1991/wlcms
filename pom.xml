@@ -372,12 +372,12 @@
 		    <artifactId>pagehelper</artifactId>
 		    <version>4.1.0</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>nz.ac.waikato.cms.weka</groupId>
 			<artifactId>WekaExcel</artifactId>
 			<version>1.0.5</version>
-		</dependency>		
+		</dependency>	
+			
 		
 	</dependencies>
 	<build>

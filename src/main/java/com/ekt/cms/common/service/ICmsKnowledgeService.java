@@ -22,4 +22,6 @@ public interface ICmsKnowledgeService {
 	int delete(int id);
 	//模糊查询知识点
 	List<CmsKnowledge> query(CmsKnowledge cmsKnowledge);
+	//根据年级获取科目集合
+	List<CmsKnowledge> getSubjectListByGrade(Integer grade);
 }

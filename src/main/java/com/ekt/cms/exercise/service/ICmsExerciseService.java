@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.ekt.cms.exercise.entity.CmsAnswer;
 import com.ekt.cms.exercise.entity.CmsExercise;
 
 /**
@@ -63,5 +64,13 @@ public interface ICmsExerciseService {
 	 */
 	Integer insertAnswer(Integer exerciseId,String option,String content,int isTrue);
 	
+	/**
+	 * 修改习题
+	 * @param exercise
+	 * @return
+	 */
+	Integer updateExercise(CmsExercise exercise);
+	
+
 
 }

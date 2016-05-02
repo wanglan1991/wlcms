@@ -60,4 +60,9 @@ public class CmsKnowledgeService implements ICmsKnowledgeService {
 		// TODO Auto-generated method stub
 		return CmsKnowledgeMapper.queryByCondition(cmsKnowledge);
 	}
+
+	public List<CmsKnowledge> getSubjectListByGrade(Integer grade) {
+		// TODO Auto-generated method stub
+		return CmsKnowledgeMapper.getSubjectListByGrade(grade);
+	}
 }

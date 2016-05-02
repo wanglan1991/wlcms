@@ -10,8 +10,7 @@
 		<result column="type" property="type" jdbcType="VARCHAR" />
 		<result column="category_no" property="categoryNo" jdbcType="INTEGER" />
 		<result column="category" property="category" jdbcType="VARCHAR" />
-		<result column="difficulty_no" property="difficultyNo"
-			jdbcType="INTEGER" />
+		<result column="difficulty_no" property="difficultyNo" jdbcType="INTEGER" />
 		<result column="difficulty" property="difficulty" jdbcType="VARCHAR" />
 		<result column="publisher_no" property="publisherNo" jdbcType="INTEGER" />
 		<result column="publisher" property="publisher" jdbcType="VARCHAR" />
@@ -24,6 +23,18 @@
 		<result column="grade_no" property="gradeNo" jdbcType="INTEGER" />
 		<result column="grade" property="grade" jdbcType="VARCHAR" />
 	</resultMap>
+	<resultMap id="answerResultMap" type="com.ekt.cms.exercise.entity.CmsAnswer">
+			<result column="id" property="id" jdbcType="INTEGER" />
+			<result column="exercise_id" property="exerciseId" jdbcType="VARCHAR" />
+			<result column="option" property="option" jdbcType="VARCHAR" />
+			<result column="contents" property="contents" jdbcType="VARCHAR" />
+			<result column="contents_url" property="contentsUrl" jdbcType="VARCHAR" />
+			<result column="is_true" property="isTrue" jdbcType="INTEGER" />
+			<result column="explain" property="explain" jdbcType="VARCHAR" />
+			<result column="explain_url" property="explainUrl" jdbcType="VARCHAR" />
+			<result column="status" property="status" jdbcType="INTEGER" />
+	</resultMap>
+	
 	<select id="pageList" resultMap="BaseResultMap"
 		parameterType="com.ekt.cms.exercise.entity.CmsExercise">
 		SELECT
@@ -112,8 +123,6 @@
 
 	</delete>
 	<!-- 插入习题并返回插入该行的记录自增id -->
-	<!-- <insert id="insertExercise" parameterType="com.ekt.cms.exercise.entity.CmsExercise" 
-		> -->
 	<insert id="insertExercise" parameterType="com.ekt.cms.exercise.entity.CmsExercise"
 		useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO cms_exercise(
@@ -139,6 +148,23 @@
 		)
 
 	</insert>
+	<update id="updateExercise"  parameterType="com.ekt.cms.exercise.entity.CmsExercise" >
+		UPDATE cms_exercise
+			SET 
+			 `content` = #{content},
+			 `difficulty_no` = #{difficultyNo},
+			 `publisher_no` = #{publisherNo},
+			 `author` = #{author},
+			 `create_time`= SYSDATE(),
+			 `type_no` = #{typeNo},
+			 `category` = #{categoryNo},
+			 `order_no` = #{orderNo},
+			 `knoeledge_id` = #{knoeledgeId}
+		WHERE
+			 `id` = #{id};
+	</update>
+	
+	
 	<insert id="insertAnswer">
 		INSERT INTO cms_exercise_answer (
 			 	`exercise_id`, 
@@ -152,6 +178,10 @@
 				#{isTrue}
 				 );
 	</insert>
+	<select id="getAnswerList" resultMap="answerResultMap" parameterType="java.lang.Integer">
+		SELECT * FROM cms_exercise_answer WHERE exercise_id=#{exerciseId}
+	</select>
+	
 
 
 </mapper>
