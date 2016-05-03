@@ -162,7 +162,7 @@ public class CmsAccountController extends BaseController {
 	 */
 	@RequestMapping("/deletes")
 	@ResponseBody
-	public Object deletes(@RequestParam("ids")String ids){
+	public Result deletes(@RequestParam("ids")String ids){
 		Result result=Result.getResults();
 		if(getCurrentAccount()==null){
 			result.setResult(-1);
@@ -177,7 +177,5 @@ public class CmsAccountController extends BaseController {
 		result.setResult(total);
 		return result;
 	}
-	
-	
 	
 	}

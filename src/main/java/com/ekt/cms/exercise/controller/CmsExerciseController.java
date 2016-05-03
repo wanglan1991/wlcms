@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ekt.cms.common.BaseController;
 import com.ekt.cms.common.entity.Result;
+import com.ekt.cms.common.service.ICmsKnowledgeService;
 import com.ekt.cms.exercise.entity.CmsAnswerList;
 import com.ekt.cms.exercise.entity.CmsExercise;
+import com.ekt.cms.exercise.service.ICmsAnswerService;
 import com.ekt.cms.exercise.service.ICmsExerciseService;
 import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.utils.pageHelper.PageContext;
@@ -28,6 +30,12 @@ public class CmsExerciseController extends BaseController {
 
 	@Resource
 	private ICmsExerciseService cmsExerciseService;
+
+	@Resource
+	private ICmsAnswerService cmsAnswerService;
+	
+	@Resource
+	private ICmsKnowledgeService cmsKnowledgeService;
 
 	/**
 	 * 返回习题列表页面
@@ -106,11 +114,11 @@ public class CmsExerciseController extends BaseController {
 	 * @return
 	 */
 	@Transactional
-	@RequestMapping("/addExercise")
+	@RequestMapping(value = "/addExercise")
 	@ResponseBody
 	public Result addExercise(CmsAnswerList answerList, CmsExercise exercise) {
 		List<Map<String, Object>> list = answerList.getAnswerList();
-		Result result=Result.getResults();
+		Result result = Result.getResults();
 		result.setResult(cmsExerciseService.insertExercise(exercise));
 		for (Map<String, Object> map : list) {
 			cmsExerciseService.insertAnswer(exercise.getId(), map.get("option").toString(),
@@ -119,4 +127,56 @@ public class CmsExerciseController extends BaseController {
 		return result;
 	}
 
+	/**
+	 * 修改习题
+	 * 
+	 * @param answerList
+	 * @param exercise
+	 * @return
+	 */
+	@Transactional
+	@RequestMapping(value = "/editExercise")
+	@ResponseBody
+	public Result updateExercise(CmsAnswerList answerList, CmsExercise exercise) {
+		Result result = Result.getResults();
+		List<Map<String, Object>> list = answerList.getAnswerList();
+		if (list != null) {
+			cmsExerciseService.updateExercise(exercise);
+			cmsExerciseService.deleteAnswer(exercise.getId());
+			for (Map<String, Object> map : list) {
+				cmsExerciseService.insertAnswer(exercise.getId(), map.get("option").toString(),
+						map.get("contents").toString(), Integer.parseInt(map.get("isTrue").toString()));
+			}
+		} else {
+			result.setMsg("答案不能为空！");
+		}
+
+		return result;
+	}
+
+	/**
+	 * 根据习题Id获取答案list
+	 * 
+	 * @param exerciseId
+	 * @return
+	 */
+	@RequestMapping("/answer")
+	@ResponseBody
+	public Result getAnswerList(@RequestParam("exerciseId") Integer exerciseId) {
+		Result result = Result.getResults();
+		result.setValue(cmsAnswerService.getAnswerList(exerciseId));
+		return result;
+	}
+	/**
+	 * 根据年级获取科目
+	 * @param gradeNo
+	 * @return
+	 */
+	@RequestMapping("/subjectList")
+	@ResponseBody
+	public Result getSubjectList(@RequestParam("gradeNo") Integer gradeNo){
+		Result result = Result.getResults();
+		result.setValue(cmsKnowledgeService.getSubjectListByGrade(gradeNo));
+		return result;
+	}
 }
