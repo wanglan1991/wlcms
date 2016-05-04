@@ -12,6 +12,7 @@ public class Vod extends Base {
 		serverHost = "vod.qcloud.com";
 	}
 	
+	
 	public String MultipartUploadVodFile(TreeMap<String, Object> params) throws NoSuchAlgorithmException, IOException {
 		String actionName = "MultipartUploadVodFile";
 
@@ -27,5 +28,12 @@ public class Vod extends Base {
         }
         
         return call(actionName, params, fileName);
+	}
+	
+	public String DescribeVodPlayUrls(TreeMap<String, Object> params) throws NoSuchAlgorithmException, IOException {
+		String actionName = "DescribeVodPlayUrls";
+		
+		
+        return call(actionName, params);
 	}
 }

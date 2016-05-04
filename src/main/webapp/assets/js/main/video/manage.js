@@ -39,17 +39,9 @@ define(function(require, exports, module) {
 						.append(
 								"<a href='#' id='addVideo' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>添加</a>");
 			}
-			/**
-			 * 是否具有导入权限
-			 */
-			if(base.perList.video.excelImport){
-				$("#video-header .actions")
-				.append(
-				"<a href='#' id='excelImport' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>导入视频URL</a>");
-			}
 			
 			/**
-			 * 讲师、年级、学科下拉框加载 
+			 * 年级、学科下拉框加载 
 			 * param : 查询参数 
 			 * selectId ： select元素ID
 			 */
@@ -57,9 +49,7 @@ define(function(require, exports, module) {
 				// 查询条件的下拉框给出提示信息
 				if (selectId == "#q_k_grade" || selectId == "#q_k_subject") {
 					$(selectId).prepend("<option value='0' >" + "--请选择"+ (param == 'grade' ? "年级--" : "学科--")+ "</option>");
-				} else {
-					$(selectId).prepend("<option value='0' >" + "--请选择讲师--"+ "</option>");
-				}
+				} 
 				$.ajax({
 					url : F.basepath + url,
 					data : param,
@@ -76,7 +66,7 @@ define(function(require, exports, module) {
 //			accountList("/cms/account/listAccountByRole" , {role:"teacher"} ,"#q_k_author");
 			
 			/**
-			 * 讲师、年级、学科下拉框加载 
+			 * 讲师下拉框加载 
 			 * param : 查询参数 
 			 * selectId ： select元素ID
 			 */
@@ -119,7 +109,7 @@ define(function(require, exports, module) {
 			var knowldgeSelect=function(url,param,selectId){
 				
 				jQuery("#" + selectId).empty();
-				jQuery("#" + selectId).prepend("<option value=''>--请选择知识点--</option>");
+				jQuery("#" + selectId).prepend("<option value='-1'>--请选择知识点--</option>");
 				jQuery.ajax({
 					url: url, 
 					data:param,
@@ -161,6 +151,7 @@ define(function(require, exports, module) {
 				'click .editVideo' : function(e, value, row, index) {
 					core.openModel('modal-editVideo', '修改视频     '
 							+ row.videoName, function() {
+						alert("dd");
 						$.fn.modal.Constructor.prototype.enforceFocus = function () { };
 						if (row != null) {
 							knowldgeSelect('/cms/knowledge/queryByCondition',{gradeNo:0,subjectNo:0},'editKnowledge');
@@ -178,6 +169,8 @@ define(function(require, exports, module) {
 						}
 					});
 				},
+//			
+				
 				/**
 				 * 删除角色
 				 */
@@ -188,9 +181,7 @@ define(function(require, exports, module) {
 						F.delVideo(ids);
 					});
 				},
-				/**
-				 * 菜单授权
-				 */
+				
 				/**
 				 * 启用或停用用户
 				 */
@@ -212,11 +203,27 @@ define(function(require, exports, module) {
 					})
 
 				},
+				/**
+				 * 调用播放器
+				 */
+				'click .playVideo' : function(e, value, row, index) {
+					alert("sss");
+					core.openModel('modal-playVideo', 
+						 function(){
+//					player = new qcVideo.Player(
+//							//页面放置播放位置的元素 ID
+//							"id_video_container",
+//							{
+//							//视频 ID (必选参数)
+//							"file_id" : "14651978969257805698",
+//							//应用 ID (必选参数)，同一个账户下的视频，该参数是相同的
+//							"app_id" : "1252102229 "
+//								
+//							});
+					});
+				},
 
-			/**
-			 * 查看权限
-			 */
-
+			
 			};
 
 			var cols = [ {
@@ -310,26 +317,87 @@ define(function(require, exports, module) {
 					$.fn.modal.Constructor.prototype.enforceFocus = function () { };
 				}
 						);
+				accountList("/cms/account/listAccountByRole" , {role:"teacher"} ,"#author");
 				knowldgeSelect('/cms/knowledge/queryByCondition',{gradeNo:0,subjectNo:0},'knowledge');
 				$('#knowledge').select2();
 				return false;
 			});
-	
-			//导入视频模态框
-			$('#upload').click(function(){
-				return false
-//				$('#modal_import').modal();
+			
+			//新增视频提交
+			$('#btnSubmit').click(function(){
+				alert("提交");
+				var videoName=$("#videoName").val();
+				var videoId=$("#videoId").val();
+				var digest=$("#digest").val();
+				var url=$("#url").val();
+				var isp=$("#isp").val();
+				var fileName=$("#fileName").val();
+				var authorId=$("#author").val();
+				var knowledgeId=$("#knowledge").val();
+//				var duration=$("#duration").val();
+				if(videoName.length<1){$("#videoName-error").html("请输入视频名称!");$("#videoName-error").css("color","#b94a48");return ;}
+				if(fileName.length<1){$("#fileName-error").html("请先选择视频上传!");$("#fileName-error").css("color","#b94a48");return ;}
+				if(authorId==0){$("#author-error").html("请选择讲师!");$("#author-error").css("color","#b94a48");return ;}
+				if(knowledgeId==-1){$("#knowledge-error").html("请选择所属知识点!");$("#knowledge-error").css("color","#b94a48");return ;}
+				if(url.length<1){$("#url-error").html("请先选择视频上传!");$("#url-error").css("color","#b94a48");return ;}
+			
+				$.ajax({
+					url :  F.basepath + '/cms/video/addVideo',
+					type : 'POST',
+					data : {
+						videoName : videoName,
+						videoId : videoId,
+						digest : digest,
+						url : url,
+						isp : isp,
+						fileName:fileName,
+						authorId : authorId,
+//						duration:duration,
+						knowledgeId:knowledgeId
+					},
+					dataType: "json", 
+					success : function(data) {
+						if (data.result > 0) {
+							core.closeModel('modal-Video');
+							F.table.reload();
+							
+						}
+						 else{
+						 $("#stitle-error").html(data.msg);
+						 $("#stitle-error").css('color','red');
+						 }
+					}
+
+				});
+				
+            });
+			
+			/*传点播文件 ID 的方式*/
+			$('#playVideo').click(function(){
+//				alert("play");
+//				player = new qcVideo.Player(
+//						//页面放置播放位置的元素 ID
+//						"id_video_container",
+//						{
+//						//视频 ID (必选参数)
+//						"file_id" : "14651978969257805698",
+//						//应用 ID (必选参数)，同一个账户下的视频，该参数是相同的
+//						"app_id" : "1252102229 "
+//							
+//						});
 			});
+
 			/**
 			 * 关闭模态框
 			 */
 			$('#btnClose').click(function() {
-				$("#video-error").html('');
+				$("#videoName-error").html('');
 				$("#url-error").html('');
 				$("#author-error").html('');
 				$("#duration-error").html('');
 				$("#knowledge-error").html('');
 				$("#msg").html('');
+				$("#videoFile").val('');
 				core.closeModel('modal-Video');
 			});
 			$('#EditbtnClose').click(function() {
@@ -341,32 +409,7 @@ define(function(require, exports, module) {
 			
 
 			});
-			//开始上传
-			$('#upload').click(function(){
-		
-				var filePath=$("#videoFile").val();
-					
-				alert(filePath);
-				$.ajax({
-					url : F.basepath + '/cms/VodUpload/upload',
-					type : 'post',
-					data : {
-						filePath : filePath,
-//						fileName : fileName
-					},
-					success : function(data) {
-						if (data.value.length > 0) {
-							alert("sss");
-							F.reload();
-						} else if (data.result == 0) {
-							base.bootAlert({
-								"ok" : false,
-								"msg" : "网络异常"
-							});
-						}
-					}
-				})
-			});
+
 
 			$('#btnDistributePermissionClose').click(function() {
 				core.closeModel('modal-DistributePermission');
@@ -407,18 +450,20 @@ define(function(require, exports, module) {
 				_btnAction += "<a class='confine btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"
 						+ (row.status == 1 ? "停用" : "启用") + "</a>";
 			}
-			if (base.perList.video.grant) {
-				_btnAction += "<a class='distributePermission btn btn-primary btn-small' href='#' title='菜单授权' style='margin-left:5px'>授权</a>";
-			}
 			if (base.perList.video.edit) {
-				_btnAction += "<a data-toggle='modal' class='editVideo btn btn-success btn-small' href='#' title='编辑角色' style='margin-left:5px'>编辑</a>";
+				_btnAction += "<a data-toggle='modal' class='editVideo btn btn-success btn-small' href='#' title='编辑视频' style='margin-left:5px'>编辑</a>";
 			}
 			if (base.perList.video.del) {
 				_btnAction += "<a class='delVideo btn btn-danger btn-small' href='#'  title='删除角色' style='margin-left:5px'>删除</a>";
 			}
+//			if (base.perList.video.del) {
+				_btnAction += "<a class='playVideo btn btn-primary btn-small' href='#'  title='播放视频' style='margin-left:5px'>播放</a>";
+//			}
 			return _btnAction;
 		}
 	};
+	
+	
 		
 	jQuery(document).ready(function() { 
 		/**
@@ -476,67 +521,41 @@ define(function(require, exports, module) {
 		},
 			
 		});
-		/**
-		 * 表单验证 提交添加视频
-		 */
-		$('#submit-form').validate({
-		submitHandler:function(form){
-			var videoName = $("#video").val();
-			var digest = $("#digest").val();
-			var url = $("#url").val();
-			var urlBak = $("#urlBak").val();
-			var isp = $("#isp").val();
-			var fileName = $("#fileName").val();
-			var author = $("#author").val();
-			var duration = $("#duration").val();
-			var knowledgeId =$("#knowledge").val();
-			alert("ee");
-				$.ajax({
-				url :  F.basepath + '/cms/video/addVideo',
-				type : 'POST',
-				data : {
-					videoName : videoName,
-					digest : digest,
-					url : url,
-					urlBak : urlBak,
-					isp : isp,
-					fileName:fileName,
-					author : author,
-					duration:duration,
-					knowledgeId:knowledgeId
-				},
-				dataType: "json", 
-				success : function(data) {
-					if (data.result > 0) {
-						core.closeModel('modal-Video');
-						F.table.reload();
-						
-					}
-					 else{
-					 $("#stitle-error").html(data.msg);
-					 $("#stitle-error").css('color','red');
-					 }
-				}
-
-			});
-		},
-		rules:{
-			video:{required:true},
-			url:{required:true},
-			author:{required:true},
-			knowledge:{required:true},
-			duration:{number : true},
-		},
-		messages:{
-			video: '视频名称不能为空',
-			url:'视频URL不能为空',
-			author:'请输入讲师姓名',
-			knowledge:'请选择所属知识点',
-			duration:'时长是数字形式',
-		},
-			
-		});
 		
+		//上传表单验证和提交
+		$(function() {
+			$("#upload").ajaxForm({
+				//定义返回JSON数据，还包括xml和script格式
+//				dataType : 'json',
+				beforeSend : function() {
+					//表单提交前做表单验证
+					if($("#videoFile").val()=="")
+					{
+					alert("请先上传文件");
+					return;
+					}
+				
+				$("#submitbutton").attr("disabled","disalbed");
+				alert("submit");
+				},
+				success : function(data) {
+					alert("functionData");
+					$("#submitbutton").attr("disabled","");
+					//提交成功后调用
+					if (data.value!=null) {
+						alert(data.value.fileName);
+						$("#videoId").val(data.value.videoId);
+						$("#fileName").val(data.value.fileName);
+						$("#url").val(data.value.url);
+//						window.location.href = "/cms/user/listUser";
+					} else {
+						alert("导入失败");
+						$("#videoFile-error").html(data.msg);
+//						$("#errorMsg").html(data.data).show();
+					}
+				}
+			});
+		});
 		
 	}); 
 	

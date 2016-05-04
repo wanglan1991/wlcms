@@ -99,7 +99,12 @@ public class Request
             String url = "http://" + requestHost + requestPath;
             return sendMultipartUploadVodFileRequest(url, params, requestMethod, fileName);
         }
-
+        	//自己添加DescribeVodPlayUrls
+//        if (params.get("Action").toString().equals("DescribeVodPlayUrls")) {
+//            String url = "http://" + requestHost + requestPath;
+//            return sendDescribeVodPlayUrlsRequest(url, params, requestMethod, fileName);
+//        }
+        
         String url = "https://" + requestHost + requestPath;
 
         return sendRequest(url, params, requestMethod, fileName);

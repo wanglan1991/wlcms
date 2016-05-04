@@ -30,6 +30,8 @@ public class CmsVideo {
 	private String author;
 	// 状态
 	private int status;
+	// 视频上传后获取到的ID
+	private String  videoId;
 
 	public int getId() {
 		return id;
@@ -174,5 +176,15 @@ public class CmsVideo {
 	public void setAuthorId(int authorId) {
 		this.authorId = authorId;
 	}
-	
+
+	public String getVideoId() {
+		return videoId;
+	}
+
+	public void setVideoId(String videoId) {
+		this.videoId = videoId;
+	}
+
+
+
 }

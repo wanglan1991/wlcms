@@ -25,8 +25,8 @@ public interface Constants {
 	/**
 	 * 上传用到的密钥ID和key
 	 */
-	 public final static String DEFAULT_UPLOAD_SECRETID = "AKIDMlG5Jhj3qfdoU450DeRJ3l0DwAuBPTF9";
-	 public final static String DEFAULT_UPLOAD_SECRETKEY = "7A1vGGi3XoEEJnFk6ig4YykRZCDt4o7I";
+	 public final static String DEFAULT_UPLOAD_SECRETID = "AKIDGxgmafNev1FBhxzc8lm5hBb9FJp525W4";
+	 public final static String DEFAULT_UPLOAD_SECRETKEY = "awNmjA7tsdH1YzInfdl2U6fYINOgVt32";
 	
 	public enum VERSIONTYPE{  
 	    MQ_MAIN("0");

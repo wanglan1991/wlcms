@@ -20,12 +20,14 @@
 		<result column="grade" property="grade" jdbcType="VARCHAR"></result>
 		<result column="subject_no" property="subjectNo" jdbcType="INTEGER"></result>
 		<result column="subject" property="subject" jdbcType="VARCHAR"></result>
+		<result column="video_id" property="videoId" jdbcType="VARCHAR"></result>
 	</resultMap>
 	<!-- 分页查询 -->
 	<select id="listPage" parameterType="com.ekt.cms.video.entity.CmsVideo" resultMap='BaseMap'>
 			SELECT
 			v.id id,
 			video_name,
+			video_id,
 			digest,
 			url,
 			url1,
@@ -125,8 +127,8 @@
 	</selectKey>
 		INSERT INTO
 		 cms_video
-			(video_name,digest,url,url1,isp,file_name,author,duration,knowledge_id,status)
+			(video_name,digest,url,url1,isp,file_name,author_id,duration,knowledge_id,video_id,status)
 		VALUES
-			(#{CmsVideo.videoName},#{CmsVideo.digest},#{CmsVideo.url},#{CmsVideo.urlBak},#{CmsVideo.isp},#{CmsVideo.fileName},#{CmsVideo.author},#{CmsVideo.duration},#{CmsVideo.knowledgeId},1)
+			(#{CmsVideo.videoName},#{CmsVideo.digest},#{CmsVideo.url},#{CmsVideo.urlBak},#{CmsVideo.isp},#{CmsVideo.fileName},#{CmsVideo.authorId},#{CmsVideo.duration},#{CmsVideo.knowledgeId},#{CmsVideo.videoId},1)
 	</insert>
 	</mapper>
