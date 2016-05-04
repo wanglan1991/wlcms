@@ -40,6 +40,19 @@
 		</if>
 		
 	</select>
+	<select id="knowledgelist" resultMap="BaseMap" parameterType="com.ekt.cms.common.entity.CmsKnowledge" >
+		SELECT 
+			P.id,
+			P.title,
+			D.`value` grade,
+			D1.`value` subject
+		FROM cms_knowledge_point P 
+		LEFT JOIN cms_dictionary D ON P.grade_no=D.id
+		LEFT JOIN cms_dictionary D1 ON P.subject_no=D1.id
+		WHERE p.`status`&lt;&gt; 0
+		AND p.grade_no=#{CmsKnowledge.gradeNo, jdbcType=INTEGER}
+		AND p.subject_no=#{CmsKnowledge.subjectNo, jdbcType=INTEGER}
+	</select>
 	<!-- update -->
 	<update id="updateByPrimaryKey" parameterType="com.ekt.cms.common.entity.CmsKnowledge">
 		UPDATE cms_knowledge_point
@@ -130,5 +143,32 @@
 		WHERE
 			p.grade_no = #{ gradeNo }
 		GROUP BY p.subject_no
+	</select>
+<!-- 	获取知识点树 -->
+	<select id="knowledgeTree" resultType="java.util.Map" parameterType="java.lang.Integer">
+			SELECT
+			id,
+			'false' checked,
+			'false' chkDisabled,
+			title name,
+			'false' oncheck,
+			'true' open,
+			'0' pId,
+			'false' parent
+		FROM
+			cms_knowledge_point
+		WHERE
+		status &lt;&gt; 0
+		AND	grade_no =  #{gradeNo}
+		AND subject_no = #{subjectNo}
+		UNION (
+				SELECT '0'id,
+					'false' checked,
+					'false' chkDisabled,
+					'全部' name,
+					'false' oncheck,
+					'true' open,
+					'-1' pId,
+					'true' parent)
 	</select>
 </mapper>

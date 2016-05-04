@@ -153,7 +153,7 @@
 </div>
 
 <script>
-  seajs.use(['base','user/manage'],function(b,m){
+  seajs.use(['base','user/userManage'],function(b,m){
 	b.init();
     m.init('${ctx}');
   });

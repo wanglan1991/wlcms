@@ -51,9 +51,7 @@ define(function (require, exports, module) {
     		    			F.delRole(ids);
     		    		});
     		        },
-    		        /**
-    				 * 菜单授权
-    				 */
+    		       
     		        /**
     				 * 启用或停用用户
     				 */
@@ -249,48 +247,7 @@ define(function (require, exports, module) {
 			});
 			
         },
-//        permissionSubmit:function(){
-//        	var perids = $("#distributePermissionTreeHidden").val();
-//        	var peridArray = new Array();
-//        	if(perids!=null && perids.length>0)
-//        		peridArray = perids.split(',');
-//        	var roleId = $("#roleId").val();
-//        	var data = {"id":roleId,"peridArray":peridArray};
-//        	var url = F.basepath+'/main/role/grant';
-//        	base.ajaxRequest(url,data,function(data, status){
-//        		 base.bootAlert(data);
-//                 if (data.ok) {
-//                 	core.closeModel('modal-DistributePermission');
-//                 	F.reload();
-//                 }
-//        	},function(){
-//        		alert("异常");
-//        	});
-//        },
-//        
-//        submit:function(){
-//        	var url = F.basepath+'/main/role/create';
-//        	if($("#id").val()!=null&&$("#id").val()!="")
-//        		url =F.basepath+'/main/role/edit';
-//        	var options = {
-//                    success: F.showResponse,      //提交后的回调函数
-//                    url: url,       //默认是form的action， 如果申明，则会覆盖
-//                    type: 'post',               //默认是form的method（get or post），如果申明，则会覆盖
-//                    dataType: 'json',           //html(默认), xml, script, json...接受服务端返回的类型
-//                    clearForm: true,          //成功提交后，清除所有表单元素的值
-//                    timeout: 30000               //限制请求的时间，当请求大于3秒后，跳出请求
-//                }
-//        	$('#submit-form').ajaxForm(options);
-//        },showResponse:function(data, status){
-//            base.bootAlert(data);
-//            if (data.ok) {
-//            	core.closeModel('modal-Role');
-//            	F.reload();
-//            }
-//            /**
-//             * 批量删除方法
-//             */
-//        },
+
         delRole:function(ids){
         	$.ajax({
         		url:F.basepath+'/cms/role/delete',
