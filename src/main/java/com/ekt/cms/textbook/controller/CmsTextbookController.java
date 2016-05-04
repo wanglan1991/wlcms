@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,11 +18,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ekt.cms.common.entity.CmsKnowledge;
 import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.common.service.ICmsKnowledgeService;
+
+import org.springframework.web.bind.annotation.ResponseBody;
+
+
 import com.ekt.cms.textbook.entity.CmsTextbook;
 import com.ekt.cms.textbook.service.ICmsTextbookService;
 import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.utils.pageHelper.PageContext;
+
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
+
 
 /**
  * 2016-05-02
@@ -61,6 +68,7 @@ public class CmsTextbookController {
 		pageContext.paging();
 		return new PageBean<CmsTextbook>(cmsTextbookService.listPage(cmsTextbook));
 	}
+
 
 	// 根据科目 年级查询知识点
 	@RequestMapping("/knowledgeList")
@@ -181,6 +189,5 @@ public class CmsTextbookController {
 		result.setResult(cmsTextbookService.update(cmsTextbook));
 		return result;
 	}
-	
 
 }

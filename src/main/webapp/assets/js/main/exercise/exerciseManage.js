@@ -384,6 +384,7 @@ define(function (require, exports, module) {
 				var grade = $("#addGradeOption").val();
 				addSubjectOption(grade,"#addSubjectOption");				
 			});
+
 			
 			
 			/**

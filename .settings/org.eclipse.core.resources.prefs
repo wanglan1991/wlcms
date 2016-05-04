@@ -4,7 +4,11 @@ encoding//src/main/java/com/ekt/cms/utils/DataUtil.java=utf-8
 encoding//src/main/java/com/ekt/cms/utils/freemarker/StaticSupportFreeMarkerView.java=UTF-8
 encoding//src/main/resources=UTF-8
 encoding//src/main/resources/conf/config.properties=UTF-8
+<<<<<<< HEAD
 encoding//src/main/webapp/WEB-INF/views/main/exercise/exerciseManage.jsp=UTF-8
+=======
+encoding//src/main/webapp/WEB-INF/views/main/exercise/manage.jsp=UTF-8
+>>>>>>> upstream/master
 encoding//src/main/webapp/WEB-INF/views/main/region/regionPage.jsp=UTF-8
 encoding//src/test/java=UTF-8
 encoding/<project>=UTF-8

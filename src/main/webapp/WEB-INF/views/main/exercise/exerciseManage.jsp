@@ -49,7 +49,6 @@
 	               <input type='text' id='orderNo' onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" placeholder='请输入排序....' maxlength='4'>
 	            </div>
             </div>
-           
             <div style="margin-left: 36%;margin-top:-34%;width:62%;;height: 450px;">
             	<textarea id='exerciseContent' maxlengt='900' style='width: 90%;height:15%;margin-left: 0px;' placeholder='习题内容..........'></textarea>
             	<div id="answer">
@@ -107,6 +106,7 @@
             </div>
            
             <div style="margin-left: 36%;margin-top:-34%;width:62%;;height: 450px;">
+
             	<textarea id='editExerciseContent' maxlengt='900' style='width: 90%;height:15%;margin-left: 0px;' placeholder='习题内容..........'></textarea>
             	<div id="editAnswer">
             		 <p style='color:red;'>请使用,例如：“<b style='color:blue'>&lt; &frasl;img.png &frasl; &gt;</b>”来标注图片在习题内容以及习题答案中的显示位置。</p>

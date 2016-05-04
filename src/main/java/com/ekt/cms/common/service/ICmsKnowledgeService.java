@@ -29,6 +29,4 @@ public interface ICmsKnowledgeService {
 	List<CmsKnowledge> knowledgelist(CmsKnowledge cmsKnowledge);
 	//加载知识点树
 	List<Map<String,Object>> knowledgeTree(int gradeNo,int subjectNo);
-	
-	
 }

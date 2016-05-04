@@ -1,11 +1,8 @@
 package com.ekt.cms.textbook.service;
+
 import java.util.List;
-import java.util.Map;
-
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
-
 import com.ekt.cms.textbook.dao.CmsTextbookMapper;
 import com.ekt.cms.textbook.entity.CmsTextbook;
 /**
@@ -44,4 +41,5 @@ public class CmsTextbookService implements ICmsTextbookService {
 	public Integer update(CmsTextbook cmsTextbook) {
 		return cmsTextbookMapper.updateTextbook(cmsTextbook);
 	}
+
 }

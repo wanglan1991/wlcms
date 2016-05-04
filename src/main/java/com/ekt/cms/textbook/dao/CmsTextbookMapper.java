@@ -19,6 +19,7 @@ public interface CmsTextbookMapper {
 	 * @return
 	 */
 	public List<CmsTextbook> listPage(@Param("textbook") CmsTextbook cmsTextbook);
+
 	
 	/**
 	 * 插入新教材
@@ -46,4 +47,5 @@ public interface CmsTextbookMapper {
 	 * @return
 	 */
 	public Integer updateTextbook(CmsTextbook cmsTextbook);
+
 }
