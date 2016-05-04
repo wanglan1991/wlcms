@@ -36,7 +36,7 @@ public class PermissionController extends BaseController{
 	 */
 @RequestMapping("/manage")
 public String permission(){
-	return "main/permission/manage";
+	return "main/permission/permissionManage";
 }	
 
 /**

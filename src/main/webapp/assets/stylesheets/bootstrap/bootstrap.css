@@ -1934,9 +1934,9 @@ input.search-query {
     margin-left: 0;
 }
 
-.control-group {
-    margin-bottom: 10px;
-}
+/* .control-group { */
+/*     margin-bottom: 10px; */
+/* } */
 
 legend + .control-group {
     margin-top: 20px;

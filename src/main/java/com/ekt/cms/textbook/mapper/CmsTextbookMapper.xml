@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ekt.cms.textbook.dao.CmsTextbookMapper">
+	<resultMap id="BaseResultMap" type="com.ekt.cms.textbook.entity.CmsTextbook">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="grade_no" property="gradeNo" jdbcType="INTEGER" />
+		<result column="grade" property="grade" jdbcType="VARCHAR" />
+		<result column="subject_no" property="subjectNo" jdbcType="INTEGER" />
+		<result column="subject" property="subject" jdbcType="VARCHAR" />
+		<result column="publisher_no" property="publisherNo" jdbcType="INTEGER" />
+		<result column="publisher" property="publisher" jdbcType="VARCHAR" />
+		<result column="textbook_type_no" property="textbookTypeNo"
+			jdbcType="INTEGER" />
+		<result column="textbook_type" property="textbookType"
+			jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="knowledge_point_arr" property="knowledgePointArr"
+			jdbcType="VARCHAR" />
+		<result column="digest" property="digest" jdbcType="VARCHAR" />
+		<result column="author" property="author" jdbcType="VARCHAR" />
+		<result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="push_person" property="pushPerson" jdbcType="VARCHAR" />
+		<result column="crate_time" property="crateTime" jdbcType="DATE" />
+	</resultMap>
+	<select id="listPage" resultMap="BaseResultMap"
+		parameterType="com.ekt.cms.textbook.entity.CmsTextbook">
+		SELECT
+		t.id,
+		t.title,
+		t.grade_no,
+		d.`value` grade,
+		t.subject_no,
+		d1.`value` SUBJECT,
+		t.publisher_no,
+		d2.`value` publisher,
+		t.textbook_type_no,
+		d3.`value` textbook_type,
+		t.author,
+		t.digest,
+		t.knowledge_point_arr,
+		t.img_url,
+		t.`status`,
+		t.push_person,
+		t.crate_time
+		FROM
+		cms_textbook t
+		LEFT JOIN cms_dictionary d ON t.grade_no = d.id
+		LEFT JOIN
+		cms_dictionary d1 ON t.subject_no = d1.id
+		LEFT JOIN cms_dictionary d2
+		ON t.publisher_no = d2.id
+		LEFT JOIN cms_dictionary d3 ON
+		t.textbook_type_no = d3.id
+		WHERE 1=1
+		<if test="textbook.title !=null and textbook.title !=''">
+			AND (t.title like '%${textbook.title}%')
+		</if>
+		<if test="textbook.subjectNo!=null and textbook.subjectNo!='' and textbook.subjectNo !=0">
+			AND t.subject_no=#{textbook.subjectNo}
+		</if>
+		<if test="textbook.gradeNo!=null and textbook.gradeNo!='' and textbook.gradeNo !=0 ">
+			AND t.grade_no= #{textbook.gradeNo}
+		</if>
+		<if test="textbook.publisherNo!=null and textbook.publisherNo!=''">
+			AND t.publisher_no= #{textbook.publisherNo}
+		</if>
+		<if test="textbook.textbookTypeNo !=null and textbook.textbookTypeNo !=''">
+			AND t.textbook_type_no=#{textbook.textbookTypeNo}
+		</if>
+	</select>
+	<insert id="insertTextbook" parameterType="com.ekt.cms.textbook.entity.CmsTextbook">
+			INSERT INTO cms_textbook(
+			grade_no,
+			subject_no,
+			publisher_no,
+			textbook_type_no,
+			title,
+			knowledge_point_arr,
+		<if test="digest !=null and digest !=''">
+			digest,
+		</if>
+			author,
+			img_url,
+			push_person,
+			crate_time
+			)VALUES(
+				#{gradeNo ,jdbcType=INTEGER},
+				#{subjectNo,jdbcType=INTEGER},
+				#{publisherNo,jdbcType=INTEGER},
+				#{textbookTypeNo,jdbcType=INTEGER},
+				#{title,jdbcType=VARCHAR},
+				#{knowledgePointArr,jdbcType=VARCHAR},
+			<if test="digest !=null and digest !=''">
+					#{digest,jdbcType=VARCHAR},
+			</if>
+				#{author,jdbcType=VARCHAR},
+				#{imgUrl,jdbcType=VARCHAR},
+				#{pushPerson,jdbcType=VARCHAR},
+				SYSDATE()
+			)
+	</insert>
+	<delete id="deleteTextbook" parameterType="java.lang.Integer">
+		DELETE FROM cms_textbook WHERE id=#{id}
+	</delete>
+	
+	<update id="confine" parameterType="java.lang.Integer">
+		UPDATE cms_textbook SET status = #{status} WHERE id=#{id}
+	</update>
+	
+	<update id="updateTextbook" parameterType="com.ekt.cms.textbook.entity.CmsTextbook">
+	
+		UPDATE 
+			cms_textbook 
+		SET 
+		<if test="gradeNo !=null and gradeNo !=''">
+			grade_no=#{gradeNo},
+		</if>
+		<if test="subjectNo !=null and subjectNo !=''">
+			subject_no=#{subjectNo}, 
+		</if>
+		<if test="publisherNo !=null and publisherNo !=''">
+			publisher_no=#{publisherNo}, 
+		</if>
+		<if test="textbookType !=null and textbookType !=''">
+			textbook_type_no=#{textbookType},
+		</if>
+		<if test="title !=null and title !=''">
+			title=#{title}, 
+		</if>
+		<if test="knowledgePointArr !=null and knowledgePointArr !=''">
+			knowledge_point_arr=#{knowledgePointArr},
+		</if>
+		<if test="digest !=null and digest !=''">
+			digest=#{digest},
+		</if>
+		<if test="author !=null and author !=''">
+			author=#{author}, 
+		</if>
+		<if test="imgUrl !=null and imgUrl !=''">
+			img_url=#{imgUrl}, 
+		</if>
+		<if test="status !=null and status !=''">
+			status=#{status}, 
+		</if>
+		<if test="pushPerson !=null and pushPerson !=''">
+			push_person =#{pushPerson}  
+		</if>
+		WHERE id=#{id};
+		
+	</update>
+	
+	
+</mapper>

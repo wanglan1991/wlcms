@@ -1,6 +1,7 @@
 package com.ekt.cms.common.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ekt.cms.common.entity.CmsKnowledge;
 import com.ekt.cms.utils.pageHelper.PageBean;
@@ -22,4 +23,12 @@ public interface ICmsKnowledgeService {
 	int delete(int id);
 	//模糊查询知识点
 	List<CmsKnowledge> query(CmsKnowledge cmsKnowledge);
+	//根据年级获取科目集合
+	List<CmsKnowledge> getSubjectListByGrade(Integer grade);
+	//获取知识点List
+	List<CmsKnowledge> knowledgelist(CmsKnowledge cmsKnowledge);
+	//加载知识点树
+	List<Map<String,Object>> knowledgeTree(int gradeNo,int subjectNo);
+	
+	
 }

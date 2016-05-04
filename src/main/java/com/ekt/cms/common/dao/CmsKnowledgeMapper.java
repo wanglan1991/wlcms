@@ -1,5 +1,6 @@
 package com.ekt.cms.common.dao;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -48,4 +49,27 @@ public interface CmsKnowledgeMapper {
 	 * @return
 	 */
 	int  delete(Integer id);
+	/**
+	 * 根据年级Id获得科目List
+	 * @param gradeNo
+	 * @return
+	 */
+	List<CmsKnowledge> getSubjectListByGrade(@Param("gradeNo")Integer gradeNo);
+	
+	/**
+	 * 
+	 * 根据年级 科目查询知识点List
+	 * @param cmsKnowledge
+	 * @return
+	 */
+	List<CmsKnowledge> knowledgelist(@Param("CmsKnowledge") CmsKnowledge cmsKnowledge);
+	/**
+	 * 根据年级 科目获取知识点Tree
+	 * @param gradeNo
+	 * @param subjectNo
+	 * @return
+	 */
+	List<Map<String, Object>> knowledgeTree(@Param("gradeNo")int gradeNo, @Param("subjectNo")int subjectNo);
+	
+	
 	}

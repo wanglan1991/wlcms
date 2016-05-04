@@ -7,8 +7,8 @@
 		<result column="grade_no" property="gradeNo" jdbcType="INTEGER"></result>
 		<result column="order_no" property="orderNo" jdbcType="INTEGER"></result>
 		<result column="subject_no" property="subjectNo" jdbcType="INTEGER"></result>
-		<result column="grade" property="grade" jdbcType="INTEGER"></result>
-		<result column="suject" property="subject" jdbcType="INTEGER"></result>
+		<result column="grade" property="grade" jdbcType="VARCHAR"></result>
+		<result column="suject" property="subject" jdbcType="VARCHAR"></result>
 		<result column="status" property="status" jdbcType="INTEGER"></result>
 	</resultMap>
 	<!-- listpage -->
@@ -39,6 +39,19 @@
 			AND subject_no=#{CmsKnowledge.subjectNo, jdbcType=INTEGER}
 		</if>
 		
+	</select>
+	<select id="knowledgelist" resultMap="BaseMap" parameterType="com.ekt.cms.common.entity.CmsKnowledge" >
+		SELECT 
+			P.id,
+			P.title,
+			D.`value` grade,
+			D1.`value` subject
+		FROM cms_knowledge_point P 
+		LEFT JOIN cms_dictionary D ON P.grade_no=D.id
+		LEFT JOIN cms_dictionary D1 ON P.subject_no=D1.id
+		WHERE p.`status`&lt;&gt; 0
+		AND p.grade_no=#{CmsKnowledge.gradeNo, jdbcType=INTEGER}
+		AND p.subject_no=#{CmsKnowledge.subjectNo, jdbcType=INTEGER}
 	</select>
 	<!-- update -->
 	<update id="updateByPrimaryKey" parameterType="com.ekt.cms.common.entity.CmsKnowledge">
@@ -118,4 +131,44 @@
 		cms_knowledge_point
 		WHERE id = #{id,jdbcType=INTEGER}
 	</delete>
+<!-- 	根据年级查询科目集合 -->
+	<select id="getSubjectListByGrade"  resultMap="BaseMap" parameterType="java.lang.Integer" >
+		SELECT
+			d.id subject_no,
+			d.`value`
+			subject
+		FROM
+			cms_knowledge_point p
+		LEFT JOIN cms_dictionary d ON p.subject_no = d.id
+		WHERE
+			p.grade_no = #{ gradeNo }
+		GROUP BY p.subject_no
+	</select>
+<!-- 	获取知识点树 -->
+	<select id="knowledgeTree" resultType="java.util.Map" parameterType="java.lang.Integer">
+			SELECT
+			id,
+			'false' checked,
+			'false' chkDisabled,
+			title name,
+			'false' oncheck,
+			'true' open,
+			'0' pId,
+			'false' parent
+		FROM
+			cms_knowledge_point
+		WHERE
+		status &lt;&gt; 0
+		AND	grade_no =  #{gradeNo}
+		AND subject_no = #{subjectNo}
+		UNION (
+				SELECT '0'id,
+					'false' checked,
+					'false' chkDisabled,
+					'全部' name,
+					'false' oncheck,
+					'true' open,
+					'-1' pId,
+					'true' parent)
+	</select>
 </mapper>

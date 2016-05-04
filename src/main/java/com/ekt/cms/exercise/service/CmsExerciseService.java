@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.ekt.cms.exercise.dao.CmsExerciseMapper;
+import com.ekt.cms.exercise.entity.CmsAnswer;
 import com.ekt.cms.exercise.entity.CmsExercise;
 /**
  * 
@@ -52,5 +53,10 @@ public class CmsExerciseService implements ICmsExerciseService {
 	public Integer insertAnswer(Integer exerciseId, String option, String content, int isTrue) {
 		return cmsExerciseMapper.insertAnswer(exerciseId,option,content,isTrue);
 	}
+
+	public Integer updateExercise(CmsExercise exercise) {
+		return cmsExerciseMapper.updateExercise(exercise) ;
+	}
+	
 
 }

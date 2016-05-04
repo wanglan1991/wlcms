@@ -59,9 +59,6 @@ define(function (require, exports, module) {
                         $('ul#navigation-menu').append(menusTxt);
                         $('ul#navigation-menu').find('li a:first').click();
                     }
-                },
-                error : function() {
-                    base.loadError();
                 }
             });
         }

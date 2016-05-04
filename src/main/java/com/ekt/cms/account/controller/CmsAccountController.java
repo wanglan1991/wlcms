@@ -29,7 +29,7 @@ public class CmsAccountController extends BaseController {
 	
 	@RequestMapping(value="/manage")
 	public String manage(){
-		return "/user/manage";
+		return "/user/userManage";
 		}
 
 	@RequestMapping("/list")
@@ -162,7 +162,7 @@ public class CmsAccountController extends BaseController {
 	 */
 	@RequestMapping("/deletes")
 	@ResponseBody
-	public Object deletes(@RequestParam("ids")String ids){
+	public Result deletes(@RequestParam("ids")String ids){
 		Result result=Result.getResults();
 		if(getCurrentAccount()==null){
 			result.setResult(-1);
@@ -177,7 +177,5 @@ public class CmsAccountController extends BaseController {
 		result.setResult(total);
 		return result;
 	}
-	
-	
 	
 	}

@@ -38,7 +38,7 @@ public class RoleController extends BaseController {
 	 */
 	@RequestMapping(value = "/manage")
 	public String manager() {
-		return "main/role/manage";
+		return "main/role/roleManage";
 	}
 
 	/**
