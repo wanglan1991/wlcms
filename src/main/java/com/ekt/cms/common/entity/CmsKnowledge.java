@@ -1,5 +1,11 @@
 package com.ekt.cms.common.entity;
 
+/**
+ * 2016-05-02
+ * 
+ * @author zhuyanqiong 
+ */
+
 public class CmsKnowledge {
 	private int id;
 

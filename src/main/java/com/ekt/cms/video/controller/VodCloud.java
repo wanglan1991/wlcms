@@ -24,7 +24,11 @@ import com.ekt.cms.utils.Constants;
 import com.ekt.cms.utils.DateUtil;
 import com.ekt.cms.utils.FileUtil;
 import com.ekt.cms.video.entity.CmsVideo;
-
+/**
+ * 2016-05-02
+ * 
+ * @author zhuyanqiong 视频上传云点播控制器
+ */
 @Controller
 @RequestMapping("/VodCloud")
 public class VodCloud {

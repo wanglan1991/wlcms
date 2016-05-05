@@ -235,7 +235,7 @@ color:red;
 
 		
 		<script>  
-		seajs.use([ 'base', 'main/video/manage' ], function(b, m) {
+		seajs.use([ 'base', 'main/video/videoManage' ], function(b, m) {
 			b.init();
 			m.init('${ctx}');
 		});

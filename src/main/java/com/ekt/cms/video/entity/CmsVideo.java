@@ -1,5 +1,9 @@
 package com.ekt.cms.video.entity;
-
+/**
+ * 2016-05-02
+ * 
+ * @author zhuyanqiong 
+ */
 public class CmsVideo {
 	private int id;
 	private String videoName;

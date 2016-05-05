@@ -5,7 +5,11 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.ekt.cms.common.entity.CmsKnowledge;
-
+/**
+ * 2016-05-02
+ * 
+ * @author zhuyanqiong 
+ */
 public interface CmsKnowledgeMapper {
 	/**
 	 * 分页查询	 

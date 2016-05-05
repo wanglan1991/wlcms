@@ -1,5 +1,9 @@
 package com.ekt.cms.common.entity;
-
+/**
+ * 2016-05-02
+ * 
+ * @author zhuyanqiong 
+ */
 public class CmsDict {
 	//主键
     private Integer id;

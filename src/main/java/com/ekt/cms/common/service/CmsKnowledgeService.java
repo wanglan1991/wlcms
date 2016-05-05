@@ -11,6 +11,11 @@ import com.ekt.cms.common.dao.CmsKnowledgeMapper;
 import com.ekt.cms.common.entity.CmsKnowledge;
 import com.ekt.cms.utils.pageHelper.PageBean;
 
+/**
+ * 2016-05-02
+ * 
+ * @author zhuyanqiong 
+ */
 @Service("cmsKnowledgeService")
 public class CmsKnowledgeService implements ICmsKnowledgeService {
 	@Resource

@@ -11,9 +11,11 @@ import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.utils.pageHelper.PageContext;
 import com.ekt.cms.video.entity.CmsVideo;
 import com.ekt.cms.video.service.ICmsVideoService;
-
-import freemarker.core.ReturnInstruction.Return;
-
+/**
+ * 2016-05-02
+ * 
+ * @author zhuyanqiong 视频控制器
+ */
 @Controller
 @RequestMapping("/video")
 public class CmsVideoController {
@@ -23,7 +25,7 @@ public class CmsVideoController {
 	@RequestMapping("/toVideo")
 	public String toVideoPage() {
 //		return "main/video/testUpload";
-		return "main/video/manage";
+		return "main/video/videoManage";
 	}
 
 	// 分页查询

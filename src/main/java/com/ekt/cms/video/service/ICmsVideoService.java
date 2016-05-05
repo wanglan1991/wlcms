@@ -2,6 +2,11 @@ package com.ekt.cms.video.service;
 
 import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.video.entity.CmsVideo;
+/**
+ * 2016-05-02
+ * 
+ * @author zhuyanqiong 
+ */
 
 public interface ICmsVideoService {
 	//分页查询

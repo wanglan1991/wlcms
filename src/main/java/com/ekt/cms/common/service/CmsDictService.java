@@ -10,6 +10,12 @@ import com.ekt.cms.common.dao.CmsDictMapper;
 import com.ekt.cms.common.entity.CmsDict;
 import com.ekt.cms.utils.pageHelper.PageBean;
 
+/**
+ * 2016-05-02
+ * 
+ * @author zhuyanqiong 
+ */
+
 @Service("dictService")
 public class CmsDictService implements ICmsDictService {
 

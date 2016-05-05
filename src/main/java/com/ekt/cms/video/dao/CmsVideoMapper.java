@@ -5,7 +5,11 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.ekt.cms.video.entity.CmsVideo;
-
+/**
+ * 2016-05-02
+ * 
+ * @author zhuyanqiong 
+ */
 public interface CmsVideoMapper {
 	/**
 	 * 分页查询	 

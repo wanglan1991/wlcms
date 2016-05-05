@@ -5,7 +5,11 @@ import java.util.Map;
 
 import com.ekt.cms.common.entity.CmsKnowledge;
 import com.ekt.cms.utils.pageHelper.PageBean;
-
+/**
+ * 2016-05-02
+ * 
+ * @author zhuyanqiong 
+ */
 public interface ICmsKnowledgeService {
 	// 分页查询
 	PageBean<CmsKnowledge> listPage(CmsKnowledge cmsKnowledge);

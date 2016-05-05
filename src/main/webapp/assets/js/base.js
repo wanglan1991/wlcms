@@ -179,7 +179,6 @@ define(function (require, exports, module) {
                 create: false,
                 check:false,
                 confine:false,
-                excelImport:false
             }
         }
     };
