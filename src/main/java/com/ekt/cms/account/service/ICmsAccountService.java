@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 
 import com.ekt.cms.account.entity.CmsAccount;
+import com.ekt.cms.exercise.entity.CmsAnswer;
 import com.ekt.cms.utils.page.Pager;
 import com.ekt.cms.utils.page.Pagination;
 import com.ekt.cms.utils.pageHelper.PageBean;
@@ -71,6 +72,5 @@ public interface ICmsAccountService {
      */
     public List<CmsAccount> listAccountByRole(String  role);
 
-	
 }
 

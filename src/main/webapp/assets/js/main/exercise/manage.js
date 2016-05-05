@@ -15,17 +15,16 @@ define(function (require, exports, module) {
              */
             if(base.perList.permission.check){
             	$("#exercise-header .actions").append("<input autocomplete='off'  id='keyword'  placeholder='请输入习题内容' type='text' />&nbsp;&nbsp;" +
-            	"<select  id='gradeOption' style='width:10%'></select>&nbsp;&nbsp;" +
             	"<select  id='categoryOption' style='width:10%'></select>&nbsp;&nbsp;" +
             	"<select  id='typeOption' style='width:10%'></select>&nbsp;&nbsp;" +
             	"<select  id='difficultyOption' style='width:10%'></select>&nbsp;&nbsp;" +
-            	"<select  id='subjectOption' style='width:10%'></select>&nbsp;&nbsp;" +
+            	"<select  id='gradeOption' style='width:10%'></select>&nbsp;&nbsp;" +
+            	"<select  id='subjectOption' style='width:10%'><option value='0'>-- 无 --</option></select>&nbsp;&nbsp;" +
             	"<select  id='knoeledgeOption' style='width:10%'><option value='0'>-- 无 --</option></select>&nbsp;&nbsp;" +
-            	"<a href='#' id='queryByExercise' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>&nbsp;&nbsp;&nbsp;&nbsp;");
-            	getDictOptions("年级","grade","#gradeOption");
+            	"<a href='#' id='queryByExercise' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>&nbsp;&nbsp;&nbsp;&nbsp;");            	
             	getDictOptions("题型","exerciseType","#typeOption");
-            	getDictOptions("学科","subject","#subjectOption");
             	getDictOptions("题类","category","#categoryOption");
+            	getDictOptions("年级","grade","#gradeOption");
             	getDictOptions("难易度","difficulty","#difficultyOption");
             
             }	
@@ -47,6 +46,26 @@ define(function (require, exports, module) {
             }
             
             
+            //加载编辑字典
+            function getEditDictOptions(type,dictType,selectId,value){
+            	var optionsHtml="<option value='0'>-- 请选择"+type+" --</option>";
+            	$.ajax({
+            		url:F.basepath+'/cms/dict/queryDictByCondition',
+            		type:"GET",
+            		data:{typeEncoding:dictType},
+            		success:function(data){
+            			for(var i=0;i<data.value.length;i++){
+            				if(data.value[i].id==value){
+            					optionsHtml+="<option value='"+data.value[i].id+"' selected='true' >"+data.value[i].value+"</option>"
+            				}else{
+            					optionsHtml+="<option value='"+data.value[i].id+"'  >"+data.value[i].value+"</option>"
+            				}
+            			}
+            			$(selectId).append(optionsHtml);
+            		}
+            	});	
+            }
+            
             //加载字典
             function getDictOptions(type,dictType,selectId){
             	var optionsHtml="<option value='0'>-- 请选择"+type+" --</option>";
@@ -56,12 +75,81 @@ define(function (require, exports, module) {
             		data:{typeEncoding:dictType},
             		success:function(data){
             			for(var i=0;i<data.value.length;i++){
-            				optionsHtml+="<option value='"+data.value[i].id+"'>"+data.value[i].value+"</option>"
+            				optionsHtml+="<option value='"+data.value[i].id+"'    >"+data.value[i].value+"</option>"
             			}
             			$(selectId).append(optionsHtml);
             		}
             	});	
             }
+            
+//          	加载知识点
+	        function knoeledge(subjectNo,idOrClass){
+	        	var knowledgesOption ="";
+	        	$(idOrClass).empty();
+	        	$.ajax({
+	        		url:F.basepath+"/cms/knowledge/listPage",
+	        		type:"GET",
+	        		data:{subjectNo:subjectNo},
+	        		success:function(data){
+	        			if(data.rows.length<1){
+	        				knowledgesOption+="<option value = '0'>-- 无 --</option>";
+	        			}
+	        			for(var i=0;i<data.rows.length;i++){
+	        				knowledgesOption+="<option value = '"+data.rows[i].id+"'>"+data.rows[i].title+"</option>"
+	        			}
+	        			$(idOrClass).append(knowledgesOption);
+	        		}
+	        	})
+	        }
+        // 加载学科
+            function subjectOption(gradeNo,idOrClass){
+            	var subjectOption="";
+            	$(idOrClass).empty();
+            	$.ajax({
+	        		url:F.basepath+"/cms/exercise/subjectList",
+	        		type:"GET",
+	        		data:{gradeNo:gradeNo},
+	        		success:function(data){
+	        			if(data.value.length<1){
+	        				subjectOption+="<option value = '0'>-- 无 --</option>";
+	        			}
+	        			for(var i=0;i<data.value.length;i++){
+	        				if(i==0){
+	        					subjectOption+="<option value = '0'>-- 所有 --</option>";
+	        				};
+	        					subjectOption+="<option value = '"+data.value[i].subjectNo+"'>"+data.value[i].subject+"</option>"
+	        			}
+	        			$(idOrClass).append(subjectOption);
+	        		}
+	        	
+            		
+            	});
+            	
+            }
+            //添加中加载学科
+            function addSubjectOption(gradeNo,idOrClass){
+            	var subjectOption="";
+            	$(idOrClass).empty();
+            	$.ajax({
+	        		url:F.basepath+"/cms/exercise/subjectList",
+	        		type:"GET",
+	        		data:{gradeNo:gradeNo},
+	        		success:function(data){
+	        			if(data.value.length<1){
+	        				subjectOption+="<option value = '0'>-- 无 --</option>";
+	        			}
+	        			for(var i=0;i<data.value.length;i++){
+	        					subjectOption+="<option value = '"+data.value[i].subjectNo+"'>"+data.value[i].subject+"</option>"
+	        			}
+	        			$(idOrClass).append(subjectOption);
+	        		}
+	        	
+            		
+            	});
+            	
+            }
+            
+            
             //加载知识点
             $("#subjectOption").change(function(){
             	var subjectNo = $("#subjectOption").val();
@@ -106,17 +194,38 @@ define(function (require, exports, module) {
 				/**
 				 *打开修改模态框
 				 */
-		        'click .editPerm': function (e, value, row, index) {
-		        	core.openModel('modal-editPerm','修改权限',function(){
-//		        		$("#editPermType").find("option[value='"+row.level+"']").attr("selected","true");
-		        		if(row.level==1){$("#editPermissionParent").hide()}
-		        		$("#editPermName").val(row.name);
-		        		$("#editKey").val(row.key);
-		        		$("#editValue").val(row.value);
-		        		$("#editOrder").val(row.orderNo);
-		        		$("#editIcon").val(row.icon);
-		        		$("#modal-editPerm").attr('Perm',row.id);
-		        		
+		        'click .editExercise': function (e, value, row, index) {
+		        	core.openModel('modal-editExercise','修改习题',function(){
+		        		getEditDictOptions("年级","grade","#editGradeOption",row.gradeNo);
+		        		getEditDictOptions("题类","category","#editCategoryOption",row.categoryNo);
+		        		getEditDictOptions("题型","exerciseType","#editTypeOption",row.typeNo);
+		        		getEditDictOptions("学科","subject","#editSubjectOption",row.subjectNo);
+		        		getEditDictOptions("难易度","difficulty","#editDifficultyOption",row.difficultyNo);
+		        		getEditDictOptions("出版社","publish","#editPublisherOption",row.publisherNo);
+		        		$("#modal-editExercise").attr('exerciseid',row.id);
+		        		$("#editExerciseContent").val(row.content);
+		        		$("#editAuthor").val(row.author);
+		        		$("#editOrderNo").val(row.orderNo);
+		        		knoeledge(row.knoeledgeId,"#editKnoeledgeOption");
+		        		var answerHtml="";
+		        		$.ajax({
+		        			url:F.basepath+'/cms/exercise/answer',
+			        		type:'POST',
+			        		data:{exerciseId:row.id},
+			        		success:function(data){
+			        			for(var i=0;i<data.value.length;i++){
+			        				answerHtml+=" <div class='controls"+data.value[i].option+"' option='"+data.value[i].option+"' id='editAnswerOption'>"+data.value[i].option+"：&nbsp;&nbsp;" +
+			        						"<input class='span8'   style='width:52%;' value='"+data.value[i].contents+"' required name='editAnswer' maxlength='900'  placeholder='答案..' type='text' />&nbsp;&nbsp;isTrue:";
+			        						if(data.value[i].isTrue==1){
+			        						answerHtml+="<input style='margin-top:-1px' checked='checked'  name='editIsTrue' isTrue='0' type='checkbox' />";
+			        						}else{
+			        						answerHtml+="<input style='margin-top:-1px'  name='editIsTrue' isTrue='0' type='checkbox' />";	
+			        						}
+			        						answerHtml+="</div>";
+			        			}
+			        			$("#editAnswer").append(answerHtml);
+			        		}
+		        		});
 		        	});
 				
 		        },
@@ -159,27 +268,9 @@ define(function (require, exports, module) {
 	        		        field: 'content',
 	        		        title: '习题内容'
 	        		    },{
-	    			        field: 'subject',
-	    			        title: '科目'
-	    		        },{
-	    			        field: 'grade',
-	    			        title: '年级'
-	    		        },{
-	    			        field: 'type',
-	    			        title: '类型'
-	    		        },{
-	    			        field: 'category',
-	    			        title: '题型'
-	    		        },{
-	    			        field: 'difficulty',
-	    			        title: '难易度'
-	    		        },{
 	        		        field: 'knoeledge',
 	        		        title: '知识点'
 	        		    },{
-	    			        field: 'publisher',
-	    			        title: '出版社'
-	    		        },{
 	    			        field: 'author',
 	    			        title: '作者'
 	    		        }];
@@ -216,14 +307,24 @@ define(function (require, exports, module) {
 			 */
 			$('#addExercise').click(function(){
 				core.openModel('modal-addExercise','新增习题',function(){
-					getDictOptions("年级","grade","#addGradeOption");
+					
 					getDictOptions("题类","category","#addCategoryOption");
 	            	getDictOptions("题型","exerciseType","#addTypeOption");
-	            	getDictOptions("学科","subject","#addSubjectOption");
+	            	getDictOptions("年级","grade","#addGradeOption");	    
 	            	getDictOptions("难易度","difficulty","#addDifficultyOption");
 	            	getDictOptions("出版社","publish","#addpublisherOption");
-	            	$("#addKnoeledgeOption").append("<option value='0' >-- 等待选择学科 --</option>");
-								});
+	            	$("#addSubjectOption").append("<option value='0' >-- 等待选择年级 --</option>");
+	            	$("#addKnoeledgeOption").append("<option value='0' >-- 等待选择学科 --</option>")
+					});
+					var tag=4;
+					for(var i=0;i<tag;i++){
+						var option =i==0?'A':i==1?"B":i==2?"C":i==3?"D":i==4?"E":"F";
+					$("#answer").append(" <div class='controls"+option+"' option='"+option+"' id='answerOption'>"+option+"：&nbsp;&nbsp;<input class='span8'  style='width:52%;' required name='answer' maxlength='900'  placeholder='答案..' type='text' />" +
+					"&nbsp;&nbsp;isTrue:<input style='margin-top:-1px' name='isTrue' isTrue='0' type='checkbox' /></div>");
+				}
+				
+				
+				
 			});
 			/**
 			 * 打开导入习题模态框
@@ -240,21 +341,51 @@ define(function (require, exports, module) {
 				 core.closeModel('modal-impExercise');
 			});
 			
-			//增加习题答案输入框
+			//增加习题答案输入框 
 			$("#addAnswer").click(function(){
 				var input = $("#answer").find("div").length
 				var option =input==0?'A':input==1?"B":input==2?"C":input==3?"D":input==4?"E":"F";
 				if(input>5){return; }
 				$("#answer").append(" <div class='controls"+option+"' option='"+option+"' id='answerOption'>"+option+"：&nbsp;&nbsp;<input class='span8'  style='width:52%;' required name='answer' maxlength='900'  placeholder='答案..' type='text' />" +
-						"&nbsp;&nbsp;isTrue:<input style='margin-top:-1px' name='isTrue' isTrue='0' type='checkbox' /><span id='editKey-error' class='help-block error'></span></div>");
+						"&nbsp;&nbsp;isTrue:<input style='margin-top:-1px' name='isTrue' isTrue='0' type='checkbox' /></div>");
 			});
+//			增加编辑习题答案输入框
+			$("#editAddAnswer").click(function(){
+				var input = $("#editAnswer").find("div").length
+				var option =input==0?'A':input==1?"B":input==2?"C":input==3?"D":input==4?"E":"F";
+				if(input>5){return; }
+				$("#editAnswer").append(" <div class='controls"+option+"' option='"+option+"' id='editAnswerOption'>"+option+"：&nbsp;&nbsp;<input class='span8'  style='width:52%;' required name='editAnswer' maxlength='900'  placeholder='答案..' type='text' />" +
+						"&nbsp;&nbsp;isTrue:<input style='margin-top:-1px' name='editIsTrue' editIsTrue='0' type='checkbox' /></div>");
+			});
+//			删除习题答案输入框
 			$("#removeAnswer").click(function(){
 				var input = $("#answer").find("div").length
 				if(input==0){return ;}
 				var option =input==1?'A':input==2?"B":input==3?"C":input==4?"D":input==5?"E":"F";
 				$(".controls"+option).remove();
 				});
+//			删除编辑习题答案输入框
+			$("#editRemoveAnswer").click(function(){
+				var input = $("#editAnswer").find("div").length
+				if(input==0){return ;}
+				var option =input==1?'A':input==2?"B":input==3?"C":input==4?"D":input==5?"E":"F";
+				$(".controls"+option).remove();
+				});
 			
+			/**
+			 * 加载学科
+			 */
+			$("#gradeOption").change(function(){
+				var grade = $("#gradeOption").val();
+				subjectOption(grade,"#subjectOption");
+			});
+			
+			$("#addGradeOption").change(function(){
+				var grade = $("#addGradeOption").val();
+				addSubjectOption(grade,"#addSubjectOption");
+//				$("#addSubjectOption").find('option[value=0]').remove();
+				
+			})
 			
 			
 			/**
@@ -263,27 +394,19 @@ define(function (require, exports, module) {
 			 $("#addSubjectOption").change(function(){
 	            	var subjectNo = $("#addSubjectOption").val();
 	            	$("#addKnoeledgeOption").empty();
-		        	var knowledgesOption ="";
-		        	$.ajax({
-		        		url:F.basepath+"/cms/knowledge/listPage",
-		        		type:"GET",
-		        		data:{subjectNo:subjectNo},
-		        		success:function(data){
-		        			if(data.rows.length<1){
-		        				knowledgesOption+="<option value = '0'>-- 无 --</option>";
-		        			}
-		        			for(var i=0;i<data.rows.length;i++){
-		        				knowledgesOption+="<option value = '"+data.rows[i].id+"'>"+data.rows[i].title+"</option>"
-		        			}
-		        			$("#addKnoeledgeOption").append(knowledgesOption);
-		        		}
-		        	})
-	        
-	   			
-	   			
-	   		
-	            	
+	            	knoeledge(subjectNo,"#addKnoeledgeOption");
 	            });
+			 /**
+			  * 加载编辑知识点
+			  */
+			 $("#editSubjectOption").change(function(){
+				 	var subjectNo = $("#editSubjectOption").val();
+				 	knoeledge(subjectNo,"#editKnoeledgeOption");
+			 });
+			 $("#gradeOption").change(function(){
+				 
+			 });
+			 
 			 
 			$("#addPermType").change(function (){
 				$("#icons").show();
@@ -316,8 +439,15 @@ define(function (require, exports, module) {
 				clear();
 			
 			});
+			/**
+			 * 关闭编辑模态框
+			 */   
 			$('#editBtnClose').click(function(){
-				core.closeModel('modal-editExercise');
+				clearEdit();
+			});
+			$('.close').click(function(){
+				clearEdit();
+				clear();
 			});
 			//清理表单
 			function clear(){
@@ -342,6 +472,30 @@ define(function (require, exports, module) {
 				$("#answer").find("div").remove();
 				core.closeModel('modal-addExercise');	
 			}
+			//清理 编辑表单
+			function clearEdit(){
+				$("#editGradeOption").empty();
+				$("#editGrade-error").html('');
+				$("#editCategoryOption").empty();
+				$("#editCategory-error").html('');	
+				$("#editTypeOption").empty();
+				$("#editType-error").html('');
+				$("#editDifficultyOption").empty();
+				$("#editDifficulty-error").html('');
+				$("#editSubjectOption").empty();
+				$("#editSubject-error").html('');
+				$("#editKnoeledgeOption").empty();
+				$("#editKnoeledge-error").html('');
+				$("#editpublisherOption").empty();
+				$("#editpublisher-error").html('');
+				$("#editMsg").html('');
+				$("#editExerciseContent").val('');
+				$("#editAuthor").val('');
+				$("#editOrderNo").val('');
+				$("#editAnswer").find("div").remove();
+				core.closeModel('modal-editExercise');	
+			}
+			
 			//查询是否包含
 			function contains(a, obj) {
 			    var i = a.length;
@@ -364,7 +518,7 @@ define(function (require, exports, module) {
 			
 			
 			/**
-			 * 提交新增
+			 * 新增提交
 			 */
 			$('#btnSubmit').click(
 					function() {
@@ -379,15 +533,15 @@ define(function (require, exports, module) {
 						var content = $("#exerciseContent").val();
 						var order =$("#orderNo").val();
 						var answerLength = $("#answer").find("div").length;
-						if(grade==0){$("#msg").html("请选择年级！");$("#msg").css('color','#b94a48');return;}
-						if(category==0){$("#msg").html("请选择题类！");$("#msg").css('color','#b94a48');return;}
-						if(type==0){$("#msg").html("请选择题型！");$("#msg").css('color','#b94a48');return;}
-						if(difficulty==0){$("#msg").html("请选择难易度！");$("#msg").css('color','#b94a48');return;}
-						if(subject==0){$("#msg").html("请选择科目！");$("#msg").css('color','#b94a48');return;}
-						if(knoeledge==0){$("#msg").html("请选择知识点！");$("#msg").css('color','#b94a48');return;}
-						if(publisher==0){$("#msg").html("请选择出版社！");$("#msg").css('color','#b94a48');return;}
-						if(content.length<5){$("#msg").html("习题内容不能为空！不能小于5个字符");$("#msg").css('color','#b94a48');return;}
-						if(answerLength<4){$("#msg").html("至少4个答案！");$("#msg").css('color','#b94a48');return;}
+						if(grade==0){$("#msg").html("请选择年级！"); return;}
+						if(category==0){$("#msg").html("请选择题类！"); return;}
+						if(type==0){$("#msg").html("请选择题型！"); return;}
+						if(difficulty==0){$("#msg").html("请选择难易度！"); return;}
+						if(subject==0){$("#msg").html("请选择科目！"); return;}
+						if(knoeledge==0){$("#msg").html("请选择知识点！"); return;}
+						if(publisher==0){$("#msg").html("请选择出版社！"); return;}
+						if(content.length<5){$("#msg").html("习题内容不能为空！不能小于5个字符"); return;}
+						if(answerLength<4){$("#msg").html("至少4个答案！"); return;}
 				var answerList=new Array();	
 				var length=0;
 				var list=new Array();
@@ -395,7 +549,7 @@ define(function (require, exports, module) {
 				$("#answer div").each(function(){
 					var answer=$(this).find("[name='answer']").val().replace(/\s+/g, "");
 					length=answer.length;
-					if(answer.length<1){$("#msg").html("答案内容不能为空！");$("#msg").css('color','#b94a48');return false;}
+					if(answer.length<1){$("#msg").html("答案内容不能为空！"); return false;}
 					var isTrue=$(this).find("[name='isTrue']").attr('checked')=='checked'?1:0;
 					list.push(isTrue);
 					var option=$(this).attr('option');
@@ -405,7 +559,7 @@ define(function (require, exports, module) {
 				if(length<1){return;}
 				
 				if(!contains(list, 1)){
-					 $("#msg").html("需要选择正确答案！");$("#msg").css('color','#b94a48');
+					 $("#msg").html("需要选择正确答案！"); 
 					 return;
 				}
 				
@@ -422,7 +576,6 @@ define(function (require, exports, module) {
 					orderNo:order,
 					answerList:answerList
 				}
-				
 				$.ajax({
 					url:F.basepath+'/cms/exercise/addExercise',
 					type:'POST',
@@ -433,6 +586,76 @@ define(function (require, exports, module) {
 					}
 				})
             });
+//			提交修改
+			$("#editBtnSubmit").click(function(){
+					var grade = $("#editGradeOption").val();
+					var category = $("#editCategoryOption").val();
+					var type = $("#editTypeOption").val();
+					var difficulty = $("#editDifficultyOption").val();
+					var subject = $("#editSubjectOption").val();
+					var knoeledge = $("#editKnoeledgeOption").val();
+					var publisher = $("#editPublisherOption").val();
+					var author = $("#editAuthor").val();
+					var content = $("#editExerciseContent").val();
+					var order =$("#editOrderNo").val();
+					var id = $("#modal-editExercise").attr('exerciseid');
+					var answerLength = $("#editAnswer").find("div").length;
+					if(grade==0){$("#editMsg").html("请选择年级！");return;}
+					if(category==0){$("#editMsg").html("请选择题类！");return;}
+					if(type==0){$("#editMsg").html("请选择题型！");return;}
+					if(difficulty==0){$("#editMsg").html("请选择难易度！");return;}
+					if(subject==0){$("#editMsg").html("请选择科目！");return;}
+					if(knoeledge==0){$("#editMsg").html("请选择知识点！");return;}
+					if(publisher==0){$("#editMsg").html("请选择出版社！");return;}
+					if(content.length<5){$("#editMsg").html("习题内容不能为空！不能小于5个字符");return;}
+					if(answerLength<4){$("#editMsg").html("至少4个答案！");return;}
+			var answerList=new Array();	
+			var length=0;
+			var list=new Array();
+			var isTrueTag=0;
+			$("#editAnswer div").each(function(){
+				var answer=$(this).find("[name='editAnswer']").val().replace(/\s+/g, "");
+				length=answer.length;
+				if(answer.length<1){$("#editMsg").html("答案内容不能为空！");return false;}
+				var isTrue=$(this).find("[name='editIsTrue']").attr('checked')=='checked'?1:0;
+				list.push(isTrue);
+				var option=$(this).attr('option');
+				var value={option:option,isTrue:isTrue,contents:answer};
+				answerList.push(value);
+			  });
+			if(length<1){return;}
+			
+			if(!contains(list, 1)){
+				 $("#editMsg").html("需要选择正确答案！");
+				 return;
+			}
+			
+			var exercise = {
+					  id:id,
+				gradeNo : grade,
+				categoryNo : category,
+				typeNo : type,
+				difficultyNo : difficulty,
+				subjectNo : subject,
+				knoeledgeId : knoeledge,
+				publisherNo : publisher,
+				author : author,
+				content : content,
+				orderNo:order,
+				answerList:answerList
+			}
+			$.ajax({
+				url:F.basepath+'/cms/exercise/editExercise',
+				type:'POST',
+				data:exercise,
+				success:function(data){
+					clearEdit();
+					F.reload();
+				}
+			})
+	
+				
+			});
 			
 //			$('#upload').click(function(){
 //				var file = $("#impFile").val();
@@ -483,7 +706,7 @@ define(function (require, exports, module) {
         	_btnAction += "<a class='confine btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"+(row.status==1?"停用":"启用")+"</a>";
         	}
         	if (base.perList.permission.edit) {
-        		_btnAction += "<a data-toggle='modal' class='editPerm btn btn-success btn-small' href='#' title='编辑权限' style='margin-left:5px'>编辑</a>";
+        		_btnAction += "<a data-toggle='modal' class='editExercise btn btn-success btn-small' href='#' title='编辑权限' style='margin-left:5px'>编辑</a>";
         	}
         	if (base.perList.permission.del) {
         		_btnAction += "<a class='delExercise btn btn-danger btn-small' href='#' title='删除权限' style='margin-left:5px'>删除</a>";
