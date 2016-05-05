@@ -1,6 +1,7 @@
 package com.ekt.cms.common.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -65,4 +66,17 @@ public class CmsKnowledgeService implements ICmsKnowledgeService {
 		// TODO Auto-generated method stub
 		return CmsKnowledgeMapper.getSubjectListByGrade(grade);
 	}
+
+	@Override
+	public List<CmsKnowledge> knowledgelist(CmsKnowledge cmsKnowledge) {
+		// TODO Auto-generated method stub
+		return CmsKnowledgeMapper.knowledgelist(cmsKnowledge);
+	}
+
+	@Override
+	public List<Map<String, Object>> knowledgeTree(int gradeNo, int subjectNo) {
+		// TODO Auto-generated method stub
+		return CmsKnowledgeMapper.knowledgeTree(gradeNo,subjectNo);
+	}
+
 }

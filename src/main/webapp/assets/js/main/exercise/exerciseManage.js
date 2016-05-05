@@ -382,10 +382,9 @@ define(function (require, exports, module) {
 			
 			$("#addGradeOption").change(function(){
 				var grade = $("#addGradeOption").val();
-				addSubjectOption(grade,"#addSubjectOption");
-//				$("#addSubjectOption").find('option[value=0]').remove();
-				
-			})
+				addSubjectOption(grade,"#addSubjectOption");				
+			});
+
 			
 			
 			/**

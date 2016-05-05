@@ -165,7 +165,7 @@
     </div>
 </div>
 <script>
-  seajs.use(['base','main/role/manage'],function(b,m){
+  seajs.use(['base','main/role/roleManage'],function(b,m){
 	b.init();
     m.init('${ctx}');
   });

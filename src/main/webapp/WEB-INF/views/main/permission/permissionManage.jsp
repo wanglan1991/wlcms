@@ -143,7 +143,7 @@
 
 
 <script>
-  seajs.use(['base','main/permission/manage'],function(b,m){
+  seajs.use(['base','main/permission/permissionManage'],function(b,m){
 	b.init();
     m.init('${ctx}');
   });

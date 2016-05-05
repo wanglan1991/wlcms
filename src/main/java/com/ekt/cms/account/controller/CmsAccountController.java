@@ -29,7 +29,7 @@ public class CmsAccountController extends BaseController {
 	
 	@RequestMapping(value="/manage")
 	public String manage(){
-		return "/user/manage";
+		return "/user/userManage";
 		}
 
 	@RequestMapping("/list")

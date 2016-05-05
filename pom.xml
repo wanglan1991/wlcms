@@ -383,13 +383,7 @@
 			<groupId>nz.ac.waikato.cms.weka</groupId>
 			<artifactId>WekaExcel</artifactId>
 			<version>1.0.5</version>
-<<<<<<< HEAD
 		</dependency>
-		
-=======
-		</dependency>	
-			
->>>>>>> upstream/master
 		
 	</dependencies>
 	<build>

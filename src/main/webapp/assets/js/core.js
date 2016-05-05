@@ -8,119 +8,20 @@ define(function (require, exports, module) {
 		CoreTree:function(_treeId,_url,_setting){
 			this.treeId = _treeId;
 			this.url = _url;
-        	this.load=function(_data,_hiddenId){
-        		$.ajax({  
-        		     url:_url,
-        		     type:'post',
-        		     data:_data,
-        		     cache:false,  
-        		     dataType:'json',  
-        		     success:function(data,status) { 
-        		    	 if (data.ok) {
-        		    		 var zNodes = data.data;
-        		    		 $.fn.zTree.init($("#"+_treeId),_setting, zNodes);
-        		    		 if(_hiddenId!=null && _hiddenId.length>0){
-        		    			 var v="";
-        		    			 for(var i=0;i<zNodes.length;i++){ 
-        		    				 if(zNodes[i].checked==true)
-        		    					 v+=zNodes[i].id + ","; 
-         						} 
-         						if (v.length > 0 ) v = v.substring(0, v.length-1);
-         						$('#'+_hiddenId).val(v);
-        		    		 }
-        		    	 }
-        		      },  
-        		      error : function() {  
-        		         
-        		      }  
-        		});
-        	}
+        	this.load=function(_data,_hiddenId){}
         	return this;
         },
-        DropDownTree:function(_treeId,_showId,_hideId,_url,_setting){
-			this.showId = _showId;
-			this.hideId = _hideId;
-			E.CoreTree.call(this,_treeId,_url,_setting);  
-        },
-		initTree: function (_treeId,_url,_onClick) {
-            var setting = {
-				data: {
-					simpleData: {
-						enable: true
-					}
-				},
-				callback: {
-					onClick: _onClick
-				}
-			};
-            var coreTree = new E.CoreTree(_treeId,_url,setting);
-            return coreTree;
-        },
-        initRadioTree:function(_treeId,_url,_hiddenId){
-        	
-        	var _onCheck = function(){
-        		var zTree = $.fn.zTree.getZTreeObj(_treeId);
-        		var nodes = zTree.getCheckedNodes(true),id="";
-				for (var i=0, l=nodes.length; i<l; i++) {
-					id += nodes[i].id + ",";
-				}
-				if (id.length > 0 ) id = id.substring(0, id.length-1);
-				if(_hiddenId!=null&&_hiddenId.length>0)
-					$("#"+_hiddenId).val(id);
-				else
-					$("#"+_treeId).data(id);
-        	};
-        	
-        	var _onClick = function(){
-        		var zTree = $.fn.zTree.getZTreeObj(_treeId);
-				zTree.checkNode(treeNode, !treeNode.checked, null, true);
-				return false;
-        	};
-        	
-        	var setting = {
-        			check: {
-    					enable: true,
-    					chkStyle: "radio",
-    					radioType: "all"
-    				},
-    				data: {
-    					simpleData: {
-    						enable: true
-    					}
-    				},
-    				callback: {
-    					onClick: _onClick,
-    					onCheck: _onCheck
-    				}
-        		};
-        	var coreTree = new E.CoreTree(_treeId,_url,setting);
-            return coreTree;
-        },
+//        DropDownTree:function(_treeId,_showId,_hideId,_url,_setting){},
+//		initTree: function (_treeId,_url,_onClick) {},
+//        initRadioTree:function(_treeId,_url,_hiddenId){},
         
         
         
         
-        
-         loadTree:function(_url,_roleId){   
-        	 
-//        	 var _beforeClick = function(){
-//         		var zTree = $.fn.zTree.getZTreeObj(_treeId);
-// 				zTree.checkNode(treeNode, !treeNode.checked, null, true);
-// 				return false;
-//         	};
-         	
-//         	var _onCheck = function(){
-//         		var zTree = $.fn.zTree.getZTreeObj(_treeId);
-//         		var nodes = zTree.getCheckedNodes(true),id="";
-// 				for (var i=0, l=nodes.length; i<l; i++) {
-// 					id += nodes[i].id + ",";
-// 				}
-// 				if (id.length > 0 ) id = id.substring(0, id.length-1);
-// 				if(_hiddenId!=null&&_hiddenId.length>0)
-// 					$("#"+_hiddenId).val(id);
-// 				else
-// 					$("#"+_treeId).data(id);
-//         	};
+        /**
+         * 加载权限树
+         */
+         loadTree:function(_url,_roleId){          	 
         	 var setting = {
      				check: {
      					enable: true,
@@ -134,10 +35,6 @@ define(function (require, exports, module) {
      						enable: true
      					}
      				}
-//     				,callback: {
-//     					beforeClick: _beforeClick,
-//     					onCheck: _onCheck
-//     				}
      			};
 			        	  $.ajax({
 			         		 url:_url,
@@ -147,236 +44,63 @@ define(function (require, exports, module) {
 			         			 $.fn.zTree.init($("#distributePermissionTree"), setting, data.value)
 			         		 }
 			         	 })
-			         	 
-			         			
-        	
-        	  
-         }
-        ,initCheckTree:function(_treeId,_url,_hiddenId){
-        	var _beforeClick = function(){
-        		var zTree = $.fn.zTree.getZTreeObj(_treeId);
-				zTree.checkNode(treeNode, !treeNode.checked, null, true);
-				return false;
-        	};
-        	
-        	var _onCheck = function(){
-        		var zTree = $.fn.zTree.getZTreeObj(_treeId);
-        		var nodes = zTree.getCheckedNodes(true),id="";
-				for (var i=0, l=nodes.length; i<l; i++) {
-					id += nodes[i].id + ",";
-				}
-				if (id.length > 0 ) id = id.substring(0, id.length-1);
-				if(_hiddenId!=null&&_hiddenId.length>0)
-					$("#"+_hiddenId).val(id);
-				else
-					$("#"+_treeId).data(id);
-        	};
-        	
-        	var setting = {
-        			check: {
-        				enable: true,
-        				chkDisabledInherit: true
-        			},
-        			data: {
-        				simpleData: {
-        					enable: true
-        				}
-        			},
-    				callback: {
-    					beforeClick: _beforeClick,
-    					onCheck: _onCheck
-    				}
-        		};
-        	var coreTree = new E.CoreTree(_treeId,_url,setting);
-            return coreTree;
-        },
-        initDropDownRadioTree:function(_hiddenId,_url){
-        	var guid = base.guid();
-        	var _treeId = 'tree_'+guid;
-        	var _menuId = 'menu_'+guid;
-        	var _showId = 'show_'+guid;
-        	var _menuBtn = 'menuBtn_'+guid;
-        	$('#'+_hiddenId).css({"display":"none"});
-        	$("#"+_hiddenId).after('<input class="span8" id="'+_showId+'" required placeholder="请选择" type="text" />'
-            +'<button id="'+_menuBtn+'" type="button">'
-            	+'<i class="icon-building"></i>'
-            +'</button>');
-        	$("body").append('<div id="'+_menuId+'" style="display:none; position: absolute;border: 1px solid #617775;z-index:1051">'
-        			+'<ul id="'+_treeId+'" class="ztree" style="margin-top:0;margin-top: 0px;background: #f0f6e4;width:160px;height:180px;overflow-y:scroll;overflow-x:auto;"></ul>'
-            +'</div>');
-        	var _onClick = function(){
-        		var zTree = $.fn.zTree.getZTreeObj(_treeId);
-				zTree.checkNode(treeNode, !treeNode.checked, null, true);
-				return false;
-        	};
-        	var _onCheck = function(){
-        		var zTree = $.fn.zTree.getZTreeObj(_treeId);
-        		var nodes = zTree.getCheckedNodes(true),v = "",id="";
-				for (var i=0, l=nodes.length; i<l; i++) {
-					v += nodes[i].name + ",";
-					id += nodes[i].id + ",";
-				}
-				if (v.length > 0 ) v = v.substring(0, v.length-1);
-				if (id.length > 0 ) id = id.substring(0, id.length-1);
-				$("#"+_showId).val(v);
-				$("#"+_hiddenId).val(id);
-				hide();
-        	};
-        	
-        	function hide() {
-    			$("#"+_menuId).fadeOut("fast");
-    			$("body").unbind("mousedown", onBodyDown);
-    		}
-        	
-        	
-        	var show=function (){
-        		var _input = $('#'+_showId);
-        		var _offset = $('#'+_showId).offset();
-    			$("#"+_menuId).css({left:_offset.left+"px", top:_offset.top + _input.outerHeight()+"px"}).slideDown("fast");
-    			$("body").bind("mousedown", onBodyDown);
-    		}
-        	
-        	var onBodyDown = function (event) {
-    			if (!(event.target.id == _menuBtn || $(event.target).parents("#"+_menuBtn).length>0 ||event.target.id == _menuId || $(event.target).parents("#"+_menuId).length>0)) {
-    				hide();
-    			}
-    		}
-        	
-        	var checkNode =  function(){
-        		var z_tree = $.fn.zTree.getZTreeObj(_treeId);
-        		var val = $("#"+_hiddenId).val();
-        		if(val!=null&&val.length>0){
-        			var node = z_tree.getNodeByParam("id", val, null);
-            		z_tree.checkNode(node, true, null, true);
-        		}
-        		
-        	}
-        	
-        	$('#'+_showId).click(function(){
-        		checkNode();
-				show();
-			});
-        	
-        	$('#'+_menuBtn).click(function(){
-        		checkNode();
-				show();
-			});
-        	
-        	var setting = {
-    				check: {
-    					enable: true,
-    					chkStyle: "radio",
-    					radioType: "all"
-    				},
-    				view: {
-    					dblClickExpand: false
-    				},
-    				data: {
-    					simpleData: {
-    						enable: true
-    					}
-    				},
-    				callback: {
-    					onClick: _onClick,
-    					onCheck: _onCheck
-    				}
-    			};
-        	 var dropDownTree = new E.DropDownTree(_treeId,_showId,_hiddenId,_url,setting);
-             return dropDownTree;
-        },
-        initDropDownCheckTree:function(_hiddenId,_url){
-        	var guid = base.guid();
-        	var _treeId = 'tree_'+guid;
-        	var _menuId = 'menu_'+guid;
-        	var _showId = 'show_'+guid;
-        	var _menuBtn = 'menuBtn_'+guid;
-        	$('#'+_hiddenId).css({"display":"none"});
-        	$("#"+_hiddenId).after('<input class="span8" id="'+_showId+'" required placeholder="请选择" type="text" />'
-            +'<button id="'+_menuBtn+'" type="button">'
-            	+'<i class="icon-building"></i>'
-            +'</button>');
-        	$("body").append('<div id="'+_menuId+'" style="display:none; position: absolute;border: 1px solid #617775;z-index:1051">'
-        			+'<ul id="'+_treeId+'" class="ztree" style="margin-top:0;margin-top: 0px;background: #f0f6e4;width:160px;height:180px;overflow-y:scroll;overflow-x:auto;"></ul>'
-            +'</div>');
-        	var _beforeClick = function(){
-        		var zTree = $.fn.zTree.getZTreeObj(_treeId);
-				zTree.checkNode(treeNode, !treeNode.checked, null, true);
-				return false;
-        	};
-        	var _onCheck = function(){
-        		var zTree = $.fn.zTree.getZTreeObj(_treeId);
-        		var nodes = zTree.getCheckedNodes(true),v = "",id="";
-				for (var i=0, l=nodes.length; i<l; i++) {
-					v += nodes[i].name + ",";
-					id += nodes[i].id + ",";
-				}
-				if (v.length > 0 ) v = v.substring(0, v.length-1);
-				if (id.length > 0 ) id = id.substring(0, id.length-1);
-				$("#"+_showId).val(v);
-				$("#"+_hiddenId).val(id);
-        	};
-        	
-        	function hide() {
-    			$("#"+_menuId).fadeOut("fast");
-    			$("body").unbind("mousedown", onBodyDown);
-    		}
-        	
-        	var show=function (){
-        		var _input = $('#'+_showId);
-        		var _offset = $('#'+_showId).offset();
-    			$("#"+_menuId).css({left:_offset.left+"px", top:_offset.top + _input.outerHeight()+"px"}).slideDown("fast");
-    			$("body").bind("mousedown", onBodyDown);
-    		}
-        	
-        	var onBodyDown = function (event) {
-    			if (!(event.target.id == _menuBtn || $(event.target).parents("#"+_menuBtn).length>0 ||event.target.id == _menuId || $(event.target).parents("#"+_menuId).length>0)) {
-    				hide();
-    			}
-    		}
-        	
-        	var checkNode =  function(){
-        		var z_tree = $.fn.zTree.getZTreeObj(_treeId);
-        		var roleIds = $("#"+_hiddenId).val();
-        		if(roleIds!=null&&roleIds.length>0){
-        			var roles = roleIds.split(',');
-        			for(var i=0;i<roles.length;i++){
-            			var node = z_tree.getNodeByParam("id", roles[i]!=null?roles[i]:"0", null);
-	            		z_tree.checkNode(node, true, null, true);
-            		}
-        		}
-        	}
-        	
-        	$('#'+_showId).click(function(){
-        		checkNode();
-				show();
-			});
-        	
-        	$('#'+_menuBtn).click(function(){
-        		checkNode();
-				show();
-			});
-        	
-        	var setting = {
-    				check: {
-    					enable: true,
-    					chkboxType: {"Y":"", "N":""}
-    				},
-    				view: {
-    					dblClickExpand: false
-    				},
-    				data: {
-    					simpleData: {
-    						enable: true
-    					}
-    				},
-    				callback: {
-    					beforeClick: _beforeClick,
-    					onCheck: _onCheck
-    				}
-    			};
-        	 var dropDownTree = new E.DropDownTree(_treeId,_showId,_hiddenId,_url,setting);
-             return dropDownTree;
-        },
+         },
+         	/**
+         	 * 加载知识点树
+         	 */
+	         loadKnowledgeTree:function(_url,subjectNo,gradeNo,idOrClass){   
+//	        	 alert(_url+"-----"+subjectNo+"-----"+gradeNo+"----"+idOrClass);
+	        	 var setting = {
+	     				check: {
+	     					enable: true,
+	     					chkboxType:{ "Y" : "ps", "N" : "ps" }
+	     				},
+	     				view: {
+	     					dblClickExpand: false
+	     				},
+	     				data: {
+	     					simpleData: {
+	     						enable: true
+	     					}
+	     				}
+	     			};
+				        	  $.ajax({
+				         		 url:_url,
+				         		 type:'GET',
+				         		 data:{subjectNo:subjectNo,gradeNo:gradeNo},
+				         		 success:function(data){
+				         			 $.fn.zTree.init($(idOrClass), setting, data.value)
+				         		 }
+				         	 })
+	         },
+	         /**
+	         	 * 加载教材知识点树
+	         	 */
+	         editloadKnowledgeTree:function(_url,gradeNo,subjectNo,knowledgePointArr,idOrClass){   
+//		        	 alert(_url+"-----"+gradeNo+"------"+subjectNo+"-----"+idOrClass);
+		        	 var setting = {
+		     				check: {
+		     					enable: true,
+		     					chkboxType:{ "Y" : "ps", "N" : "ps" }
+		     				},
+		     				view: {
+		     					dblClickExpand: false
+		     				},
+		     				data: {
+		     					simpleData: {
+		     						enable: true
+		     					}
+		     				}
+		     			};
+					        	  $.ajax({
+					         		 url:_url,
+					         		 type:'get',
+					         		 data:{gradeNo:gradeNo,subjectNo:subjectNo,knowledgePointArr:knowledgePointArr},
+					         		 success:function(data){
+					         			 $.fn.zTree.init($(idOrClass), setting, data.value)
+					         		 }
+					         	 })
+		         },
         /**
 		 * MODAL
 		 */

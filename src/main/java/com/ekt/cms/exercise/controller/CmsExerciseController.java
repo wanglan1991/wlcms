@@ -44,7 +44,7 @@ public class CmsExerciseController extends BaseController {
 	 */
 	@RequestMapping("/manage")
 	public String manage() {
-		return "main/exercise/manage";
+		return "main/exercise/exerciseManage";
 	}
 
 	/**

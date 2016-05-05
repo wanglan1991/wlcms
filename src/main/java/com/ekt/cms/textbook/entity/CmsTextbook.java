@@ -1,5 +1,6 @@
 package com.ekt.cms.textbook.entity;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,6 +40,27 @@ public class CmsTextbook {
 	private String imgUrl;
 	// 状态
 	private Integer status;
+	//录入者
+	private String pushPerson; 
+	//创建时间
+	private Date crateTime;
+
+	public Date getCrateTime() {
+		return crateTime;
+	}
+
+	public void setCrateTime(Date crateTime) {
+		this.crateTime = crateTime;
+	}
+
+	public String getPushPerson() {
+		return pushPerson;
+	}
+
+	public void setPushPerson(String pushPerson) {
+		this.pushPerson = pushPerson;
+	}
+
 
 	public Integer getId() {
 		return id;
