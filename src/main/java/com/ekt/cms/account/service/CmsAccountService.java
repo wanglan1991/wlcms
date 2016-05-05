@@ -99,4 +99,10 @@ public class CmsAccountService implements ICmsAccountService {
 		return cmsAccountMapper.selectByPrimaryKey(id);
 	}
 
+	@Override
+	public List<CmsAccount> listAccountByRole(String role) {
+		// TODO Auto-generated method stub
+		return cmsAccountMapper.listAccountByRole(role);
+	}
+
 }

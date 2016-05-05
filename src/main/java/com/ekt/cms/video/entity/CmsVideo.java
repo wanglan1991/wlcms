@@ -1,5 +1,9 @@
 package com.ekt.cms.video.entity;
-
+/**
+ * 2016-05-02
+ * 
+ * @author zhuyanqiong 
+ */
 public class CmsVideo {
 	private int id;
 	private String videoName;
@@ -26,9 +30,12 @@ public class CmsVideo {
 	// 简介
 	private String digest;
 	// 视频讲师
+	private int authorId;
 	private String author;
 	// 状态
 	private int status;
+	// 视频上传后获取到的ID
+	private String  videoId;
 
 	public int getId() {
 		return id;
@@ -165,5 +172,23 @@ public class CmsVideo {
 	public void setSubjectNo(int subjectNo) {
 		this.subjectNo = subjectNo;
 	}
+
+	public int getAuthorId() {
+		return authorId;
+	}
+
+	public void setAuthorId(int authorId) {
+		this.authorId = authorId;
+	}
+
+	public String getVideoId() {
+		return videoId;
+	}
+
+	public void setVideoId(String videoId) {
+		this.videoId = videoId;
+	}
+
+
 
 }

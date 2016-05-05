@@ -1,12 +1,18 @@
 package com.ekt.cms.video.service;
 
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
-
 import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.video.dao.CmsVideoMapper;
 import com.ekt.cms.video.entity.CmsVideo;
+
+
+/**
+ * 2016-05-02
+ * 
+ * @author zhuyanqiong 
+ */
+
 @Service("cmsVideoService")
 public class CmsVideoService implements ICmsVideoService {
 	@Resource
@@ -31,6 +37,11 @@ public class CmsVideoService implements ICmsVideoService {
 	public int update(CmsVideo cmsVideo) {
 		// TODO Auto-generated method stub
 		return cmsVideoMapper.update(cmsVideo);
+	}
+	@Override
+	public int insert(CmsVideo cmsVideo) {
+		// TODO Auto-generated method stub
+		return cmsVideoMapper.insert(cmsVideo);
 	}
 
 }

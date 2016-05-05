@@ -1,12 +1,14 @@
 package com.ekt.cms.common.dao;
 
 import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.annotations.Param;
 
 import com.ekt.cms.common.entity.CmsDict;
-
+/**
+ * 2016-05-02
+ * 
+ * @author zhuyanqiong 
+ */
 public interface CmsDictMapper {
 	/**
 	 * 根据用户id删除

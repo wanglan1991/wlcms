@@ -137,4 +137,12 @@
 	<update id="setPwd" parameterType="com.ekt.cms.account.entity.CmsAccount">
 		UPDATE cms_account SET password =#{cmsAccount.password} WHERE id=#{cmsAccount.id}		
 	</update>
+	
+	<!-- 查询某种角色的用户 -->
+	<select id="listAccountByRole" resultMap="BaseResultMap" parameterType="java.lang.String">
+		SELECT * FROM cms_account a
+		left join cms_role r on r.id=a.role
+		WHERE 1=1
+		AND r.encoding=#{role}
+	</select>
 </mapper>
