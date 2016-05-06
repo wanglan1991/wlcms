@@ -33,7 +33,7 @@ public class CmsDictController {
     @RequestMapping("/queryDictByCondition")
     @ResponseBody
     public Result queryDictByCondition(CmsDict queryDict) {	
-    	Result result =new Result();
+    	Result result =Result.getResults();
     	List<CmsDict> dictList = dictService.queryDictByCondition(queryDict);    
     	 result.setValue(dictList);
     	return result;
@@ -61,7 +61,7 @@ public class CmsDictController {
 	@RequestMapping("/confine")
 	@ResponseBody
 	public Result dictConfine(CmsDict cmsDict){
-		Result result =new Result();
+		Result result =Result.getResults();
 		result.setResult(dictService.confine(cmsDict));
 		return result;		
 	}

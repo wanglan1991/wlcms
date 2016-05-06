@@ -119,7 +119,7 @@ public class CmsAccountController extends BaseController {
 	@RequestMapping("/confine")
 	@ResponseBody
 	public Result confine(CmsAccount cmsAccount){
-		Result result =new Result();
+		Result result =Result.getResults();
 		result.setResult(cmsAccountService.confine(cmsAccount));
 		return result;
 		
