@@ -15,6 +15,11 @@ import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.common.service.ICmsDictService;
 import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.utils.pageHelper.PageContext;
+/**
+ * 2016-04-22
+ * 
+ * @author zhuyanqiong 地域控制器
+ */
 
 @Controller
 @RequestMapping(value="/dict")  //地域controller

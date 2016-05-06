@@ -4,7 +4,11 @@ import java.util.List;
 
 import com.ekt.cms.common.entity.CmsDict;
 import com.ekt.cms.utils.pageHelper.PageBean;
-
+/**
+ * 2016-05-02
+ * 
+ * @author zhuyanqiong 
+ */
 public interface ICmsDictService {
 	
 	public List<CmsDict> queryDictByCondition(CmsDict dict);

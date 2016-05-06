@@ -12,7 +12,11 @@ import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.common.service.ICmsKnowledgeService;
 import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.utils.pageHelper.PageContext;
-
+/**
+ * 2016-05-02
+ * 
+ * @author zhuyanqiong 知识点控制器
+ */
 @Controller
 @RequestMapping(value = "/knowledge") // 知识点controller
 public class CmsKnowledgeController {
