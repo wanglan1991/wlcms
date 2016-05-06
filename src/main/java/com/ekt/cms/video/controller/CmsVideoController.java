@@ -37,7 +37,7 @@ public class CmsVideoController {
 	@RequestMapping("/delete")
 	@ResponseBody
 	public Result delete(String ids) {
-		Result result = new Result();
+		Result result = Result.getResults();
 		String[] arr = ids.split(",");
 		int total = 0;
 		for (String id : arr) {
@@ -51,7 +51,7 @@ public class CmsVideoController {
 	@RequestMapping("/confine")
 	@ResponseBody
 	public Result confine(CmsVideo cmsVideo){
-		Result result = new Result();
+		Result result = Result.getResults();
 		result.setResult(cmsVideoService.confine(cmsVideo));
 		return result;
 	}
@@ -60,7 +60,7 @@ public class CmsVideoController {
 	@RequestMapping("/editVideo")
 	@ResponseBody
 	public Result update(CmsVideo cmsVideo){
-		Result result = new Result();
+		Result result =  Result.getResults();
 		result.setResult(cmsVideoService.update(cmsVideo));
 		return result;
 	}

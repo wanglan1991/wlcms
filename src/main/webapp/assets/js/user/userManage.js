@@ -223,6 +223,7 @@ define(function (require, exports, module) {
 		        			url: F.basepath+'/account/roleList',
 		        			type:'POST',
 		        			success:function(data){
+		        				
 	        				for(var i=0;i<data.value.length;i++){
 	        					if(data.value[i].status==0){
 	        						continue;

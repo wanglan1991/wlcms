@@ -114,10 +114,11 @@ define(function (require, exports, module) {
         	$('#'+modelId+' .modal-header h3').html(title);
         	if(callback)callback();
         	$('#'+modelId).modal('show');
+
         },
         closeModel:function(modelId,callback){
         	$('#'+modelId).modal('hide');
-        	if(callback)callback();
+        	if(callback);
         },
         /**
 		 * Table

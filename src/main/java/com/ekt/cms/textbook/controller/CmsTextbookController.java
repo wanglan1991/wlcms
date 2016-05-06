@@ -88,7 +88,7 @@ public class CmsTextbookController {
 	@RequestMapping("/delete")
 	@ResponseBody
 	public Result deleteTextbook(@RequestParam("ids") String ids) {
-		Result result = new Result();
+		Result result = Result.getResults();
 		String[] arr = ids.split(",");
 		int total = 0;
 		for (String id : arr) {

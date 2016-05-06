@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ekt.cms.textbook.dao.CmsCatalogMapper">
+	<resultMap id="BaseResultMap" type="com.ekt.cms.textbook.entity.CmsCatalog">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<id column="catalog_name" property="catalogName" jdbcType="VARCHAR" />
+		<id column="textbook_id" property="textbookId" jdbcType="INTEGER" />
+		<id column="order_no" property="orderNo" jdbcType="INTEGER" />
+		<id column="status" property="status" jdbcType="INTEGER" />
+		<id column="parent_id" property="parentId" jdbcType="INTEGER" />
+		<id column="catalog_level" property="catalogLevel" jdbcType="INTEGER" />
+		<id column="level_name" property="levelName" jdbcType="VARCHAR" />
+		<id column="introduction" property="introduction" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="pageList" resultMap="BaseResultMap" parameterType="com.ekt.cms.textbook.entity.CmsCatalog">
+		SELECT c.*,
+			   d.value level_name
+	    FROM 
+	    cms_catalog c LEFT JOIN cms_dictionary d on c.catalog_level=d.id 
+		WHERE 1=1 
+		AND textbook_id=#{catalog.textbookId}
+	<if test="catalog.catalogLevel !=null and catalog.catalogLevel !='' and catalog.catalogLevel !=0 ">
+		AND c.catalog_level=#{catalog.catalogLevel}
+	</if>
+	<if test="catalog.catalogName !=null and catalog.catalogName !=''">
+		AND (c.catalog_name like %${catalog.catalogName}%)
+	</if>
+	</select>
+	
+	
+	
+	<update id="updata" parameterType="com.ekt.cms.textbook.entity.CmsCatalog">
+	UPDATE cms_catalog 
+		SET
+			catalog_name=#{catalog.catalogName},
+			order_no=#{catalog.orderNo}, 
+			status=#{catalog.status}, 
+			parent_id = #{catalog.parentId}, 
+		<if test="catalog.introduction !=null and catalog.introduction !=''">
+			introduction = #{catalog.introduction},
+		</if>
+			catalog_level = #{catalog.catalogLevel}
+		 WHERE 
+	 			id=#{catalog.id};	
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM cms_catalog WHERE id=#{id}
+	</delete>
+	
+	<update id="confine" parameterType="java.lang.Integer">
+		 UPDATE  cms_catalog SET status=#{status} WHERE id=#{id}
+	</update>
+	
+	<insert id="add" parameterType="com.ekt.cms.textbook.entity.CmsCatalog" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO cms_catalog 
+			(catalog_name,
+			 textbook_id,
+			 order_no,
+			 parent_id,
+			<if test="introduction !=null and introduction !=''">
+			 introduction,
+			</if>
+			 catalog_level
+			
+			 )VALUES(
+			 #{catalogName},
+			 #{textbookId},
+			 #{orderNo},
+			 #{parentId},
+		 <if test="introduction !=null and introduction !=''">
+		 	 #{introduction},
+		 </if>
+			 #{catalogLevel}
+			 )
+	</insert>
+	
+	<select id="queryBycatalogName" parameterType="java.lang.String" resultType="java.util.Map">
+		SELECT * FROM 	cms_catalog WHERE catalog_name=#{catalogName}
+	</select>
+	
+</mapper>
