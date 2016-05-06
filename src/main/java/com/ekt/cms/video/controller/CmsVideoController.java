@@ -72,7 +72,7 @@ public class CmsVideoController {
 	@RequestMapping("/addVideo")
 	@ResponseBody
 	public Result insert(CmsVideo cmsVideo){
-		Result result = new Result();
+		Result result =  Result.getResults();
 		result.setResult(cmsVideoService.insert(cmsVideo));
 		return result;
 		}

@@ -36,7 +36,7 @@ public class VodCloud {
 	@RequestMapping(value = "/upload" , method = RequestMethod.POST) 
 	public String    upload (HttpServletRequest request , RedirectAttributes arr){
 		TreeMap<String, Object> config = new TreeMap<String, Object>();
-		Result result=new Result();
+		Result result= Result.getResults();
 		config.put("SecretId", Constants.DEFAULT_UPLOAD_SECRETID);
 		config.put("SecretKey", Constants.DEFAULT_UPLOAD_SECRETKEY);
 		config.put("RequestMethod", "POST");
@@ -132,7 +132,7 @@ public class VodCloud {
 	@ResponseBody
 	public  Result  getUrl(String fileId) {
 		
-		Result result=new Result();
+		Result result= Result.getResults();
 		CmsVideo video=new CmsVideo();
 		//通过DescribeVodPlayUrls接口获得视频的播放地址
 		TreeMap<String, Object> configUrl = new TreeMap<String, Object>();

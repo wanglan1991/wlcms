@@ -259,6 +259,7 @@ define(function (require, exports, module) {
 //		        	隐藏教材
 		        	$("#table").hide();
 		        	$("#table2").attr("catalogIdTag",row.id);
+		        	$('.page-header h1').find('span').text(row.title+"目录");
 //		        	C.catalogTable.reload();
 		        	 var cols = [
 		 	                    {
@@ -433,6 +434,7 @@ define(function (require, exports, module) {
 			});
 			//关闭目录页面
 			$("#catalogClose").click(function(){
+				$('.page-header h1').find('span').text("教材");
 				$("#catalogName").val('');
 				$("#catalogLevel").val(0);
 				$("#table").show();
