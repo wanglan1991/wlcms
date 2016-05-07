@@ -18,20 +18,23 @@
     </div>  
   </div>
 </div>
-<!-- 明天继续 -->
-<!-- <div id="table2"> -->
-<!--   <div class='box-header' id="perm-header"> -->
-<!--     <div class='actions'></div> -->
-<!--   </div> -->
-<!--   <div class='box-content box-no-padding'> -->
-<!--     <div class='responsive-table'> -->
-<!--       <div class='scrollable-area-x'> -->
-<!--         <table id="catalogTable"></table> -->
-<!--       </div> -->
-<!--     </div>   -->
-<!--   </div> -->
-<!-- </div> -->
-<!-- 明天继续 -->
+
+
+<div id="table2" style="display: none" >
+  <div class='box-header' id="catalog-header">
+    <div class='action'>
+    </div>
+  </div>
+  <div class='box-content box-no-padding'>
+    <div class='responsive-table'>
+      <div class='scrollable-area-x'>
+        <table id="catalogTable"></table>
+      </div>
+    </div>  
+  </div>
+</div>
+
+
 <div  id='modal-addTextbook'  style="display: none" >
 	<div style="margin-left:56px;">
 		<h2>添加教材</h2>
@@ -206,6 +209,55 @@
 
 </div>
 
+<div class='modal hide fade' id='modal-addCatalog'  tabindex='-1'>
+    <div class='modal-header'>
+        <h3></h3>
+    </div>
+    <div class='modal-body'>
+        <div class='control-group'>
+            <label class='control-label'>目录/章节名称</label>
+            <div class='controls'>
+                <input id='addCatalogName'  required  maxlength='15' placeholder='目录或者章节名称' type='text' />
+                <span id="addCatalogName-error" class="help-block error" style="font-size: 4px;color:#b94a48;"></span>
+            </div>
+        </div>
+        <div class='control-group'>
+            <label class='control-label'>目录级别</label>
+            <div class='controls'>
+               <select id="addCatalogLevel"></select>
+                 <span id="addCatalogLevel-error" class="help-block error" style="font-size: 4px;color:#b94a48;"></span>
+            </div>
+        </div>
+	    <div class='control-group' id=addParent style="display:none">
+	            <label class='control-label'>父级</label>
+	            <div class='controls'>
+	             <input required id="addParentId"  placeholder='parentId' maxlength="5" onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" type="text" >
+	                 <span id="addParentId-error" class="help-block error" style="font-size: 4px;color:#b94a48;"></span>
+	            </div>
+	    </div>
+	    <div class='control-group'>
+	            <label class='control-label'>简介</label>
+	            <div class='controls'>
+	               <textarea  class='span8' id="addIntroduction" placeholder='简介'></textarea>
+	                 <span id="addIntroduction-error" class="help-block error" style="font-size: 4px;color:#b94a48;"></span>
+	            </div>
+	    </div>
+	    <div class='control-group'>
+	            <label class='control-label'>排序</label>
+	            <div class='controls'>
+	               <input required id="addOrder"  placeholder='排序' maxlength="4" onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" type="text" >
+	                 <span id="addOrder-error" class="help-block error" style="font-size: 4px;color:#b94a48;"></span>
+	            </div>
+	    </div>
+    </div>
+    <div class='modal-footer'>
+    	<msg id='msg'></msg>
+        <button type="button" id="catalogBtnClose" class='btn'>关闭</button>
+        <button type="button" id="catalogBtnSubmit" class='btn btn-primary'>保存</button>
+        <button type="button"  style="display:none" id="editCatalogSubmit" class='btn btn-primary'>保存</button>
+    </div>
+    </form>
+</div>
 
 
 
@@ -215,6 +267,7 @@
 	b.init();
     m.init('${ctx}');
   });
+  
 </script>
 </body>
 </html>

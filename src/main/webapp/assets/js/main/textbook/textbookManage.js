@@ -3,12 +3,51 @@ define(function (require, exports, module) {
     var base = require('base');
     var core = require('core');
     // 通过 require 引入依赖
+   
+    
+    var C = module.exports = {
+            basepath: '',
+            catalogTable:new core.Table('catalogTable'),
+            init: function (_basepath) {
+                C.basepath = _basepath;
+                
+
+              //删除目录
+	     },delCatalogs:function(ids){
+	    	  $.ajax({
+	    		  url:C.basepath+'/cms/catalog/delete',
+	    		  type:"POST",
+	    		  data:{ids:ids.toString()},
+	    		  success:function(data){
+	    			  if(data.result>0){
+	    				  C.reload();
+	    			  }else{
+	    				  alert("异常 ！")
+	    			  }
+	    		  }
+	    	  });
+	       },reload:function(){
+	       	C.catalogTable.reload();
+	       }, operateFormatter:function (value, row, index) {
+	        	var _btnAction = "";
+	        	if (base.perList.permission.confine) {
+	        	_btnAction += "<a class='confineCatalog btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"+(row.status==1?"停用":"启用")+"</a>";
+	        	}
+	        	if (base.perList.permission.edit) {
+	        		_btnAction += "<a data-toggle='modal' class='editCatalog btn btn-success btn-small' href='#' title='编辑' style='margin-left:5px'>编辑</a>";
+	        	}
+	        	if (base.perList.permission.del) {
+	        		_btnAction += "<a class='delCatalog btn btn-danger btn-small' href='#' title='删除' style='margin-left:5px'>删除</a>";
+	        	}
+	        		_btnAction += "<a class='knowledgeCategory btn btn-primary btn-small' href='#' title='查看目录' style='margin-left:5px'>知识点目录</a>";
+	        	return _btnAction;
+	        } 
+	       
+	    };
+    
     var F = module.exports = {
         basepath: '',
-        tree:{},
-        radioTree:{},
         table:new core.Table('textbookTable'),
-        catalogTable:new core.Table('catalogTable'),
         init: function (_basepath) {
             F.basepath = _basepath;
           	
@@ -16,7 +55,7 @@ define(function (require, exports, module) {
              * 是否具有添加权限权限
              */
 //            if(base.perList.permission.check){
-            	$("#perm-header .actions").append("<input autocomplete='off'  id='name'  placeholder='请输入名称' type='text' />&nbsp;&nbsp;" +
+            	$("#perm-header .actions").append("<input autocomplete='off'  id='name'  placeholder='请输入教材名称' type='text' />&nbsp;&nbsp;" +
 				"<select id='grade'></select>&nbsp;&nbsp;" +
 				"<select id='subject'></select>&nbsp;&nbsp;" +
 				"<a href='#' id='query' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>&nbsp;&nbsp;&nbsp;&nbsp;");
@@ -35,6 +74,23 @@ define(function (require, exports, module) {
 //            if(base.perList.permission.del){
             	$("#perm-header .actions").append("<a href='#' id='delTextbooks' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
 //            }
+            	
+            	
+//	          if(base.perList.permission.edit){
+	        	$("#catalog-header .action").append("<input autocomplete='off' id=catalogName    placeholder='请输入名称' type='text' />&nbsp;&nbsp;" +
+	    				"<select id='catalogLevel'></select>&nbsp;&nbsp;" +
+		    			"<a href='javascript:void(0)' id='catalogQuery' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>&nbsp;&nbsp;&nbsp;&nbsp;");
+		        		 getDictOptions("目录级别","catalogLevel","#catalogLevel");
+//	        	 }
+//		      if(base.perList.permission.del){
+		        $("#catalog-header .action").append("<a href='#' id='delCatalog' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
+//
+//		      if(base.perList.permission.create){
+		        $("#catalog-header .action").append("<a href='#' id='addCatalog' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>添加</a>");
+//		       }
+		        $("#catalog-header .action").append("<button class='close' type='button' id='catalogClose' >x</button>");
+            	
+            	
             	
             
             
@@ -99,17 +155,62 @@ define(function (require, exports, module) {
             
 	        
 	        operateEvents = {
-	        		
-				/**
-				 *打开修改模态框
+	        	//停用或启用目录	
+	        	'click .confineCatalog': function(e, value, row, index){
+	        		$.ajax({
+		        		url:F.basepath+'/cms/catalog/confine',
+		        		type:'POST',
+		        		data:{id:row.id,status:row.status==1?0:1},
+		        		success:function(data){
+		        			if(data.result>0){
+		        				C.reload();
+		        			}else{
+		        				alert("异常！ 稍后再试");
+		        			}
+		        		}
+		        	});
+            	},
+            	 /**
+				 * 单个删除目录
 				 */
+		        'click .delCatalog': function (e, value, row, index) {
+		        	base.bootConfirm("是否确定删除？",function(){
+		        		var ids = new Array();  
+		        		ids.push(row.id);   
+		    			C.delCatalogs(ids);
+		    		});
+		        },
+		        /**
+		         * 编辑目录信息 开启模态框
+		         */
+		        'click .editCatalog':function(e, value, row, index){
+		        	
+		        	core.openModel('modal-addCatalog','添加目录/章节',function(){
+		        	});
+		        	 $("#modal-addCatalog").attr("idTag",row.id);
+		        	 $("#addCatalogLevel").empty();
+					 $("#catalogBtnSubmit").hide();
+					 $("#editCatalogSubmit").show();
+					 $("#addCatalogName").val(row.catalogName);
+					 getEditDictOptions("目录级别","catalogLevel","#addCatalogLevel",row.catalogLevel);
+					 $("#addIntroduction").val(row.introduction);
+					 $("#addOrder").val(row.orderNo);
+					 if(row.catalogLevel!=51){
+						 $("#addParent").show();
+						 $("#addParentId").val(row.parentId);
+					 }
+		        },
+	        		
+            	/**
+				 *打开修改模态框
+				 */	
 		        'click .editTextbook': function (e, value, row, index) {
 		        	$("#modal-editTextbook").show();
 		        	$("#table").hide();
 		        	$("#editKnowledgeTree").show();
 		        	$("#editGradeTag").attr('grade',row.gradeNo);
 		        	$("#editSubjectTag").attr('subject',row.subjectNo);
-		        	$("#modal-editTextbook").attr("idtag",row.id);
+		        	$("#modal-editTextbook").attr("idTag",row.id);
 		        	$("#editKnowledgeTree").attr("knowledgePointArrTag",row.knowledgePointArr);
 		        	getEditDictOptions("年级","grade","#editGrade",row.gradeNo);
 		        	getEditDictOptions("科目","subject","#editSubject",row.subjectNo);
@@ -141,7 +242,7 @@ define(function (require, exports, module) {
 		        	});
 		        },
 		        /**
-				 * 删除权限
+				 * 删除教材
 				 */
 		        'click .delTextbook': function (e, value, row, index) {
 		        	base.bootConfirm("是否确定删除？",function(){
@@ -155,7 +256,11 @@ define(function (require, exports, module) {
 				 * 加载目录结构
 				 */
 		        'click .category': function (e, value, row, index) {
+//		        	隐藏教材
 		        	$("#table").hide();
+		        	$("#table2").attr("catalogIdTag",row.id);
+		        	$('.page-header h1').find('span').text(row.title+"目录");
+//		        	C.catalogTable.reload();
 		        	 var cols = [
 		 	                    {
 		 	        		        checkbox:true
@@ -163,17 +268,14 @@ define(function (require, exports, module) {
 		 	        		        field: 'id',
 		 	        		        title: '主键'
 		 	        		    }, {
-		 	        		        field: 'title',
-		 	        		        title: '名称'
+		 	        		        field: 'catalogName',
+		 	        		        title: '目录/章节 -名称'
 		 	        		    },{
-		 	        		        field: 'digest',
-		 	        		        title: '摘要'
+		 	        		        field: 'levelName',
+		 	        		        title: '目录级别'
 		 	        		    },{
-		 	        		        field: 'author',
-		 	        		        title: '作者'
-		 	        		    },{
-		 	        		        field: 'pushPerson',
-		 	        		        title: '录入人'
+		 	        		        field: 'introduction',
+		 	        		        title: '简介'
 		 	        		    }];
 		 	        //是否需要操作列
 		 	        if(base.perList.permission.edit||base.perList.permission.del||base.perList.permission.confine)
@@ -181,16 +283,13 @@ define(function (require, exports, module) {
 		 			    	align: 'center',
 		 			        title: '操作',
 		 			        events: operateEvents,
-		 			        formatter:F.operateFormatter
+		 			        formatter:C.operateFormatter
 		 			    });
-		         		
-		     		F.catalogTable.init(F.basepath+'/cms/textbook/pageList',cols);   	
-		        	
-		        	$("#table2").show();
-		        	
-		        	
-		        	
-		        	
+		 	        //解决回调刷新问题
+		 	       $("#catalogTable").bootstrapTable('refresh',{url:F.basepath+'/cms/catalog/pageList?textbookId='+row.id});
+		 	       //加载目录列表
+		     		C.catalogTable.init(F.basepath+'/cms/catalog/pageList?textbookId='+row.id,cols);   	
+			        $("#table2").show();
 		        	
 		        	
 		        	
@@ -213,8 +312,6 @@ define(function (require, exports, module) {
 	        	}
 
 		    };
-		    	        
-	        
 	        
 	        var cols = [
 	                    {
@@ -247,15 +344,27 @@ define(function (require, exports, module) {
     		F.table.init(F.basepath+'/cms/textbook/pageList',cols);
     		
     		/**
-    		 * 带参查询
+    		 * 带参查询教材
     		 */
-    		$('#query').click(function(){
+    		$('.actions #query').click(function(){
     			var title=$("#name").val();
     			var grade=$("#grade").val();
     			var subject=$("#subject").val();
     			var url= F.basepath+'/cms/textbook/pageList?title='+title+'&gradeNo='+grade+"&subjectNo="+subject;
 				$("#textbookTable").bootstrapTable('refresh',{url:url});	
     		});
+    		
+    		/**
+    		 * 带参查询目录
+    		 */
+    		$("#catalogQuery").click(function(){
+    			var catalogName = $("#catalogName").val();
+    			var catalogLevel = $("#catalogLevel").val();
+    			var textbookId = $("#table2").attr("catalogIdTag");
+    			var url= F.basepath+'/cms/catalog/pageList?textbookId='+textbookId+'&catalogName='+catalogName+'&catalogLevel='+catalogLevel;
+    			$("#catalogTable").bootstrapTable('refresh',{url:url});	
+    		})
+    		
     		
 			/**
 			 * 显示新增框
@@ -323,8 +432,71 @@ define(function (require, exports, module) {
 				}
 				
 			});
+			//关闭目录页面
+			$("#catalogClose").click(function(){
+				$('.page-header h1').find('span').text("教材");
+				$("#catalogName").val('');
+				$("#catalogLevel").val(0);
+				$("#table").show();
+				$("#table2").hide();
+			});
+			//开启添加目录模态框
+			$("#addCatalog").click(function(){
+				core.openModel('modal-addCatalog','添加目录/章节');
+				 getDictOptions("目录级别","catalogLevel","#addCatalogLevel");
+			});
 			
-			
+			//关闭添加目录模态框
+			$("#catalogBtnClose").click(function(){
+				catalogClear();
+			});
+			//编辑目录提交
+			$("#editCatalogSubmit").click(function(){
+				var id = $("#modal-addCatalog").attr("idTag");
+				var catalogName = $("#addCatalogName").val();
+				var catalogLevel = $("#addCatalogLevel").val();
+				var parentId =	$("#addParentId").val();
+				var introduction = $("#addIntroduction").val();
+				var order = $("#addOrder").val();
+				if(catalogName.length<1){$("#addCatalogName-error").text("目录/章节 名称不能为空！");return;};
+				if(catalogLevel==0){$("#addCatalogLevel-error").text("目录级别为必选项！");return;};
+				if(catalogLevel!=0&&catalogLevel!=51&&parentId.length<1){$("#addParentId-error").text("父级Id不能为空！");return;};
+				if(order.length<1){$("#addOrder-error").text("排序不能为空！");return;};
+				var datas={
+						id:id,
+						catalogName:catalogName,
+						catalogLevel:catalogLevel,
+						parentId:catalogLevel==51?0:parentId,
+						introduction:introduction,
+						orderNo:order
+				};
+				$.ajax({
+					url:F.basepath+'/cms/catalog/update',
+	        		type:'post',
+	        		data:datas,
+	        		success:function(data){
+	        			if(data.result==-1){
+	        				$("#addCatalogName-error").text(data.msg);
+	        				$("#addCatalogName").val('');
+	        			}
+	        			else if(data.result>0){
+	        				C.catalogTable.reload();
+	        				catalogClear();
+	        			}else{
+	        				catalogClear();
+	        				alert("异常！");
+	        			}
+	        		}	
+				});
+				
+				
+				
+				
+				
+				
+				
+				
+			})
 			
 			/**
 			 * 关闭新增框
@@ -372,10 +544,101 @@ define(function (require, exports, module) {
 				$("#editPushPerson").val("");
 				$("#editMsg").text("");
 			}
+			
+			function catalogClear(){
+				core.closeModel('modal-addCatalog');
+				$("#addCatalogName").val('');
+				$("#addCatalogLevel").val(0);
+				$("#addParentId").val('');
+				$("#addIntroduction").val('');
+				$("#addOrder").val('');
+				$("#addParent").hide();
+				$("#addCatalogName-error").text('');
+				$("#addCatalogLevel-error").text('');
+				$("#addOrder-error").text('');
+				$("#addParentId-error").text('');
+				$("#addCatalogLevel").empty();
+			};
+			
+			
+			
+			
+			/**
+			 * 提交新增目录
+			 */
+			$("#catalogBtnSubmit").click(function(){
+				var catalogIdTag = $("#table2").attr("catalogIdTag");
+				var catalogName = $("#addCatalogName").val();
+				var catalogLevel = $("#addCatalogLevel").val();
+				var parentId =	$("#addParentId").val();
+				var introduction = $("#addIntroduction").val();
+				var order = $("#addOrder").val();
+//				alert(catalogName+"----"+catalogLevel+"------"+parentId+"----"+introduction+"------"+order);
+				if(catalogName.length<1){$("#addCatalogName-error").text("目录/章节 名称不能为空！");return;};
+				if(catalogLevel==0){$("#addCatalogLevel-error").text("目录级别为必选项！");return;};
+				if(catalogLevel!=0&&catalogLevel!=51&&parentId.length<1){$("#addParentId-error").text("父级Id不能为空！");return;};
+				if(order.length<1){$("#addOrder-error").text("排序不能为空！");return;};
+				var datas={
+						textbookId:catalogIdTag,
+						catalogName:catalogName,
+						catalogLevel:catalogLevel,
+						parentId:catalogLevel==51?0:parentId,
+						introduction:introduction,
+						orderNo:order
+				};
+				
+				$.ajax({
+					url:F.basepath+'/cms/catalog/add',
+	        		type:'post',
+	        		data:datas,
+	        		success:function(data){
+	        			if(data.result==-1){
+	        				$("#addCatalogName-error").text(data.msg);
+	        				$("#addCatalogName").val('');
+	        			}
+	        			else if(data.result>0){
+	        				C.catalogTable.reload();
+	        				catalogClear();
+	        			}else{
+	        				catalogClear();
+	        				alert("异常！");
+	        			}
+	        		}	
+				});
+			});
+			
+			
+			
+			
+			/**
+			 * 删除目录
+			 */
+			$('#delCatalog').click(function(){
+				var ids = C.catalogTable.getIdSelections();
+				if(ids!=null&&ids.length>0){
+					base.bootConfirm("是否确定删除选定的"+ids.length+"个目录？",function(){
+						C.delCatalogs(ids);
+					});
+				}else{
+					base.bootAlert({"ok":false,"msg":"请选择你要删除的权限！"});
+				}
+			});
+			/**
+			 * 监听目录选择
+			 */
+			$("#addCatalogLevel").change(function(){
+				var catalogLevel = $("#addCatalogLevel").val();
+				if(catalogLevel!=0&&catalogLevel!=51){
+					$("#addParent").show();
+				}else{
+					$("#addParent").hide();
+				}
+			});
+			
 
 			
 			/**
-			 * 提交新增
+			 * 提交新增教材
 			 */
 			$('#btnSubmit').click(function(){
 				var treeObj = $.fn.zTree.getZTreeObj("knowledgeTree");				
@@ -442,7 +705,7 @@ define(function (require, exports, module) {
 				
 			});
 			/**
-			 * 修改提交
+			 * 修改提交教材
 			 */
 			$("#editBtnSubmit").click(function(){
 				var treeObj = $.fn.zTree.getZTreeObj("updateKnowledgeTree");				
@@ -505,7 +768,7 @@ define(function (require, exports, module) {
 				
 			});
 			/**
-			 * 批量删除
+			 * 批量删除教材
 			 */
 			$('#delTextbooks').click(function(){
 				var ids = F.table.getIdSelections();
@@ -517,7 +780,10 @@ define(function (require, exports, module) {
 					base.bootAlert({"ok":false,"msg":"请选择你要删除的权限！"});
 				}
 			});
-			//删除教材
+			
+			
+			
+			//删除教材教材
         },delTextbook:function(ids){
         	$.ajax({
         		url:F.basepath+'/cms/textbook/delete',
@@ -532,6 +798,7 @@ define(function (require, exports, module) {
         //刷新表单
         },reload:function(){
         	F.table.reload();
+        	
         }
         ,
         operateFormatter:function (value, row, index) {
@@ -543,10 +810,12 @@ define(function (require, exports, module) {
         		_btnAction += "<a data-toggle='modal' class='editTextbook btn btn-success btn-small' href='#' title='编辑权限' style='margin-left:5px'>编辑</a>";
         	}
         	if (base.perList.permission.del) {
-        		_btnAction += "<a class='delTextbook btn btn-danger btn-small' href='#' title='删除权限' style='margin-left:5px'>删除</a>";
+        		_btnAction += "<a class='delTextbook btn btn-danger btn-small' href='#' title='删除' style='margin-left:5px'>删除</a>";
         	}
-        		_btnAction += "<a class='category btn btn-primary btn-small' href='#' title='目录接口' style='margin-left:5px'>目录结构</a>";
+        		_btnAction += "<a class='category btn btn-primary btn-small' href='#' title='查看目录' style='margin-left:5px'>查看目录</a>";
         	return _btnAction;
         } 
     };
+    
+    
 });

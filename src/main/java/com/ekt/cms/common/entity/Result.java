@@ -9,7 +9,12 @@ import java.util.List;
  * @param <T>
  *
  */
-public class Result {
+public final class Result {
+	
+	
+	private Result(){
+		
+	}
 
 	private String msg;
 	

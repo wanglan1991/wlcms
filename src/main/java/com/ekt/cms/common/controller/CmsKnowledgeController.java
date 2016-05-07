@@ -39,7 +39,7 @@ public class CmsKnowledgeController {
 	@RequestMapping("/editKnowledge")
 	@ResponseBody
 	public Result update(CmsKnowledge cmsKnowledge) {
-		Result result = new Result();
+		Result result = Result.getResults();
 		result.setResult(cmsKnowledgeService.updateByPrimaryKey(cmsKnowledge));
 		return result;
 	}
@@ -47,7 +47,7 @@ public class CmsKnowledgeController {
 	@RequestMapping("/addKnowledge")
 	@ResponseBody
 	public Result insert(CmsKnowledge cmsKnowledge) {
-		Result result = new Result();
+		Result result = Result.getResults();
 		List<CmsKnowledge> list = cmsKnowledgeService.queryByTitle(cmsKnowledge);
 		if (list.size() > 0) {
 			result.setMsg("该知识点已存在");
@@ -61,7 +61,7 @@ public class CmsKnowledgeController {
 	@RequestMapping("/confine")
 	@ResponseBody
 	public Result confine(CmsKnowledge cmsKnowledge) {
-		Result result = new Result();
+		Result result = Result.getResults();
 		result.setResult(cmsKnowledgeService.confine(cmsKnowledge));
 		return result;
 	}
@@ -69,7 +69,7 @@ public class CmsKnowledgeController {
 	@RequestMapping("/delete")
 	@ResponseBody
 	public Result deletes(String ids) {
-		Result result = new Result();
+		Result result =  Result.getResults();
 		String[] arr = ids.split(",");
 		int total = 0;
 		for (String id : arr) {
@@ -82,7 +82,7 @@ public class CmsKnowledgeController {
 	 @RequestMapping("/queryByCondition")
 	 @ResponseBody
 	 public Result queryByCondition(CmsKnowledge cmsKnowledge){
-	 Result result=new Result();
+	 Result result=Result.getResults();
 	 result.setValue(cmsKnowledgeService.query(cmsKnowledge));
 	 return result;
 	 }

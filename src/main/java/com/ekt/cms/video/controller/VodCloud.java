@@ -38,6 +38,7 @@ public class VodCloud {
 	public Result      upload (HttpServletRequest request , RedirectAttributes arr){
 		TreeMap<String, Object> config = new TreeMap<String, Object>();
 		Result result=Result.getResults();
+
 		config.put("SecretId", Constants.DEFAULT_UPLOAD_SECRETID);
 		config.put("SecretKey", Constants.DEFAULT_UPLOAD_SECRETKEY);
 		config.put("RequestMethod", "POST");
@@ -87,7 +88,6 @@ public class VodCloud {
 //				params.put("isTranscode", isTranscode);
 //				params.put("isWatermark", isWatermark);
 				params.put("file", filePath);
-				
 				resultJson = module.call("MultipartUploadVodFile", params);
 				
 				JSONObject json_result = new JSONObject(resultJson);
@@ -132,8 +132,7 @@ public class VodCloud {
 	@RequestMapping(value = "/describeVodInfo" ) 
 	@ResponseBody
 	public  Result  getUrl(String fileId) {
-		
-		Result result=Result.getResults();
+		Result result= Result.getResults();
 		CmsVideo video=new CmsVideo();
 		//通过DescribeVodPlayUrls接口获得视频的播放地址
 		TreeMap<String, Object> configUrl = new TreeMap<String, Object>();
@@ -147,7 +146,6 @@ public class VodCloud {
 		
 		//通过DescribeVodInfo接口获得视频信息 如视频名称 时长 视频封面图片URL等
 		TreeMap<String, Object> configInfo = new TreeMap<String, Object>();
-		System.out.println("enter...");
 		configInfo.put("SecretId", Constants.DEFAULT_UPLOAD_SECRETID);
 		configInfo.put("SecretKey", Constants.DEFAULT_UPLOAD_SECRETKEY);
 		configInfo.put("RequestMethod", "GET");
@@ -156,8 +154,6 @@ public class VodCloud {
 		QcloudApiModuleCenter moduleInfo = new QcloudApiModuleCenter(vodInfo, configInfo);
 		
 		try{
-			System.out.println("starting...");
-				
 				//给DescribeVodPlayUrls传参并调用
 				String resultUrl = null;
 				TreeMap<String, Object> params = new TreeMap<String, Object>();
@@ -202,9 +198,7 @@ public class VodCloud {
 		catch (Exception e) {
 			e.printStackTrace();
 			result.setMsg("获取视频信息失败");
-			System.out.println("error...");
 		}
-		System.out.println("end...");
 		return result;
 	}
 }
