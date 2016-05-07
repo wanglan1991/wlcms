@@ -11,6 +11,7 @@
 		<id column="catalog_level" property="catalogLevel" jdbcType="INTEGER" />
 		<id column="level_name" property="levelName" jdbcType="VARCHAR" />
 		<id column="introduction" property="introduction" jdbcType="VARCHAR" />
+		<id column="video_file_name" property="videoFileName" jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<select id="pageList" resultMap="BaseResultMap" parameterType="com.ekt.cms.textbook.entity.CmsCatalog">
@@ -23,9 +24,13 @@
 	<if test="catalog.catalogLevel !=null and catalog.catalogLevel !='' and catalog.catalogLevel !=0 ">
 		AND c.catalog_level=#{catalog.catalogLevel}
 	</if>
+	<if test="catalog.parentId !=null and catalog.parentId !='' and catalog.parentId !=0">
+		AND c.parent_id =#{catalog.parentId}	
+	</if>
 	<if test="catalog.catalogName !=null and catalog.catalogName !=''">
 		AND (c.catalog_name like %${catalog.catalogName}%)
 	</if>
+		ORDER by c.parent_id
 	</select>
 	
 	
@@ -35,18 +40,24 @@
 		SET
 			catalog_name=#{catalog.catalogName},
 			order_no=#{catalog.orderNo}, 
-			status=#{catalog.status}, 
-			parent_id = #{catalog.parentId}, 
-		<if test="catalog.introduction !=null and catalog.introduction !=''">
-			introduction = #{catalog.introduction},
+			status=#{catalog.status},
+		<if test="catalog.videoFileName !=null and catalog.videoFileName !=''"> 
+			video_file_name=#{catalog.videoFileName},
 		</if>
-			catalog_level = #{catalog.catalogLevel}
+		<if test="catalog.introduction !=null and catalog.introduction !=''">
+			introduction = #{catalog.introduction}
+		</if>
+		
 		 WHERE 
 	 			id=#{catalog.id};	
 	</update>
 	
 	<delete id="delete" parameterType="java.lang.Integer">
 		DELETE FROM cms_catalog WHERE id=#{id}
+	</delete>
+	
+	<delete id="deleteByTextbookId" parameterType="java.lang.Integer">
+		DELETE FROM cms_catalog WHERE textbook_id=#{textbookId}
 	</delete>
 	
 	<update id="confine" parameterType="java.lang.Integer">
@@ -59,6 +70,9 @@
 			 textbook_id,
 			 order_no,
 			 parent_id,
+			 <if test="videoFileName !=null and videoFileName !=''">
+			 video_file_name,
+			 </if>
 			<if test="introduction !=null and introduction !=''">
 			 introduction,
 			</if>
@@ -69,6 +83,9 @@
 			 #{textbookId},
 			 #{orderNo},
 			 #{parentId},
+		 <if test="videoFileName !=null and videoFileName !=''">
+			 #{videoFileName},
+		</if>
 		 <if test="introduction !=null and introduction !=''">
 		 	 #{introduction},
 		 </if>
@@ -76,8 +93,21 @@
 			 )
 	</insert>
 	
-	<select id="queryBycatalogName" parameterType="java.lang.String" resultType="java.util.Map">
-		SELECT * FROM 	cms_catalog WHERE catalog_name=#{catalogName}
+	<select id="queryBycatalogName"  resultType="java.util.Map">
+		SELECT * FROM 	cms_catalog WHERE  textbook_id= #{textbookId} and  catalog_name = #{catalogName} 
 	</select>
+	<select id="getCatalogParentList" resultType="java.util.Map">
+		SELECT * FROM 
+			cms_catalog 
+		WHERE 
+			catalog_level=#{levelNo} 
+		AND 
+			textbook_id=#{textbookId}
+		AND status&lt;&gt;0
+	</select>
+	<delete id="deleteByParentId" parameterType="java.lang.Integer" >
+		DELETE FROM cms_catalog WHERE parent_id=#{parentId}
+	</delete>
+<!-- 	明天继续 -->
 	
 </mapper>

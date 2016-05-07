@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import com.ekt.cms.textbook.entity.CmsTextbook;
+import com.ekt.cms.textbook.service.ICmsCatalogService;
 import com.ekt.cms.textbook.service.ICmsTextbookService;
 import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.utils.pageHelper.PageContext;
@@ -49,6 +51,9 @@ public class CmsTextbookController {
 
 	@Resource
 	private ICmsKnowledgeService cmsKnowledgeService;
+	
+	@Resource
+	private ICmsCatalogService cmsCatalogService;
 
 	@RequestMapping("/manage")
 	public String textbookManage() {
@@ -85,6 +90,7 @@ public class CmsTextbookController {
 	 * @param ids
 	 * @return
 	 */
+	@Transactional
 	@RequestMapping("/delete")
 	@ResponseBody
 	public Result deleteTextbook(@RequestParam("ids") String ids) {
@@ -93,6 +99,7 @@ public class CmsTextbookController {
 		int total = 0;
 		for (String id : arr) {
 			total += cmsTextbookService.deleteTextbook(Integer.parseInt(id));
+			cmsCatalogService.deleteByTextbookId(Integer.parseInt(id));
 		}
 		result.setResult(total);
 		return result;

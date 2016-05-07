@@ -52,6 +52,28 @@ public interface ICmsCatalogService {
 	 * @param catalogName
 	 * @return
 	 */
-	List<Map<String,Object>> queryBycatalogName(String catalogName);
+	List<Map<String,Object>> queryBycatalogName(Integer textbookId,String catalogName);
+	
+	/**
+	 * 根据目录级别获取目录父级List
+	 * @param levelNo
+	 * @param textbookId
+	 * @return
+	 */
+	List<Map<String,Object>>getCatalogParentList(Integer levelNo,Integer textbookId);
+	
+	/**
+	 * 根据教材ID删除目录
+	 * @param parentId
+	 * @return
+	 */
+	Integer deleteByTextbookId(Integer textbookId);
+	
+	/**
+	 * 根据父级Id删除章节
+	 * @param parentId
+	 * @return
+	 */
+	Integer deleteByParentId(Integer parentId);
 
 }

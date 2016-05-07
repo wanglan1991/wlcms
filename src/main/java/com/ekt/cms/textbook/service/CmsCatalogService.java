@@ -46,8 +46,25 @@ public class CmsCatalogService implements ICmsCatalogService{
 	}
 
 	@Override
-	public List<Map<String,Object>> queryBycatalogName(String catalogName) {
-		return cmsCatalogMapper.queryBycatalogName(catalogName);
+	public List<Map<String,Object>> queryBycatalogName(Integer textbookId,String catalogName) {
+		return cmsCatalogMapper.queryBycatalogName(textbookId,catalogName);
+	}
+
+	@Override
+	public List<Map<String, Object>> getCatalogParentList(Integer levelNo, Integer textbookId) {
+		return cmsCatalogMapper.getCatalogParentList(levelNo,textbookId);
+	}
+
+	@Override
+	public Integer deleteByTextbookId(Integer textbookId) {
+		
+		return cmsCatalogMapper.deleteByTextbookId(textbookId);
+	}
+
+	@Override
+	public Integer deleteByParentId(Integer parentId) {
+		
+		return cmsCatalogMapper.deleteByParentId(parentId);
 	}
 
 }
