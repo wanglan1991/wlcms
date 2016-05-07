@@ -9,11 +9,11 @@
 		<result column="url1" property="urlBak" jdbcType="VARCHAR"></result>
 		<result column="isp" property="isp" jdbcType="VARCHAR"></result>
 		<result column="file_name" property="fileName" jdbcType="VARCHAR"></result>
-		<result column="author_id" property="author" jdbcType="INTEGER"></result>
+		<result column="author_id" property="authorId" jdbcType="INTEGER"></result>
 		<result column="author" property="author" jdbcType="VARCHAR"></result>
 		<result column="duration" property="duration" jdbcType="VARCHAR"></result>
 		<result column="image_url" property="imageUrl" jdbcType="VARCHAR"></result>
-		<result column="knowledge_id" property="knowledgeId" jdbcType="INTEGER"></result>
+		<result column="knowledge_id" property="knowledgeId" jdbcType="VARCHAR"></result>
 		<result column="status" property="status" jdbcType="INTEGER"></result>
 		<result column="knowledge" property="knowledge" jdbcType="VARCHAR"></result>
 		<result column="grade_no" property="gradeNo" jdbcType="INTEGER"></result>
@@ -39,32 +39,31 @@
 			image_url,
 			knowledge_id,
 			v.status status,
-			p.title knowledge,
-			p.grade_no grade_no,
+			 knowledge,
+			v.grade_no grade_no,
 			d.value grade,
-			p.subject_no subject_no,
+			v.subject_no subject_no,
 			d1.value subject
 		FROM
 			cms_video v
-		LEFT JOIN cms_knowledge_point p ON v.knowledge_id = p.id
-		LEFT JOIN cms_dictionary d on p.grade_no=d.id
-		LEFT JOIN cms_dictionary d1 on p.subject_no=d1.id
+		LEFT JOIN cms_dictionary d on v.grade_no=d.id
+		LEFT JOIN cms_dictionary d1 on v.subject_no=d1.id
 		LEFT JOIN cms_account a on a.id= v.author_id
 		WHERE 1=1
 		<if test="CmsVideo.videoName !=null and CmsVideo.videoName != ''">
 			AND (video_name like '%${CmsVideo.videoName}%')
 		</if>
 		<if test="CmsVideo.knowledge !=null and CmsVideo.knowledge != ''">
-			OR (p.title like '%${CmsVideo.knowledge}%')
+			OR (knowledge like '%${CmsVideo.knowledge}%')
 		</if>
 		<if test="CmsVideo.gradeNo !=null and CmsVideo.gradeNo !=0" >
-			AND p.grade_no=#{CmsVideo.gradeNo ,jdbcType=INTEGER}
+			AND v.grade_no=#{CmsVideo.gradeNo ,jdbcType=INTEGER}
 		</if>
 		<if test="CmsVideo.subjectNo !=null and CmsVideo.subjectNo !=0">
-			AND p.subject_no=#{CmsVideo.subjectNo, jdbcType=INTEGER}
+			AND v.subject_no=#{CmsVideo.subjectNo, jdbcType=INTEGER}
 		</if>
-		<if test="CmsVideo.author !=null and CmsVideo.author !=''" >
-			AND (author like '%${CmsVideo.author}%')
+		<if test="CmsVideo.authorId !=null and CmsVideo.authorId !=0" >
+			AND (author_id = #{CmsVideo.authorId})
 		</if>
 		<if test="CmsVideo.isp !=null and CmsVideo.isp !=''">
 			AND (isp like '%${CmsVideo.isp}%')
@@ -107,15 +106,25 @@
 			<if test="CmsVideo.fileName !=null and CmsVideo.fileName != ''">
 			file_name=#{CmsVideo.fileName},
 			</if>
-			<if test="CmsVideo.author !=null and CmsVideo.author != ''">
-			author=#{CmsVideo.author},
+			<if test="CmsVideo.authorId !=null and CmsVideo.authorId != ''">
+			author_id=#{CmsVideo.authorId},
 			</if>
 			<if test="CmsVideo.knowledgeId !=null and CmsVideo.knowledgeId != ''">
 			knowledge_id=#{CmsVideo.knowledgeId},
 			</if>
+			<if test="CmsVideo.knowledge !=null and CmsVideo.knowledge != ''">
+			 knowledge = #{CmsVideo.knowledge},
+			</if>
+			<if test="CmsVideo.gradeNo !=null and CmsVideo.gradeNo !=0" >
+			 grade_no= #{CmsVideo.gradeNo ,jdbcType=INTEGER},
+			</if>
+			<if test="CmsVideo.subjectNo !=null and CmsVideo.subjectNo !=0">
+			subject_no= #{CmsVideo.subjectNo, jdbcType=INTEGER},
+			</if>
 			<if test="CmsVideo.status !=null ">
 			status=#{CmsVideo.status}
 			</if>
+			
 		WHERE
 			id=#{CmsVideo.id}
 	</update>
@@ -127,8 +136,8 @@
 	</selectKey>
 		INSERT INTO
 		 cms_video
-			(video_name,digest,url,url1,isp,file_name,author_id,duration,knowledge_id,video_id,status)
+			(video_name,digest,url,url1,isp,file_name,author_id,duration,knowledge_id,grade_no,subject_no,knowledge,video_id,status)
 		VALUES
-			(#{CmsVideo.videoName},#{CmsVideo.digest},#{CmsVideo.url},#{CmsVideo.urlBak},#{CmsVideo.isp},#{CmsVideo.fileName},#{CmsVideo.authorId},#{CmsVideo.duration},#{CmsVideo.knowledgeId},#{CmsVideo.videoId},1)
+			(#{CmsVideo.videoName},#{CmsVideo.digest},#{CmsVideo.url},#{CmsVideo.urlBak},#{CmsVideo.isp},#{CmsVideo.fileName},#{CmsVideo.authorId},#{CmsVideo.duration},#{CmsVideo.knowledgeId},#{CmsVideo.gradeNo},#{CmsVideo.subjectNo},#{CmsVideo.knowledge},#{CmsVideo.videoId},1)
 	</insert>
 	</mapper>
