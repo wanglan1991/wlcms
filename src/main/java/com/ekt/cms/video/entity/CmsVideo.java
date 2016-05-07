@@ -1,7 +1,5 @@
 package com.ekt.cms.video.entity;
 
-import java.util.List;
-
 /**
  * 2016-05-02
  * 

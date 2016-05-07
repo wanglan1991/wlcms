@@ -336,6 +336,15 @@
 					<shiro:hasPermission name="video:confine">
 						<span id="basejs_video_confine" style="display: none;" />
 					</shiro:hasPermission>
+					<shiro:hasPermission name="video:play">
+						<span id="basejs_video_play" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="region:check">
+						<span id="basejs_region_check" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="region:confine">
+						<span id="basejs_region_confine" style="display: none;" />
+					</shiro:hasPermission>
             </div>
         </div>
     </div>
@@ -552,6 +561,16 @@ $(".icon-adjust").click(function(){
 		}
 		if ($('#basejs_video_confine').length > 0) {
 			base.perList.video.confine = true;
+		}
+		if ($('#basejs_video_play').length > 0) {
+			base.perList.video.play = true;
+		}
+		
+		if ($('#basejs_region_check').length > 0) {
+			base.perList.region.check = true;
+		}
+		if ($('#basejs_region_confine').length > 0) {
+			base.perList.region.confine = true;
 		}
 		
 		index.init('${ctx}');
