@@ -57,6 +57,29 @@ public interface CmsCatalogMapper {
 	 * @param catalogName
 	 * @return
 	 */
-	public List<Map<String,Object>> queryBycatalogName(@Param("catalogName")String catalogName);
+	public List<Map<String,Object>> queryBycatalogName(@Param("textbookId")Integer textbookId,@Param("catalogName")String catalogName);
+	
+	/**
+	 * 根据目录级别查询父级List
+	 * @param levelNo
+	 * @param textbookId
+	 * @return
+	 */
+	public List<Map<String, Object>> getCatalogParentList(@Param("levelNo")Integer levelNo,@Param("textbookId") Integer textbookId);
+	
+	/**
+	 * 根据教材id删除目录
+	 * @param parentId
+	 * @return
+	 */
+	public Integer deleteByTextbookId(@Param("textbookId")Integer textbookId);
+	
+	/**
+	 * 根据父级Id删除章节
+	 * @param parentId
+	 * @return
+	 */
+	public Integer deleteByParentId(@Param("parentId")Integer parentId) ;
+	
 
 }

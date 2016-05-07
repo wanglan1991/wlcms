@@ -44,9 +44,19 @@ public class CmsTextbook {
 	private String pushPerson; 
 	//创建时间
 	private Date crateTime;
+	
+	private String knowledgePointArrVal;
 
 	public Date getCrateTime() {
 		return crateTime;
+	}
+
+	public String getKnowledgePointArrVal() {
+		return knowledgePointArrVal;
+	}
+
+	public void setKnowledgePointArrVal(String knowledgePointArrVal) {
+		this.knowledgePointArrVal = knowledgePointArrVal;
 	}
 
 	public void setCrateTime(Date crateTime) {

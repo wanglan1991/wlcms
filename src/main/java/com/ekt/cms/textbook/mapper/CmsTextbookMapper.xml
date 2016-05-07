@@ -22,6 +22,7 @@
 		<result column="status" property="status" jdbcType="INTEGER" />
 		<result column="push_person" property="pushPerson" jdbcType="VARCHAR" />
 		<result column="crate_time" property="crateTime" jdbcType="DATE" />
+		<result column="knowledge_point_arr_val" property="knowledgePointArrVal" jdbcType="VARCHAR" />
 	</resultMap>
 	<select id="listPage" resultMap="BaseResultMap"
 		parameterType="com.ekt.cms.textbook.entity.CmsTextbook">
@@ -77,6 +78,7 @@
 			textbook_type_no,
 			title,
 			knowledge_point_arr,
+			knowledge_point_arr_val,
 		<if test="digest !=null and digest !=''">
 			digest,
 		</if>
@@ -91,6 +93,7 @@
 				#{textbookTypeNo,jdbcType=INTEGER},
 				#{title,jdbcType=VARCHAR},
 				#{knowledgePointArr,jdbcType=VARCHAR},
+				#{knowledgePointArrVal,jdbcType=VARCHAR},
 			<if test="digest !=null and digest !=''">
 					#{digest,jdbcType=VARCHAR},
 			</if>
@@ -128,9 +131,8 @@
 		<if test="title !=null and title !=''">
 			title=#{title}, 
 		</if>
-		<if test="knowledgePointArr !=null and knowledgePointArr !=''">
 			knowledge_point_arr=#{knowledgePointArr},
-		</if>
+			knowledge_point_arr_val=#{knowledgePointArrVal},
 		<if test="digest !=null and digest !=''">
 			digest=#{digest},
 		</if>

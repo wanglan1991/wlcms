@@ -27,9 +27,17 @@ public class CmsCatalog {
 	private String levelName;
 	//简介
 	private String introduction;
+	//视频文件名
+	private String videoFileName;
 	//目录集合
-	List<CmsCatalog> catalogList;
+	private List<CmsCatalog> catalogList;
 	
+	public String getVideoFileName() {
+		return videoFileName;
+	}
+	public void setVideoFileName(String videoFileName) {
+		this.videoFileName = videoFileName;
+	}
 	public Integer getId() {
 		return id;
 	}

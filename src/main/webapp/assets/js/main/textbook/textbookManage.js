@@ -30,16 +30,13 @@ define(function (require, exports, module) {
 	       	C.catalogTable.reload();
 	       }, operateFormatter:function (value, row, index) {
 	        	var _btnAction = "";
-	        	if (base.perList.permission.confine) {
-	        	_btnAction += "<a class='confineCatalog btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"+(row.status==1?"停用":"启用")+"</a>";
-	        	}
 	        	if (base.perList.permission.edit) {
 	        		_btnAction += "<a data-toggle='modal' class='editCatalog btn btn-success btn-small' href='#' title='编辑' style='margin-left:5px'>编辑</a>";
 	        	}
+	        	
 	        	if (base.perList.permission.del) {
 	        		_btnAction += "<a class='delCatalog btn btn-danger btn-small' href='#' title='删除' style='margin-left:5px'>删除</a>";
 	        	}
-	        		_btnAction += "<a class='knowledgeCategory btn btn-primary btn-small' href='#' title='查看目录' style='margin-left:5px'>知识点目录</a>";
 	        	return _btnAction;
 	        } 
 	       
@@ -52,7 +49,7 @@ define(function (require, exports, module) {
             F.basepath = _basepath;
           	
             /**
-             * 是否具有添加权限权限
+             * 是否具有添加教材
              */
 //            if(base.perList.permission.check){
             	$("#perm-header .actions").append("<input autocomplete='off'  id='name'  placeholder='请输入教材名称' type='text' />&nbsp;&nbsp;" +
@@ -69,7 +66,7 @@ define(function (require, exports, module) {
             	$("#perm-header .actions").append("<a href='#' id='addTextbook' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>添加</a>");
 //            }
             /**
-             * 是否具有删除权限权限
+             * 是否具有删除教材
              */
 //            if(base.perList.permission.del){
             	$("#perm-header .actions").append("<a href='#' id='delTextbooks' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
@@ -79,8 +76,10 @@ define(function (require, exports, module) {
 //	          if(base.perList.permission.edit){
 	        	$("#catalog-header .action").append("<input autocomplete='off' id=catalogName    placeholder='请输入名称' type='text' />&nbsp;&nbsp;" +
 	    				"<select id='catalogLevel'></select>&nbsp;&nbsp;" +
+	    				"<select id='parentOptions' style='display:none;'></select>&nbsp;&nbsp;" +
 		    			"<a href='javascript:void(0)' id='catalogQuery' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>&nbsp;&nbsp;&nbsp;&nbsp;");
 		        		 getDictOptions("目录级别","catalogLevel","#catalogLevel");
+		        		 
 //	        	 }
 //		      if(base.perList.permission.del){
 		        $("#catalog-header .action").append("<a href='#' id='delCatalog' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
@@ -100,7 +99,7 @@ define(function (require, exports, module) {
             	$.ajax({
             		url:F.basepath+'/cms/dict/queryDictByCondition',
             		type:"GET",
-            		data:{typeEncoding:dictType},
+            		data:{typeEncoding:dictType,status:1},
             		success:function(data){
             			for(var i=0;i<data.value.length;i++){
             				optionsHtml+="<option value='"+data.value[i].id+"'    >"+data.value[i].value+"</option>"
@@ -134,7 +133,7 @@ define(function (require, exports, module) {
            	$.ajax({
            		url:F.basepath+'/cms/dict/queryDictByCondition',
            		type:"GET",
-           		data:{typeEncoding:dictType},
+           		data:{typeEncoding:dictType,status:1},
            		success:function(data){
            			for(var i=0;i<data.value.length;i++){
            				if(data.value[i].id==value){
@@ -180,25 +179,31 @@ define(function (require, exports, module) {
 		    			C.delCatalogs(ids);
 		    		});
 		        },
+		        
 		        /**
 		         * 编辑目录信息 开启模态框
 		         */
 		        'click .editCatalog':function(e, value, row, index){
 		        	
-		        	core.openModel('modal-addCatalog','添加目录/章节',function(){
+		        	core.openModel('modal-addCatalog','编辑目录/章节',function(){
 		        	});
+		        	 $("#addParent").attr("catalogLevel",row.catalogLevel);
 		        	 $("#modal-addCatalog").attr("idTag",row.id);
 		        	 $("#addCatalogLevel").empty();
 					 $("#catalogBtnSubmit").hide();
 					 $("#editCatalogSubmit").show();
 					 $("#addCatalogName").val(row.catalogName);
-					 getEditDictOptions("目录级别","catalogLevel","#addCatalogLevel",row.catalogLevel);
+					 $("#catalogLevels").hide();
+					 if(row.catalogLevel>51){
+					 $("#videoFile").show();
+					 }
+					 $("#videoFileName").val(row.videoFileName);
 					 $("#addIntroduction").val(row.introduction);
 					 $("#addOrder").val(row.orderNo);
-					 if(row.catalogLevel!=51){
-						 $("#addParent").show();
-						 $("#addParentId").val(row.parentId);
-					 }
+					 $("#addCatalogName").attr("catalogName",row.catalogName);
+
+					
+					
 		        },
 	        		
             	/**
@@ -259,7 +264,7 @@ define(function (require, exports, module) {
 //		        	隐藏教材
 		        	$("#table").hide();
 		        	$("#table2").attr("catalogIdTag",row.id);
-		        	$('.page-header h1').find('span').text(row.title+"目录");
+		        	$('.page-header h1').find('span').text(row.title);
 //		        	C.catalogTable.reload();
 		        	 var cols = [
 		 	                    {
@@ -269,14 +274,15 @@ define(function (require, exports, module) {
 		 	        		        title: '主键'
 		 	        		    }, {
 		 	        		        field: 'catalogName',
-		 	        		        title: '目录/章节 -名称'
+		 	        		        title: '章/节 -名称'
 		 	        		    },{
 		 	        		        field: 'levelName',
-		 	        		        title: '目录级别'
+		 	        		        title: '章/节'
 		 	        		    },{
 		 	        		        field: 'introduction',
 		 	        		        title: '简介'
 		 	        		    }];
+		        	
 		 	        //是否需要操作列
 		 	        if(base.perList.permission.edit||base.perList.permission.del||base.perList.permission.confine)
 		 		        cols.push({
@@ -290,25 +296,7 @@ define(function (require, exports, module) {
 		 	       //加载目录列表
 		     		C.catalogTable.init(F.basepath+'/cms/catalog/pageList?textbookId='+row.id,cols);   	
 			        $("#table2").show();
-		        	
-		        	
-		        	
-		        	
-		        	
-		        	
-		        	
-		        	
-		        	
-		        	
-		        	
-		        	
-		        	
-		        	
-		        	
-		        	
-		        	
-		        	
-		        	
+	
 	        	}
 
 		    };
@@ -360,8 +348,9 @@ define(function (require, exports, module) {
     		$("#catalogQuery").click(function(){
     			var catalogName = $("#catalogName").val();
     			var catalogLevel = $("#catalogLevel").val();
+    			var parentId = $("#parentOptions").val()==null?0:$("#parentOptions").val();
     			var textbookId = $("#table2").attr("catalogIdTag");
-    			var url= F.basepath+'/cms/catalog/pageList?textbookId='+textbookId+'&catalogName='+catalogName+'&catalogLevel='+catalogLevel;
+    			var url= F.basepath+'/cms/catalog/pageList?textbookId='+textbookId+'&catalogName='+catalogName+'&catalogLevel='+catalogLevel+'&parentId='+parentId;
     			$("#catalogTable").bootstrapTable('refresh',{url:url});	
     		})
     		
@@ -432,6 +421,36 @@ define(function (require, exports, module) {
 				}
 				
 			});
+			
+			//监听目录选择
+			$("#catalogLevel").change(function(){
+				var catalogLevel = $("#catalogLevel").val();
+				if(catalogLevel!=0&&catalogLevel!=51){
+				$("#parentOptions").show();
+				var id = $("#table2").attr("catalogIdTag");
+		        	 var optionHtml='';
+	        		 $.ajax({
+							url:F.basepath+'/cms/catalog/parentList',
+			        		type:'post',
+			        		data:{levelNo:51,textbookId:id},
+			        		success:function(data){
+			        			if(data.value.length<1){
+			        				optionHtml+="<option value='-1'>暂无父级可选,请预先添加父级</option>";
+			        			}
+			        			for(var i=0;i<data.value.length;i++){
+			        				if(i==0){
+			        					optionHtml+="<option value='0'> --请选择父级-- </option>"
+			        				}
+			        				optionHtml+="<option value='"+data.value[i].id+"'>"+data.value[i].catalog_name+"</option>";
+			        			}
+			        			$("#parentOptions").append(optionHtml);
+			        		}
+						}) 
+				}else{
+					$("#parentOptions").hide();
+					$("#parentOptions").empty();
+				}
+			});
 			//关闭目录页面
 			$("#catalogClose").click(function(){
 				$('.page-header h1').find('span').text("教材");
@@ -442,8 +461,9 @@ define(function (require, exports, module) {
 			});
 			//开启添加目录模态框
 			$("#addCatalog").click(function(){
-				core.openModel('modal-addCatalog','添加目录/章节');
+				core.openModel('modal-addCatalog','添加章/节');
 				 getDictOptions("目录级别","catalogLevel","#addCatalogLevel");
+				 $("#catalogLevels").show();
 			});
 			
 			//关闭添加目录模态框
@@ -452,23 +472,26 @@ define(function (require, exports, module) {
 			});
 			//编辑目录提交
 			$("#editCatalogSubmit").click(function(){
+			
+				var catalogLevel = $("#addParent").attr("catalogLevel");
 				var id = $("#modal-addCatalog").attr("idTag");
+				var textbookId = $("#table2").attr("catalogIdTag");
 				var catalogName = $("#addCatalogName").val();
-				var catalogLevel = $("#addCatalogLevel").val();
-				var parentId =	$("#addParentId").val();
 				var introduction = $("#addIntroduction").val();
+				var oldCatalogName = $("#addCatalogName").attr("catalogName");
+				var videoFileName = $("#videoFileName").val();
 				var order = $("#addOrder").val();
-				if(catalogName.length<1){$("#addCatalogName-error").text("目录/章节 名称不能为空！");return;};
-				if(catalogLevel==0){$("#addCatalogLevel-error").text("目录级别为必选项！");return;};
-				if(catalogLevel!=0&&catalogLevel!=51&&parentId.length<1){$("#addParentId-error").text("父级Id不能为空！");return;};
+				if(catalogName.length<1){$("#addCatalogName-error").text("章/节 名称不能为空！");return;};
 				if(order.length<1){$("#addOrder-error").text("排序不能为空！");return;};
+				if(catalogLevel>51&&videoFileName.length<1){$("#videoFileName-error").text("视频名称不能为空！");return;};
 				var datas={
 						id:id,
 						catalogName:catalogName,
-						catalogLevel:catalogLevel,
-						parentId:catalogLevel==51?0:parentId,
 						introduction:introduction,
-						orderNo:order
+						orderNo:order,
+						oldCatalogName:oldCatalogName,
+						textbookId:textbookId,
+						videoFileName:videoFileName
 				};
 				$.ajax({
 					url:F.basepath+'/cms/catalog/update',
@@ -488,14 +511,6 @@ define(function (require, exports, module) {
 	        			}
 	        		}	
 				});
-				
-				
-				
-				
-				
-				
-				
-				
 			})
 			
 			/**
@@ -511,6 +526,9 @@ define(function (require, exports, module) {
 			
 			$('#editBtnClose').click(function(){
 				core.closeModel('modal-editPerm');
+			});
+			$("#editCatalogBtnClose").click(function(){
+				core.closeModel('modal-editCatalogContent');
 			});
 			//清理器
 			function clear(){
@@ -558,10 +576,12 @@ define(function (require, exports, module) {
 				$("#addOrder-error").text('');
 				$("#addParentId-error").text('');
 				$("#addCatalogLevel").empty();
+				$("#addCatalogName").removeAttr("catalogName");
+				$("#editCatalogSubmit").hide();
+				$("#catalogBtnSubmit").show();
+				$("#videoFile").hide();
+				$("#videoFileName").val('');
 			};
-			
-			
-			
 			
 			/**
 			 * 提交新增目录
@@ -572,19 +592,22 @@ define(function (require, exports, module) {
 				var catalogLevel = $("#addCatalogLevel").val();
 				var parentId =	$("#addParentId").val();
 				var introduction = $("#addIntroduction").val();
+				var videoFileName = $("#videoFileName").val();
 				var order = $("#addOrder").val();
-//				alert(catalogName+"----"+catalogLevel+"------"+parentId+"----"+introduction+"------"+order);
-				if(catalogName.length<1){$("#addCatalogName-error").text("目录/章节 名称不能为空！");return;};
+				if(catalogName.length<1){$("#addCatalogName-error").text("章/节 名称不能为空！");return;};
 				if(catalogLevel==0){$("#addCatalogLevel-error").text("目录级别为必选项！");return;};
 				if(catalogLevel!=0&&catalogLevel!=51&&parentId.length<1){$("#addParentId-error").text("父级Id不能为空！");return;};
-				if(order.length<1){$("#addOrder-error").text("排序不能为空！");return;};
+				if(catalogLevel!=0&&catalogLevel!=51&&videoFileName.length<1){$("#videoFileName-error").text("视频文件名不能为空！");return;};
+				if(parentId==-1){$("#addParentId-error").text("请先添加父级 ！");return;}
+				if(order.length<1){$("#addOrder-error").text("排序不能为空 ！");return;};
 				var datas={
 						textbookId:catalogIdTag,
 						catalogName:catalogName,
 						catalogLevel:catalogLevel,
 						parentId:catalogLevel==51?0:parentId,
 						introduction:introduction,
-						orderNo:order
+						orderNo:order,
+						videoFileName:videoFileName
 				};
 				
 				$.ajax({
@@ -607,20 +630,17 @@ define(function (require, exports, module) {
 				});
 			});
 			
-			
-			
-			
 			/**
 			 * 删除目录
 			 */
 			$('#delCatalog').click(function(){
 				var ids = C.catalogTable.getIdSelections();
 				if(ids!=null&&ids.length>0){
-					base.bootConfirm("是否确定删除选定的"+ids.length+"个目录？",function(){
+					base.bootConfirm("是否确定删除选定的"+ids.length+"章/节？此操作将会删除您选定的章/节中的所有内容！",function(){
 						C.delCatalogs(ids);
 					});
 				}else{
-					base.bootAlert({"ok":false,"msg":"请选择你要删除的权限！"});
+					base.bootAlert({"ok":false,"msg":"请选择你要删除的章！"});
 				}
 			});
 			/**
@@ -628,21 +648,40 @@ define(function (require, exports, module) {
 			 */
 			$("#addCatalogLevel").change(function(){
 				var catalogLevel = $("#addCatalogLevel").val();
+				var id =$("#table2").attr("catalogIdTag");
+				$("#addParentId").empty();
 				if(catalogLevel!=0&&catalogLevel!=51){
-					$("#addParent").show();
+					$("#addParent").show(); 
+					 $("#videoFile").show();
+					var optionHtml='';
+					$.ajax({
+						url:F.basepath+'/cms/catalog/parentList',
+		        		type:'post',
+		        		data:{levelNo:catalogLevel-1,textbookId:id},
+		        		success:function(data){
+		        			if(data.value.length<1){
+		        				optionHtml+="<option value='-1'>暂无父级可选,请预先添加父级</option>";
+		        			}
+		        			for(var i=0;i<data.value.length;i++){
+		        				optionHtml+="<option value='"+data.value[i].id+"'>"+data.value[i].catalog_name+"</option>";
+		        			}
+		        			$("#addParentId").append(optionHtml);
+		        		}
+					}) 
 				}else{
 					$("#addParent").hide();
+					 $("#videoFile").hide();
 				}
 			});
 			
-
 			
 			/**
 			 * 提交新增教材
 			 */
 			$('#btnSubmit').click(function(){
 				var treeObj = $.fn.zTree.getZTreeObj("knowledgeTree");				
-				var arr=''
+				var arrId='';
+				var arrName='';
 			if(treeObj!=null){
 				var nodes = treeObj.transformToArray(treeObj.getNodes()); 
 			
@@ -651,10 +690,12 @@ define(function (require, exports, module) {
 						if(nodes[i].id==0){
 							continue;
 						}
-						arr+=nodes[i].id+',';
+						arrId+=nodes[i].id+',';
+						arrName+=nodes[i].name+',';
 					}
 				}
 			}
+			
 				var gradeNo =$("#addGrade").val();
 				var subjectNo=$("#addSubject").val();
 				var textbookTypeNo = $("#addTextbookType").val();
@@ -673,10 +714,6 @@ define(function (require, exports, module) {
 				if(imgUrl.length<1){$("#addMsg").text("图片不能为空！");return}
 				if(author.length<1){$("#addMsg").text("作者不能为空！");return}
 				if(pushPerson.length<1){$("#addMsg").html("录入人不能为空！");return}
-				
-				
-				
-				
 				var datas ={
 							gradeNo:gradeNo,
 							subjectNo:subjectNo,
@@ -687,7 +724,8 @@ define(function (require, exports, module) {
 							imgUrl:imgUrl,
 							author:author,
 							pushPerson:pushPerson,
-							knowledgePointArr:arr
+							knowledgePointArr:arrId,
+							knowledgePointArrVal:arrName
 												}
 				
 				$.ajax({
@@ -709,7 +747,8 @@ define(function (require, exports, module) {
 			 */
 			$("#editBtnSubmit").click(function(){
 				var treeObj = $.fn.zTree.getZTreeObj("updateKnowledgeTree");				
-				var arr=''
+				var arrId='';
+				var arrName='';
 				if(treeObj!=null){
 					var nodes = treeObj.transformToArray(treeObj.getNodes()); 
 					for (var i = 0; i < nodes.length; i++) { 
@@ -717,7 +756,8 @@ define(function (require, exports, module) {
 							if(nodes[i].id==0){
 								continue;
 							}
-							arr+=nodes[i].id+',';
+							arrId+=nodes[i].id+',';
+							arrName+=nodes[i].name+',';
 						}
 					}
 				}
@@ -751,7 +791,8 @@ define(function (require, exports, module) {
 						imgUrl:imgUrl,
 						author:author,
 						pushPerson:pushPerson,
-						knowledgePointArr:arr
+						knowledgePointArr:arrId,
+						knowledgePointArrVal:arrName
 											};
 				
 				$.ajax({
@@ -773,11 +814,11 @@ define(function (require, exports, module) {
 			$('#delTextbooks').click(function(){
 				var ids = F.table.getIdSelections();
 				if(ids!=null&&ids.length>0){
-					base.bootConfirm("是否确定删除选定的"+ids.length+"本教材？",function(){
+					base.bootConfirm("是否确定删除选定的"+ids.length+"本教材？此操作将会删除您所选定的教材中的所有内容！",function(){
 						F.delTextbook(ids);
 					});
 				}else{
-					base.bootAlert({"ok":false,"msg":"请选择你要删除的权限！"});
+					base.bootAlert({"ok":false,"msg":"请选择你要删除的教材！"});
 				}
 			});
 			
@@ -807,12 +848,12 @@ define(function (require, exports, module) {
         	_btnAction += "<a class='confine btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"+(row.status==1?"停用":"启用")+"</a>";
         	}
         	if (base.perList.permission.edit) {
-        		_btnAction += "<a data-toggle='modal' class='editTextbook btn btn-success btn-small' href='#' title='编辑权限' style='margin-left:5px'>编辑</a>";
+        		_btnAction += "<a data-toggle='modal' class='editTextbook btn btn-success btn-small' href='#' title='编辑' style='margin-left:5px'>编辑</a>";
         	}
         	if (base.perList.permission.del) {
         		_btnAction += "<a class='delTextbook btn btn-danger btn-small' href='#' title='删除' style='margin-left:5px'>删除</a>";
         	}
-        		_btnAction += "<a class='category btn btn-primary btn-small' href='#' title='查看目录' style='margin-left:5px'>查看目录</a>";
+        		_btnAction += "<a class='category btn btn-primary btn-small' href='#' title='查看目录章节' style='margin-left:5px'>查看目录章节</a>";
         	return _btnAction;
         } 
     };

@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.junit.runners.Parameterized.Parameter;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -55,7 +56,7 @@ public class CmsCatalogController {
 	@ResponseBody
 	public Result add(CmsCatalog cmsCatalog) {
 		Result result = Result.getResults();
-		List<Map<String,Object>> list=cmsCatalogService.queryBycatalogName(cmsCatalog.getCatalogName());
+		List<Map<String,Object>> list=cmsCatalogService.queryBycatalogName(cmsCatalog.getTextbookId(),cmsCatalog.getCatalogName());
 		if(list.size()!=0){
 		String name=list.get(0).get("catalog_name").toString();
 			if (name!=null&&cmsCatalog.getCatalogName().equals(name)){
@@ -74,6 +75,7 @@ public class CmsCatalogController {
 	 * @param cmsCatalog
 	 * @return
 	 */
+	@Transactional
 	@RequestMapping("/delete")
 	@ResponseBody
 	public Result delete(@RequestParam("ids") String ids) {
@@ -82,6 +84,7 @@ public class CmsCatalogController {
 		int total = 0;
 		for (String id : arr) {
 			total += cmsCatalogService.delete(Integer.parseInt(id));
+					 cmsCatalogService.deleteByParentId(Integer.parseInt(id));
 		}
 		result.setResult(total);
 		return result;
@@ -109,9 +112,14 @@ public class CmsCatalogController {
 	 */
 	@RequestMapping("/update")
 	@ResponseBody
-	public Result update(CmsCatalog cmsCatalog) {
+	public Result update(CmsCatalog cmsCatalog,@RequestParam("oldCatalogName")String oldCatalogName) {
 		Result result = Result.getResults();
-		List<Map<String,Object>> list=cmsCatalogService.queryBycatalogName(cmsCatalog.getCatalogName());
+		//查看原来的目录名称与新目录名称是否一样
+		if(cmsCatalog.getCatalogName().equals(oldCatalogName)){
+			result.setResult(cmsCatalogService.updata(cmsCatalog));
+			return result;
+		}
+		List<Map<String,Object>> list=cmsCatalogService.queryBycatalogName(cmsCatalog.getTextbookId(),cmsCatalog.getCatalogName());
 		if(list.size()!=0){
 		String name=list.get(0).get("catalog_name").toString();
 			if (name!=null&&cmsCatalog.getCatalogName().equals(name)){
@@ -123,5 +131,22 @@ public class CmsCatalogController {
 		result.setResult(cmsCatalogService.updata(cmsCatalog));
 		return result;
 	}
+	
+	/**
+	 * 获取目录父级List
+	 * @param levelNo
+	 * @param textbookId
+	 * @return
+	 */
+	@RequestMapping("/parentList")
+	@ResponseBody
+	public Result parentList(@RequestParam("levelNo")Integer levelNo,@RequestParam("textbookId")Integer textbookId){
+		Result result =Result.getResults();
+		result.setValue(cmsCatalogService.getCatalogParentList(levelNo,textbookId));
+		return result;
+		
+	}
+	
+	
 
 }

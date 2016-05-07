@@ -221,20 +221,29 @@
                 <span id="addCatalogName-error" class="help-block error" style="font-size: 4px;color:#b94a48;"></span>
             </div>
         </div>
-        <div class='control-group'>
-            <label class='control-label'>目录级别</label>
+        <div class='control-group' id="catalogLevels">
+            <label class='control-label'>目录/章节</label>
             <div class='controls'>
                <select id="addCatalogLevel"></select>
                  <span id="addCatalogLevel-error" class="help-block error" style="font-size: 4px;color:#b94a48;"></span>
             </div>
         </div>
 	    <div class='control-group' id=addParent style="display:none">
-	            <label class='control-label'>父级</label>
+	            <label class='control-label'>父目录</label>
 	            <div class='controls'>
-	             <input required id="addParentId"  placeholder='parentId' maxlength="5" onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" type="text" >
+	              <select id="addParentId"></select>
 	                 <span id="addParentId-error" class="help-block error" style="font-size: 4px;color:#b94a48;"></span>
 	            </div>
 	    </div>
+	    
+	     <div class='control-group' id=videoFile style="display:none">
+	            <label class='control-label'>video文件名</label>
+	            <div class='controls'>
+	              <input id="videoFileName"  type="text"  required placeholder="视频文件名" maxlength="100">
+	                 <span id="videoFileName-error" class="help-block error" style="font-size: 4px;color:#b94a48;"></span>
+	            </div>
+	    </div>
+	    
 	    <div class='control-group'>
 	            <label class='control-label'>简介</label>
 	            <div class='controls'>
