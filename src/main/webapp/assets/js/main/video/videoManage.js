@@ -48,6 +48,7 @@ define(function(require, exports, module) {
 			 * selectId ： select元素ID
 			 */
 			var dictList = function(url, param, selectId) {
+				$(selectId).empty();
 				// 查询条件的下拉框给出提示信息
 //				if (selectId == "#q_k_grade" || selectId == "#q_k_subject") {
 					$(selectId).prepend("<option value='0' >" + "--请选择"+ (param == 'grade' ? "年级--" : "学科--")+ "</option>");
@@ -130,7 +131,7 @@ define(function(require, exports, module) {
 			var knowldgeSelect=function(url,param,selectId){
 				
 				jQuery("#" + selectId).empty();
-				jQuery("#" + selectId).prepend("<option value='-1'>--请选择知识点--</option>");
+//				jQuery("#" + selectId).prepend("<option value='-1'>--请选择知识点--</option>");
 				jQuery.ajax({
 					url: url, 
 					data:param,
@@ -177,7 +178,7 @@ define(function(require, exports, module) {
 						})
 						$.fn.modal.Constructor.prototype.enforceFocus = function () { };
 						if (row != null) {
-							knowldgeSelect('/cms/knowledge/queryByCondition',{gradeNo:0,subjectNo:0},'editKnowledge');
+							knowldgeSelect('/cms/knowledge/queryByCondition',{gradeNo:row.gradeNo,subjectNo:row.subjectNo},'editKnowledge');
 							$('#editId').val(row.id);
 							$('#editVideo').val(row.videoName);
 							$('#editDigest').val(row.digest);
@@ -273,6 +274,10 @@ define(function(require, exports, module) {
 				title : '视频名称'
 
 			}, {
+				field : 'fileName',
+				title : '视频文件名'
+
+			}, {
 				field : 'knowledgeId',
 				title : '知识点id',
 				visible : false
@@ -307,10 +312,12 @@ define(function(require, exports, module) {
 			}, {
 				field : 'author',
 				title : '讲师'
-			}, {
-				field : 'url',
-				title : '链接'
-			}, {
+			},
+//			{
+//				field : 'url',
+//				title : '链接'
+//			}, 
+			{
 				field : 'isp',
 				title : '运营商'
 			} ];
@@ -513,9 +520,9 @@ define(function(require, exports, module) {
 			if (base.perList.video.del) {
 				_btnAction += "<a class='delVideo btn btn-danger btn-small' href='#'  title='删除角色' style='margin-left:5px'>删除</a>";
 			}
-//			if (base.perList.video.del) {
+			if (base.perList.video.play) {
 				_btnAction += "<a class='playVideo btn btn-primary btn-small' href='"+row.url+"' target='_blank'  title='播放视频' style='margin-left:5px'>播放</a>";
-//			}
+			}
 			return _btnAction;
 		}
 	};
