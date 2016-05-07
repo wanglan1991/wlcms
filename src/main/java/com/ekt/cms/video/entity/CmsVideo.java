@@ -1,4 +1,7 @@
 package com.ekt.cms.video.entity;
+
+import java.util.List;
+
 /**
  * 2016-05-02
  * 
@@ -15,7 +18,7 @@ public class CmsVideo {
 	// 运营商
 	private String isp;
 	// 知识点ID
-	private int knowledgeId;
+	private String knowledgeId;
 	private String knowledge;
 	// 年级ID
 	private int gradeNo;
@@ -85,13 +88,16 @@ public class CmsVideo {
 		this.isp = isp;
 	}
 
-	public int getKnowledgeId() {
+	
+
+	public String getKnowledgeId() {
 		return knowledgeId;
 	}
 
-	public void setKnowledgeId(int knowledgeId) {
+	public void setKnowledgeId(String knowledgeId) {
 		this.knowledgeId = knowledgeId;
 	}
+
 
 	public String getKnowledge() {
 		return knowledge;

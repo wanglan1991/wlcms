@@ -34,9 +34,11 @@ import com.ekt.cms.video.entity.CmsVideo;
 public class VodCloud {
 	//视频上传到第三方
 	@RequestMapping(value = "/upload" , method = RequestMethod.POST) 
-	public String    upload (HttpServletRequest request , RedirectAttributes arr){
+	@ResponseBody
+	public Result      upload (HttpServletRequest request , RedirectAttributes arr){
 		TreeMap<String, Object> config = new TreeMap<String, Object>();
-		Result result= Result.getResults();
+		Result result=Result.getResults();
+
 		config.put("SecretId", Constants.DEFAULT_UPLOAD_SECRETID);
 		config.put("SecretKey", Constants.DEFAULT_UPLOAD_SECRETKEY);
 		config.put("RequestMethod", "POST");
@@ -86,26 +88,25 @@ public class VodCloud {
 //				params.put("isTranscode", isTranscode);
 //				params.put("isWatermark", isWatermark);
 				params.put("file", filePath);
-				
 				resultJson = module.call("MultipartUploadVodFile", params);
 				
 				JSONObject json_result = new JSONObject(resultJson);
 				System.out.println(resultJson);
-				result.setValue(json_result);
 				code = json_result.getInt("code");
 				if (code == -3002) {               //服务器异常返回，需要重试上传(offset=0, dataSize=512K)
 					tmpDataSize = firstDataSize;
 					tmpOffset = 0;
 					continue;
 				} else if (code != 0) {
-					return null;
+					result.setMsg("上传异常");
+					return result;
 				}
 				flag = json_result.getInt("flag");
 				if (flag == 1) {
 					fileId = json_result.getString("fileId");
-					System.out.println(fileId);
-					arr.addAttribute("fileId", fileId);
-					return "redirect:/VodCloud/describeVodInfo";
+					result.setValue(fileId);
+					System.out.println(result.getValue());
+					return result;
 				} else {
 					tmpOffset = Integer.parseInt(json_result.getString("offset"));
 				}
@@ -120,7 +121,7 @@ public class VodCloud {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "main/video/testUpload";
+		return result;
 	}
 	
 	//获取视频的播放信息url 视频名称  时长等
@@ -131,7 +132,6 @@ public class VodCloud {
 	@RequestMapping(value = "/describeVodInfo" ) 
 	@ResponseBody
 	public  Result  getUrl(String fileId) {
-		
 		Result result= Result.getResults();
 		CmsVideo video=new CmsVideo();
 		//通过DescribeVodPlayUrls接口获得视频的播放地址
@@ -146,7 +146,6 @@ public class VodCloud {
 		
 		//通过DescribeVodInfo接口获得视频信息 如视频名称 时长 视频封面图片URL等
 		TreeMap<String, Object> configInfo = new TreeMap<String, Object>();
-		System.out.println("enter...");
 		configInfo.put("SecretId", Constants.DEFAULT_UPLOAD_SECRETID);
 		configInfo.put("SecretKey", Constants.DEFAULT_UPLOAD_SECRETKEY);
 		configInfo.put("RequestMethod", "GET");
@@ -155,8 +154,6 @@ public class VodCloud {
 		QcloudApiModuleCenter moduleInfo = new QcloudApiModuleCenter(vodInfo, configInfo);
 		
 		try{
-			System.out.println("starting...");
-				
 				//给DescribeVodPlayUrls传参并调用
 				String resultUrl = null;
 				TreeMap<String, Object> params = new TreeMap<String, Object>();
@@ -175,6 +172,8 @@ public class VodCloud {
 				
 				if(code==0&&codeInfo==0){
 					//从DescribeVodPlayUrls接口中获得URL
+					System.out.println("返回的结果为DescribeVodPlayUrls------------"+jsonObject);
+					System.out.println("返回的结果为DescribeVodInfo------------"+jsonObjectInfo);
 					JSONArray playSet=jsonObject.getJSONArray("playSet");//playSet是一个数组 元素是一个json对象
 					System.out.println("返回的结果为DescribeVodPlayUrls------------"+playSet);
 					JSONObject playSetJson = playSet.getJSONObject(0);// 取playSet得第一元素是需要的结果集   
@@ -192,18 +191,14 @@ public class VodCloud {
 					video.setVideoId(videoId);
 					video.setFileName(fileNameReal);
 					video.setDuration(duration);
-					
-					System.out.println("返回的结果为DescribeVodInfo------------"+resultInfo);
 					result.setValue(video);
 					return result;
 				}
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			result.setMsg("获取信息失败");
-			System.out.println("error...");
+			result.setMsg("获取视频信息失败");
 		}
-		System.out.println("end...");
 		return result;
 	}
 }
