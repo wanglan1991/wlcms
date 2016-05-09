@@ -184,6 +184,10 @@ define(function (require, exports, module) {
             region: {
                 check:false,
                 confine:false,
+            },
+            school: {
+                check:false,
+                confine:false,
             }
         }
     };

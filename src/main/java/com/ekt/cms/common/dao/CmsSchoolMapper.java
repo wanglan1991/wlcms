@@ -4,24 +4,24 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.ekt.cms.common.entity.CmsRegion;
+import com.ekt.cms.common.entity.CmsSchool;
 
 /**
  * 2016-05-07
  * 
  * @author zhuyanqiong
  */
-public interface CmsRegionMapper {
+public interface CmsSchoolMapper {
 	/**
 	 * 分页查询	 
-	 * @param CmsRegion
+	 * @param CmsSchool
 	 * @return
 	 */
-	List<CmsRegion> listPage(@Param("CmsRegion")CmsRegion CmsRegion);
+	List<CmsSchool> listPage(@Param("CmsSchool")CmsSchool CmsSchool);
 	/**
 	 * 停启用	 
 	 * @param CmsRegion
 	 * @return
 	 */
-	int  confine(@Param("CmsRegion")CmsRegion CmsRegion);
+	int  confine(@Param("CmsSchool")CmsSchool CmsSchool);
 }

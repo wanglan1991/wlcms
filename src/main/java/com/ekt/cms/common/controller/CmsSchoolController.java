@@ -6,9 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ekt.cms.common.entity.CmsRegion;
+import com.ekt.cms.common.entity.CmsSchool;
 import com.ekt.cms.common.entity.Result;
-import com.ekt.cms.common.service.CmsRegionService;
+import com.ekt.cms.common.service.CmsSchoolService;
 import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.utils.pageHelper.PageContext;
 /**
@@ -18,28 +18,28 @@ import com.ekt.cms.utils.pageHelper.PageContext;
  * 地域控制器
  */
 @Controller
-@RequestMapping("/region")
-public class CmsRegionController {
+@RequestMapping("/school")
+public class CmsSchoolController {
 	@Resource
-	private CmsRegionService cmsRegionService;
+	private CmsSchoolService cmsSchoolService;
 	
-	@RequestMapping("/toRegion")
-	public String toRegion(){
-		return "dict/region";
+	@RequestMapping("/toSchool")
+	public String toSchool(){
+		return "dict/school";
 	}
 	//分页查询
 	@RequestMapping("/listPage")
 	@ResponseBody
-	public PageBean<CmsRegion> listPage(PageContext page,CmsRegion cmsRegion){
+	public PageBean<CmsSchool> listPage(PageContext page,CmsSchool cmsSchool){
 		page.paging();
-		return cmsRegionService.listPage(cmsRegion);
+		return cmsSchoolService.listPage(cmsSchool);
 	}
 	//停启用
 	@RequestMapping("/confine")
 	@ResponseBody
-	public Result confine(CmsRegion cmsRegion){
+	public Result confine(CmsSchool cmsSchool){
 		Result result=Result.getResults();
-				result.setResult(cmsRegionService.Confine(cmsRegion));
+				result.setResult(cmsSchoolService.Confine(cmsSchool));
 		return result;
 	}
 }

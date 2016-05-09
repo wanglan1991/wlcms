@@ -22,5 +22,10 @@ public class CmsRegionService implements ICmsRegionService {
 		
 		return new PageBean<CmsRegion>(CmsRegionMapper.listPage(cmsRegion));
 	}
+	@Override
+	public int Confine(CmsRegion cmsRegion) {
+		// TODO Auto-generated method stub
+		return CmsRegionMapper.confine(cmsRegion);
+	}
 
 }

@@ -32,6 +32,14 @@
 			OR (r2.area like '%${CmsRegion.area}%')
 		</if>
 	</select>
-
+	<!-- 停启用 -->
+	<update id="confine" parameterType="com.ekt.cms.common.entity.CmsRegion">
+	UPDATE 
+		cms_region 
+	SET
+		status=#{CmsRegion.status}
+	WHERE
+		area_code=#{CmsRegion.code}
+	</update>
 	
 </mapper> 
