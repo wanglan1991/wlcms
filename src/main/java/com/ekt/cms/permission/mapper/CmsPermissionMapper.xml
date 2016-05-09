@@ -47,6 +47,7 @@
 		LEFT JOIN cms_permission pe on pe.id=p.permission_id
 		WHERE
 			r.id =#{id,jdbcType=INTEGER} and pe.level=3
+		AND pe.status &lt;&gt; 0
 	</select>
 	<!-- 按主键查询 -->
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
@@ -85,7 +86,8 @@
 				`pid`,
 				`type`,
 				`level`,
-				`icon`
+				`icon`,
+				`status`
 		)VALUES(
 				#{cmsPermission.name},
 				#{cmsPermission.key},
@@ -94,7 +96,8 @@
 				#{cmsPermission.pid},
 				#{cmsPermission.type},
 				#{cmsPermission.level},
-				#{cmsPermission.icon})
+				#{cmsPermission.icon}),
+				1
 	</insert>
 	<!-- 按主键更新 -->
 	<update id="updateByPrimaryKey" parameterType="com.ekt.cms.permission.entity.CmsPermission">

@@ -47,8 +47,7 @@ color:red;
 				<div class='control-group'>
 					<label class='control-label'>视频文件名</label>
 					<div class='controls'>
-						<input class='span8' id='fileName' name="fileName"
-							placeholder='上传视频成功后自动回填视频文件名'< type='text' />
+						<input class='span8' id='fileName' name="fileName" placeholder='上传视频成功后自动回填视频文件名'type='text' />
 							<span id="fileName-error" class="help-block error"></span>
 <!-- 							<br><font color="red">*视频文件名按一定规则命名 </font> -->
 					</div>
@@ -238,19 +237,7 @@ color:red;
 					</div>
 				</div>
 			
-				
-				
-<!-- 				<div class='control-group'> -->
-<!-- 					<label class='control-label'>知识点</label> -->
-<!-- 					<input type="hidden" id="editKnowledgeId" /> -->
-<!-- 					<div class='controls'> -->
-<!-- 						<div class='input-append'> -->
-<!-- 		               		<select id='editKnowledge'> -->
-<!-- 		               		</select> -->
-<!-- 		                </div> -->
-<!-- 				</div>				 -->
-<!-- 			</div> -->
-			
+
 			
           <div class="col-md-11 col-sm-12">
                 <div class="form-group">
