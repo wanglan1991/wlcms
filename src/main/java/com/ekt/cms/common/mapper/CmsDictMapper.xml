@@ -34,11 +34,11 @@
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 		INSERT INTO cms_dictionary ( value, parent_id,
-		type_encoding, remark,type_name
+		type_encoding, remark,type_name ,status
 		)
 		VALUES
 		(#{value,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER},
-		#{typeEncoding,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},#{typeName, jdbcType=VARCHAR}
+		#{typeEncoding,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},#{typeName, jdbcType=VARCHAR},1
 		)
 	</insert>
 
@@ -49,7 +49,7 @@
 		parent_id =
 		#{parentId,jdbcType=INTEGER},
 		type_encoding = #{typeEncoding,jdbcType=VARCHAR},
-		status =1,		
+		status =#{status,jdbcType=INTEGER},		
 		remark = #{remark,jdbcType=VARCHAR},
 		type_name=#{typeName,jdbcType=VARCHAR}
 		WHERE id

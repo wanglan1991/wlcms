@@ -9,16 +9,16 @@ define(function(require, exports, module) {
 	// 通过 require 引入依赖
 	var F = module.exports = {
 //		basepath : '',
-		table : new core.Table('RegionTable'),
+		table : new core.Table('SchoolTable'),
 		init : function(_basepath) {
 			F.basepath = _basepath;
 			/**
 			 * 是否具有查询知识点权限
 			 */
-			 if(base.perList.region.check){
-			$("#region-header .actions")
+			 if(base.perList.school.check){
+			$("#school-header .actions")
 					.append(
-							"<input autocomplete='off'  id='q_k_title' name='q_k_title' placeholder='省/市/县/区' type='text' /><a href='#' id='queryByCondition' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>");
+							"<input autocomplete='off'  id='q_k_school' name='q_k_school' placeholder='学校名称' type='text' />&nbsp;&nbsp;<input autocomplete='off'  id='q_k_title' name='q_k_title' placeholder='省/市/县/区' type='text' /><a href='#' id='queryByCondition' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>");
 
 			 }
 			
@@ -31,12 +31,12 @@ define(function(require, exports, module) {
 				/**
 				 * 启用或停用知识点
 				 */
-				'click .startRegion ' : function(e, value, row, index) {
+				'click .startSchool ' : function(e, value, row, index) {
 					$.ajax({
-						url : F.basepath + '/region/confine',
+						url : F.basepath + '/school/confine',
 						type : 'POST',
 						data : {
-							code : row.code,
+							id : row.id,
 							status : row.status == 1 ? 0 : 1
 						},
 						success : function(data) {
@@ -59,26 +59,35 @@ define(function(require, exports, module) {
 
 				checkbox : true
 			}, {
-				field : 'code',
+				field : 'id',
 				title : '主键',
 				visible : false
 			}, {
-				field : 'province',
-				title : '省'
+				field : 'schoolName',
+				title : '学校名称'
 			}, {
-				field : 'city',
-				title : '市',
+				field : 'cityCode',
+				title : '地域id',
+				visible : false
+			},{
+				field : 'cityName',
+				title : '地域'
 			}, {
-				field : 'area',
-				title : '区/县'
-			} , {
+				field : 'address',
+				title : '地址',
+				visible : false
+			} ,{
+				field : 'contact',
+				title : '联系人',
+				visible : false
+			} ,{
 				field : 'status',
 				title : '状态',
 				visible : false
 			} ];
 			// 是否需要操作列
 			 if(
-			 base.perList.region.confine)
+			 base.perList.school.confine)
 			cols.push({
 				align : 'center',
 				title : '操作',
@@ -89,7 +98,7 @@ define(function(require, exports, module) {
 			/**
 			 * 用户列表
 			 */
-			F.table.init(F.basepath + '/region/listPage', cols);
+			F.table.init(F.basepath + '/school/listPage', cols);
 
 		
 
@@ -98,12 +107,11 @@ define(function(require, exports, module) {
 			 */
 			$('#queryByCondition').click(
 					function() {
-						var province = $("#q_k_title").val();
-						var city = $("#q_k_title").val();
-						var aera=$("#q_k_title").val();
-						var query_url = F.basepath + '/region/listPage?province='
-								+ province + '&city=' + city+'&aera='+aera;
-						$('#RegionTable').bootstrapTable('refresh', {
+						var schoolName = $("#q_k_school").val();
+						var cityName = $("#q_k_title").val();
+						var query_url = F.basepath + '/school/listPage?schoolName='
+								+ schoolName + '&cityName=' + cityName;
+						$('#SchoolTable').bootstrapTable('refresh', {
 							url : query_url
 						});
 					})
@@ -117,8 +125,8 @@ define(function(require, exports, module) {
 
 		operateFormatter : function(value, row, index) {
 			var _btnAction = "";
-			 if (base.perList.region.confine) {
-			_btnAction += "<a class='startRegion btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"
+			 if (base.perList.school.confine) {
+			_btnAction += "<a class='startSchool btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"
 					+ (row.status == 1 ? "停用" : "启用") + "</a>";
 			 }
 			return _btnAction;

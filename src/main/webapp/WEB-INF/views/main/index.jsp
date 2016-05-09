@@ -345,6 +345,12 @@
 					<shiro:hasPermission name="region:confine">
 						<span id="basejs_region_confine" style="display: none;" />
 					</shiro:hasPermission>
+					<shiro:hasPermission name="school:check">
+						<span id="basejs_school_check" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="school:confine">
+						<span id="basejs_school_confine" style="display: none;" />
+					</shiro:hasPermission>
             </div>
         </div>
     </div>
@@ -571,6 +577,12 @@ $(".icon-adjust").click(function(){
 		}
 		if ($('#basejs_region_confine').length > 0) {
 			base.perList.region.confine = true;
+		}
+		if ($('#basejs_school_check').length > 0) {
+			base.perList.school.check = true;
+		}
+		if ($('#basejs_school_confine').length > 0) {
+			base.perList.school.confine = true;
 		}
 		
 		index.init('${ctx}');
