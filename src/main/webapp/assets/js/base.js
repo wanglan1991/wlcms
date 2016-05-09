@@ -188,6 +188,27 @@ define(function (require, exports, module) {
             school: {
                 check:false,
                 confine:false,
+            },
+            textbook: {
+	        	 check:false,
+	             add:false,
+	             del:false,
+	             confine:false,
+	             edit:false,
+	             outline:false,
+	             catalog:false,
+	             checkCatalog:false,
+	             editCatalog:false,
+	             delCatalog:false,
+	         	 addCatalog:false
+            },
+            exercise:{
+            	 check:false,
+                 add:false,
+                 del:false,
+                 import:false,
+                 edit:false,
+                 confine:false
             }
         }
     };

@@ -85,7 +85,8 @@
 			author,
 			img_url,
 			push_person,
-			crate_time
+			crate_time,
+			status
 			)VALUES(
 				#{gradeNo ,jdbcType=INTEGER},
 				#{subjectNo,jdbcType=INTEGER},
@@ -100,7 +101,8 @@
 				#{author,jdbcType=VARCHAR},
 				#{imgUrl,jdbcType=VARCHAR},
 				#{pushPerson,jdbcType=VARCHAR},
-				SYSDATE()
+				SYSDATE(),
+				1
 			)
 	</insert>
 	<delete id="deleteTextbook" parameterType="java.lang.Integer">

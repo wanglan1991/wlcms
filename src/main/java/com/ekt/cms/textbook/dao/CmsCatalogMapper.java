@@ -81,5 +81,28 @@ public interface CmsCatalogMapper {
 	 */
 	public Integer deleteByParentId(@Param("parentId")Integer parentId) ;
 	
+	/**
+	 * 根据视频名称查询视频在那些教材以及章节中出现过
+	 * @param videoFileName
+	 * @return
+	 */
+	public List<Map<String,Object>> queryCatalogByName(@Param("videoFileName")String videoFileName );
+	
+	
+	/**
+	 * 根据教材id获取教材中的所有章目录
+	 * @param textbookId
+	 * @return
+	 */
+	public List<Map<String,Object>>  getCatalogParentListByTextbookId(@Param("textbookId")Integer textbookId);
+	/**
+	 * 根据父级id获取教材中的所有节目录
+	 * @param parentId
+	 * @return
+	 */
+	public List<Map<String,Object>> getCatalogListByParentId(@Param("parentId")Integer parentId);
+	
+	
+	
 
 }

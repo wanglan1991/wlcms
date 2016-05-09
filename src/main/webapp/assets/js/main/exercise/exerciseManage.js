@@ -13,7 +13,7 @@ define(function (require, exports, module) {
             /**
              * 是否具有添加权限权限
              */
-            if(base.perList.permission.check){
+            if(base.perList.exercise.check){
             	$("#exercise-header .actions").append("<input autocomplete='off'  id='keyword'  placeholder='请输入习题内容' type='text' />&nbsp;&nbsp;" +
             	"<select  id='categoryOption' style='width:10%'></select>&nbsp;&nbsp;" +
             	"<select  id='typeOption' style='width:10%'></select>&nbsp;&nbsp;" +
@@ -29,19 +29,19 @@ define(function (require, exports, module) {
             
             }	
             //加载可选类型列表00        	
-            if(base.perList.permission.create){
+            if(base.perList.exercise.add){
             	$("#exercise-header .actions").append("<a href='#' id='addExercise' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>添加</a>");
             }
             /**
              * 批量导入习题
              */																								 
-            if(base.perList.permission.create){
+            if(base.perList.exercise.import){
             	$("#exercise-header .actions").append("<a href='#' id='impExercise' data-toggle='modal' class='btn btn btn-primary btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>导入习题</a>");
             }
             /**
              * 是否具有删除权限权限
              */
-            if(base.perList.permission.del){
+            if(base.perList.exercise.del){
             	$("#exercise-header .actions").append("<a href='#' id='delExercises' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
             }
             
@@ -181,14 +181,7 @@ define(function (require, exports, module) {
    			
    			
    		}
-         
-			
-            
-//			
-//			/**
-//			 * 请求权限数据
-//			 */
-//	        F.treeLoad();
+ 
 	        
 	        operateEvents = {
 				/**
@@ -275,7 +268,7 @@ define(function (require, exports, module) {
 	    			        title: '作者'
 	    		        }];
 	        //是否需要操作列
-	        if(base.perList.permission.edit||base.perList.permission.del||base.perList.permission.confine)
+	        if(base.perList.exercise.edit||base.perList.exercise.confine||base.perList.exercise.del)
 		        cols.push({
 			    	align: 'center',
 			        title: '操作',
@@ -701,14 +694,14 @@ define(function (require, exports, module) {
         ,
         operateFormatter:function (value, row, index) {
         	var _btnAction = "";
-        	if (base.perList.permission.confine) {
+        	if (base.perList.exercise.confine) {
         	_btnAction += "<a class='confine btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"+(row.status==1?"停用":"启用")+"</a>";
         	}
-        	if (base.perList.permission.edit) {
-        		_btnAction += "<a data-toggle='modal' class='editExercise btn btn-success btn-small' href='#' title='编辑权限' style='margin-left:5px'>编辑</a>";
+        	if (base.perList.exercise.edit) {
+        		_btnAction += "<a data-toggle='modal' class='editExercise btn btn-success btn-small' href='#' title='编辑' style='margin-left:5px'>编辑</a>";
         	}
-        	if (base.perList.permission.del) {
-        		_btnAction += "<a class='delExercise btn btn-danger btn-small' href='#' title='删除权限' style='margin-left:5px'>删除</a>";
+        	if (base.perList.exercise.del) {
+        		_btnAction += "<a class='delExercise btn btn-danger btn-small' href='#' title='删除' style='margin-left:5px'>删除</a>";
         	}
         	return _btnAction;
         } 

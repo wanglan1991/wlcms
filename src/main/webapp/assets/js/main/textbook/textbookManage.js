@@ -30,11 +30,11 @@ define(function (require, exports, module) {
 	       	C.catalogTable.reload();
 	       }, operateFormatter:function (value, row, index) {
 	        	var _btnAction = "";
-	        	if (base.perList.permission.edit) {
+	        	if (base.perList.textbook.editCatalog) {
 	        		_btnAction += "<a data-toggle='modal' class='editCatalog btn btn-success btn-small' href='#' title='编辑' style='margin-left:5px'>编辑</a>";
 	        	}
 	        	
-	        	if (base.perList.permission.del) {
+	        	if (base.perList.textbook.delCatalog) {
 	        		_btnAction += "<a class='delCatalog btn btn-danger btn-small' href='#' title='删除' style='margin-left:5px'>删除</a>";
 	        	}
 	        	return _btnAction;
@@ -51,7 +51,7 @@ define(function (require, exports, module) {
             /**
              * 是否具有添加教材
              */
-//            if(base.perList.permission.check){
+            if(base.perList.textbook.check){
             	$("#perm-header .actions").append("<input autocomplete='off'  id='name'  placeholder='请输入教材名称' type='text' />&nbsp;&nbsp;" +
 				"<select id='grade'></select>&nbsp;&nbsp;" +
 				"<select id='subject'></select>&nbsp;&nbsp;" +
@@ -60,33 +60,33 @@ define(function (require, exports, module) {
             	getDictOptions("科目","subject","#subject");
             	
             	
-//            }	
+            }	
             //加载可选类型列表00        	
-//            if(base.perList.permission.create){
+            if(base.perList.textbook.add){
             	$("#perm-header .actions").append("<a href='#' id='addTextbook' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>添加</a>");
-//            }
+            }
             /**
              * 是否具有删除教材
              */
-//            if(base.perList.permission.del){
+            if(base.perList.textbook.del){
             	$("#perm-header .actions").append("<a href='#' id='delTextbooks' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
-//            }
+            }
             	
             	
-//	          if(base.perList.permission.edit){
+	          if(base.perList.textbook.checkCatalog){
 	        	$("#catalog-header .action").append("<input autocomplete='off' id=catalogName    placeholder='请输入名称' type='text' />&nbsp;&nbsp;" +
 	    				"<select id='catalogLevel'></select>&nbsp;&nbsp;" +
 	    				"<select id='parentOptions' style='display:none;'></select>&nbsp;&nbsp;" +
 		    			"<a href='javascript:void(0)' id='catalogQuery' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>&nbsp;&nbsp;&nbsp;&nbsp;");
 		        		 getDictOptions("目录级别","catalogLevel","#catalogLevel");
 		        		 
-//	        	 }
-//		      if(base.perList.permission.del){
+	        	 }
+		      if(base.perList.textbook.delCatalog){
 		        $("#catalog-header .action").append("<a href='#' id='delCatalog' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
-//
-//		      if(base.perList.permission.create){
+		      }
+		      if(base.perList.textbook.addCatalog){
 		        $("#catalog-header .action").append("<a href='#' id='addCatalog' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>添加</a>");
-//		       }
+		       }
 		        $("#catalog-header .action").append("<button class='close' type='button' id='catalogClose' >x</button>");
             	
             	
@@ -147,12 +147,6 @@ define(function (require, exports, module) {
            	});	
            }
             
-            
-            
-            
-            
-            
-	        
 	        operateEvents = {
 	        	//停用或启用目录	
 	        	'click .confineCatalog': function(e, value, row, index){
@@ -256,7 +250,71 @@ define(function (require, exports, module) {
 		    			F.delTextbook(ids);
 		    		});
 		        },
-		        
+		        /**
+		         * 查看目录大纲
+		         */
+		        'click .outline':function(e, value, row, index){
+		        	$("#table").hide();
+		        	$("#outline").show();
+		        	var table="<tr><td colspan='7'><h4>"+row.title+"</h4></td></tr>" +
+		        			"<tr>" +
+		        				"<td><b>章/排序</b></td>" +
+		        				"<td><b>章/名称</b></td>" +
+		        				"<td><b>章/描述</b></td>" +
+		        				"<td><b>节/排序</b></td>"+
+		        				"<td><b>节/名称</b></td>" +
+		        				"<td><b>节/描述</b></td>" +
+		        				"<td><b>视频文件名</b></td>" +
+		        			"</tr>";
+		        	$.ajax({
+		        		url:F.basepath+'/cms/catalog/outline',
+		        		type:'get',
+		        		data:{textbookId:row.id},
+		        		success:function(data){
+		        			if(data.value.length<1){
+		        				table+="<td style='color:red'colspan='7' >等待录入目录结构！</td>";
+		        			}
+		        			for(var i=0;i<data.value.length;i++){
+		        				table+="<tr>" +
+			        						"<td rowspan='"+data.value[i].sonCatalogs.length+"'>"+data.value[i].order_no+"</td>" +
+			        						"<td rowspan='"+data.value[i].sonCatalogs.length+"'>"+data.value[i].catalog_name+"</td>" +
+			        						"<td rowspan='"+data.value[i].sonCatalogs.length+"'>"+data.value[i].introduction+"</td>";
+		        				if(data.value[i].sonCatalogs.length<1){
+		        					 table+="<td style='color:red'>未创建</td>" +
+			        						"<td style='color:red'>未创建</td>" +
+			        						"<td style='color:red'>未创建</td>" +
+			        						"<td style='color:red'>未创建</td>" +
+				        				"</tr>";
+		        				}else{
+		        					table+="<td>"+data.value[i].sonCatalogs[0].order_no+"</td>" +
+		        						   "<td>"+data.value[i].sonCatalogs[0].catalog_name+"</td>" +
+		        						   "<td>"+data.value[i].sonCatalogs[0].introduction+"</td>" +
+		        						   "<td>"+data.value[i].sonCatalogs[0].video_file_name+"</td>" +
+		        						"</tr>";
+		        								
+		        							}
+		        						
+		        					var sonCatalogs = data.value[i].sonCatalogs;
+		        					if(sonCatalogs.length>0){
+		        						
+		        				
+			        					for(var j=1;j<sonCatalogs.length;j++){
+			        						table+="<tr>"+
+					        							"<td>"+sonCatalogs[j].order_no+"</td>"+
+					        							"<td>"+sonCatalogs[j].catalog_name+"</td>"+
+					        							"<td>"+data.value[i].sonCatalogs[0].introduction+"</td>" +
+					        							"<td>"+sonCatalogs[j].video_file_name+"</td>"+
+				        							"</tr>"
+			        					}
+		        					}
+		        			}
+		        			$("#outlineTable").append(table);
+		        			
+		        		}
+		        		
+
+		        	});
+		        },
 		        /**
 				 * 加载目录结构
 				 */
@@ -284,7 +342,8 @@ define(function (require, exports, module) {
 		 	        		    }];
 		        	
 		 	        //是否需要操作列
-		 	        if(base.perList.permission.edit||base.perList.permission.del||base.perList.permission.confine)
+		 	        if(base.perList.textbook.editCatalog||
+		 	           base.perList.textbook.delCatalog)
 		 		        cols.push({
 		 			    	align: 'center',
 		 			        title: '操作',
@@ -321,7 +380,11 @@ define(function (require, exports, module) {
 	        		        title: '录入人'
 	        		    }];
 	        //是否需要操作列
-	        if(base.perList.permission.edit||base.perList.permission.del||base.perList.permission.confine)
+	        		if(base.perList.textbook.outline||
+		 	           base.perList.textbook.confine||
+		 	           base.perList.textbook.edit||
+		 	           base.perList.textbook.del||
+		 	           base.perList.textbook.catalog)
 		        cols.push({
 			    	align: 'center',
 			        title: '操作',
@@ -354,6 +417,11 @@ define(function (require, exports, module) {
     			$("#catalogTable").bootstrapTable('refresh',{url:url});	
     		})
     		
+    		//导出目录大纲excel
+			$("#export").click(function(){
+				 $('#outlineTable').tableExport({ type: 'excel', separator: ';', escape: 'false' });		 
+			});
+			    		
     		
 			/**
 			 * 显示新增框
@@ -422,6 +490,35 @@ define(function (require, exports, module) {
 				
 			});
 			
+			//监听新增章节输入视频文件名光标移出事件
+			$("#videoFileName").blur(function(){
+				var videoFileName=$("#videoFileName").val();
+				var validationInfo = "";
+				$.ajax({
+					url:F.basepath+'/cms/catalog/validationVideo',
+	        		type:'post',
+	        		data:{videoFileName:videoFileName},
+	        		success:function(data){
+	        			if(data.value.length==0){
+	        				validationInfo+="无使用记录！";
+	        				
+	        			}else{
+	        				validationInfo+="该video在"
+		        			for(var i=0;i<data.value.length;i++){
+		        				if(i!=0){validationInfo+="， "}
+		        				validationInfo+="《"+data.value[i].textbookName
+								+"》教材的《"+data.value[i].catalogParent
+								+"》章《"+data.value[i].catalogName+"》节";
+		        			}
+	        				validationInfo+="中出现过。"
+	        			}
+	        			$("#videoFileName-error").text(validationInfo);
+	        			$("#videoFileName-error").css("color","blue");
+	        		}
+				});
+				
+			});
+			
 			//监听目录选择
 			$("#catalogLevel").change(function(){
 				var catalogLevel = $("#catalogLevel").val();
@@ -465,7 +562,13 @@ define(function (require, exports, module) {
 				 getDictOptions("目录级别","catalogLevel","#addCatalogLevel");
 				 $("#catalogLevels").show();
 			});
-			
+			//关闭查看目录章节结构
+			$("#outlineClose").click(function(){
+				$("#outline").hide();
+				$("#table").show();
+				$("#outlineTable").empty();
+				$("#outlineTable h4").text('');
+			});
 			//关闭添加目录模态框
 			$("#catalogBtnClose").click(function(){
 				catalogClear();
@@ -581,6 +684,7 @@ define(function (require, exports, module) {
 				$("#catalogBtnSubmit").show();
 				$("#videoFile").hide();
 				$("#videoFileName").val('');
+				$("#videoFileName-error").text('');
 			};
 			
 			/**
@@ -844,17 +948,23 @@ define(function (require, exports, module) {
         ,
         operateFormatter:function (value, row, index) {
         	var _btnAction = "";
-        	if (base.perList.permission.confine) {
+        	
+        	if (base.perList.textbook.outline) {
+            	_btnAction += "<a class='outline btn btn-primary btn-small' href='#' title='目录大纲' style='margin-left:5px'>目录大纲</a>";
+            	}
+        	if (base.perList.textbook.confine) {
         	_btnAction += "<a class='confine btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"+(row.status==1?"停用":"启用")+"</a>";
         	}
-        	if (base.perList.permission.edit) {
+        	if (base.perList.textbook.edit) {
         		_btnAction += "<a data-toggle='modal' class='editTextbook btn btn-success btn-small' href='#' title='编辑' style='margin-left:5px'>编辑</a>";
         	}
-        	if (base.perList.permission.del) {
+        	if (base.perList.textbook.del) {
         		_btnAction += "<a class='delTextbook btn btn-danger btn-small' href='#' title='删除' style='margin-left:5px'>删除</a>";
         	}
-        		_btnAction += "<a class='category btn btn-primary btn-small' href='#' title='查看目录章节' style='margin-left:5px'>查看目录章节</a>";
-        	return _btnAction;
+        	if(base.perList.textbook.catalog){
+        		_btnAction += "<a class='category btn btn-primary btn-small' href='#' title='编辑目录章节' style='margin-left:5px'>编辑目录章节</a>";
+        	}
+        		return _btnAction;
         } 
     };
     

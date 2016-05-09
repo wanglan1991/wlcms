@@ -45,9 +45,9 @@
 	</select>
 	<insert id="addCmsRole"  parameterType="com.ekt.cms.role.entity.CmsRole">
 		INSERT INTO 
-			cms_role ( `name` , `encoding` , `create_time`) 
+			cms_role ( `name` , `encoding` , `create_time`,`status`) 
 		VALUES 
-		    (#{cmsRole.name,jdbcType=VARCHAR}, #{cmsRole.encoding,jdbcType=VARCHAR}, SYSDATE())
+		    (#{cmsRole.name,jdbcType=VARCHAR}, #{cmsRole.encoding,jdbcType=VARCHAR}, SYSDATE(),1)
 		<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>

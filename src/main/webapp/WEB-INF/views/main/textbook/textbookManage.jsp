@@ -34,6 +34,17 @@
   </div>
 </div>
 
+<div id="outline"  style="display: none">
+<div class='box-header' id="catalog-header" >
+   		 <button class='close' type='button' id='outlineClose' >x</button>
+  </div>
+  <button id="export" style="margin-left: 41px;margin-top: 40px;">excel下载</button>
+		<div id="catalogOutline"  style="border: 2px solid #9898EC;overflow: scroll;margin-top:13px;height: 800px;width:1480px; margin-left:41px;">
+			<table id='outlineTable' width="100%"border="1"cellpadding="2"cellspacing="0">
+			</table>
+		</div>
+</div>
+
 
 <div  id='modal-addTextbook'  style="display: none" >
 	<div style="margin-left:56px;">
@@ -217,7 +228,7 @@
         <div class='control-group'>
             <label class='control-label'>目录/章节名称</label>
             <div class='controls'>
-                <input id='addCatalogName'  required  maxlength='15' placeholder='目录或者章节名称' type='text' />
+                <input id='addCatalogName'  required  maxlength='200' placeholder='目录或者章节名称' type='text' />
                 <span id="addCatalogName-error" class="help-block error" style="font-size: 4px;color:#b94a48;"></span>
             </div>
         </div>
@@ -270,13 +281,15 @@
 
 
 
-
+<script type="text/javascript"  src="/cms/assets/javascripts/outputExcel/tableExport.js">
+</script>
+<script type="text/javascript"  src="/cms/assets/javascripts/outputExcel/jquery.base64.js"></script>
 <script>
   seajs.use(['base','main/textbook/textbookManage'],function(b,m){
 	b.init();
     m.init('${ctx}');
+    
   });
-  
 </script>
 </body>
 </html>

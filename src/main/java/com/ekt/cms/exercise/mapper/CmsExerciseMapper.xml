@@ -134,7 +134,8 @@
 		`type_no`,
 		`category`,
 		`order_no`,
-		`knoeledge_id`
+		`knoeledge_id`, 
+		`status`
 		) VALUES (
 		#{content},
 		#{difficultyNo},
@@ -144,7 +145,8 @@
 		#{typeNo},
 		#{categoryNo},
 		#{orderNo},
-		#{knoeledgeId}
+		#{knoeledgeId},
+		1
 		)
 
 	</insert>
@@ -170,12 +172,14 @@
 			 	`exercise_id`, 
 				`option`,
 				`contents`, 
-				`is_true`
+				`is_true`,
+				`status`
 				) VALUES (
 				#{exerciseId},
 				#{option},
 				#{content},
-				#{isTrue}
+				#{isTrue},
+				1
 				 );
 	</insert>
 	<select id="getAnswerList" resultMap="answerResultMap" parameterType="java.lang.Integer">
