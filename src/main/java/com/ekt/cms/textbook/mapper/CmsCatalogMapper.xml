@@ -76,7 +76,8 @@
 			<if test="introduction !=null and introduction !=''">
 			 introduction,
 			</if>
-			 catalog_level
+			 catalog_level,
+			 status
 			
 			 )VALUES(
 			 #{catalogName},
@@ -89,7 +90,8 @@
 		 <if test="introduction !=null and introduction !=''">
 		 	 #{introduction},
 		 </if>
-			 #{catalogLevel}
+			 #{catalogLevel},
+			 1
 			 )
 	</insert>
 	
@@ -108,6 +110,45 @@
 	<delete id="deleteByParentId" parameterType="java.lang.Integer" >
 		DELETE FROM cms_catalog WHERE parent_id=#{parentId}
 	</delete>
-<!-- 	明天继续 -->
+	<select id="queryCatalogByName" resultType="java.util.Map" parameterType="java.lang.String">
+		SELECT
+			t.title textbookName,c1.catalog_name catalogParent,c.catalog_name catalogName
+		FROM
+			cms_catalog c
+		LEFT JOIN cms_textbook t ON c.textbook_id = t.id
+		LEFT JOIN cms_catalog c1 on c.parent_id=c1.id 
+		WHERE
+			c.video_file_name = #{videoFileName}
+	</select>	
+	<select id="getCatalogParentListByTextbookId" parameterType="java.lang.Integer" resultType="java.util.Map">
+		SELECT 
+			id,
+			catalog_name,
+			order_no,
+			introduction
+		FROM
+			cms_catalog
+		WHERE
+			textbook_id = #{textbookId}
+		AND catalog_level = 51
+		ORDER BY
+			order_no			
+	</select>
+	
+	<select id="getCatalogListByParentId" parameterType="java.lang.Integer" resultType="java.util.Map">
+		SELECT id,
+			catalog_name,
+			order_no,
+			video_file_name,
+			introduction
+		FROM
+			cms_catalog
+		WHERE
+			parent_id=#{parentId}
+		ORDER BY
+		order_no asc
+	</select>
+	
+	
 	
 </mapper>

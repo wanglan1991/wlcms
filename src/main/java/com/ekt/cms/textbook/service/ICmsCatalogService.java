@@ -3,6 +3,7 @@ package com.ekt.cms.textbook.service;
 import java.util.List;
 import java.util.Map;
 
+import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.textbook.entity.CmsCatalog;
 
 /**
@@ -75,5 +76,20 @@ public interface ICmsCatalogService {
 	 * @return
 	 */
 	Integer deleteByParentId(Integer parentId);
+	
+	/**
+	 * 根据视频文件名查询视频在那些教材章节中出现过
+	 * @param videoFileName
+	 * @return
+	 */
+	Result queryCatalogByName(String videoFileName);
+	
+	/**
+	 * 根据教材id获得整本教材的目录大纲
+	 * @param textbookId
+	 * @return
+	 */
+	Result getOutline(Integer textbookId);
+	
 
 }

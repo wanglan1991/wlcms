@@ -146,6 +146,27 @@ public class CmsCatalogController {
 		return result;
 		
 	}
+	/**
+	 * 根据视频文件名查询视频在那些教材中出现过
+	 * @param videoFileName
+	 * @return
+	 */
+	@RequestMapping("/validationVideo")
+	@ResponseBody
+	public Result parentList(@RequestParam("videoFileName")String videoFileName){
+		return cmsCatalogService.queryCatalogByName(videoFileName);
+	}
+	
+	/**
+	 * 根据教材id获取正本教材的目录大纲
+	 * @param textbookId
+	 * @return
+	 */
+	@RequestMapping("/outline")
+	@ResponseBody
+	public Result getOutline(@RequestParam("textbookId")Integer textbookId){
+		return cmsCatalogService.getOutline(textbookId);
+	}
 	
 	
 
