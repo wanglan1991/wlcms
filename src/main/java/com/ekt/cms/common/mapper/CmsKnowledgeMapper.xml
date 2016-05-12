@@ -38,8 +38,12 @@
 		<if test="CmsKnowledge.subjectNo !=null and CmsKnowledge.subjectNo !=0">
 			AND subject_no=#{CmsKnowledge.subjectNo, jdbcType=INTEGER}
 		</if>
+		<if test="CmsKnowledge.id !=null and CmsKnowledge.id !=0">
+			AND k.id=#{CmsKnowledge.id, jdbcType=INTEGER}
+		</if>
 		
 	</select>
+	
 	<select id="knowledgelist" resultMap="BaseMap" parameterType="com.ekt.cms.common.entity.CmsKnowledge" >
 		SELECT 
 			P.id,
@@ -53,6 +57,7 @@
 		AND p.grade_no=#{CmsKnowledge.gradeNo, jdbcType=INTEGER}
 		AND p.subject_no=#{CmsKnowledge.subjectNo, jdbcType=INTEGER}
 	</select>
+	
 	<!-- update -->
 	<update id="updateByPrimaryKey" parameterType="com.ekt.cms.common.entity.CmsKnowledge">
 		UPDATE cms_knowledge_point
@@ -86,6 +91,7 @@
 		(#{CmsKnowledge.title,jdbcType=VARCHAR},#{CmsKnowledge.orderNo,jdbcType=INTEGER},#{CmsKnowledge.gradeNo,jdbcType=INTEGER},#{CmsKnowledge.subjectNo,jdbcType=INTEGER},1
 		)
 	</insert>
+	
 	<!-- 按条件查询 -->
 	<select id="queryByCondition" resultMap="BaseMap"
 		parameterType="com.ekt.cms.common.entity.CmsKnowledge">
@@ -102,6 +108,7 @@
 			AND subject_no=#{CmsKnowledge.subjectNo, jdbcType=INTEGER}
 		</if>
 	</select>
+	
 	<!-- 启用/停用知识点 -->
 		<update id="confine" parameterType="com.ekt.cms.common.entity.CmsKnowledge">
 			UPDATE cms_knowledge_point

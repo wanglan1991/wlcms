@@ -18,20 +18,34 @@
     </div>  
   </div>
 </div>
-<!-- 明天继续 -->
-<!-- <div id="table2"> -->
-<!--   <div class='box-header' id="perm-header"> -->
-<!--     <div class='actions'></div> -->
-<!--   </div> -->
-<!--   <div class='box-content box-no-padding'> -->
-<!--     <div class='responsive-table'> -->
-<!--       <div class='scrollable-area-x'> -->
-<!--         <table id="catalogTable"></table> -->
-<!--       </div> -->
-<!--     </div>   -->
-<!--   </div> -->
-<!-- </div> -->
-<!-- 明天继续 -->
+
+
+<div id="table2" style="display: none" >
+  <div class='box-header' id="catalog-header">
+    <div class='action'>
+    </div>
+  </div>
+  <div class='box-content box-no-padding'>
+    <div class='responsive-table'>
+      <div class='scrollable-area-x'>
+        <table id="catalogTable"></table>
+      </div>
+    </div>  
+  </div>
+</div>
+
+<div id="outline"  style="display: none">
+<div class='box-header' id="catalog-header" >
+   		 <button class='close' type='button' id='outlineClose' >x</button>
+  </div>
+  <button id="export" style="margin-left: 41px;margin-top: 40px;">excel下载</button>
+		<div id="catalogOutline"  style="border: 2px solid #9898EC;overflow: scroll;margin-top:13px;height: 800px;width:1480px; margin-left:41px;">
+			<table id='outlineTable' width="100%"border="1"cellpadding="2"cellspacing="0">
+			</table>
+		</div>
+</div>
+
+
 <div  id='modal-addTextbook'  style="display: none" >
 	<div style="margin-left:56px;">
 		<h2>添加教材</h2>
@@ -206,14 +220,75 @@
 
 </div>
 
+<div class='modal hide fade' id='modal-addCatalog'  tabindex='-1'>
+    <div class='modal-header'>
+        <h3></h3>
+    </div>
+    <div class='modal-body'>
+        <div class='control-group'>
+            <label class='control-label'>目录/章节名称</label>
+            <div class='controls'>
+                <input id='addCatalogName'  required  maxlength='200' placeholder='目录或者章节名称' type='text' />
+                <span id="addCatalogName-error" class="help-block error" style="font-size: 4px;color:#b94a48;"></span>
+            </div>
+        </div>
+        <div class='control-group' id="catalogLevels">
+            <label class='control-label'>目录/章节</label>
+            <div class='controls'>
+               <select id="addCatalogLevel"></select>
+                 <span id="addCatalogLevel-error" class="help-block error" style="font-size: 4px;color:#b94a48;"></span>
+            </div>
+        </div>
+	    <div class='control-group' id=addParent style="display:none">
+	            <label class='control-label'>父目录</label>
+	            <div class='controls'>
+	              <select id="addParentId"></select>
+	                 <span id="addParentId-error" class="help-block error" style="font-size: 4px;color:#b94a48;"></span>
+	            </div>
+	    </div>
+	    
+	     <div class='control-group' id=videoFile style="display:none">
+	            <label class='control-label'>video文件名</label>
+	            <div class='controls'>
+	              <input id="videoFileName"  type="text"  required placeholder="视频文件名" maxlength="100">
+	                 <span id="videoFileName-error" class="help-block error" style="font-size: 4px;color:#b94a48;"></span>
+	            </div>
+	    </div>
+	    
+	    <div class='control-group'>
+	            <label class='control-label'>简介</label>
+	            <div class='controls'>
+	               <textarea  class='span8' id="addIntroduction" placeholder='简介'></textarea>
+	                 <span id="addIntroduction-error" class="help-block error" style="font-size: 4px;color:#b94a48;"></span>
+	            </div>
+	    </div>
+	    <div class='control-group'>
+	            <label class='control-label'>排序</label>
+	            <div class='controls'>
+	               <input required id="addOrder"  placeholder='排序' maxlength="4" onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" type="text" >
+	                 <span id="addOrder-error" class="help-block error" style="font-size: 4px;color:#b94a48;"></span>
+	            </div>
+	    </div>
+    </div>
+    <div class='modal-footer'>
+    	<msg id='msg'></msg>
+        <button type="button" id="catalogBtnClose" class='btn'>关闭</button>
+        <button type="button" id="catalogBtnSubmit" class='btn btn-primary'>保存</button>
+        <button type="button"  style="display:none" id="editCatalogSubmit" class='btn btn-primary'>保存</button>
+    </div>
+    </form>
+</div>
 
 
 
-
+<script type="text/javascript"  src="/cms/assets/javascripts/outputExcel/tableExport.js">
+</script>
+<script type="text/javascript"  src="/cms/assets/javascripts/outputExcel/jquery.base64.js"></script>
 <script>
   seajs.use(['base','main/textbook/textbookManage'],function(b,m){
 	b.init();
     m.init('${ctx}');
+    
   });
 </script>
 </body>

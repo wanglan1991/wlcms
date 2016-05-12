@@ -52,6 +52,7 @@ color:red;
 							<span id="stitle-error" class="help-block error"></span>
 					</div>
 				</div>
+				
 				<div class='control-group'>
 					<label class='control-label'>序号</label>
 					<div class='controls'>
@@ -59,6 +60,7 @@ color:red;
 							placeholder='請輸入序號' type='text' />
 					</div>
 				</div>
+				
 				<div class='control-group'>
 					<label class='control-label'>年级</label>
 					<div class='controls'>
@@ -67,6 +69,7 @@ color:red;
 		                </div>
 					</div>
 				</div>
+				
 				<div class='control-group'>
 					<label class='control-label'>科目</label>
 					<div class='controls'>
@@ -74,8 +77,9 @@ color:red;
 		               		<select id='subject' name='subject'>
 		               		</select>
 		                </div>
+					</div>
 				</div>
-			</div>
+				
 			</div>
 			<div class='modal-footer'>
 				<msg id='msg'></msg>
@@ -128,8 +132,8 @@ color:red;
 		               		<select id='EditSubject'>
 		               		</select>
 		                </div>
+					</div>
 				</div>
-			</div>
 			</div>
 			<div class='modal-footer'>
 				<msg id='edit-msg'></msg>

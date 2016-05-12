@@ -2889,9 +2889,9 @@ body.sign-in, body.sign-up, body.forgot-password {
           margin-top: 10px;
           font-family: Montserrat; }
     body.sign-in #wrapper .controls, body.sign-up #wrapper .controls, body.forgot-password #wrapper .controls {
-      width: 100%;
-      position: relative;
-      background-color: white;
+/*       width: 100%; */
+/*       position: relative; */
+/*       background-color: white; */
       -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
       -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }

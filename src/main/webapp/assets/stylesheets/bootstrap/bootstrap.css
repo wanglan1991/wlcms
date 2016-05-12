@@ -6165,3 +6165,7 @@ a.badge:focus {
 .affix {
     position: fixed;
 }
+
+td{
+	text-align: center;
+}

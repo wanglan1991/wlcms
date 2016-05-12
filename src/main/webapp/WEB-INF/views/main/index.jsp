@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>CMS</title>
+    <title>EKT-CMS</title>
     <%@include file="/WEB-INF/views/include/baseCSS.jsp" %>
 </head>
 <body class='contrast-blue'>
@@ -14,7 +14,7 @@
             <div class='container-fluid'>
                 <a class='brand' href='index.html'>
                     <i class='icon-adjust'></i>
-                    <span class='hidden-phone'>CMS</span>
+                    <span class='hidden-phone'>EKT-CMS</span>
                 </a>
                 <a class='toggle-nav btn pull-left' href='#'>
                     <i class='icon-reorder'></i>
@@ -336,6 +336,78 @@
 					<shiro:hasPermission name="video:confine">
 						<span id="basejs_video_confine" style="display: none;" />
 					</shiro:hasPermission>
+					<shiro:hasPermission name="video:play">
+						<span id="basejs_video_play" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="region:check">
+						<span id="basejs_region_check" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="region:confine">
+						<span id="basejs_region_confine" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="school:check">
+						<span id="basejs_school_check" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="school:confine">
+						<span id="basejs_school_confine" style="display: none;" />
+					</shiro:hasPermission>
+					
+					
+					
+					<shiro:hasPermission name="textbook:check">
+						<span id="basejs_textbook_check" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="textbook:add">
+						<span id="basejs_textbook_add" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="textbook:del">
+						<span id="basejs_textbook_del" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="textbook:confine">
+						<span id="basejs_textbook_confine" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="textbook:edit">
+						<span id="basejs_textbook_edit" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="textbook:outline">
+						<span id="basejs_textbook_outline" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="textbook:catalog">
+						<span id="basejs_textbook_catalog" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="textbook:checkCatalog">
+						<span id="basejs_textbook_checkCatalog" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="textbook:editCatalog">
+						<span id="basejs_textbook_editCatalog" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="textbook:delCatalog">
+						<span id="basejs_textbook_delCatalog" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="textbook:addCatalog">
+						<span id="basejs_textbook_addCatalog" style="display: none;" />
+					</shiro:hasPermission>
+	
+
+					<shiro:hasPermission name="exercise:check">
+						<span id="basejs_exercise_check" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="exercise:add">
+						<span id="basejs_exercise_add" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="exercise:del">
+						<span id="basejs_exercise_del" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="exercise:import">
+						<span id="basejs_exercise_import" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="exercise:edit">
+						<span id="basejs_exercise_edit" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="exercise:confine">
+						<span id="basejs_exercise_confine" style="display: none;" />
+					</shiro:hasPermission>
+
             </div>
         </div>
     </div>
@@ -390,7 +462,7 @@ $(document).ready(function(){
 				 menusTxt+=" <li class=''><a  target='mainFrame' class='dropdown-collapse  in' href='#'><i class='"+parentMenu.icon+"'></i><span>"+parentMenu.menuName+"</span></a><ul class='nav nav-stacked'>";
 					var sonMenuArr = parentMenu.menuList;	
 						 for(var i=0;i<sonMenuArr.length;i++){
-							 menusTxt+="<li><a  target='mainFrame' href='${ctx}/"+sonMenuArr[i].url+"'><i class='"+sonMenuArr[i].icon+"'></i><span>"+sonMenuArr[i].menuName+"<span></a><li>" 
+							 menusTxt+="<li><a  target='mainFrame' href='${ctx}/"+sonMenuArr[i].url+"'><i style='margin-left:29px;' class='"+sonMenuArr[i].icon+"'></i><span>"+sonMenuArr[i].menuName+"<span></a><li>" 
 									
 							}
 						 menusTxt+="</ul></li>";
@@ -483,7 +555,7 @@ $(".icon-adjust").click(function(){
 		if ($('#basejs_menu_grant').length > 0) {
 			base.perList.menu.grant = true;
 		}
-	
+// 账户	
 		if ($('#basejs_account_add').length > 0) {
 			base.perList.user.add = true;
 		}
@@ -505,7 +577,7 @@ $(".icon-adjust").click(function(){
 		if ($('#basejs_account_resetPwd').length > 0) {
 			base.perList.user.resetPwd = true;
 		}
-	
+// 字典	
 		if ($('#basejs_dict_create').length > 0) {
 			base.perList.dict.create = true;
 		}
@@ -521,7 +593,8 @@ $(".icon-adjust").click(function(){
 		if ($('#basejs_dict_confine').length > 0) {
 			base.perList.dict.confine = true;
 		}
-		
+	
+// 知识点
 		if ($('#basejs_knowledge_create').length > 0) {
 			base.perList.knowledge.create = true;
 		}
@@ -537,7 +610,7 @@ $(".icon-adjust").click(function(){
 		if ($('#basejs_knowledge_confine').length > 0) {
 			base.perList.knowledge.confine = true;
 		}
-		
+// 	视频	
 		if ($('#basejs_video_create').length > 0) {
 			base.perList.video.create = true;
 		}
@@ -553,7 +626,83 @@ $(".icon-adjust").click(function(){
 		if ($('#basejs_video_confine').length > 0) {
 			base.perList.video.confine = true;
 		}
+		if ($('#basejs_video_play').length > 0) {
+			base.perList.video.play = true;
+		}
 		
+		
+// 	学校	
+		if ($('#basejs_region_check').length > 0) {
+			base.perList.region.check = true;
+		}
+		if ($('#basejs_region_confine').length > 0) {
+			base.perList.region.confine = true;
+		}
+		if ($('#basejs_school_check').length > 0) {
+			base.perList.school.check = true;
+		}
+		if ($('#basejs_school_confine').length > 0) {
+			base.perList.school.confine = true;
+		}
+		
+// 	教材
+		
+		if ($("#basejs_textbook_check").length>0){
+			base.perList.textbook.check = true;
+		}
+		if ($("#basejs_textbook_add").length>0){
+			base.perList.textbook.add = true;		
+		}
+		if ($("#basejs_textbook_del").length>0){
+			base.perList.textbook.del = true;
+		}
+		if ($("#basejs_textbook_confine").length>0){
+			base.perList.textbook.confine = true;
+		}
+		if ($("#basejs_textbook_edit").length>0){
+			base.perList.textbook.edit = true;
+		}
+		if ($("#basejs_textbook_outline").length>0){
+			base.perList.textbook.outline = true;
+		}
+		if ($("#basejs_textbook_catalog").length>0){
+			base.perList.textbook.catalog = true;
+		}
+		if ($("#basejs_textbook_checkCatalog").length>0){
+			base.perList.textbook.checkCatalog = true;
+		}
+		if ($("#basejs_textbook_editCatalog").length>0){
+			base.perList.textbook.editCatalog = true;
+		}
+		if ($("#basejs_textbook_delCatalog").length>0){ 
+			base.perList.textbook.delCatalog = true;
+		}
+		if ($("#basejs_textbook_addCatalog").length>0){
+			base.perList.textbook.addCatalog = true;
+		}
+		
+// 		习题
+		
+		if ($("#basejs_exercise_check").length>0){
+			base.perList.exercise.check = true;
+		}
+		if ($("#basejs_exercise_add").length>0){
+			base.perList.exercise.add = true;
+		}
+		if ($("#basejs_exercise_del").length>0){
+			base.perList.exercise.del = true;
+		}
+		if ($("#basejs_exercise_import").length>0){
+			base.perList.exercise.import = true;
+		}
+		if ($("#basejs_exercise_edit").length>0){
+			base.perList.exercise.edit = true;
+		}
+		if ($("#basejs_exercise_confine").length>0){
+			base.perList.exercise.confine = true;
+		}
+		
+
 		index.init('${ctx}');
 	});
 

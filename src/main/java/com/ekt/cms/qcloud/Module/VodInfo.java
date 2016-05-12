@@ -24,4 +24,11 @@ public class VodInfo extends Base {
 		
         return call(actionName, params);
 	}
+	
+	public String DescribeVodPlayInfo(TreeMap<String, Object> params) throws NoSuchAlgorithmException, IOException {
+		String actionName = "DescribeVodPlayInfo";
+		
+		
+        return call(actionName, params);
+	}
 }

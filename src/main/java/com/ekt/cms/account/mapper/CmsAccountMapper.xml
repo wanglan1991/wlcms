@@ -34,11 +34,21 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    INSERT INTO cms_account ( user_name, password, 
-      real_name, role, cellphone,create_date 
-      )
-    VALUES (#{userName,jdbcType=CHAR}, #{password,jdbcType=CHAR}, 
-      #{realName,jdbcType=CHAR}, #{role,jdbcType=INTEGER}, #{cellphone,jdbcType=CHAR},SYSDATE())
+    INSERT INTO cms_account ( 
+    user_name, 
+    password, 
+    real_name,
+    role,
+    cellphone,
+    create_date,
+    status 
+    )VALUES(
+    #{userName,jdbcType=CHAR},
+     #{password,jdbcType=CHAR}, 
+      #{realName,jdbcType=CHAR},
+       #{role,jdbcType=INTEGER},
+        #{cellphone,jdbcType=CHAR},
+        SYSDATE(),1)
   </insert>
   
  <!-- 更新 -->

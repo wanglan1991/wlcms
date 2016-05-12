@@ -179,6 +179,36 @@ define(function (require, exports, module) {
                 create: false,
                 check:false,
                 confine:false,
+                play : false
+            },
+            region: {
+                check:false,
+                confine:false,
+            },
+            school: {
+                check:false,
+                confine:false,
+            },
+            textbook: {
+	        	 check:false,
+	             add:false,
+	             del:false,
+	             confine:false,
+	             edit:false,
+	             outline:false,
+	             catalog:false,
+	             checkCatalog:false,
+	             editCatalog:false,
+	             delCatalog:false,
+	         	 addCatalog:false
+            },
+            exercise:{
+            	 check:false,
+                 add:false,
+                 del:false,
+                 import:false,
+                 edit:false,
+                 confine:false
             }
         }
     };

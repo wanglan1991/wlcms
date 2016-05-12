@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<!-- <script src="http://qzonestyle.gtimg.cn/open/qcloud/video/h5/h5connect.js" charset="utf-8" ></script> -->
+<script src="http://qzonestyle.gtimg.cn/open/qcloud/video/h5/h5connect.js" charset="utf-8" ></script>
+
 <html>
 <head>
 <title></title>
@@ -21,7 +22,7 @@ color:red;
 		</div>
 	</div>
 <!-- 新增视频模态框 -->
-	<div class='modal hide fade' id='modal-Video' role='dialog'
+	<div class='modal hide fade ' id='modal-Video' role='dialog'
 		tabindex='-1'>
 		<div class='modal-header'>
 			<button class='close' id="tatil" data-dismiss='modal' type='button'>&times;</button>
@@ -30,7 +31,7 @@ color:red;
 <!-- 		<form class='form validate-form' id='submit-form' role="form" -->
 <!-- 		 action="/cms/VodCloud/upload" method="post" enctype="multipart/form-data" -->
 <!-- 			style='margin-bottom: 0;'> -->
-				<div class='modal-body'  style='padding-bottom: 300px;'>
+				<div class='modal-body'  style="max-height: 800px" >
 				
 				<div class='control-group'>
 					<label class='control-label'>视频名称</label>
@@ -46,9 +47,8 @@ color:red;
 				<div class='control-group'>
 					<label class='control-label'>视频文件名</label>
 					<div class='controls'>
-						<input class='span8' id='fileName' name="fileName"
-							placeholder='视频文件名' type='text' />
-							<span id="fileNameName-error" class="help-block error"></span>
+						<input class='span8' id='fileName' name="fileName" placeholder='上传视频成功后自动回填视频文件名'type='text' />
+							<span id="fileName-error" class="help-block error"></span>
 <!-- 							<br><font color="red">*视频文件名按一定规则命名 </font> -->
 					</div>
 				</div>
@@ -71,12 +71,31 @@ color:red;
 					</div>
 				</div>
 					
+						<div class='control-group'>
+					<label class='control-label'>年级</label>
+					<div class='controls'>
+						 <div class='input-append'>
+		               		<select id='grade' name='grade' ></select>
+		                </div>
+					</div>
+				</div>
+				
+				<div class='control-group'>
+					<label class='control-label'>科目</label>
+					<div class='controls'>
+						<div class='input-append'>
+		               		<select id='subject' name='subject'>
+		               		</select>
+		                </div>
+					</div>
+				</div>
+				
 				<div class="col-md-11 col-sm-12">
 					<div class="form-group">
 						<label class="col-sm-3 control-label">知识点</label>
 						<div class="col-sm-9">
 							<select id="knowledge" name="knowledge"
-								style="width: 337.609px; height:30px" ></select>
+								style="width: 337.609px; height:30px" multiple="true"></select>
 								<span id="knowledge-error" class="help-block error"></span>
 						</div>
 					</div>
@@ -94,7 +113,7 @@ color:red;
 					<div class='control-group'>
 					<label class='control-label'>视频url</label>
 					<div class='controls'>
-						<input class='span8' id='url' name="url" placeholder='请输入视频url' 
+						<input class='span8' id='url' name="url" placeholder='上传视频成功后自动回填URL' 
 							type='text' />
 							<span id="url-error" class="help-block error"></span>
 					</div>
@@ -112,7 +131,7 @@ color:red;
 			<form id="upload" action="/cms/VodCloud/upload" method="post" enctype="multipart/form-data">
 				<div class='controls'>
 					<input type="file" id="videoFile" name="videoFile" multiple="multiple"
-						class="form-control input-sm mb15" placeholder="请选择视频文件" required>
+						class="form-control input-sm mb15"  required>
 						 <span id="videoFile-error" class="help-block error"></span>
 						<button type="submit" id ="submitbutton">上传</button>
 				</div>
@@ -143,9 +162,6 @@ color:red;
 	</div>
 	
 	
-	
-	
-	
 <!-- 编辑视频模态框 -->
 <div class='modal hide fade' id='modal-editVideo' role='dialog'
 		tabindex='-1'>
@@ -155,7 +171,7 @@ color:red;
 		</div>
 		<form class='form validate-form' id='Editsubmit-form' role="form"
 			style='margin-bottom: 0;'>
-				<div class='modal-body' style='padding-bottom: 100px;'>
+				<div class='modal-body' style="max-height: 550px">
 				<div class='control-group'>
 					<label class='control-label'>视频名称</label>
 					<input type="hidden" id="editId" />
@@ -191,34 +207,48 @@ color:red;
 					</div>
 				</div>
 				
-				<div class='control-group'>
+				   <div class='control-group'>
 					<label class='control-label'>讲师</label>
 					<div class='controls'>
-						<input class='span8' id='editAuthor' name="editAuthor"
-							placeholder='讲师' type='text' />
+						 <div class='input-append'>
+		               		<select id='editAuthor' name='editAuthor' ></select>
+		                </div>
 					</div>
 				</div>
 				
-<!-- 				<div class='control-group'> -->
-<!-- 					<label class='control-label'>知识点</label> -->
-<!-- 					<input type="hidden" id="editKnowledgeId" /> -->
-<!-- 					<div class='controls'> -->
-<!-- 						<div class='input-append'> -->
-<!-- 		               		<select id='editKnowledge'> -->
-<!-- 		               		</select> -->
-<!-- 		                </div> -->
-<!-- 				</div>				 -->
-<!-- 			</div> -->
+						<div class='control-group'>
+					<label class='control-label'>年级</label>
+					<input type="hidden" id="EditGradeNo" />
+					<div class='controls'>
+						 <div class='input-append'>
+		               		<select id='EditGrade'></select>
+		                </div>
+					</div>
+				</div>
+				
+				<div class='control-group'>
+					<label class='control-label'>科目</label>
+					<input type="hidden" id="EditSubjectNo" />
+					<div class='controls'>
+						<div class='input-append'>
+		               		<select id='EditSubject'>
+		               		</select>
+		                </div>
+					</div>
+				</div>
 			
+
 			
           <div class="col-md-11 col-sm-12">
                 <div class="form-group">
             		<label class="col-sm-3 control-label">知识点</label>
             		<div class="col-sm-9">
-                    	<select id="editKnowledge"  name="editKnowledge"  style="width:300px;"></select>      
+                    	<select id="editKnowledge"  name="editKnowledge"  style="width:300px;" multiple="true"></select>      
             		</div>			
         		</div>
             </div>
+            
+           
             
 			<div class='control-group'>
 					<input type="hidden" id="editStatus" />
@@ -231,10 +261,23 @@ color:red;
 			</div>
 		</form>
 	</div>
-
-
 		
-		<script>  
+		
+		<!-- 播放器模态框 -->
+	<div class='modal hide fade' id='modal-playVideo' role='dialog'
+		tabindex='-1'>
+		<div class='modal-header'>
+			<button class='close' data-dismiss='modal' type='button'>&times;</button>
+			<h3></h3>
+		</div>
+		<div class='modal-body'></div>
+		<div id="id_video_container" ></div>
+		<div class='modal-footer'></div>
+	</div>
+
+
+
+	<script>
 		seajs.use([ 'base', 'main/video/videoManage' ], function(b, m) {
 			b.init();
 			m.init('${ctx}');
