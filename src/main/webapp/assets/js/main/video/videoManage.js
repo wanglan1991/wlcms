@@ -601,22 +601,23 @@ define(function(require, exports, module) {
 		});
 		
 		//上传表单验证和提交
+		//腾讯云上传
 		$(function() {
-			$("#upload").ajaxForm({
+			$("#qupload").ajaxForm({
 				//定义返回JSON数据，还包括xml和script格式
 //				dataType : 'json',
 				beforeSend : function() {
 					//表单提交前做表单验证
-					if($("#videoFile").val()=="")
+					if($("#qvideoFile").val()=="")
 					{
 					alert("请先上传文件");
 					return;
 					}
 				
-				$("#submitbutton").attr("disabled","disalbed");
+				$("#qsubmitbutton").attr("disabled","disalbed");
 				},
 				success : function(data) {
-					$("#submitbutton").attr("disabled",false);
+					$("#qsubmitbutton").attr("disabled",false);
 					//提交成功后调用
 					if (data.value!=null) {
 						var fileId= data.value;
@@ -629,7 +630,7 @@ define(function(require, exports, module) {
 			});
 		});
 		var getVideoInfo =function(fileId){
-			alert("进入获取信息方法")
+			alert("获取信息")
 			$.ajax({
 				url : F.basepath + '/cms/VodCloud/describeVodInfo',
 				type : 'post',
@@ -648,6 +649,40 @@ define(function(require, exports, module) {
 				}
 			})
 		}
+		
+		
+		
+		//乐视云上传
+//		$(function() {
+//			$("#leUpload").ajaxForm({
+//				//定义返回JSON数据，还包括xml和script格式
+////				dataType : 'json',
+//				beforeSend : function() {
+//					//表单提交前做表单验证
+//					if($("#videoFile").val()=="")
+//					{
+//					alert("请先上传文件");
+//					return;
+//					}
+//				
+//				$("#submitbutton").attr("disabled","disalbed");
+//				},
+//				success : function(data) {
+//					$("#submitbutton").attr("disabled",false);
+//					alter("提交成功");
+//					//提交成功后调用
+//					if (data.value!=null) {
+//						var fileId= data.value;
+//						getVideoInfo(fileId);
+////						
+//					} else {
+//						alter("----");
+//						alert(data.msg);
+//					}
+//				}
+//			});
+//		});
+		
 		
 	}); 
 	

@@ -93,7 +93,11 @@
 	         <div class='control-group'>
 	            <label class='control-label'>封面</label>
 	            <div class='controls'>
-	                <input id='imgUrl'  maxlength='100'  placeholder='&lt; &frasl;img.png &frasl; &gt;' type='text' />
+	                <input id='imgUrl'  maxlength='100'  placeholder='&lt; &frasl;img.png &frasl; &gt;上传成功后自动回填文件名' type='text' />
+	                <form id="upload" action="/cms/upload/imageUpload" method="post" enctype="multipart/form-data">
+					<input type="file" id="imgFile" name="imgFile" multiple="multiple"	 required>
+						<button type="submit" id ="submitbutton">图片上传</button>
+					</form>
 	            </div>
 	        </div>
 	        <div class='control-group'>
@@ -179,7 +183,11 @@
 	         <div class='control-group'>
 	            <label class='control-label'>封面</label>
 	            <div class='controls'>
-	                <input id='editImgUrl'  maxlength='100'  placeholder='&lt; &frasl;img.png &frasl; &gt;' type='text' />
+	                <input id='editImgUrl'  maxlength='100'  placeholder='&lt; &frasl;img.png &frasl; &gt;上传成功后自动回填文件名' type='text' />
+	                <form id="editUpload" action="/cms/upload/imageUpload" method="post" enctype="multipart/form-data">
+					<input type="file" id="editImgFile" name="editImgFile" multiple="multiple"	 required>
+						<button type="submit" id ="editSubmitbutton">图片上传</button>
+					</form>
 	            </div>
 	        </div>
 	        <div class='control-group'>

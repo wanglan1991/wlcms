@@ -1,13 +1,9 @@
 package com.ekt.cms.video.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.ekt.cms.common.dao.CmsKnowledgeMapper;
-import com.ekt.cms.common.entity.CmsKnowledge;
 import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.video.dao.CmsVideoMapper;
 import com.ekt.cms.video.entity.CmsVideo;
@@ -58,8 +54,8 @@ public class CmsVideoService implements ICmsVideoService {
 //		Video.setGradeNo(gradeNo);
 //		Video.setSubject(subject);
 //		Video.setSubjectNo(subjectNo);}
-//		return new PageBean<CmsVideo>(CmsVideos);
-		return new PageBean<CmsVideo>(cmsVideoMapper.listPage(cmsVideo));
+//		return new PageBean<CmsVideo>(CmsVideos);	
+ 		return new PageBean<CmsVideo>(cmsVideoMapper.listPage(cmsVideo));
 	}
 	
 	@Override
