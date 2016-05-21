@@ -6,5 +6,6 @@ encoding//src/main/resources=UTF-8
 encoding//src/main/resources/conf/config.properties=UTF-8
 encoding//src/main/webapp/WEB-INF/views/main/exercise/exerciseManage.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/main/region/regionPage.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/main/video/vidoe.jsp=UTF-8
 encoding//src/test/java=UTF-8
 encoding/<project>=UTF-8

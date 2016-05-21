@@ -555,6 +555,7 @@ define(function (require, exports, module) {
 				$("#catalogLevel").val(0);
 				$("#table").show();
 				$("#table2").hide();
+				
 			});
 			//开启添加目录模态框
 			$("#addCatalog").click(function(){
@@ -649,6 +650,7 @@ define(function (require, exports, module) {
 				$("#knowledgeTree").empty();
 				$("#addKnowledgeTree").hide();
 				$("#addMsg").text("");
+				$("#imgFile").val('');
 			}
 			
 			function editClear(){
@@ -966,7 +968,74 @@ define(function (require, exports, module) {
         	}
         		return _btnAction;
         } 
+        
     };
+    jQuery(document).ready(function() { 
+	//上传表单验证和提交 新增
+	//图片上传到阿里云OSS 
+	$(function() {
+		$("#upload").ajaxForm({
+			//图片上传的文件夹
+			
+			data :
+			{key:"textBook/",
+			fileName:"imgFile"},
+			beforeSend : function() {
+			
+			$("#submitbutton").attr("disabled","disalbed");
+			},
+			success : function(data) {
+				$("#submitbutton").attr("disabled",false);
+				//提交成功后调用
+				if (data.value!=null) {
+					alert(data.value.msg);
+					if(data.value.status == 0){
+						var file = $("#imgFile").val();
+						var fileName = "<textBook/" + getFileName(file)+"/>";
+						var imgUrl = $("#imgUrl").val(fileName);
+					}
+				} else {
+					alert("上传异常 ")
+				}
+			}
+		});
+	});
+	
+	//上传表单验证和提交  编辑
+	//图片上传到阿里云OSS
+	$(function() {
+		$("#editUpload").ajaxForm({
+			//图片上传的文件夹
+			
+			data :
+			{key:"textBook/",
+			 fileName:"editImgFile"},
+			beforeSend : function() {
+			
+			$("#editSubmitbutton").attr("disabled","disalbed");
+			},
+			success : function(data) {
+				$("#editSubmitbutton").attr("disabled",false);
+				//提交成功后调用
+				if (data.value!=null) {
+					alert(data.value.msg);
+					if(data.value.status == 0){
+						var file = $("#editImgFile").val();
+						var fileName = "<textBook/" + getFileName(file)+"/>";
+						var editImgUrl = $("#editImgUrl").val(fileName);
+					}
+				} else {
+					alert("上传异常 ")
+				}
+			}
+		});
+	});
+	
+	//获取带后缀名的文件名
+	function getFileName(o){
+	    var pos=o.lastIndexOf("\\");
+	    return o.substring(pos+1);  
+	}
     
-    
+    });
 });

@@ -128,14 +128,15 @@ color:red;
 <!-- 					</div> -->
 <!-- 				</div> -->
 
-			<form id="upload" action="/cms/VodCloud/upload" method="post" enctype="multipart/form-data">
+			<form id="qupload" action="/cms/VodCloud/upload" method="post" enctype="multipart/form-data">
 				<div class='controls'>
 					<input type="file" id="videoFile" name="videoFile" multiple="multiple"
 						class="form-control input-sm mb15"  required>
-						 <span id="videoFile-error" class="help-block error"></span>
-						<button type="submit" id ="submitbutton">上传</button>
+						 <span id="qvideoFile-error" class="help-block error"></span>
+						<button type="submit" id ="qsubmitbutton">腾讯云上传</button>
 				</div>
-			<!-- 是否转码与水印 暂不使用 -->
+				
+				<!-- 是否转码与水印 暂不使用 -->
 <!-- 				<div class="input_area"> -->
 <!-- 					<span>转 码: </span> 开启<input type="radio" name="transcode" value="1" -->
 <!-- 						checked=""> &nbsp;&nbsp;&nbsp;禁用<input type="radio" -->
@@ -146,12 +147,9 @@ color:red;
 <!-- 					&nbsp;&nbsp;&nbsp;禁用<input type="radio" name="watermark" value="0" -->
 <!-- 						checked=""> -->
 <!-- 				</div> -->
-				<!-- 视频的分类  暂不使用 -->
-<!-- 				<div class="input_area"> -->
-<!-- 					<span>分类ID: </span> <input type="input" name="classId" value=""> -->
-<!-- 				</div> -->
-			</form>
 
+			</form>			
+			
 			<div class='modal-footer'>
 				<msg id='msg'></msg>
 				<button type="button" id="btnClose" class='btn'>关闭</button>

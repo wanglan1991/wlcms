@@ -106,6 +106,19 @@
             </div>
            
             <div style="margin-left: 36%;margin-top:-34%;width:62%;;height: 450px;">
+            
+             <div class='control-group'>
+	            <div class='controls'>
+	               
+	                <form id="upload" action="/cms/upload/imageUpload" method="post" enctype="multipart/form-data">
+					<input type="file" id="imgFile" name="imgFile" multiple="multiple"	 required>
+						 <span id="imgFile-error" class="help-block error"></span>
+						<div><button type="submit" id ="submitbutton">图片上传</button>
+						 <input id='imgUrl'  maxlength='100'  placeholder='&lt; &frasl;img.png &frasl; &gt;图片文件名' type='text' /></div>
+			</form>
+	            </div>
+	        </div>
+	        
 
             	<textarea id='editExerciseContent' maxlengt='900' style='width: 90%;height:15%;margin-left: 0px;' placeholder='习题内容..........'></textarea>
             	<div id="editAnswer">

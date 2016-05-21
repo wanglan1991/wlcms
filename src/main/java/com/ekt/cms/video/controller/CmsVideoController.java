@@ -24,7 +24,7 @@ public class CmsVideoController {
 
 	@RequestMapping("/toVideo")
 	public String toVideoPage() {
-//		return "main/video/testUpload";
+//		return "main/video/vidoe";
 		return "main/video/videoManage";
 	}
 
