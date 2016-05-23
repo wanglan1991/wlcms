@@ -50,6 +50,18 @@
 	            </div>
             </div>
             <div style="margin-left: 36%;margin-top:-34%;width:62%;;height: 450px;">
+             <div class='control-group'>
+	            <div class='controls'>
+	               
+	                <form id="upload" action="/cms/upload/imageUpload" method="post" enctype="multipart/form-data">
+					<input type="file" id="exeFile" name="exeFile" multiple="multiple"	 required>
+						 <span id="exeFile-error" class="help-block error"></span>
+						<div><button type="submit" id ="submitbutton">图片上传</button><input type=button value="复制" onclick="jsCopy('url')">
+						 <input id='url'  maxlength='100'  placeholder='&lt; &frasl;img.png &frasl; &gt;图片文件名' type='text' /></div>
+			</form>
+	            </div>
+	        </div>
+	        
             	<textarea id='exerciseContent' maxlengt='900' style='width: 90%;height:15%;margin-left: 0px;' placeholder='习题内容..........'></textarea>
             	<div id="answer">
             		 <p style='color:red;'>请使用,例如：“<b style='color:blue'>&lt; &frasl;img.png &frasl; &gt;</b>”来标注图片在习题内容以及习题答案中的显示位置。</p>
@@ -110,11 +122,11 @@
              <div class='control-group'>
 	            <div class='controls'>
 	               
-	                <form id="upload" action="/cms/upload/imageUpload" method="post" enctype="multipart/form-data">
-					<input type="file" id="imgFile" name="imgFile" multiple="multiple"	 required>
-						 <span id="imgFile-error" class="help-block error"></span>
-						<div><button type="submit" id ="submitbutton">图片上传</button>
-						 <input id='imgUrl'  maxlength='100'  placeholder='&lt; &frasl;img.png &frasl; &gt;图片文件名' type='text' /></div>
+	                <form id="editUpload" action="/cms/upload/imageUpload" method="post" enctype="multipart/form-data">
+					<input type="file" id="editExeFile" name="editExeFile" multiple="multiple"	 required>
+						 <span id="editExeFile-error" class="help-block error"></span>
+						<div><button type="submit" id ="editSubmitbutton">图片上传</button><input type=button value="复制" onclick="jsCopy('editUrl')">
+						 <input id='editUrl'  maxlength='100'  placeholder='&lt; &frasl;img.png &frasl; &gt;图片文件名' type='text' /></div>
 			</form>
 	            </div>
 	        </div>
@@ -169,9 +181,6 @@
     </div>
   
 </div>
-
-
-
 
 
 <script>
