@@ -458,6 +458,8 @@ define(function (require, exports, module) {
 				$("#addpublisherOption").empty();
 				$("#addpublisher-error").html('');
 				$("#msg").html('');
+				$("#exeFile").val('');
+				$("#url").val('');
 				$("#exerciseContent").val('');
 				$("#author").val('');
 				$("#orderNo").val('');
@@ -481,6 +483,8 @@ define(function (require, exports, module) {
 				$("#editpublisherOption").empty();
 				$("#editpublisher-error").html('');
 				$("#editMsg").html('');
+				$("#editExeFile").val('');
+				$("#editUrl").val('');
 				$("#editExerciseContent").val('');
 				$("#editAuthor").val('');
 				$("#editOrderNo").val('');
@@ -706,4 +710,80 @@ define(function (require, exports, module) {
         	return _btnAction;
         } 
     };
+    jQuery(document).ready(function(){
+    	//上传表单验证和提交 新增
+    	//图片上传到阿里云OSS 
+    	$(function() {
+    		$("#upload").ajaxForm({
+    			//图片上传的文件夹
+    			
+    			data :
+    			{key:"exercise/",
+    			fileName:"exeFile"},
+    			beforeSend : function() {
+    			
+    			$("#submitbutton").attr("disabled","disalbed");
+    			},
+    			success : function(data) {
+    				$("#submitbutton").attr("disabled",false);
+    				//提交成功后调用
+    				if (data.value!=null) {
+    					alert(data.value.msg);
+    					if(data.value.status == 0){
+    						var file = $("#exeFile").val();
+    						var fileName = "<exercise/" + getFileName(file)+"/>";
+    						$("#url").val(fileName);
+    					}
+    				} else {
+    					alert("上传异常 ")
+    				}
+    			}
+    		});
+    	});
+    	
+    	//上传表单验证和提交  编辑
+    	//图片上传到阿里云OSS
+    	$(function() {
+    		$("#editUpload").ajaxForm({
+    			//图片上传的文件夹
+    			
+    			data :
+    			{key:"exercise/",
+    			 fileName:"editExeFile"},
+    			beforeSend : function() {
+    			
+    			$("#editSubmitbutton").attr("disabled","disalbed");
+    			},
+    			success : function(data) {
+    				$("#editSubmitbutton").attr("disabled",false);
+    				//提交成功后调用
+    				if (data.value!=null) {
+    					alert(data.value.msg);
+    					if(data.value.status == 0){
+    						var file = $("#editExeFile").val();
+    						var fileName = "<exercise/" + getFileName(file)+"/>";
+    						$("#editUrl").val(fileName);
+    					}
+    				} else {
+    					alert("上传异常 ")
+    				}
+    			}
+    		});
+    	});
+    	
+    	//获取带后缀名的文件名
+    	function getFileName(o){
+    	    var pos=o.lastIndexOf("\\");
+    	    return o.substring(pos+1);  
+    	}
+    	
+    	
+    });
 });
+		//复制上传图片文件名
+    	 function jsCopy(id){ 
+    	        var e=document.getElementById(id);//对象是content 
+    	        e.select(); //选择对象 
+    	        document.execCommand("Copy"); //执行浏览器复制命令
+//    	       alert("已复制好，可贴粘。"); 
+    	    } ;
