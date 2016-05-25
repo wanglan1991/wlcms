@@ -42,7 +42,7 @@
                             <li class='color-settings-contrast-color'>
                                 <div class='color-title'>主题颜色</div>
                                 <a href="#" data-change-to="contrast-blue"><i class='icon-adjust text-blue'></i>
-                                        蓝色<small>(default Blue)</small>
+                                    	蓝色<small>(default Blue)</small>
                                 </a>
                                 <a href="#" data-change-to="contrast-red"><i class='icon-adjust text-red'></i>
                                     	红色<small>(Red)</small>
