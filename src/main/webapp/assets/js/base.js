@@ -208,7 +208,8 @@ define(function (require, exports, module) {
                  del:false,
                  import:false,
                  edit:false,
-                 confine:false
+                 confine:false,
+                 preview:false
             }
         }
     };

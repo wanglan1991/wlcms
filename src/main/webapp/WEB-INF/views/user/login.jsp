@@ -7,7 +7,7 @@
     <%@include file="/WEB-INF/views/include/baseCSS.jsp" %>
 </head>
 <body class='contrast-blue sign-in contrast-background'>
-<div id='wrapper'>
+<div id='wrapper' style='margin-top: 160px;'>
     <div class='application'>
         <div class='application-content'>
                 <span>EKT-CMS</span>
@@ -16,7 +16,7 @@
     </div>
     <div class='controls'>
         <div class='form-wrapper'>
-            <h1 class='text-center'>登 录</h1>
+            <h1 class='text-center'></h1>
             <form accept-charset="UTF-8"  class="validate-form" role="form"  method="post" id="login-form">
             <div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
                 <div class='row-fluid'>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                
-                <label class="checkbox" for="rememberMe"><input id="rememberMe" name="rememberMe" type="checkbox" value="1" />
+                <label class="checkbox"  style="color: #fff;" for="rememberMe"><input id="rememberMe" name="rememberMe" type="checkbox" value="1" />
                   	  记住我
                 </label>
                 <button class="btn btn-block" id="submit" type="submit">登 录</button>

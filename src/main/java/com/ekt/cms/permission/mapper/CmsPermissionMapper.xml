@@ -96,8 +96,8 @@
 				#{cmsPermission.pid},
 				#{cmsPermission.type},
 				#{cmsPermission.level},
-				#{cmsPermission.icon}),
-				1
+				#{cmsPermission.icon},1)
+				
 	</insert>
 	<!-- 按主键更新 -->
 	<update id="updateByPrimaryKey" parameterType="com.ekt.cms.permission.entity.CmsPermission">

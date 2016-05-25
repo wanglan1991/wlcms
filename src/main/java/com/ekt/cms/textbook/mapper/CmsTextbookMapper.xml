@@ -24,8 +24,7 @@
 		<result column="crate_time" property="crateTime" jdbcType="DATE" />
 		<result column="knowledge_point_arr_val" property="knowledgePointArrVal" jdbcType="VARCHAR" />
 	</resultMap>
-	<select id="listPage" resultMap="BaseResultMap"
-		parameterType="com.ekt.cms.textbook.entity.CmsTextbook">
+	<select id="listPage" resultMap="BaseResultMap"	parameterType="com.ekt.cms.textbook.entity.CmsTextbook">
 		SELECT
 		t.id,
 		t.title,
