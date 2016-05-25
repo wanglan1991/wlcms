@@ -42,7 +42,7 @@
                             <li class='color-settings-contrast-color'>
                                 <div class='color-title'>主题颜色</div>
                                 <a href="#" data-change-to="contrast-blue"><i class='icon-adjust text-blue'></i>
-                                        蓝色<small>(default Blue)</small>
+                                    	蓝色<small>(default Blue)</small>
                                 </a>
                                 <a href="#" data-change-to="contrast-red"><i class='icon-adjust text-red'></i>
                                     	红色<small>(Red)</small>
@@ -407,6 +407,9 @@
 					<shiro:hasPermission name="exercise:confine">
 						<span id="basejs_exercise_confine" style="display: none;" />
 					</shiro:hasPermission>
+					<shiro:hasPermission name="exercise:preview">
+						<span id="basejs_exercise_preview" style="display: none;" />
+					</shiro:hasPermission>
 
             </div>
         </div>
@@ -426,8 +429,8 @@
             </div>
             <ul id='navigation-menu' class='nav nav-stacked'>
                 <li class=''>
-                    <a href='${ctx}/main/welcomePage'>
-                        <i class='icon-dashboard'></i>
+                    <a href='http://wwww.aiekt.com'>
+                        <i class='icon-location-arrow'></i>
                         <span>首页</span>
                     </a>
                 </li>
@@ -701,8 +704,9 @@ $(".icon-adjust").click(function(){
 		if ($("#basejs_exercise_confine").length>0){
 			base.perList.exercise.confine = true;
 		}
-		
-
+		if($("#basejs_exercise_preview").length>0){
+			base.perList.exercise.preview =true;
+		}
 		index.init('${ctx}');
 	});
 

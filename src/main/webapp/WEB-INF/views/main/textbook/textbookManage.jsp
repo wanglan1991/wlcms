@@ -39,9 +39,12 @@
    		 <button class='close' type='button' id='outlineClose' >x</button>
   </div>
   <button id="export" style="margin-left: 41px;margin-top: 40px;">excel下载</button>
-		<div id="catalogOutline"  style="border: 2px solid #9898EC;overflow: scroll;margin-top:13px;height: 800px;width:1480px; margin-left:41px;">
+		<div id="catalogOutline"  style="border: 2px solid #9898EC;overflow: scroll;margin-top:13px;height: 530px;width:950px; margin-left:41px;">
 			<table id='outlineTable' width="100%"border="1"cellpadding="2"cellspacing="0">
 			</table>
+		</div>
+		<div  id="cover" style="width:370px;margin-left:1031px; margin-top:-530px;">
+		
 		</div>
 </div>
 
@@ -183,7 +186,7 @@
 	         <div class='control-group'>
 	            <label class='control-label'>封面</label>
 	            <div class='controls'>
-	                <input id='editImgUrl'  maxlength='100'  placeholder='&lt; &frasl;img.png &frasl; &gt;上传成功后自动回填文件名' type='text' />
+	                <input id='editImgUrl'  maxlength='100'  name = 'imgUrl'placeholder='&lt; img.png  &gt;上传成功后自动回填文件名' type='text' />
 	                <form id="editUpload" action="/cms/upload/imageUpload" method="post" enctype="multipart/form-data">
 					<input type="file" id="editImgFile" name="editImgFile" multiple="multiple"	 required>
 						<button type="submit" id ="editSubmitbutton">图片上传</button>

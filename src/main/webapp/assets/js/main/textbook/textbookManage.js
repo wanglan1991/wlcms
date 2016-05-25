@@ -256,6 +256,9 @@ define(function (require, exports, module) {
 		        'click .outline':function(e, value, row, index){
 		        	$("#table").hide();
 		        	$("#outline").show();
+		        	var imgUrl=row.imgUrl.replace("</","<img src='http://ekt.oss-cn-shenzhen.aliyuncs.com/");
+		        	var imgUrl2=imgUrl.replace("/>","'>");
+		        	$("#cover").append(imgUrl2);
 		        	var table="<tr><td colspan='7'><h4>"+row.title+"</h4></td></tr>" +
 		        			"<tr>" +
 		        				"<td><b>章/排序</b></td>" +
@@ -567,6 +570,7 @@ define(function (require, exports, module) {
 			$("#outlineClose").click(function(){
 				$("#outline").hide();
 				$("#table").show();
+				$("#cover").empty();
 				$("#outlineTable").empty();
 				$("#outlineTable h4").text('');
 			});
@@ -576,7 +580,6 @@ define(function (require, exports, module) {
 			});
 			//编辑目录提交
 			$("#editCatalogSubmit").click(function(){
-			
 				var catalogLevel = $("#addParent").attr("catalogLevel");
 				var id = $("#modal-addCatalog").attr("idTag");
 				var textbookId = $("#table2").attr("catalogIdTag");
@@ -991,7 +994,7 @@ define(function (require, exports, module) {
 					alert(data.value.msg);
 					if(data.value.status == 0){
 						var file = $("#imgFile").val();
-						var fileName = "<textBook/" + getFileName(file)+"/>";
+						var fileName = "</textBook/" + getFileName(file)+"/>";
 						var imgUrl = $("#imgUrl").val(fileName);
 					}
 				} else {
@@ -1021,7 +1024,7 @@ define(function (require, exports, module) {
 					alert(data.value.msg);
 					if(data.value.status == 0){
 						var file = $("#editImgFile").val();
-						var fileName = "<textBook/" + getFileName(file)+"/>";
+						var fileName = "</textBook/" + getFileName(file)+"/>";
 						var editImgUrl = $("#editImgUrl").val(fileName);
 					}
 				} else {

@@ -1,6 +1,7 @@
 package com.ekt.cms.exercise.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -35,5 +36,7 @@ public interface CmsExerciseMapper {
 			@Param("content") String content, @Param("isTrue") int isTrue);
 	//修改习题
 	Integer updateExercise(CmsExercise exercise);
+	//根据习题id获取习题以及答案list
+	List<Map<String,Object>> getExerciseById(@Param("exerciseId")Integer exerciseId);
 	
 }

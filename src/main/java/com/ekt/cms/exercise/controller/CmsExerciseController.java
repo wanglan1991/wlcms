@@ -179,4 +179,17 @@ public class CmsExerciseController extends BaseController {
 		result.setValue(cmsKnowledgeService.getSubjectListByGrade(gradeNo));
 		return result;
 	}
+	
+	/*
+	 * 根据Id获取习题
+	 */
+	@RequestMapping("/preview")
+	@ResponseBody
+	public Result getExerciseById(@RequestParam("exerciseId")Integer id){
+		Result result = Result.getResults();
+		
+		return result;
+	}	
+	
+	
 }

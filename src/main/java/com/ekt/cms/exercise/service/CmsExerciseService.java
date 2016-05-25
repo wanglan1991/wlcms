@@ -1,6 +1,7 @@
 package com.ekt.cms.exercise.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -57,6 +58,7 @@ public class CmsExerciseService implements ICmsExerciseService {
 	public Integer updateExercise(CmsExercise exercise) {
 		return cmsExerciseMapper.updateExercise(exercise) ;
 	}
+
 	
 
 }

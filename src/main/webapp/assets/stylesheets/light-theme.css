@@ -4064,9 +4064,6 @@ div.jGrowl div.jGrowl-notification, div.jGrowl div.jGrowl-closer {
 .text-contrast {
   color: #f34541 !important; }
 
-.contrast-background {
-  background-color: #f34541 !important; }
-
 .contrast-border {
   border-color: #f34541 !important; }
 
@@ -4509,7 +4506,10 @@ div.jGrowl div.jGrowl-notification, div.jGrowl div.jGrowl-closer {
 .contrast-blue .box .box-header.contrast-background .actions .btn-link:hover {
   color: #00acec !important; }
 .contrast-blue.contrast-background, .contrast-blue .contrast-background {
-  background: #00acec !important; }
+	overflow:hidden;
+     background: url(/cms/assets/images/background.jpg) no-repeat center;
+/*   background: #00acec !important;  */
+  }
 .contrast-blue .text-contrast, .contrast-blue .contrast {
   color: #00acec !important; }
 .contrast-blue .contrast-border {

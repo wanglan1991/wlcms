@@ -181,9 +181,64 @@ define(function (require, exports, module) {
    			
    			
    		}
- 
+            
+            function editGetKnoeledgeOption(id,subjectNo,knowledgeId){
+	        	$(id).empty();
+	        	var knowledgesOption ="";
+	        	$.ajax({
+	        		url:F.basepath+"/cms/knowledge/listPage",
+	        		type:"GET",
+	        		data:{subjectNo:subjectNo},
+	        		success:function(data){
+	        			if(data.rows.length<1){
+	        				knowledgesOption+="<option value = '0'>-- 无 --</option>";
+	        			}
+	        			for(var i=0;i<data.rows.length;i++){
+	        				if(data.rows[i].id==knowledgeId){
+	        					knowledgesOption+="<option value = '"+data.rows[i].id+" selected='true' >"+data.rows[i].title+"</option>"
+	        				}else{
+	        				knowledgesOption+="<option value = '"+data.rows[i].id+"'>"+data.rows[i].title+"</option>"
+	        				}
+	        			}
+	        			$(id).append(knowledgesOption);
+	        		}
+	        	})
+   		}
+            
+          
 	        
 	        operateEvents = {
+	        		/**
+	        		 * 预览习题
+	        		 */
+	        		'click .preview':function(e, value,row,index){
+	        			
+	        			core.openModel('modal-preview','习题预览',function(){
+	        				var reg= new RegExp('</','g');
+	        				var reg1= new RegExp('/>','g');
+	        				var content=row.content.replace(reg,"<img style='width:43px' src='http://ekt.oss-cn-shenzhen.aliyuncs.com/");
+	        				var html="<span><p>"+content.replace(reg1,"'>")+"</p></span><br><br>";
+		        				$.ajax({
+		        					url:F.basepath+"/cms/exercise/answer",
+		        	        		type:"GET",
+		        	        		data:{exerciseId:row.id},
+		        	        		success:function(data){
+		        	        			for(var i=0;i<data.value.length;i++){
+		        	        				var content1=data.value[i].contents.replace(reg,"<img style='width:43px' src='http://ekt.oss-cn-shenzhen.aliyuncs.com/");
+		        	        				html+="<span><p>"+data.value[i].option+"&nbsp;&nbsp;"+content1.replace(reg1,"'>")+"&nbsp;&nbsp;"+(data.value[i].isTrue==1?"<b style='color:blue'>正确</b>":"<b style='color:red'>错误</b>")+"</p></span><br>";
+		        	        			}
+		        	        			$("#exerciseContent").append(html);
+		        	        		}
+		        					
+		        				});
+	        			
+	        			});
+	        			
+	        		},
+	        		
+	        		
+	        		
+	        		
 				/**
 				 *打开修改模态框
 				 */
@@ -195,11 +250,11 @@ define(function (require, exports, module) {
 		        		getEditDictOptions("学科","subject","#editSubjectOption",row.subjectNo);
 		        		getEditDictOptions("难易度","difficulty","#editDifficultyOption",row.difficultyNo);
 		        		getEditDictOptions("出版社","publish","#editPublisherOption",row.publisherNo);
+		        		editGetKnoeledgeOption("#editKnoeledgeOption",row.subjectNo,row.knowledgeId);
 		        		$("#modal-editExercise").attr('exerciseid',row.id);
 		        		$("#editExerciseContent").val(row.content);
 		        		$("#editAuthor").val(row.author);
 		        		$("#editOrderNo").val(row.orderNo);
-		        		knoeledge(row.knoeledgeId,"#editKnoeledgeOption");
 		        		var answerHtml="";
 		        		$.ajax({
 		        			url:F.basepath+'/cms/exercise/answer',
@@ -240,7 +295,7 @@ define(function (require, exports, module) {
 		        	});
 		        },
 		        /**
-				 * 删除权限
+				 * 删除习题
 				 */
 		        'click .delExercise': function (e, value, row, index) {
 		        	base.bootConfirm("是否确定删除？",function(){
@@ -332,6 +387,12 @@ define(function (require, exports, module) {
 			 */
 			$('#impBtnClose').click(function(){
 				 core.closeModel('modal-impExercise');
+			});
+			/**
+			 * 关闭习题预览框
+			 */
+			$('#addClose').click(function(){
+				$("#exerciseContent").empty();
 			});
 			
 			//增加习题答案输入框 
@@ -698,6 +759,9 @@ define(function (require, exports, module) {
         ,
         operateFormatter:function (value, row, index) {
         	var _btnAction = "";
+        	if(base.perList.exercise.preview){
+        	_btnAction += "<a data-toggle='modal' class='preview btn btn-success btn-small' href='#' title='预览' style='margin-left:5px'>预览</a>";
+        	}
         	if (base.perList.exercise.confine) {
         	_btnAction += "<a class='confine btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"+(row.status==1?"停用":"启用")+"</a>";
         	}
@@ -710,6 +774,7 @@ define(function (require, exports, module) {
         	return _btnAction;
         } 
     };
+    
     jQuery(document).ready(function(){
     	//上传表单验证和提交 新增
     	//图片上传到阿里云OSS 
@@ -731,7 +796,7 @@ define(function (require, exports, module) {
     					alert(data.value.msg);
     					if(data.value.status == 0){
     						var file = $("#exeFile").val();
-    						var fileName = "<exercise/" + getFileName(file)+"/>";
+    						var fileName = "</exercise/" + getFileName(file)+"/>";
     						$("#url").val(fileName);
     					}
     				} else {
@@ -758,10 +823,10 @@ define(function (require, exports, module) {
     				$("#editSubmitbutton").attr("disabled",false);
     				//提交成功后调用
     				if (data.value!=null) {
-    					alert(data.value.msg);
+    					
     					if(data.value.status == 0){
     						var file = $("#editExeFile").val();
-    						var fileName = "<exercise/" + getFileName(file)+"/>";
+    						var fileName = "</exercise/" + getFileName(file)+"/>";
     						$("#editUrl").val(fileName);
     					}
     				} else {

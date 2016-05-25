@@ -44,7 +44,7 @@
 		p.title knoeledge,
 		c.type_no,
 		d.`value` type,
-		c.category category_no,
+		c.category_no,
 		d1.`value` category,
 		c.difficulty_no,
 		d2.`value` difficulty,
@@ -65,12 +65,10 @@
 		JOIN cms_knowledge_point p ON p.id = c.knoeledge_id
 		LEFT JOIN
 		cms_dictionary d on c.type_no =d.id
-		LEFT JOIN cms_dictionary d1 on
-		c.category=d1.id
+		LEFT JOIN cms_dictionary d1 on c.category_no=d1.id
 		LEFT JOIN cms_dictionary d2 on c.difficulty_no=d2.id
 		LEFT JOIN cms_dictionary d3 on c.publisher_no=d3.id
-		LEFT JOIN
-		cms_dictionary d4 on d4.id=p.subject_no
+		LEFT JOIN cms_dictionary d4 on d4.id=p.subject_no
 		LEFT JOIN cms_dictionary d5 on
 		d5.id=p.grade_no
 		WHERE 1=1
@@ -87,7 +85,7 @@
 			AND c.knoeledge_id=#{exercise.knoeledgeId}
 		</if>
 		<if test="exercise.categoryNo != null and exercise.categoryNo !=''">
-			AND c.category=#{exercise.categoryNo}
+			AND c.category_no=#{exercise.categoryNo}
 		</if>
 		<if test="exercise.difficultyNo != null and exercise.difficultyNo!=''">
 			AND c.difficulty_no=#{exercise.difficultyNo}
@@ -132,7 +130,7 @@
 		`author`,
 		`create_time`,
 		`type_no`,
-		`category`,
+		`category_no`,
 		`order_no`,
 		`knoeledge_id`, 
 		`status`
@@ -159,7 +157,7 @@
 			 `author` = #{author},
 			 `create_time`= SYSDATE(),
 			 `type_no` = #{typeNo},
-			 `category` = #{categoryNo},
+			 `category_no` = #{categoryNo},
 			 `order_no` = #{orderNo},
 			 `knoeledge_id` = #{knoeledgeId}
 		WHERE
@@ -185,6 +183,7 @@
 	<select id="getAnswerList" resultMap="answerResultMap" parameterType="java.lang.Integer">
 		SELECT * FROM cms_exercise_answer WHERE exercise_id=#{exerciseId}
 	</select>
+	
 	
 
 
