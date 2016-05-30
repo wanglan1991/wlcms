@@ -36,7 +36,7 @@ public class CmsVideo {
 	// 状态
 	private int status;
 	// 视频上传后获取到的ID
-	private String  videoId;
+	private String  videoKey;
 
 	public int getId() {
 		return id;
@@ -185,13 +185,15 @@ public class CmsVideo {
 		this.authorId = authorId;
 	}
 
-	public String getVideoId() {
-		return videoId;
+	public String getVideoKey() {
+		return videoKey;
 	}
 
-	public void setVideoId(String videoId) {
-		this.videoId = videoId;
+	public void setVideoKey(String videoKey) {
+		this.videoKey = videoKey;
 	}
+
+	
 
 
 

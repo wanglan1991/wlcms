@@ -36,7 +36,7 @@ color:red;
 				<div class='control-group'>
 					<label class='control-label'>视频名称</label>
 					<input type="hidden" id="id" />
-					<input type="hidden" id="videoId" />
+					<input type="hidden" id="videoKey" />
 					<div class='controls'>
 						<input class='span8' id='videoName' name="videoName" placeholder='请输入视频名称' 
 							type='text' />
