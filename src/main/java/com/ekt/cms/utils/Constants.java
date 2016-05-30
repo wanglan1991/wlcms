@@ -25,8 +25,8 @@ public interface Constants {
 	/**
 	 * 上传用到的密钥ID和key
 	 */
-	 public final static String DEFAULT_UPLOAD_SECRETID = "AKIDLrr0gXQcojFevVhdbozHiJE5GyyDly2Q";
-	 public final static String DEFAULT_UPLOAD_SECRETKEY = "lcF9ZQGpsXGnQPWZsuwgjnqs7AYtvPrd";
+	 public final static String DEFAULT_UPLOAD_SECRETID = "AKIDzmf42z75tIn1R1517NmQZFNzKEr9GNhY";
+	 public final static String DEFAULT_UPLOAD_SECRETKEY = "eJSYfrccKT5aHJQEJJqHr3hLJplcvQU5";
 
 	/**
 	 * 乐视云
