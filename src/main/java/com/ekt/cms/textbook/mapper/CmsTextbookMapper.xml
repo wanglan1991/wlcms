@@ -3,6 +3,7 @@
 <mapper namespace="com.ekt.cms.textbook.dao.CmsTextbookMapper">
 	<resultMap id="BaseResultMap" type="com.ekt.cms.textbook.entity.CmsTextbook">
 		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="phase_no" property="phaseNo" jdbcType="INTEGER" />
 		<result column="grade_no" property="gradeNo" jdbcType="INTEGER" />
 		<result column="grade" property="grade" jdbcType="VARCHAR" />
 		<result column="subject_no" property="subjectNo" jdbcType="INTEGER" />
@@ -28,6 +29,7 @@
 		SELECT
 		t.id,
 		t.title,
+		t.phase_no,
 		t.grade_no,
 		d.`value` grade,
 		t.subject_no,
@@ -71,6 +73,7 @@
 	</select>
 	<insert id="insertTextbook" parameterType="com.ekt.cms.textbook.entity.CmsTextbook">
 			INSERT INTO cms_textbook(
+			phase_no,
 			grade_no,
 			subject_no,
 			publisher_no,
@@ -87,6 +90,7 @@
 			crate_time,
 			status
 			)VALUES(
+				#{phaseNo,jdbcType=INTEGER},
 				#{gradeNo ,jdbcType=INTEGER},
 				#{subjectNo,jdbcType=INTEGER},
 				#{publisherNo,jdbcType=INTEGER},
@@ -117,6 +121,9 @@
 		UPDATE 
 			cms_textbook 
 		SET 
+		<if test="phaseNo !=null and phaseNo !=''">
+			phase_no=#{phaseNo},
+		</if>
 		<if test="gradeNo !=null and gradeNo !=''">
 			grade_no=#{gradeNo},
 		</if>

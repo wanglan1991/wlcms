@@ -10,6 +10,10 @@ import java.util.List;
 public class CmsTextbook {
 	// 主键
 	private Integer id;
+	//学段字典
+	private Integer phaseNo;
+	//学段value
+	private String phase;
 	// 字典年级
 	private Integer gradeNo;
 	// 年级value
@@ -199,5 +203,21 @@ public class CmsTextbook {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+	public Integer getPhaseNo() {
+		return phaseNo;
+	}
+
+	public void setPhaseNo(Integer phaseNo) {
+		this.phaseNo = phaseNo;
+	}
+
+	public String getPhase() {
+		return phase;
+	}
+
+	public void setPhase(String phase) {
+		this.phase = phase;
+	}
+
 
 }

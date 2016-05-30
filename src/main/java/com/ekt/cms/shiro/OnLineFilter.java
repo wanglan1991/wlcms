@@ -61,7 +61,6 @@ public class OnLineFilter extends FormAuthenticationFilter {
 		if (subject.isAuthenticated()) {
 			return true;
 		}
-		System.out.println("身份验证没通过");
 
 		return false;
 	}

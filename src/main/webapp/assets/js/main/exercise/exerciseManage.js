@@ -521,7 +521,7 @@ define(function (require, exports, module) {
 				$("#msg").html('');
 				$("#exeFile").val('');
 				$("#url").val('');
-				$("#exerciseContent").val('');
+				$("#addExerciseContent").val('');
 				$("#author").val('');
 				$("#orderNo").val('');
 				$("#answer").find("div").remove();
@@ -587,7 +587,7 @@ define(function (require, exports, module) {
 						var knoeledge = $("#addKnoeledgeOption").val();
 						var publisher = $("#addpublisherOption").val();
 						var author = $("#author").val();
-						var content = $("#exerciseContent").val();
+						var content = $("#addExerciseContent").val();
 						var order =$("#orderNo").val();
 						var answerLength = $("#answer").find("div").length;
 						if(grade==0){$("#msg").html("请选择年级！"); return;}
