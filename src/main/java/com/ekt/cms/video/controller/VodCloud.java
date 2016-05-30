@@ -206,7 +206,7 @@ public class VodCloud {
 					String fileName=fileSetJson.getString("fileName");
 					String fileNameReal=fileName.substring(0,fileName.lastIndexOf("."));//去掉后缀名
 					int  duration=fileSetJson.getInt("duration");
-					video.setVideoId(videoId);
+					video.setVideoKey(videoId);
 					video.setFileName(fileNameReal);
 					video.setDuration(duration);
 					result.setValue(video);

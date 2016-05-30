@@ -241,13 +241,13 @@ define(function(require, exports, module) {
 //				'click .playVideo' : function(e, value, row, index) {
 //					core.openModel('modal-playVideo', 
 //						 (function(){
-//						alert(row.videoId);
+//						alert(row.videoKey);
 //					player = new qcVideo.Player(
 //							//页面放置播放位置的元素 ID
 //							"id_video_container",
 //							{
 //							//视频 ID (必选参数)
-//							"file_id" : row.videoId,
+//							"file_id" : row.videoKey,
 //							//应用 ID (必选参数)，同一个账户下的视频，该参数是相同的
 //							"app_id" : F.app_id ,
 //							//是否自动播放 默认值0 (0: 不自动，1: 自动播放)
@@ -377,7 +377,7 @@ define(function(require, exports, module) {
 			//新增视频提交
 			$('#btnSubmit').click(function(){
 				var videoName=$("#videoName").val();
-				var videoId=$("#videoId").val();
+				var videoKey=$("#videoKey").val();
 				var digest=$("#digest").val();
 				var url=$("#url").val();
 				var isp=$("#isp").val();
@@ -408,7 +408,7 @@ define(function(require, exports, module) {
 					type : 'POST',
 					data : {
 						videoName : videoName,
-						videoId : videoId,
+						videoKey : videoKey,
 						digest : digest,
 						url : url,
 						isp : isp,
@@ -639,7 +639,7 @@ define(function(require, exports, module) {
 				},
 				success : function(data) {
 					if (data.value!=null) {
-						$("#videoId").val(data.value.videoId);
+						$("#videoKey").val(data.value.videoKey);
 						$("#fileName").val(data.value.fileName);
 						$("#url").val(data.value.url);
 					} else {
