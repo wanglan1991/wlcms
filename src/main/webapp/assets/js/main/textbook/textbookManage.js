@@ -207,10 +207,12 @@ define(function (require, exports, module) {
 		        	$("#modal-editTextbook").show();
 		        	$("#table").hide();
 		        	$("#editKnowledgeTree").show();
+		        	$("#editPhaseTag").attr('phase',row.phaseNo);
 		        	$("#editGradeTag").attr('grade',row.gradeNo);
 		        	$("#editSubjectTag").attr('subject',row.subjectNo);
 		        	$("#modal-editTextbook").attr("idTag",row.id);
 		        	$("#editKnowledgeTree").attr("knowledgePointArrTag",row.knowledgePointArr);
+		        	getEditDictOptions("学段","phase","#editPhase",row.phaseNo);
 		        	getEditDictOptions("年级","grade","#editGrade",row.gradeNo);
 		        	getEditDictOptions("科目","subject","#editSubject",row.subjectNo);
 		        	getEditDictOptions("教材类型","textbookType","#editTextbookType",row.textbookTypeNo);
@@ -432,6 +434,7 @@ define(function (require, exports, module) {
 			$('#addTextbook').click(function(){
 				$("#table").hide();
 				$("#modal-addTextbook").show();
+				getDictOptions("学段","phase","#addPhase");
 				getDictOptions("年级","grade","#addGrade");
 				getDictOptions("科目","subject","#addSubject");
 				getDictOptions("教材类型","textbookType","#addTextbookType");
@@ -641,6 +644,7 @@ define(function (require, exports, module) {
 			function clear(){
 				$('#modal-addTextbook').hide();
 				$("#table").show();
+				$("#addPhase").empty();
 				$("#addGrade").empty();
 				$("#addSubject").empty();
 				$("#addTextbookType").empty();
@@ -659,6 +663,7 @@ define(function (require, exports, module) {
 			function editClear(){
 				$('#modal-editTextbook').hide();
 				$("#table").show();
+				$("#editPhase").empty();
 				$("#editGrade").empty();
 				$("#editSubject").empty();
 				$("#editTextbookType").empty();
@@ -809,11 +814,13 @@ define(function (require, exports, module) {
 				var subjectNo=$("#addSubject").val();
 				var textbookTypeNo = $("#addTextbookType").val();
 				var publisherNo = $("#addPublisher").val();
+				var phaseNo = $("#addPhase").val();
 				var title = $("#title").val();
 				var digest = $("#digest").val();
 				var imgUrl = $("#imgUrl").val();
 				var author = $("#author").val();
 				var pushPerson = $("#pushPerson").val();
+				if(phaseNo==0){$("#addMsg").text("请选择学段！");return}
 				if(gradeNo==0){$("#addMsg").text("请选择年级！");return}
 				if(subjectNo==0){$("#addMsg").text("请选择科目！");return}
 				if(textbookTypeNo==0){$("#addMsg").text("请选择教材类型！");return}
@@ -824,6 +831,7 @@ define(function (require, exports, module) {
 				if(author.length<1){$("#addMsg").text("作者不能为空！");return}
 				if(pushPerson.length<1){$("#addMsg").html("录入人不能为空！");return}
 				var datas ={
+							phaseNo:phaseNo,
 							gradeNo:gradeNo,
 							subjectNo:subjectNo,
 							textbookTypeNo:textbookTypeNo,
@@ -871,6 +879,7 @@ define(function (require, exports, module) {
 					}
 				}
 				var id = $("#modal-editTextbook").attr("idTag");
+				var phaseNo= $("#editPhase").val();
 				var gradeNo =$("#editGrade").val();
 				var subjectNo=$("#editSubject").val();
 				var textbookTypeNo = $("#editTextbookType").val();
@@ -880,6 +889,7 @@ define(function (require, exports, module) {
 				var imgUrl = $("#editImgUrl").val();
 				var author = $("#editAuthor").val();
 				var pushPerson = $("#editPushPerson").val();
+				if(phaseNo==0){$("#editMsg").text("请选择学段！");return}
 				if(gradeNo==0){$("#editMsg").text("请选择年级！");return}
 				if(subjectNo==0){$("#editMsg").text("请选择科目！");return}
 				if(textbookTypeNo==0){$("#editMsg").text("请选择教材类型！");return}
@@ -891,6 +901,7 @@ define(function (require, exports, module) {
 				if(pushPerson.length<1){$("#editMsg").html("录入人不能为空！");return}
 				var datas ={
 						id:id,
+						phaseNo:phaseNo,
 						gradeNo:gradeNo,
 						subjectNo:subjectNo,
 						textbookTypeNo:textbookTypeNo,

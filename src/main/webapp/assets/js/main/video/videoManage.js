@@ -238,6 +238,22 @@ define(function(require, exports, module) {
 				/**
 				 * 调用播放器
 				 */
+<<<<<<< HEAD
+				'click .videoPlay' : function(e, value, row, index) {
+					core.openModel('modal-playVideo',(function(){
+							 var option = {
+										"auto_play": "0",
+										"file_id": row.videoKey,
+										"app_id": "1252219724",
+										"disable_full_screen": 0,
+										// "disable_drag":1,
+										"width": 650,
+										"height": 400
+									};
+					player = new qcVideo.Player("id_video_container",option);
+					})() );
+				} ,
+=======
 //				'click .playVideo' : function(e, value, row, index) {
 //					core.openModel('modal-playVideo', 
 //						 (function(){
@@ -259,6 +275,7 @@ define(function(require, exports, module) {
 //							});
 //					})() );
 //				} ,
+>>>>>>> upstream/master
 
 			
 			};
@@ -343,14 +360,14 @@ define(function(require, exports, module) {
 					function() {
 						var ids = F.table.getIdSelections();
 						if (ids != null && ids.length > 0) {
-							base.bootConfirm("是否确定删除选定的" + ids.length + "个角色？",
+							base.bootConfirm("是否确定删除选定的" + ids.length + "个视频？",
 									function() {
 										F.delVideo(ids);
 									});
 						} else {
 							base.bootAlert({
 								"ok" : false,
-								"msg" : "请选择你要删除的角色！"
+								"msg" : "请选择你要删除的视频！"
 							});
 						}
 					});
@@ -510,6 +527,8 @@ define(function(require, exports, module) {
 
 		operateFormatter : function(value, row, index) {
 			var _btnAction = "";
+			
+			_btnAction += "<a class='videoPlay btn btn-primary btn-small' href='#'  title='点播' style='margin-left:5px'>点播</a>";
 			if (base.perList.video.confine) {
 				_btnAction += "<a class='confine btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"
 						+ (row.status == 1 ? "停用" : "启用") + "</a>";
@@ -630,7 +649,6 @@ define(function(require, exports, module) {
 			});
 		});
 		var getVideoInfo =function(fileId){
-			alert("获取信息")
 			$.ajax({
 				url : F.basepath + '/cms/VodCloud/describeVodInfo',
 				type : 'post',

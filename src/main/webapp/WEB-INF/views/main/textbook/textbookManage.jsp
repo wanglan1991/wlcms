@@ -54,6 +54,12 @@
 		<h2>添加教材</h2>
 		<div style="width:660px">
 			<div style='width:300px'>
+					<div class='control-group'>
+		           	 	<label class='control-label'>学段</label>
+		           		 <div class='controls'>
+		               <select id='addPhase'></select>
+		            </div>
+		        </div>
 	        	<div class='control-group'>
 	           	 	<label class='control-label'>年级</label>
 	           		 <div class='controls'>
@@ -86,7 +92,7 @@
 	            </div>
 	        </div>
 	 </div>
-	 <div style="width:300px;margin-left: 260px;margin-top: -325px;">
+	 <div style="width:300px;margin-left: 260px;margin-top: -391px;">
 	         <div class='control-group'>
 	            <label class='control-label'>摘要</label>
 	            <div class='controls'>
@@ -144,12 +150,18 @@
 		<h2>修改教材</h2>
 		<div style="width:660px">
 			<div style='width:300px'>
+				<div class='control-group'>
+	           	 		<label class='control-label' id="editPhaseTag" phase >学段</label>
+		           		 <div class='controls'>
+		               <select id='editPhase'></select>
+		            </div>
+		        </div>
 	        	<div class='control-group'>
-	           	 	<label class='control-label' id="editGradeTag" grade >年级</label>
-	           		 <div class='controls'>
-	               <select id='editGrade'></select>
-	            </div>
-	        </div>
+	           	 		<label class='control-label' id="editGradeTag" grade >年级</label>
+		           		 <div class='controls'>
+		               <select id='editGrade'></select>
+		            </div>
+		        </div>
 	        <div class='control-group'  >
 	            <label class='control-label' id="editSubjectTag" subject>科目</label>
 	            <div class='controls'>
@@ -176,7 +188,7 @@
 	            </div>
 	        </div>
 	 </div>
-	 <div style="width:300px;margin-left: 260px;margin-top: -325px;">
+	 <div style="width:300px;margin-left: 260px;margin-top: -391px;">
 	         <div class='control-group'>
 	            <label class='control-label'>摘要</label>
 	            <div class='controls'>

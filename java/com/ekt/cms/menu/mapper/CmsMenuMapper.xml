@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ekt.cms.menu.dao.CmsMenuMapper">
+	<resultMap id="BaseResultMap" type="com.ekt.cms.menu.entity.CmsMenu">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="menuName" jdbcType="VARCHAR" />
+		<result column="value" property="url" jdbcType="VARCHAR" />
+		<result column="parent_id" property="parentId" jdbcType="INTEGER" />
+		<result column="order_no" property="orderNo" jdbcType="INTEGER" />
+		<result column="level" property="level" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="icon" property="icon" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, menu_name, url, parent_id, order_no, level, status, remark
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from cms_menu
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from cms_menu
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.ekt.cms.menu.entity.CmsMenu">
+		<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into cms_menu (id, menu_name, url,
+		parent_id, order_no, level,
+		status, remark)
+		values (#{id,jdbcType=INTEGER}, #{menuName,jdbcType=VARCHAR},
+		#{url,jdbcType=VARCHAR},
+		#{parentId,jdbcType=INTEGER}, #{orderNo,jdbcType=INTEGER}, #{level,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+	</insert>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="com.ekt.cms.menu.entity.CmsMenu">
+		update cms_menu
+		<set>
+			<if test="menuName != null">
+				menu_name = #{menuName,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				parent_id = #{parentId,jdbcType=INTEGER},
+			</if>
+			<if test="orderNo != null">
+				order_no = #{orderNo,jdbcType=INTEGER},
+			</if>
+			<if test="level != null">
+				level = #{level,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<!-- 更新 -->
+	<update id="updateByPrimaryKey" parameterType="com.ekt.cms.menu.entity.CmsMenu">
+		update cms_menu
+		set menu_name = #{menuName,jdbcType=VARCHAR},
+		url = #{url,jdbcType=VARCHAR},
+		parent_id = #{parentId,jdbcType=INTEGER},
+		order_no = #{orderNo,jdbcType=INTEGER},
+		level = #{level,jdbcType=INTEGER},
+		status = #{status,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<!-- 根据条件查询 -->
+	<select id="queryByCondition" resultMap="BaseResultMap"
+		parameterType="com.ekt.cms.menu.entity.CmsMenu">
+		select * from csm_menu where 1=1
+		<if test="cmsMenu.menuName != null and cmsMenu.menuName !='' ">
+			and (menu_name like '%${cmsMenu.menuName}%')
+		</if>
+		<if test="cmsMenu.parentId != null and cmsMenu.parentId !=''">
+			and parent_id=#{ cmsMenu.parentId }
+		</if>
+		<if test="region.level != null and region.level !=''">
+			and level=#{ cmsMenu.level }
+		</if>
+	</select>
+	
+	<!-- 分页查询 -->
+	<select id="listPage" resultMap="BaseResultMap"
+		parameterType="com.ekt.cms.menu.entity.CmsMenu">
+		select * from csm_menu where 1=1
+		<if test="cmsMenu.menuName != null and cmsMenu.menuName !='' ">
+			and (menu_name like '%${cmsMenu.menuName}%')
+		</if>
+		<if test="cmsMenu.parentId != null and cmsMenu.parentId !=''">
+			and parent_id=#{ cmsMenu.parentId }
+		</if>
+		<if test="region.level != null and region.level !=''">
+			and level=#{ cmsMenu.level }
+		</if>
+	</select>
+	<select id="getParentMenuListByRole" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT
+			pe.id,
+			pe.name,
+			pe.icon
+		FROM
+			cms_role_permission p
+		LEFT JOIN cms_permission pe ON p.permission_id = pe.id
+		WHERE
+			p.role_id = #{roleId}
+		AND pe.LEVEL = 1
+		AND pe.status&lt;&gt;0
+		ORDER BY pe.order asc;
+		
+	</select>
+	
+	<select id="getSonMenuListByRole" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT 
+			pe.id,
+			pe.name,
+			pe.value,
+			pe.icon 
+		FROM 
+			cms_role_permission p
+		LEFT JOIN 
+			cms_permission pe on p.permission_id=pe.id
+		WHERE p.role_id=#{roleId}
+		AND pe.pid=#{parentId}
+		ORDER BY pe.order asc 
+	</select>
+	
+	
+	
+	
+	
+	
+</mapper>
