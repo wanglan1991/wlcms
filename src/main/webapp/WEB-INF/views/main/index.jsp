@@ -345,13 +345,20 @@
 					<shiro:hasPermission name="region:confine">
 						<span id="basejs_region_confine" style="display: none;" />
 					</shiro:hasPermission>
+					
+					
 					<shiro:hasPermission name="school:check">
 						<span id="basejs_school_check" style="display: none;" />
 					</shiro:hasPermission>
 					<shiro:hasPermission name="school:confine">
 						<span id="basejs_school_confine" style="display: none;" />
 					</shiro:hasPermission>
-					
+					<shiro:hasPermission name="school:del">
+						<span id="basejs_school_del" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="school:add">
+						<span id="basejs_school_add" style="display: none;" />
+					</shiro:hasPermission>
 					
 					
 					<shiro:hasPermission name="textbook:check">
@@ -429,7 +436,7 @@
             </div>
             <ul id='navigation-menu' class='nav nav-stacked'>
                 <li class=''>
-                    <a href='http://wwww.aiekt.com'>
+                    <a href='javascript:void(0)' id='ekt_index'>
                         <i class='icon-location-arrow'></i>
                         <span>首页</span>
                     </a>
@@ -641,11 +648,19 @@ $(".icon-adjust").click(function(){
 		if ($('#basejs_region_confine').length > 0) {
 			base.perList.region.confine = true;
 		}
+		
+// 		学校
 		if ($('#basejs_school_check').length > 0) {
 			base.perList.school.check = true;
 		}
 		if ($('#basejs_school_confine').length > 0) {
 			base.perList.school.confine = true;
+		}
+		if ($('#basejs_school_del').length > 0) {
+			base.perList.school.del = true;
+		}
+		if ($('#basejs_school_add').length > 0) {
+			base.perList.school.add = true;
 		}
 		
 // 	教材

@@ -47,7 +47,7 @@ color:red;
 				<div class='control-group'>
 					<label class='control-label'>知识点</label>
 					<div class='controls'>
-						<input class='span8' id='title' name="title" placeholder='請輸入知識點' 
+						<input class='span8' id='title' name="title" placeholder='请输入知识点' 
 							type='text' />
 							<span id="stitle-error" class="help-block error"></span>
 					</div>
@@ -57,7 +57,7 @@ color:red;
 					<label class='control-label'>序号</label>
 					<div class='controls'>
 						<input class='span8' id='orderNo' name="orderNo"
-							placeholder='請輸入序號' type='text' />
+							placeholder='请输入序号' type='text' />
 					</div>
 				</div>
 				

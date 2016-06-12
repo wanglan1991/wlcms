@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ekt.cms.video.dao.CmsVideoMapper">
+	<resultMap type="com.ekt.cms.video.entity.CmsVideo" id="BaseMap">
+		<id column="id" property="id" jdbcType="INTEGER"></id>
+		<result column="video_name" property="videoName" jdbcType="VARCHAR"></result>
+		<result column="digest" property="digest" jdbcType="VARCHAR"></result>
+		<result column="url" property="url" jdbcType="VARCHAR"></result>
+		<result column="url1" property="urlBak" jdbcType="VARCHAR"></result>
+		<result column="isp" property="isp" jdbcType="VARCHAR"></result>
+		<result column="file_name" property="fileName" jdbcType="VARCHAR"></result>
+		<result column="author_id" property="authorId" jdbcType="INTEGER"></result>
+		<result column="author" property="author" jdbcType="VARCHAR"></result>
+		<result column="duration" property="duration" jdbcType="VARCHAR"></result>
+		<result column="image_url" property="imageUrl" jdbcType="VARCHAR"></result>
+		<result column="knowledge_id" property="knowledgeId" jdbcType="VARCHAR"></result>
+		<result column="status" property="status" jdbcType="INTEGER"></result>
+		<result column="knowledge" property="knowledge" jdbcType="VARCHAR"></result>
+		<result column="grade_no" property="gradeNo" jdbcType="INTEGER"></result>
+		<result column="grade" property="grade" jdbcType="VARCHAR"></result>
+		<result column="subject_no" property="subjectNo" jdbcType="INTEGER"></result>
+		<result column="subject" property="subject" jdbcType="VARCHAR"></result>
+		<result column="video_key" property="videoKey" jdbcType="VARCHAR"></result>
+	</resultMap>
+	<!-- 分页查询 -->
+	<select id="listPage" parameterType="com.ekt.cms.video.entity.CmsVideo" resultMap='BaseMap'>
+			SELECT
+			v.id id,
+			video_name,
+			video_key,
+			digest,
+			url,
+			url1,
+			isp,
+			file_name,
+			author_id,
+			a.real_name author,
+			duration,
+			image_url,
+			knowledge_id,
+			v.status status,
+			 knowledge,
+			v.grade_no grade_no,
+			d.value grade,
+			v.subject_no subject_no,
+			d1.value subject
+		FROM
+			cms_video v
+		LEFT JOIN cms_dictionary d on v.grade_no=d.id
+		LEFT JOIN cms_dictionary d1 on v.subject_no=d1.id
+		LEFT JOIN cms_account a on a.id= v.author_id
+		WHERE 1=1
+		<if test="CmsVideo.videoName !=null and CmsVideo.videoName != ''">
+			AND (video_name like '%${CmsVideo.videoName}%')
+		</if>
+		<if test="CmsVideo.knowledge !=null and CmsVideo.knowledge != ''">
+			OR (knowledge like '%${CmsVideo.knowledge}%')
+		</if>
+		<if test="CmsVideo.gradeNo !=null and CmsVideo.gradeNo !=0" >
+			AND v.grade_no=#{CmsVideo.gradeNo ,jdbcType=INTEGER}
+		</if>
+		<if test="CmsVideo.subjectNo !=null and CmsVideo.subjectNo !=0">
+			AND v.subject_no=#{CmsVideo.subjectNo, jdbcType=INTEGER}
+		</if>
+		<if test="CmsVideo.authorId !=null and CmsVideo.authorId !=0" >
+			AND (author_id = #{CmsVideo.authorId})
+		</if>
+		<if test="CmsVideo.isp !=null and CmsVideo.isp !=''">
+			AND (isp like '%${CmsVideo.isp}%')
+		</if>
+	</select>
+	<!-- 按主键删除 -->
+	<delete id="delete" parameterType="java.lang.Integer">
+		DELETE 
+		FROM 
+			cms_video
+		WHERE
+			id=#{id}
+	</delete>
+	<!-- 停启用 -->
+	<update id="confine" parameterType="com.ekt.cms.video.entity.CmsVideo">
+		UPDATE 
+			cms_video
+		SET 
+			status=#{CmsVideo.status}
+		WHERE
+			id=#{CmsVideo.id}
+	</update>
+	<!-- 更新视频基础信息 -->
+	<update id="update" parameterType="com.ekt.cms.video.entity.CmsVideo">
+	UPDATE 
+			cms_video
+		SET 
+			<if test="CmsVideo.videoName !=null and CmsVideo.videoName != ''">
+			video_name=#{CmsVideo.videoName},
+			</if>
+			<if test="CmsVideo.digest !=null and CmsVideo.digest != ''">
+			digest=#{CmsVideo.digest},
+			</if>
+			<if test="CmsVideo.url !=null and CmsVideo.url != ''">
+			url=#{CmsVideo.url},
+			</if>
+			<if test="CmsVideo.isp !=null and CmsVideo.isp != ''">
+			isp=#{CmsVideo.isp},
+			</if>
+			<if test="CmsVideo.fileName !=null and CmsVideo.fileName != ''">
+			file_name=#{CmsVideo.fileName},
+			</if>
+			<if test="CmsVideo.authorId !=null and CmsVideo.authorId != ''">
+			author_id=#{CmsVideo.authorId},
+			</if>
+			<if test="CmsVideo.knowledgeId !=null and CmsVideo.knowledgeId != ''">
+			knowledge_id=#{CmsVideo.knowledgeId},
+			</if>
+			<if test="CmsVideo.knowledge !=null and CmsVideo.knowledge != ''">
+			 knowledge = #{CmsVideo.knowledge},
+			</if>
+			<if test="CmsVideo.gradeNo !=null and CmsVideo.gradeNo !=0" >
+			 grade_no= #{CmsVideo.gradeNo ,jdbcType=INTEGER},
+			</if>
+			<if test="CmsVideo.subjectNo !=null and CmsVideo.subjectNo !=0">
+			subject_no= #{CmsVideo.subjectNo, jdbcType=INTEGER},
+			</if>
+			<if test="CmsVideo.status !=null ">
+			status=#{CmsVideo.status}
+			</if>
+			
+		WHERE
+			id=#{CmsVideo.id}
+	</update>
+	<!-- 新增 -->
+	<insert id="insert" parameterType="com.ekt.cms.video.entity.CmsVideo">
+	<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+	</selectKey>
+		INSERT INTO
+		 cms_video
+			(video_name,digest,url,url1,isp,file_name,author_id,duration,knowledge_id,grade_no,subject_no,knowledge,video_key,status)
+		VALUES
+			(#{CmsVideo.videoName},#{CmsVideo.digest},#{CmsVideo.url},#{CmsVideo.urlBak},#{CmsVideo.isp},#{CmsVideo.fileName},#{CmsVideo.authorId},#{CmsVideo.duration},#{CmsVideo.knowledgeId},#{CmsVideo.gradeNo},#{CmsVideo.subjectNo},#{CmsVideo.knowledge},#{CmsVideo.videoKey},1)
+	</insert>
+	</mapper>

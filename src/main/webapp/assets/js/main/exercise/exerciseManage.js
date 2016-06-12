@@ -378,8 +378,14 @@ define(function (require, exports, module) {
 			 * 打开导入习题模态框
 			 */
 			$('#impExercise').click(function(){
-				core.openModel('modal-impExercise','批量新增习题',function(){
-					
+				core.openModel('modal-impExercise','导入习题',function(){
+					getDictOptions("题类","category","#uploadCategoryOption");
+					getDictOptions("题型","exerciseType","#uploadTypeOption");
+					getDictOptions("年级","grade","#uploadGradeOption")
+					getDictOptions("难易度","difficulty","#uploadDifficultyOption");
+					getDictOptions("出版社","publish","#uploadPublisherOption");
+					$("#uploadSubjectOption").append("<option value='0' >-- 等待选择年级 --</option>");
+	            	$("#uploadKnoeledgeOption").append("<option value='0' >-- 等待选择学科 --</option>")
 				});
 			});
 			/**
@@ -387,6 +393,8 @@ define(function (require, exports, module) {
 			 */
 			$('#impBtnClose').click(function(){
 				 core.closeModel('modal-impExercise');
+				 clearUpload();
+				 
 			});
 			/**
 			 * 关闭习题预览框
@@ -439,10 +447,13 @@ define(function (require, exports, module) {
 				addSubjectOption(grade,"#addSubjectOption");				
 			});
 
-			
+			$("#uploadGradeOption").change(function(){
+				var grade = $("#uploadGradeOption").val();
+				addSubjectOption(grade,"#uploadSubjectOption");	
+			})
 			
 			/**
-			 * 加载知识点
+			 * 加载新增知识点
 			 */
 			 $("#addSubjectOption").change(function(){
 	            	var subjectNo = $("#addSubjectOption").val();
@@ -456,9 +467,16 @@ define(function (require, exports, module) {
 				 	var subjectNo = $("#editSubjectOption").val();
 				 	knoeledge(subjectNo,"#editKnoeledgeOption");
 			 });
-			 $("#gradeOption").change(function(){
-				 
+			 
+			 /**
+			  * 加载上传知识点
+			  */
+			 $("#uploadSubjectOption").change(function(){
+				 	var subjectNo = $("#uploadSubjectOption").val();
+				 	knoeledge(subjectNo,"#uploadKnoeledgeOption");
 			 });
+			 
+			 
 			 
 			 
 			$("#addPermType").change(function (){
@@ -541,8 +559,8 @@ define(function (require, exports, module) {
 				$("#editSubject-error").html('');
 				$("#editKnoeledgeOption").empty();
 				$("#editKnoeledge-error").html('');
-				$("#editpublisherOption").empty();
-				$("#editpublisher-error").html('');
+				$("#editPublisherOption").empty();
+				$("#editPublisher-error").html('');
 				$("#editMsg").html('');
 				$("#editExeFile").val('');
 				$("#editUrl").val('');
@@ -551,6 +569,18 @@ define(function (require, exports, module) {
 				$("#editOrderNo").val('');
 				$("#editAnswer").find("div").remove();
 				core.closeModel('modal-editExercise');	
+			}
+			
+			//清理 上传表单
+			function clearUpload(){
+				$("#uploadCategoryOption").empty();
+				$("#uploadTypeOption").empty();
+				$("#uploadDifficultyOption").empty();
+				$("#uploadGradeOption").empty();
+				$("#uploadSubjectOption").empty();
+				$("#uploadKnoeledgeOption").empty();
+				$("#uploadPublisherOption").empty();
+				$("#filePath").val("");
 			}
 			
 			//查询是否包含

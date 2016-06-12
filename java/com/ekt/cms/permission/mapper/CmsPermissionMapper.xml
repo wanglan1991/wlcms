@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ekt.cms.permission.dao.CmsPermissionMapper">
+	<resultMap id="BaseResultMap" type="com.ekt.cms.permission.entity.CmsPermission">
+		<id column="PermissionId" property="PermissionId" jdbcType="INTEGER" />
+		<result column="PermissionName" property="PermissionName" jdbcType="VARCHAR" />
+		<result column="key" property="key" jdbcType="VARCHAR" />
+		<result column="order" property="orderNo" jdbcType="INTEGER" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="PermissionResultMap" type="com.ekt.cms.permission.entity.CmsPermission">
+		<id column="roleId" property="roleId" jdbcType="INTEGER" />
+		<id column="PermissionId" property="PermissionId" jdbcType="INTEGER" />
+		<result column="encoding" property="encoding" jdbcType="VARCHAR" />
+		<result column="key" property="key" jdbcType="VARCHAR" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="PermissionMap" type="com.ekt.cms.permission.entity.CmsPermission">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<id column="name" property="name" jdbcType="INTEGER" />
+		<id column="key" property="key" jdbcType="VARCHAR" />
+		<id column="order" property="orderNo" jdbcType="INTEGER" />
+		<id column="value" property="value" jdbcType="VARCHAR" />
+		<id column="pid" property="pid" jdbcType="INTEGER" />
+		<id column="type" property="type" jdbcType="VARCHAR" />
+		<id column="level" property="level" jdbcType="INTEGER" />
+		<id column="icon" property="icon" jdbcType="VARCHAR" />
+		<id column="status" property="status" jdbcType="INTEGER" />
+		<id column="parent_name" property="parentName" jdbcType="VARCHAR" />
+	</resultMap>
+
+	
+	<!-- 按roleId查询 -->
+	<select id="queryPermissionByRoleId" resultMap="PermissionResultMap"
+		parameterType="java.lang.Integer">
+		SELECT
+			r.id,
+			r.encoding,
+			p.permission_id,
+			pe.key,
+			pe.value
+		FROM
+			cms_role r
+		LEFT JOIN cms_role_permission p ON p.role_id = r.id
+		LEFT JOIN cms_permission pe on pe.id=p.permission_id
+		WHERE
+			r.id =#{id,jdbcType=INTEGER} and pe.level=3
+		AND pe.status &lt;&gt; 0
+	</select>
+	<!-- 按主键查询 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		SELECT
+		id PermissionId,name PermissionName,key,order,value
+		FROM cms_permission
+		WHERE id = #{id,jdbcType=INTEGER}
+	</select>
+	<!-- 查询所有权限 -->
+	<select id="selectAll" resultMap="BaseResultMap">
+		SELECT
+		*
+		FROM cms_permission
+		WHERE 1=1
+		AND
+		name is not null 
+		AND 
+		name  &lt;&gt;''
+		AND
+		'key' is not null 
+		AND 
+		'key'  &lt;&gt;''
+	</select>
+	<!-- 插入 -->
+	<insert id="addPermission" parameterType="com.ekt.cms.permission.entity.CmsPermission">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO `cms_permission` (
+				`name`,
+				`key`,
+				`order`,
+				`value`,
+				`pid`,
+				`type`,
+				`level`,
+				`icon`,
+				`status`
+		)VALUES(
+				#{cmsPermission.name},
+				#{cmsPermission.key},
+				#{cmsPermission.orderNo},
+				#{cmsPermission.value},
+				#{cmsPermission.pid},
+				#{cmsPermission.type},
+				#{cmsPermission.level},
+				#{cmsPermission.icon},1)
+				
+	</insert>
+	<!-- 按主键更新 -->
+	<update id="updateByPrimaryKey" parameterType="com.ekt.cms.permission.entity.CmsPermission">
+		UPDATE
+		cms_permission
+		SET name = #{name,jdbcType=VARCHAR},
+		key =
+		#{key,jdbcType=VARCHAR},
+		order = #{order,jdbcType=INTEGER}
+		WHERE id =
+		#{id,jdbcType=INTEGER}
+	</update>
+<!-- 	菜单列表 -->
+	<select id="listPage" resultMap="PermissionMap" parameterType="com.ekt.cms.permission.entity.CmsPermission">
+		SELECT p.*,IFNULL(p2.name,"无父级") parent_name
+		FROM 
+			cms_permission p
+		LEFT JOIN  cms_permission p2 on p.pid=p2.id
+		WHERE 1=1
+		<if test="cmsPermission.name !=null and cmsPermission.name!='' ">
+		AND( p.name like '%${cmsPermission.name}%')
+		</if>
+		<if test="cmsPermission.level !=null and cmsPermission.level !=-1  and cmsPermission.level !=0">
+		AND p.level=#{cmsPermission.level}		
+		</if>
+	</select>
+	<select id="getTypeList" resultMap="PermissionMap">
+		SELECT type,level FROM cms_permission GROUP BY type order by level
+	</select>		
+	<select id="getPidList" resultMap="PermissionMap" parameterType="java.lang.Integer">
+		SELECT name,id FROM  cms_permission WHERE level=#{type} 
+	</select>
+	
+	<update id="confine" parameterType="com.ekt.cms.permission.entity.CmsPermission">
+		UPDATE cms_permission SET  STATUS=#{cmsPermission.status} WHERE id=#{cmsPermission.id}
+	</update>
+	<delete id="deleteCmsPermission" parameterType="java.lang.Integer">
+		DELETE FROM
+			cms_permission
+		WHERE id = #{cmsPermissionId}
+	</delete>
+	<delete id="deleteRolePermission" parameterType="java.lang.Integer">
+		DELETE FROM
+			cms_role_permission
+		WHERE permission_id = #{cmsPermissionId}
+	
+	</delete>
+	<update id="updatePermission" parameterType="com.ekt.cms.permission.entity.CmsPermission">
+		UPDATE 
+			cms_permission 
+		SET 
+			`name`=#{cmsPermission.name},
+			`key`=#{cmsPermission.key}, 
+			`order`=#{cmsPermission.orderNo},
+			`value`=#{cmsPermission.value}, 
+			`icon`=#{cmsPermission.icon} 
+		WHERE id=#{cmsPermission.id}
+		
+	</update>
+	
+</mapper>

@@ -36,7 +36,7 @@ color:red;
 				<div class='control-group'>
 					<label class='control-label'>视频名称</label>
 					<input type="hidden" id="id" />
-					<input type="hidden" id="videoId" />
+					<input type="hidden" id="videoKey" />
 					<div class='controls'>
 						<input class='span8' id='videoName' name="videoName" placeholder='请输入视频名称' 
 							type='text' />
@@ -262,8 +262,7 @@ color:red;
 		
 		
 		<!-- 播放器模态框 -->
-	<div class='modal hide fade' id='modal-playVideo' role='dialog'
-		tabindex='-1'>
+	<div class='modal hide fade' id='modal-playVideo' style="width:690px;height: 460px;" role='dialog' tabindex='-1'>
 		<div class='modal-header'>
 			<button class='close' data-dismiss='modal' type='button'>&times;</button>
 			<h3></h3>

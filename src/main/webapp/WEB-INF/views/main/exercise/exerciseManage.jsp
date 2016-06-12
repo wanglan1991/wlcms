@@ -99,7 +99,7 @@
         <h3></h3>
     </div>
 	           <div style='width:240px;height:450px;margin:30px;'>
-	             <div class='controls'>
+	            <div class='controls'>
 	               <select id='editCategoryOption'></select>
 	            </div>
 	             <div class='controls'>
@@ -179,6 +179,27 @@
     <div class='modal-body'>
         <div class='control-group' id='editErderNo'>
             <label class='control-label'>导入习题</label>
+             <div class='controls'>
+	               <select id='uploadCategoryOption'></select>
+	            </div>
+	             <div class='controls'>
+	               <select id='uploadTypeOption'> </select>
+	            </div>
+	             <div class='controls'>
+	               <select id='uploadDifficultyOption'></select>
+	            </div>
+	            <div class='controls'>
+	               <select id='uploadGradeOption'></select>
+	            </div>
+	             <div class='controls'>
+	               <select id='uploadSubjectOption'></select>
+	            </div>
+	             <div class='controls'>
+	               <select id='uploadKnoeledgeOption'></select>
+	            </div>
+	             <div class='controls'>
+	               <select id='uploadPublisherOption'></select>
+	            </div>
             <div class='controls'>
                 <input type='file' id="impFile"  name="fileData" /><button type="submit" id='upload' >上传</button>
                  <input type='text' id="filePath"  name="filePath" />

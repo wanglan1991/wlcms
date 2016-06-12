@@ -12,10 +12,10 @@
 	
 	<!-- 自定义Realm，用来进行登录验证和授权管理 -->
 	<bean id="adminRealm" class="com.ekt.cms.shiro.UserRealm">
-		<property name="authorizationCachingEnabled" value="true" />
+		<property name="authorizationCachingEnabled" value="false" />
 		<property name="authorizationCacheName" value="authorizationCache_" />
-		<property name="cachingEnabled" value="true" />
-		<property name="authenticationCachingEnabled" value="true" />
+		<property name="cachingEnabled" value="false" />
+		<property name="authenticationCachingEnabled" value="false" />
 		<property name="authenticationCacheName" value="authenticationCache_" />
 		<property name="cacheManager" ref="cacheManager" />
 	</bean>
