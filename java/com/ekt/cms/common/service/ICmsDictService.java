@@ -1,6 +1,7 @@
 package com.ekt.cms.common.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ekt.cms.common.entity.CmsDict;
 import com.ekt.cms.utils.pageHelper.PageBean;
@@ -26,4 +27,6 @@ public interface ICmsDictService {
 	public int update(CmsDict dict);
 	
 	public List<CmsDict> queryTypeName();
+	
+	public List<Map<String,Object>> famousTeacher();
 }

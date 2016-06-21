@@ -1,6 +1,8 @@
 package com.ekt.cms.common.dao;
 
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.ekt.cms.common.entity.CmsDict;
@@ -75,4 +77,11 @@ public interface CmsDictMapper {
 	 * @return 
 	 */	
 	List<CmsDict> queryTypeName();
+	
+	/**
+	 * 获取名师列表
+	 * @return
+	 */
+	public List<Map<String, Object>> famousTeacher();
+	
 }

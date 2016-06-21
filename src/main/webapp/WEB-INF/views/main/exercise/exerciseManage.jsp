@@ -47,12 +47,11 @@
 	             <div class='controls'>
 	               <select id='addSubjectOption'></select>
 	            </div>
-	             <div class='controls'>
-	               <select id='addKnoeledgeOption'></select>
-	            </div>
-	             <div class='controls'>
-	               <select id='addpublisherOption'></select>
-	            </div>
+				<div class="col-sm-9">
+					<select id="addKnoeledgeOption" name="knowledge"
+						style="width: 218.609px; height:30px" multiple="true"></select>
+						<span id="knowledge-error" class="help-block error"></span>
+				</div>
 	              <div class='controls'>
 	               <input type='text' id='author' placeholder='请输入作者....' maxlength='10'>
 	            </div>
@@ -117,9 +116,6 @@
 	             <div class='controls'>
 	               <select id='editKnoeledgeOption'></select>
 	            </div>
-	             <div class='controls'>
-	               <select id='editPublisherOption'></select>
-	            </div>
 	              <div class='controls'>
 	               <input type='text' id='editAuthor' placeholder='请输入作者....' maxlength='10'>
 	            </div>
@@ -167,7 +163,7 @@
         <button class='close' data-dismiss='modal' type='button'>&times;</button>
         <h3></h3>
     </div>
- <form action="/cms/upload/exercises" id="fm" method="POST" enctype="multipart/form-data">   
+ <form action="/cms/upload/exercises" id="excelUpload" method="POST" enctype="multipart/form-data">   
     <div class='modal-body'>
         <div class='control-group'>
             <label class='control-label' style='color:blue'>导入模板下载</label>
@@ -178,41 +174,47 @@
     </div>
     <div class='modal-body'>
         <div class='control-group' id='editErderNo'>
+        
             <label class='control-label'>导入习题</label>
              <div class='controls'>
-	               <select id='uploadCategoryOption'></select>
+	               <select id='uploadCategoryOption' ></select>
 	            </div>
 	             <div class='controls'>
-	               <select id='uploadTypeOption'> </select>
+	               <select id='uploadTypeOption' > </select>
 	            </div>
 	             <div class='controls'>
-	               <select id='uploadDifficultyOption'></select>
+	               <select id='uploadDifficultyOption' ></select>
 	            </div>
 	            <div class='controls'>
-	               <select id='uploadGradeOption'></select>
+	               <select id='uploadGradeOption' ></select>
 	            </div>
 	             <div class='controls'>
-	               <select id='uploadSubjectOption'></select>
+	               <select id='uploadSubjectOption' ></select>
 	            </div>
-	             <div class='controls'>
-	               <select id='uploadKnoeledgeOption'></select>
-	            </div>
-	             <div class='controls'>
-	               <select id='uploadPublisherOption'></select>
-	            </div>
-            <div class='controls'>
-                <input type='file' id="impFile"  name="fileData" /><button type="submit" id='upload' >上传</button>
-                 <input type='text' id="filePath"  name="filePath" />
+				<div class="col-sm-9">
+					<select id="uploadKnoeledgeOption" 
+				style="width: 218.609px; height:30px" multiple="true"></select>
+				<span id="knowledge-error" class="help-block error"></span>
+				</div>
+			
+            	<div class='controls'>
+                	<input type='file' id="fileData"  name="fileData" />
+                </div>
+                
+                <button type="submit" id='uploadExercise' >上传</button>
             </div>
         </div>
+		</form>  
+		    <div class='modal-footer'>
+		    	<msg id='msg'></msg>
+		        <button type="button" id="impBtnClose" class='btn'>关闭</button>
+		    </div>
+
+
     </div>
-</form>  
-    <div class='modal-footer'>
-    	<msg id='msg'></msg>
-        <button type="button" id="impBtnClose" class='btn'>关闭</button>
-    </div>
+
   
-</div>
+
 
 
 <script>

@@ -120,9 +120,14 @@
 	
 	<!-- 查询所有的字典类型名称 -->
 	<select id="queryTypeName" resultMap="DictMap">
-	SELECT  *
-	FROM 
-	cms_dictionary
-	group by type_name
+		SELECT  *
+		FROM 
+		cms_dictionary
+		group by type_name
 	</select>
+	
+	<select id="famousTeacher" resultType="java.util.Map">
+		SELECT id,name FROM api_teacher	
+	</select>
+	
 </mapper> 

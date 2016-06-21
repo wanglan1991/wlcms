@@ -15,9 +15,9 @@ public class CmsExercise {
 	// 题目类容
 	private String content;
 	// 知识点
-	private Integer knoeledgeId;
+	private String knowledgeIds;
 	// 知识内容
-	private String knoeledge;
+	private String knowledges;
 	// 字典 类型
 	private Integer typeNo;
 	// 类型value
@@ -50,165 +50,127 @@ public class CmsExercise {
 	private Integer gradeNo;
 	// 年级 value
 	private String grade;
-	
 	public Integer getId() {
 		return id;
 	}
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
 	public String getContent() {
 		return content;
 	}
-
 	public void setContent(String content) {
 		this.content = content;
 	}
-
-	public Integer getKnoeledgeId() {
-		return knoeledgeId;
+	public String getKnowledgeIds() {
+		return knowledgeIds;
 	}
-
-	public void setKnoeledgeId(Integer knoeledgeId) {
-		this.knoeledgeId = knoeledgeId;
+	public void setKnowledgeIds(String knowledgeIds) {
+		this.knowledgeIds = knowledgeIds;
 	}
-
-	public String getKnoeledge() {
-		return knoeledge;
+	public String getKnowledges() {
+		return knowledges;
 	}
-
-	public void setKnoeledge(String knoeledge) {
-		this.knoeledge = knoeledge;
+	public void setKnowledges(String knowledges) {
+		this.knowledges = knowledges;
 	}
-
 	public Integer getTypeNo() {
 		return typeNo;
 	}
-
 	public void setTypeNo(Integer typeNo) {
 		this.typeNo = typeNo;
 	}
-
 	public String getType() {
 		return type;
 	}
-
 	public void setType(String type) {
 		this.type = type;
 	}
-
 	public Integer getCategoryNo() {
 		return categoryNo;
 	}
-
 	public void setCategoryNo(Integer categoryNo) {
 		this.categoryNo = categoryNo;
 	}
-
 	public String getCategory() {
 		return category;
 	}
-
 	public void setCategory(String category) {
 		this.category = category;
 	}
-
 	public Integer getDifficultyNo() {
 		return difficultyNo;
 	}
-
 	public void setDifficultyNo(Integer difficultyNo) {
 		this.difficultyNo = difficultyNo;
 	}
-
 	public String getDifficulty() {
 		return difficulty;
 	}
-
 	public void setDifficulty(String difficulty) {
 		this.difficulty = difficulty;
 	}
-
 	public Integer getPublisherNo() {
 		return publisherNo;
 	}
-
 	public void setPublisherNo(Integer publisherNo) {
 		this.publisherNo = publisherNo;
 	}
-
 	public String getPublisher() {
 		return publisher;
 	}
-
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
-
 	public Date getCreateTime() {
 		return createTime;
 	}
-
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-
 	public Integer getStatus() {
 		return status;
 	}
-
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-
 	public String getAuthor() {
 		return author;
 	}
-
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-
 	public Integer getOrderNo() {
 		return orderNo;
 	}
-
 	public void setOrderNo(Integer orderNo) {
 		this.orderNo = orderNo;
 	}
-
 	public Integer getSubjectNo() {
 		return subjectNo;
 	}
-
 	public void setSubjectNo(Integer subjectNo) {
 		this.subjectNo = subjectNo;
 	}
-
 	public String getSubject() {
 		return subject;
 	}
-
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-
 	public Integer getGradeNo() {
 		return gradeNo;
 	}
-
 	public void setGradeNo(Integer gradeNo) {
 		this.gradeNo = gradeNo;
 	}
-
 	public String getGrade() {
 		return grade;
 	}
-
 	public void setGrade(String grade) {
 		this.grade = grade;
 	}
+	
+	
 
 }

@@ -88,7 +88,18 @@ public class CmsSchoolController {
 		return result;
 	}
 
-	
+	/**
+	 * 根据cityCode获取学校List
+	 * @param cmsSchool
+	 * @return
+	 */
+	@RequestMapping("/schoolList")
+	@ResponseBody
+	public Result schoolListByCityCode(CmsSchool cmsSchool){
+		Result result = Result.getResults();
+		result.setValue(cmsSchoolService.schoolListByCityCode(cmsSchool.getCityCode()));
+		return result;
+	}
 	
 	
 	

@@ -54,12 +54,6 @@
 		<h2>添加教材</h2>
 		<div style="width:660px">
 			<div style='width:300px'>
-					<div class='control-group'>
-		           	 	<label class='control-label'>学段</label>
-		           		 <div class='controls'>
-		               <select id='addPhase'></select>
-		            </div>
-		        </div>
 	        	<div class='control-group'>
 	           	 	<label class='control-label'>年级</label>
 	           		 <div class='controls'>
@@ -92,35 +86,36 @@
 	            </div>
 	        </div>
 	 </div>
-	 <div style="width:300px;margin-left: 260px;margin-top: -391px;">
+	 <div style="width:300px;margin-left: 260px;margin-top:-327px;">
 	         <div class='control-group'>
 	            <label class='control-label'>摘要</label>
 	            <div class='controls'>
 	                <input  id='digest'   maxlength='300'  placeholder='摘要' type='text' />
 	            </div>
 	        </div>
-	         <div class='control-group'>
-	            <label class='control-label'>封面</label>
-	            <div class='controls'>
-	                <input id='imgUrl'  maxlength='100'  placeholder='&lt; &frasl;img.png &frasl; &gt;上传成功后自动回填文件名' type='text' />
-	                <form id="upload" action="/cms/upload/imageUpload" method="post" enctype="multipart/form-data">
-					<input type="file" id="imgFile" name="imgFile" multiple="multiple"	 required>
-						<button type="submit" id ="submitbutton">图片上传</button>
-					</form>
-	            </div>
-	        </div>
 	        <div class='control-group'>
-	            <label class='control-label'>作者</label>
+	            <label class='control-label'>作者/名师</label>
 	            <div class='controls'>
-	                <input  id='author'  maxlength='15'  placeholder='作者' type='text' />
+	                <select  id='author' style='width:216px'></select>
 	            </div>
 	        </div>
+	        <br>
 	         <div class='control-group'>
 	            <label class='control-label'>录入人</label>
 	            <div class='controls'>
 	                <input  id='pushPerson'  maxlength='15'  placeholder='录入人' type='text' />
 	            </div>
-</div>
+			</div>
+			 <div class='control-group'>
+	            <label class='control-label'>封面</label>
+	            <div class='controls'>
+	                <input id='imgUrl'  maxlength='100'  placeholder='&lt; &frasl;img.png &frasl; &gt;上传成功后自动回填文件名' type='text' />
+	                <form id="upload" action="/cms/upload/imageUpload" method="post" enctype="multipart/form-data">
+					<input type="file" id="imgFile" name="imgFile" multiple="multiple"	style='width: 216px;'required><br>
+						<button type="submit" id ="submitbutton">点击上传</button>
+					</form>
+	            </div>
+	        </div>
 	        </div>
 	        
 	        <div style="margin-left: 140px;margin-top: 110px;">
@@ -144,18 +139,12 @@
  </div>      
  </div>     
 </div>
-<!-- 修改用户 -->
+<!-- 修改教材 -->
 <div  id='modal-editTextbook' idtag style="display: none" >
 	<div style="margin-left:56px;">
 		<h2>修改教材</h2>
 		<div style="width:660px">
 			<div style='width:300px'>
-				<div class='control-group'>
-	           	 		<label class='control-label' id="editPhaseTag" phase >学段</label>
-		           		 <div class='controls'>
-		               <select id='editPhase'></select>
-		            </div>
-		        </div>
 	        	<div class='control-group'>
 	           	 		<label class='control-label' id="editGradeTag" grade >年级</label>
 		           		 <div class='controls'>
@@ -180,7 +169,6 @@
 	             	<select id='editPublisher'></select>
 	            </div>
 	        </div>
-	        
 	         <div class='control-group'>
 	            <label class='control-label'>标题</label>
 	            <div class='controls'>
@@ -188,27 +176,17 @@
 	            </div>
 	        </div>
 	 </div>
-	 <div style="width:300px;margin-left: 260px;margin-top: -391px;">
+	 <div style="width:300px;margin-left: 260px;margin-top:-327px;">
 	         <div class='control-group'>
 	            <label class='control-label'>摘要</label>
 	            <div class='controls'>
 	                <input  id='editDigest'   maxlength='300'  placeholder='摘要' type='text' />
 	            </div>
 	        </div>
-	         <div class='control-group'>
-	            <label class='control-label'>封面</label>
-	            <div class='controls'>
-	                <input id='editImgUrl'  maxlength='100'  name = 'imgUrl'placeholder='&lt; img.png  &gt;上传成功后自动回填文件名' type='text' />
-	                <form id="editUpload" action="/cms/upload/imageUpload" method="post" enctype="multipart/form-data">
-					<input type="file" id="editImgFile" name="editImgFile" multiple="multiple"	 required>
-						<button type="submit" id ="editSubmitbutton">图片上传</button>
-					</form>
-	            </div>
-	        </div>
 	        <div class='control-group'>
-	            <label class='control-label'>作者</label>
+	            <label class='control-label'>作者/名师</label>
 	            <div class='controls'>
-	                <input  id='editAuthor'  maxlength='15'  placeholder='作者' type='text' />
+	                <select  id='editAuthor' style='width:216px'></select>
 	            </div>
 	        </div>
 	         <div class='control-group'>
@@ -216,7 +194,17 @@
 	            <div class='controls'>
 	                <input  id='editPushPerson'  maxlength='15'  placeholder='录入人' type='text' />
 	            </div>
-</div>
+			</div>
+			<div class='control-group'>
+	            <label class='control-label'>封面</label>
+	            <div class='controls'>
+	                <input id='editImgUrl'  maxlength='100'  name = 'imgUrl'placeholder='&lt; img.png  &gt;上传成功后自动回填文件名' type='text' />
+	                <form id="editUpload" action="/cms/upload/imageUpload" method="post" enctype="multipart/form-data">
+					<input type="file" id="editImgFile" name="editImgFile" multiple="multiple" style="width: 216px;" required><br>
+						<button type="submit" id ="editSubmitbutton">图片上传</button>
+					</form>
+	            </div>
+	        </div>
 	        </div>
 	        
 	        <div style="margin-left: 140px;margin-top: 110px;">

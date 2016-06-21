@@ -89,7 +89,7 @@ public class PageContext {
      */
     public void paging(){
     	
-    	PageHelper.startPage(getOffset()/getLimit()+1,(getOffset()/getLimit()+1)==1?10:getOffset());
+    	PageHelper.startPage((getOffset()/getLimit())+1, getLimit());
     }
     
     

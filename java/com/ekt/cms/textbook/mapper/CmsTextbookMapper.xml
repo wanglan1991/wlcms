@@ -38,7 +38,7 @@
 		d2.`value` publisher,
 		t.textbook_type_no,
 		d3.`value` textbook_type,
-		t.author,
+		ft.`name` author,
 		t.digest,
 		t.knowledge_point_arr,
 		t.img_url,
@@ -54,6 +54,8 @@
 		ON t.publisher_no = d2.id
 		LEFT JOIN cms_dictionary d3 ON
 		t.textbook_type_no = d3.id
+		LEFT JOIN api_teacher ft on 
+		ft.id=t.author
 		WHERE 1=1
 		<if test="textbook.title !=null and textbook.title !=''">
 			AND (t.title like '%${textbook.title}%')
@@ -101,7 +103,9 @@
 			<if test="digest !=null and digest !=''">
 					#{digest,jdbcType=VARCHAR},
 			</if>
-				#{author,jdbcType=VARCHAR},
+			<if test="author !=null and author !='' and author!=0">
+					#{author,jdbcType=INTEGER},
+			</if>
 				#{imgUrl,jdbcType=VARCHAR},
 				#{pushPerson,jdbcType=VARCHAR},
 				SYSDATE(),

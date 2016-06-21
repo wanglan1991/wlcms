@@ -238,7 +238,6 @@ define(function(require, exports, module) {
 				/**
 				 * 调用播放器
 				 */
-<<<<<<< HEAD
 				'click .videoPlay' : function(e, value, row, index) {
 					core.openModel('modal-playVideo',(function(){
 							 var option = {
@@ -253,30 +252,6 @@ define(function(require, exports, module) {
 					player = new qcVideo.Player("id_video_container",option);
 					})() );
 				} ,
-=======
-//				'click .playVideo' : function(e, value, row, index) {
-//					core.openModel('modal-playVideo', 
-//						 (function(){
-//						alert(row.videoKey);
-//					player = new qcVideo.Player(
-//							//页面放置播放位置的元素 ID
-//							"id_video_container",
-//							{
-//							//视频 ID (必选参数)
-//							"file_id" : row.videoKey,
-//							//应用 ID (必选参数)，同一个账户下的视频，该参数是相同的
-//							"app_id" : F.app_id ,
-//							//是否自动播放 默认值0 (0: 不自动，1: 自动播放)
-//							"auto_play" : "0",
-//							//播放器宽度，单位像素
-//							"width" : 640,
-//							//播放器高度，单位像素
-//							"heigth" : 480,
-//							});
-//					})() );
-//				} ,
->>>>>>> upstream/master
-
 			
 			};
 
