@@ -5,12 +5,10 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
-import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 public class ApplicationListener extends ContextLoaderListener
 		implements ServletContextListener, ServletRequestListener {
@@ -29,7 +27,7 @@ public class ApplicationListener extends ContextLoaderListener
 	public void contextInitialized(ServletContextEvent sce) {
 		this.context = sce.getServletContext();
 //		this.webApplicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
-//		webApplicationContext.getBean("beanName");
+//		AbcService servicer = webApplicationContext.getBean("beanName");
 
 		try {
 			//这里可以读取一些配置文件的信息，或者初始化一些数据
