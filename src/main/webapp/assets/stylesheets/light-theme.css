@@ -4507,7 +4507,8 @@ div.jGrowl div.jGrowl-notification, div.jGrowl div.jGrowl-closer {
   color: #00acec !important; }
 .contrast-blue.contrast-background, .contrast-blue .contrast-background {
 	overflow:hidden;
-     background: url(/cms/assets/images/background.jpg) no-repeat center;
+     background: url(/cms/assets/images/background.png) no-repeat center;
+     background-size: cover;
 /*   background: #00acec !important;  */
   }
 .contrast-blue .text-contrast, .contrast-blue .contrast {

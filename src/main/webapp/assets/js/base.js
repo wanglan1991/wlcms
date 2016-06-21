@@ -188,6 +188,8 @@ define(function (require, exports, module) {
             school: {
                 check:false,
                 confine:false,
+                add:false,
+                del:false
             },
             textbook: {
 	        	 check:false,

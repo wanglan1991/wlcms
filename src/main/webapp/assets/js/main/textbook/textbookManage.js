@@ -49,7 +49,7 @@ define(function (require, exports, module) {
             F.basepath = _basepath;
           	
             /**
-             * 是否具有添加教材
+             * 添加教材
              */
             if(base.perList.textbook.check){
             	$("#perm-header .actions").append("<input autocomplete='off'  id='name'  placeholder='请输入教材名称' type='text' />&nbsp;&nbsp;" +
@@ -94,7 +94,7 @@ define(function (require, exports, module) {
             
             
           //加载字典
-            function getDictOptions(type,dictType,selectId){
+            function getDictOptions(type,dictType,idOrClass){
             	var optionsHtml="<option value='0'>-- 请选择"+type+" --</option>";
             	$.ajax({
             		url:F.basepath+'/cms/dict/queryDictByCondition',
@@ -104,10 +104,52 @@ define(function (require, exports, module) {
             			for(var i=0;i<data.value.length;i++){
             				optionsHtml+="<option value='"+data.value[i].id+"'    >"+data.value[i].value+"</option>"
             			}
-            			$(selectId).append(optionsHtml);
+            			$(idOrClass).append(optionsHtml);
             		}
             	});	
             }
+           //获取名师
+           function getFamousTeachers(idOrClass){
+        	   var optionsHtml="<option value='0'>-- 请选择作者 --</option>";
+        	   $.ajax({
+           		url:F.basepath+'/cms/dict/famousTeacher',
+           		type:"GET",
+           		success:function(data){
+           			for(var i=0;i<data.value.length;i++){
+           				optionsHtml+="<option value='"+data.value[i].id+"'>"+data.value[i].name+"</option>"
+           			}
+           			$(idOrClass).append(optionsHtml);
+           			$(idOrClass).select2();
+           		}
+           	});	
+           }
+           
+           function getEditFamousTeachers(idOrClass,str){
+        	   var optionsHtml="<option value='0'>-- 请选择作者 --</option>";
+        	   $.ajax({
+           		url:F.basepath+'/cms/dict/famousTeacher',
+           		type:"GET",
+           		success:function(data){
+           			for(var i=0;i<data.value.length;i++){
+           				if(str==data.value[i].name){
+           					optionsHtml+="<option value='"+data.value[i].id+"' selected='true'>"+data.value[i].name+"</option>"
+           				}else{
+           					optionsHtml+="<option value='"+data.value[i].id+"'>"+data.value[i].name+"</option>"
+           				}
+           				
+           			}
+           			$(idOrClass).append(optionsHtml);
+           			$(idOrClass).select2();
+           		}
+           	});	
+        	   
+        	   
+           }
+        	   
+        	   
+        	   
+           
+            
             //加载知识点
            function knowledgeOptions(subject,grade,idOrClass){
         	   $(idOrClass).empty();
@@ -211,6 +253,7 @@ define(function (require, exports, module) {
 		        	$("#editSubjectTag").attr('subject',row.subjectNo);
 		        	$("#modal-editTextbook").attr("idTag",row.id);
 		        	$("#editKnowledgeTree").attr("knowledgePointArrTag",row.knowledgePointArr);
+		        	getEditFamousTeachers("#editAuthor",row.author);
 		        	getEditDictOptions("年级","grade","#editGrade",row.gradeNo);
 		        	getEditDictOptions("科目","subject","#editSubject",row.subjectNo);
 		        	getEditDictOptions("教材类型","textbookType","#editTextbookType",row.textbookTypeNo);
@@ -436,6 +479,8 @@ define(function (require, exports, module) {
 				getDictOptions("科目","subject","#addSubject");
 				getDictOptions("教材类型","textbookType","#addTextbookType");
 				getDictOptions("出版社","publish","#addPublisher");
+				getFamousTeachers("#author");
+				
 			});
 			//监听科目的选择
 			$("#addSubject").change(function(){
@@ -628,12 +673,10 @@ define(function (require, exports, module) {
 			});
 			
 			$('#editBtnClose').click(function(){
+				core.closeModel('modal-editPerm');
 				editClear();
 			});
 			
-			$('#editBtnClose').click(function(){
-				core.closeModel('modal-editPerm');
-			});
 			$("#editCatalogBtnClose").click(function(){
 				core.closeModel('modal-editCatalogContent');
 			});
@@ -648,7 +691,7 @@ define(function (require, exports, module) {
 				$("#title").val("");
 				$("#digest").val("");
 				$("#imgUrl").val("");
-				$("#author").val("");
+				$("#author").empty();
 				$("#pushPerson").val("");
 				$("#knowledgeTree").empty();
 				$("#addKnowledgeTree").hide();
@@ -666,7 +709,7 @@ define(function (require, exports, module) {
 				$("#editTitle").val("");
 				$("#editDigest").val("");
 				$("#editImgUrl").val("");
-				$("#editAuthor").val("");
+				$("#editAuthor").empty();
 				$("#editPushPerson").val("");
 				$("#editMsg").text("");
 			}
@@ -729,8 +772,16 @@ define(function (require, exports, module) {
 	        				$("#addCatalogName").val('');
 	        			}
 	        			else if(data.result>0){
+	        				if(confirm("添加成功，是否继续添加？")){
+	        					$("#addCatalogName").val('');
+	        					$("#addIntroduction").val('');
+	        					$("#addOrder").val('');
+	        					$("#videoFileName").val('');
+	        					C.catalogTable.reload();
+	        				}else{
 	        				C.catalogTable.reload();
 	        				catalogClear();
+	        				}
 	        			}else{
 	        				catalogClear();
 	        				alert("异常！");
@@ -814,6 +865,7 @@ define(function (require, exports, module) {
 				var imgUrl = $("#imgUrl").val();
 				var author = $("#author").val();
 				var pushPerson = $("#pushPerson").val();
+				var phaseNo = gradeNo==19?61:gradeNo==20?61:gradeNo==21?61:60;
 				if(gradeNo==0){$("#addMsg").text("请选择年级！");return}
 				if(subjectNo==0){$("#addMsg").text("请选择科目！");return}
 				if(textbookTypeNo==0){$("#addMsg").text("请选择教材类型！");return}
@@ -821,9 +873,10 @@ define(function (require, exports, module) {
 				if(title.length<1){$("#addMsg").text("标题不能为空！");return}
 				if(digest.lengt<1){$("#addMsg").text("摘要不能为空！");return}
 				if(imgUrl.length<1){$("#addMsg").text("图片不能为空！");return}
-				if(author.length<1){$("#addMsg").text("作者不能为空！");return}
+				if(author<1){$("#addMsg").text("选择作者！");return}
 				if(pushPerson.length<1){$("#addMsg").html("录入人不能为空！");return}
 				var datas ={
+							phaseNo:phaseNo,
 							gradeNo:gradeNo,
 							subjectNo:subjectNo,
 							textbookTypeNo:textbookTypeNo,
@@ -835,7 +888,7 @@ define(function (require, exports, module) {
 							pushPerson:pushPerson,
 							knowledgePointArr:arrId,
 							knowledgePointArrVal:arrName
-												}
+															}
 				
 				$.ajax({
 	        		url:F.basepath+'/cms/textbook/add',
@@ -872,6 +925,7 @@ define(function (require, exports, module) {
 				}
 				var id = $("#modal-editTextbook").attr("idTag");
 				var gradeNo =$("#editGrade").val();
+				var phaseNo = gradeNo==19?61:gradeNo==20?61:gradeNo==21?61:60;
 				var subjectNo=$("#editSubject").val();
 				var textbookTypeNo = $("#editTextbookType").val();
 				var publisherNo = $("#editPublisher").val();
@@ -887,10 +941,11 @@ define(function (require, exports, module) {
 				if(title.length<1){$("#editMsg").text("标题不能为空！");return}
 				if(digest.lengt<1){$("#editMsg").text("摘要不能为空！");return}
 				if(imgUrl.length<1){$("#editMsg").text("图片不能为空！");return}
-				if(author.length<1){$("#editMsg").text("作者不能为空！");return}
+				if(author<1){$("#editMsg").text("请选择作者！");return}
 				if(pushPerson.length<1){$("#editMsg").html("录入人不能为空！");return}
 				var datas ={
 						id:id,
+						phaseNo:phaseNo,
 						gradeNo:gradeNo,
 						subjectNo:subjectNo,
 						textbookTypeNo:textbookTypeNo,

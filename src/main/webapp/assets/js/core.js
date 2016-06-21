@@ -11,11 +11,59 @@ define(function (require, exports, module) {
         	this.load=function(_data,_hiddenId){}
         	return this;
         },
-//        DropDownTree:function(_treeId,_showId,_hideId,_url,_setting){},
-//		initTree: function (_treeId,_url,_onClick) {},
-//        initRadioTree:function(_treeId,_url,_hiddenId){},
         
-        
+        //公共字典opitons
+        getDictOptions:function(type,dictType,selectId){
+        	var optionsHtml="<option value='0'>-- "+type+" --</option>";
+        	$.ajax({
+        		url:'/cms/dict/queryDictByCondition',
+        		type:"GET",
+        		data:{typeEncoding:dictType},
+        		success:function(data){
+        			for(var i=0;i<data.value.length;i++){
+        				optionsHtml+="<option value='"+data.value[i].id+"'>"+data.value[i].value+"</option>"
+        			}
+        			$(selectId).append(optionsHtml);
+        		}
+        	});	
+        },
+        //地域字典options
+        getRegionList:function(idOrClass,parentCode){
+			var html="";
+			$.ajax({
+				url :'/cms/region/getRegionList',
+				type : 'POST',
+				data : {parentCode:parentCode},
+				success: function(data){
+					for(var i=0;i<data.value.length;i++){
+						html+="<option value='"+data.value[i].area_code+"'>"+data.value[i].area_name+"</option>"
+					}
+					$(idOrClass).append(html);
+				} 
+			})
+			
+		},
+		//学校字典options
+		getSchoolList:function(idOrClass,cityCode){
+			var html=""; 
+			$.ajax({
+				url:'/cms/school/schoolList',
+				type:'GET',
+				data:{cityCode:cityCode},
+				success:function(data){
+					if(data.value.length<1){
+						html+="<option value='-1'>该地区学校还暂未录入！</option>"
+						$(idOrClass).css('color','red');
+					}
+					for(var i=0;i<data.value.length;i++){
+						html+="<option value='"+data.value[i].id+"'>"+data.value[i].school_name+"</option>";
+						$(idOrClass).css('color','#3c3c3c');
+					}
+					$(idOrClass).append(html);
+				}
+			})
+			
+		},
         
         
         /**
@@ -77,7 +125,6 @@ define(function (require, exports, module) {
 	         	 * 加载教材知识点树
 	         	 */
 	         editloadKnowledgeTree:function(_url,gradeNo,subjectNo,knowledgePointArr,idOrClass){   
-//		        	 alert(_url+"-----"+gradeNo+"------"+subjectNo+"-----"+idOrClass);
 		        	 var setting = {
 		     				check: {
 		     					enable: true,

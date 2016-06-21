@@ -15,12 +15,12 @@
     </div>
   </div>
 <!-- 预览模态框 -->
-<div class='modal hide fade' id='modal-preview' role='dialog' tabindex='-1' style= "width:45%;height:50%;left: 42%;">
+<div class='modal hide fade' id='modal-preview' role='dialog' tabindex='-1' style= "width:45%;height:80%;left: 42%;">
     <div class='modal-header'>
         <button class='close' id="addClose"  data-dismiss='modal' type='button'>&times;</button>
         <h3></h3>
     </div>
-   <div id="exerciseContent" style="margin-left: 276px;margin-top: 29px;">
+   <div id="exerciseContent" style="margin-left: 96px;margin-top: 29px;">
     </div>
       	</div>
 </div>
@@ -47,12 +47,11 @@
 	             <div class='controls'>
 	               <select id='addSubjectOption'></select>
 	            </div>
-	             <div class='controls'>
-	               <select id='addKnoeledgeOption'></select>
-	            </div>
-	             <div class='controls'>
-	               <select id='addpublisherOption'></select>
-	            </div>
+				<div class="col-sm-9">
+					<select id="addKnoeledgeOption" name="knowledge"
+						style="width: 218.609px; height:30px" multiple="true"></select>
+						<span id="knowledge-error" class="help-block error"></span>
+				</div>
 	              <div class='controls'>
 	               <input type='text' id='author' placeholder='请输入作者....' maxlength='10'>
 	            </div>
@@ -73,7 +72,7 @@
 	            </div>
 	        </div>
 	        
-            	<textarea id='exerciseContent' maxlengt='900' style='width: 90%;height:15%;margin-left: 0px;' placeholder='习题内容..........'></textarea>
+            	<textarea id='addExerciseContent' maxlengt='900' style='width: 90%;height:15%;margin-left: 0px;' placeholder='习题内容..........'></textarea>
             	<div id="answer">
             		 <p style='color:red;'>请使用,例如：“<b style='color:blue'>&lt;&frasl; img.png&frasl; &gt;</b>”来标注图片在习题内容以及习题答案中的显示位置。</p>
 	            	<a class="icon-edit" style="margin-left:78%;color:blue"  id="addAnswer" href="javascript:void(0)">&nbsp;&nbsp;添加答案</a>
@@ -81,8 +80,8 @@
             	</br></br></div>
             </div>
        
-		<div style='height:40px;margin-top:36px;margin-left: 42%;color:#b94a48' id='msg'></div>	
-		<div style="height:120px;">
+		<div style='height:40px;margin-top:60px;margin-left: 42%;color:#b94a48' id='msg'></div>	
+		<div style="height:120px;margin-top:30px">
 	    <span style="margin-left: 41%;width:100px">
 	        <button type="button" id="btnClose" class='btn'>关闭</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	        <button type="button" id="btnSubmit" class='btn btn-primary'>保存</button>
@@ -99,7 +98,7 @@
         <h3></h3>
     </div>
 	           <div style='width:240px;height:450px;margin:30px;'>
-	             <div class='controls'>
+	            <div class='controls'>
 	               <select id='editCategoryOption'></select>
 	            </div>
 	             <div class='controls'>
@@ -116,9 +115,6 @@
 	            </div>
 	             <div class='controls'>
 	               <select id='editKnoeledgeOption'></select>
-	            </div>
-	             <div class='controls'>
-	               <select id='editPublisherOption'></select>
 	            </div>
 	              <div class='controls'>
 	               <input type='text' id='editAuthor' placeholder='请输入作者....' maxlength='10'>
@@ -151,8 +147,8 @@
             	</br></br></div>
             </div>
        
-		<div style='height:40px;margin-top:36px;margin-left: 42%;color:#b94a48' id='editMsg'></div>	
-		<div style="height:120px;">
+		<div style='height:40px;margin-top:60px;margin-left: 42%;color:#b94a48' id='editMsg'></div>	
+		<div style="height:120px;margin-top:30px;">
 	    <span style="margin-left: 41%;width:100px">
 	        <button type="button" id="editBtnClose" class='btn'>关闭</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	        <button type="button" id="editBtnSubmit" class='btn btn-primary'>保存</button>
@@ -167,7 +163,7 @@
         <button class='close' data-dismiss='modal' type='button'>&times;</button>
         <h3></h3>
     </div>
- <form action="/cms/upload/exercises" id="fm" method="POST" enctype="multipart/form-data">   
+ <form action="/cms/upload/exercises" id="excelUpload" method="POST" enctype="multipart/form-data">   
     <div class='modal-body'>
         <div class='control-group'>
             <label class='control-label' style='color:blue'>导入模板下载</label>
@@ -178,20 +174,47 @@
     </div>
     <div class='modal-body'>
         <div class='control-group' id='editErderNo'>
+        
             <label class='control-label'>导入习题</label>
-            <div class='controls'>
-                <input type='file' id="impFile"  name="fileData" /><button type="submit" id='upload' >上传</button>
-                 <input type='text' id="filePath"  name="filePath" />
+             <div class='controls'>
+	               <select id='uploadCategoryOption' ></select>
+	            </div>
+	             <div class='controls'>
+	               <select id='uploadTypeOption' > </select>
+	            </div>
+	             <div class='controls'>
+	               <select id='uploadDifficultyOption' ></select>
+	            </div>
+	            <div class='controls'>
+	               <select id='uploadGradeOption' ></select>
+	            </div>
+	             <div class='controls'>
+	               <select id='uploadSubjectOption' ></select>
+	            </div>
+				<div class="col-sm-9">
+					<select id="uploadKnoeledgeOption" 
+				style="width: 218.609px; height:30px" multiple="true"></select>
+				<span id="knowledge-error" class="help-block error"></span>
+				</div>
+			
+            	<div class='controls'>
+                	<input type='file' id="fileData"  name="fileData" />
+                </div>
+                
+                <button type="submit" id='uploadExercise' >上传</button>
             </div>
         </div>
+		</form>  
+		    <div class='modal-footer'>
+		    	<msg id='msg'></msg>
+		        <button type="button" id="impBtnClose" class='btn'>关闭</button>
+		    </div>
+
+
     </div>
-</form>  
-    <div class='modal-footer'>
-    	<msg id='msg'></msg>
-        <button type="button" id="impBtnClose" class='btn'>关闭</button>
-    </div>
+
   
-</div>
+
 
 
 <script>
