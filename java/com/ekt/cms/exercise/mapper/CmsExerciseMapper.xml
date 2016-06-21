@@ -4,8 +4,8 @@
 	<resultMap id="BaseResultMap" type="com.ekt.cms.exercise.entity.CmsExercise">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="content" property="content" jdbcType="VARCHAR" />
-		<result column="knoeledge_id" property="knoeledgeId" jdbcType="INTEGER" />
-		<result column="knoeledge" property="knoeledge" jdbcType="VARCHAR" />
+		<result column="knoeledge_id" property="knowledgeIds" jdbcType="VARCHAR" />
+		<result column="knowledge" property="knowledges" jdbcType="VARCHAR" />
 		<result column="type_no" property="typeNo" jdbcType="INTEGER" />
 		<result column="type" property="type" jdbcType="VARCHAR" />
 		<result column="category_no" property="categoryNo" jdbcType="INTEGER" />
@@ -35,63 +35,29 @@
 			<result column="status" property="status" jdbcType="INTEGER" />
 	</resultMap>
 	
-	<select id="pageList" resultMap="BaseResultMap"
-		parameterType="com.ekt.cms.exercise.entity.CmsExercise">
-		SELECT
-		c.id,
-		c.content,
-		c.knoeledge_id,
-		p.title knoeledge,
-		c.type_no,
-		d.`value` type,
-		c.category_no,
-		d1.`value` category,
-		c.difficulty_no,
-		d2.`value` difficulty,
-		c.publisher_no,
-		d3.`value`
-		publisher,
-		c.create_time,
-		c.`status`,
-		c.author,
-		c.order_no,
-		p.subject_no,
-		d4.`value` subject,
-		p.grade_no,
-		d5.`value` grade
-		FROM
-		cms_exercise c
-		LEFT
-		JOIN cms_knowledge_point p ON p.id = c.knoeledge_id
-		LEFT JOIN
-		cms_dictionary d on c.type_no =d.id
-		LEFT JOIN cms_dictionary d1 on c.category_no=d1.id
-		LEFT JOIN cms_dictionary d2 on c.difficulty_no=d2.id
-		LEFT JOIN cms_dictionary d3 on c.publisher_no=d3.id
-		LEFT JOIN cms_dictionary d4 on d4.id=p.subject_no
-		LEFT JOIN cms_dictionary d5 on
-		d5.id=p.grade_no
-		WHERE 1=1
+	<select id="pageList" resultMap="BaseResultMap" parameterType="com.ekt.cms.exercise.entity.CmsExercise">
+		SELECT * FROM cms_exercise
+			WHERE 1=1 
 		<if test="exercise.gradeNo != null and exercise.gradeNo!=''">
-			AND p.grade_no=#{exercise.gradeNo}
+			AND grade_no=#{exercise.gradeNo}
 		</if>
 		<if test="exercise.subjectNo != null and exercise.subjectNo!=''">
-			AND p.subject_no=#{exercise.subjectNo}
+			AND subject_no=#{exercise.subjectNo}
 		</if>
 		<if test="exercise.typeNo != null and exercise.typeNo!=''">
-			AND c.type_no=#{exercise.typeNo}
+			AND type_no=#{exercise.typeNo}
 		</if>
-		<if test="exercise.knoeledgeId != null and exercise.knoeledgeId!=''">
-			AND c.knoeledge_id=#{exercise.knoeledgeId}
+		<if test="exercise.knowledges != null and exercise.knowledges!=''">
+			AND ( knowledge LIKE '%${exercise.knowledges}%' ) 
 		</if>
 		<if test="exercise.categoryNo != null and exercise.categoryNo !=''">
-			AND c.category_no=#{exercise.categoryNo}
+			AND category_no=#{exercise.categoryNo}
 		</if>
 		<if test="exercise.difficultyNo != null and exercise.difficultyNo!=''">
-			AND c.difficulty_no=#{exercise.difficultyNo}
+			AND difficulty_no=#{exercise.difficultyNo}
 		</if>
 		<if test="exercise.content != null and exercise.content!=''">
-			AND ( c.content LIKE '%${exercise.content}%' )
+			AND ( content LIKE '%${exercise.content}%' )
 		</if>
 	</select>
 	<!-- 停用习题 -->
@@ -132,7 +98,8 @@
 		`type_no`,
 		`category_no`,
 		`order_no`,
-		`knoeledge_id`, 
+		`knoeledge_id`,
+		`knowledge`, 
 		`status`,
 		`grade_no`,
 		`subject_no`
@@ -146,7 +113,8 @@
 		#{typeNo},
 		#{categoryNo},
 		#{orderNo},
-		#{knoeledgeId},
+		#{knowledgeIds},
+		#{knowledges},
 		1,
 		#{gradeNo},
 		#{subjectNo}
@@ -164,7 +132,7 @@
 			 `type_no` = #{typeNo},
 			 `category_no` = #{categoryNo},
 			 `order_no` = #{orderNo},
-			 `knoeledge_id` = #{knoeledgeId},
+<!-- 			 `knoeledge_id` = #{knoeledgeId}, -->
 			 `grade_no`=#{gradeNo},
 			 `subject_no`=#{subjectNo}
 		WHERE

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ekt.cms.common.entity.CmsDict;
+import com.ekt.cms.common.entity.CmsSchool;
 import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.common.service.ICmsDictService;
 import com.ekt.cms.utils.pageHelper.PageBean;
@@ -65,17 +66,7 @@ public class CmsDictController {
 		result.setResult(dictService.confine(cmsDict));
 		return result;		
 	}
-	/**
-	 * 删除用户
-	 */
-//	@RequestMapping("/delete")
-//	@ResponseBody
-//	public Result dictDelete(@RequestParam("id") int id){
-//		Result result=Result.getResults();
-//		result.setResult(dictService.deleteByPrimaryKey(id));
-//		return result;
-//		
-//	}
+
 	/**
 	 * 批量删除用户
 	 */
@@ -145,4 +136,19 @@ public class CmsDictController {
 		result.setValue(dictService.queryTypeName());
 		return result;		
 	}
+	
+	
+	/**
+	 * 获取名师列表
+	 * @return
+	 */
+	@RequestMapping("/famousTeacher")
+	@ResponseBody
+	public Result famousTeacher(){
+		Result result = Result.getResults();
+		result.setValue(dictService.famousTeacher());
+		return result;
+	}
+	
+	
 }

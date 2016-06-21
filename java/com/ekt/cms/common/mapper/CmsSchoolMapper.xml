@@ -63,6 +63,14 @@
 		DELETE FROM cms_school WHERE id =#{id}
 	</delete>
 	
+	<select id="schoolListByCityCode" resultType="java.util.Map" parameterType="java.lang.String">
+		SELECT id,
+			school_name 
+		FROM cms_school
+ 		WHERE 
+ 			city_code = #{cityCode}
+	</select>
+	
 	
 	
 </mapper> 

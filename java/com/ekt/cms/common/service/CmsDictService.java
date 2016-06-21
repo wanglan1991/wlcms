@@ -1,6 +1,7 @@
 package com.ekt.cms.common.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -67,8 +68,13 @@ public class CmsDictService implements ICmsDictService {
 	@Override
 	public List<CmsDict> queryTypeName() {
 		// TODO Auto-generated method
-		
 		return dictMapper.queryTypeName();
+	}
+
+	@Override
+	public List<Map<String, Object>> famousTeacher() {
+		// TODO Auto-generated method stub
+		return dictMapper.famousTeacher();
 	}
 
 }

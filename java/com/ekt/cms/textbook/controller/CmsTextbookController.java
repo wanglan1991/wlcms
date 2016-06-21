@@ -58,7 +58,6 @@ public class CmsTextbookController {
 	@RequestMapping("/manage")
 	public String textbookManage() {
 		return "/main/textbook/textbookManage";
-//		return "/main/textbook/textbook";
 	}
 
 	/**

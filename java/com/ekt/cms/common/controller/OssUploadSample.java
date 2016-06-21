@@ -69,9 +69,6 @@ public class OssUploadSample {
         	PutObjectResult putObjectResult= client.putObject(new PutObjectRequest(bucketName, realKey, file.getInputStream()));
         	
         	if(putObjectResult !=null){
-        		System.out.println("------------------------"+putObjectResult.getCallbackResponseBody());
-        		System.out.println("------------------------"+putObjectResult.getETag());
-        		System.out.println("------------------------"+putObjectResult.getRequestId());
         	}
 
             
@@ -87,20 +84,10 @@ public class OssUploadSample {
         	data.put("msg", "上传成功");
             result.setValue(data);
         } catch (OSSException oe) {
-            System.out.println("Caught an OSSException, which means your request made it to OSS, "
-                    + "but was rejected with an error response for some reason.");
-            System.out.println("Error Message: " + oe.getErrorCode());
-            System.out.println("Error Code:       " + oe.getErrorCode());
-            System.out.println("Request ID:      " + oe.getRequestId());
-            System.out.println("Host ID:           " + oe.getHostId());
             data.put("status", 1);
         	data.put("msg", "访问对象存储服务出异常");
         	result.setValue(data);
         } catch (ClientException ce) {
-            System.out.println("Caught an ClientException, which means the client encountered "
-                    + "a serious internal problem while trying to communicate with OSS, "
-                    + "such as not being able to access the network.");
-            System.out.println("Error Message: " + ce.getMessage());
             data.put("status", 1);
         	data.put("msg", "访问阿里云出异常");
         	result.setValue(data);
