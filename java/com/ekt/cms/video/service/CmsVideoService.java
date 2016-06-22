@@ -79,4 +79,10 @@ public class CmsVideoService implements ICmsVideoService {
 		return cmsVideoMapper.insert(cmsVideo);
 	}
 
+	@Override
+	public int updateByVideoKey(CmsVideo cmsVideo) {
+		// TODO Auto-generated method stub
+		return cmsVideoMapper.updateByVideoKey(cmsVideo);
+	}
+
 }

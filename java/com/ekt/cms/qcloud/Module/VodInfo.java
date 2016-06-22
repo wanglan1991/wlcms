@@ -31,4 +31,10 @@ public class VodInfo extends Base {
 		
         return call(actionName, params);
 	}
+	public String ConvertVodFile(TreeMap<String, Object> params) throws NoSuchAlgorithmException, IOException {
+		String actionName = "ConvertVodFile";
+		
+		
+        return call(actionName, params);
+	}
 }

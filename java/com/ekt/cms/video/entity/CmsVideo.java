@@ -37,6 +37,8 @@ public class CmsVideo {
 	private int status;
 	// 视频上传后获取到的ID
 	private String  videoKey;
+	//转码状态 0:未转码 1:已转码
+	private int transcodeStatus;
 
 	public int getId() {
 		return id;
@@ -191,6 +193,14 @@ public class CmsVideo {
 
 	public void setVideoKey(String videoKey) {
 		this.videoKey = videoKey;
+	}
+
+	public int getTranscodeStatus() {
+		return transcodeStatus;
+	}
+
+	public void setTranscodeStatus(int transcodeStatus) {
+		this.transcodeStatus = transcodeStatus;
 	}
 
 	

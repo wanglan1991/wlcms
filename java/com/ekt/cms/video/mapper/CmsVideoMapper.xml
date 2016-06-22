@@ -21,6 +21,7 @@
 		<result column="subject_no" property="subjectNo" jdbcType="INTEGER"></result>
 		<result column="subject" property="subject" jdbcType="VARCHAR"></result>
 		<result column="video_key" property="videoKey" jdbcType="VARCHAR"></result>
+		<result column="transcode_status" property="transcodeStatus" jdbcType="INTEGER"></result>
 	</resultMap>
 	<!-- 分页查询 -->
 	<select id="listPage" parameterType="com.ekt.cms.video.entity.CmsVideo" resultMap='BaseMap'>
@@ -39,6 +40,7 @@
 			image_url,
 			knowledge_id,
 			v.status status,
+			transcode_status,
 			 knowledge,
 			v.grade_no grade_no,
 			d.value grade,
@@ -140,4 +142,23 @@
 		VALUES
 			(#{CmsVideo.videoName},#{CmsVideo.digest},#{CmsVideo.url},#{CmsVideo.urlBak},#{CmsVideo.isp},#{CmsVideo.fileName},#{CmsVideo.authorId},#{CmsVideo.duration},#{CmsVideo.knowledgeId},#{CmsVideo.gradeNo},#{CmsVideo.subjectNo},#{CmsVideo.knowledge},#{CmsVideo.videoKey},1)
 	</insert>
+	<!-- 根据视频key更新视频URL 时长 文件名 -->
+	<update id="updateByVideoKey" parameterType="com.ekt.cms.video.entity.CmsVideo">
+	UPDATE 
+			cms_video
+		SET 
+			<if test="CmsVideo.fileName !=null and CmsVideo.fileName != ''">
+			file_name=#{CmsVideo.fileName},
+			</if>
+			<if test="CmsVideo.url !=null and CmsVideo.url != ''">
+			url=#{CmsVideo.url},
+			</if>
+			<if test="CmsVideo.duration !=null and CmsVideo.duration !=0">
+			duration= #{CmsVideo.duration},
+			</if>
+			transcode_status=1
+			
+		WHERE
+			video_key=#{CmsVideo.videoKey}
+	</update>
 	</mapper>

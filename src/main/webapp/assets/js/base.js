@@ -179,7 +179,8 @@ define(function (require, exports, module) {
                 create: false,
                 check:false,
                 confine:false,
-                play : false
+                play : false,
+                transcode : false
             },
             region: {
                 check:false,

@@ -252,6 +252,28 @@ define(function(require, exports, module) {
 					player = new qcVideo.Player("id_video_container",option);
 					})() );
 				} ,
+				/**
+				 * 视频转码
+				 */
+				'click .transcodeVideo' : function(e, value, row, index) {
+					$.ajax({
+						url : F.basepath + '/cms/vodCloud/transcode',
+						type : 'POST',
+						data : {
+							fileId : row.videoKey
+						},
+						success : function(data) {
+							if (data.msg != "") {
+								alert(data.msg);
+								row.transcodeStatus = 1;
+								F.reload();
+							} else {
+								alert("操作失败！")
+							}
+						}
+					})
+				},
+				
 			
 			};
 
@@ -310,9 +332,18 @@ define(function(require, exports, module) {
 //				title : '链接'
 //			}, 
 			{
+				field :'videoKey',
+				title : '视频key',
+				visible : false
+			},
+			{
 				field : 'isp',
 				title : '运营商'
-			} ];
+			},{
+				field : 'transcodeStatus',
+				title : '转码状态',
+				visible : false
+			}];
 			// 是否需要操作列
 			if (base.perList.video.edit || base.perList.video.del
 					|| base.perList.video.confine )
@@ -355,7 +386,7 @@ define(function(require, exports, module) {
 				core.openModel('modal-Video', '新增视频',
 						function(){
 					$('#modal-Video').modal().css({
-						height:'900px'
+						height:'730px'
 					})
 					$.fn.modal.Constructor.prototype.enforceFocus = function () { };
 				}
@@ -371,9 +402,7 @@ define(function(require, exports, module) {
 				var videoName=$("#videoName").val();
 				var videoKey=$("#videoKey").val();
 				var digest=$("#digest").val();
-				var url=$("#url").val();
 				var isp=$("#isp").val();
-				var fileName=$("#fileName").val();
 				var authorId=$("#author").val();
 				var gradeNo=$("#grade").val();
 				var subjectNo=$("#subject").val();
@@ -388,12 +417,10 @@ define(function(require, exports, module) {
 					}
 				}
 			
-//				var duration=$("#duration").val();
+				var videoKey=$("#videoKey").val();
 				if(videoName.length<1){$("#videoName-error").html("请输入视频名称!");$("#videoName-error").css("color","#b94a48");return ;}
-				if(fileName.length<1){$("#fileName-error").html("请先选择视频上传!");$("#fileName-error").css("color","#b94a48");return ;}
 				if(authorId==0){$("#author-error").html("请选择讲师!");$("#author-error").css("color","#b94a48");return ;}
 				if(knowledgeId==-1){$("#knowledge-error").html("请选择所属知识点!");$("#knowledge-error").css("color","#b94a48");return ;}
-				if(url.length<1){$("#url-error").html("请先选择视频上传!");$("#url-error").css("color","#b94a48");return ;}
 			
 				$.ajax({
 					url :  F.basepath + '/cms/video/addVideo',
@@ -402,19 +429,18 @@ define(function(require, exports, module) {
 						videoName : videoName,
 						videoKey : videoKey,
 						digest : digest,
-						url : url,
 						isp : isp,
-						fileName : fileName,
 						authorId : authorId,
 						gradeNo : gradeNo,
 						subjectNo : subjectNo,
 						knowledgeId : knowledgeId,
-						knowledge : arr
+						knowledge : arr,
 					},
 					dataType: "json", 
 					success : function(data) {
 						if (data.result > 0) {
 							core.closeModel('modal-Video');
+							clear();
 							F.table.reload();
 							
 						}
@@ -432,6 +458,20 @@ define(function(require, exports, module) {
 			 * 关闭模态框
 			 */
 			$('#btnClose').click(function() {
+				clear();
+				core.closeModel('modal-Video');
+			});
+			$('#EditbtnClose').click(function() {
+				//关闭模态框 清除报错信息
+				$("#editVideo-error").html('');
+				$("#editUrl-error").html('');
+				$("#editAuthor-error").html('');
+				core.closeModel('modal-editVideo');
+			
+
+			});
+			//新增清除页面数据
+			function clear(){
 				//关闭模态框时清除所有错误提示
 				$("#videoName-error").html('');
 				$("#url-error").html('');
@@ -453,17 +493,7 @@ define(function(require, exports, module) {
 				$("#url").val('');
 				$("#videoFile").val('');
 				$("#submitbutton").attr("disabled",false);
-				core.closeModel('modal-Video');
-			});
-			$('#EditbtnClose').click(function() {
-				//关闭模态框 清除报错信息
-				$("#editVideo-error").html('');
-				$("#editUrl-error").html('');
-				$("#editAuthor-error").html('');
-				core.closeModel('modal-editVideo');
-			
-
-			});
+			}
 			
 			
 
@@ -515,8 +545,14 @@ define(function(require, exports, module) {
 				_btnAction += "<a class='delVideo btn btn-danger btn-small' href='#'  title='删除角色' style='margin-left:5px'>删除</a>";
 			}
 			if (base.perList.video.play) {
-				_btnAction += "<a class='playVideo btn btn-primary btn-small' href='"+row.url+"' target='_blank'  title='播放视频' style='margin-left:5px'>播放</a>";
+//				_btnAction += "<a class='playVideo btn btn-primary btn-small' href='"+row.url+"' target='_blank'  title='播放视频' style='margin-left:5px'>播放</a>";
 			}
+			if (base.perList.video.transcode && row.transcodeStatus==0) {
+			_btnAction += "<a data-toggle='modal' class='transcodeVideo btn btn-success btn-small' href='#' title='视频转码' style='margin-left:5px'>未转码</a>";
+			}
+			if (base.perList.video.transcode && row.transcodeStatus==1) {
+			_btnAction += "<a data-toggle='modal' class='transcodeVideoDone btn btn-success btn-small' href='#' title='视频转码' style='margin-left:5px'>已转码</a>";
+				}
 			return _btnAction;
 		}
 	};
@@ -615,7 +651,9 @@ define(function(require, exports, module) {
 					//提交成功后调用
 					if (data.value!=null) {
 						var fileId= data.value;
-						getVideoInfo(fileId);
+						$("#videoKey").val(data.value);
+						alter("上传成功")
+//						getVideoInfo(fileId);
 //						
 					} else {
 						alert(data.msg);
@@ -625,7 +663,7 @@ define(function(require, exports, module) {
 		});
 		var getVideoInfo =function(fileId){
 			$.ajax({
-				url : F.basepath + '/cms/VodCloud/describeVodInfo',
+				url : F.basepath + '/cms/vodCloud/describeVodInfo',
 				type : 'post',
 				data : {
 					fileId : fileId,
@@ -635,6 +673,7 @@ define(function(require, exports, module) {
 						$("#videoKey").val(data.value.videoKey);
 						$("#fileName").val(data.value.fileName);
 						$("#url").val(data.value.url);
+						$("#duration").val(data.value.duration);
 					} else {
 						alert(data.msg);
 						$("#videoFile-error").html(data.msg);
