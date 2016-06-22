@@ -29,9 +29,9 @@ color:red;
 			<h3></h3>
 		</div>
 <!-- 		<form class='form validate-form' id='submit-form' role="form" -->
-<!-- 		 action="/cms/VodCloud/upload" method="post" enctype="multipart/form-data" -->
+<!-- 		 action="/cms/vodCloud/upload" method="post" enctype="multipart/form-data" -->
 <!-- 			style='margin-bottom: 0;'> -->
-				<div class='modal-body'  style="max-height: 800px" >
+				<div class='modal-body'  style="max-height: 700px" >
 				
 				<div class='control-group'>
 					<label class='control-label'>视频名称</label>
@@ -45,9 +45,10 @@ color:red;
 				</div>
 				<!-- 视频文件名直接从视频信息上取得 -->
 				<div class='control-group'>
-					<label class='control-label'>视频文件名</label>
+<!-- 					<label class='control-label'>视频文件名</label> -->
 					<div class='controls'>
-						<input class='span8' id='fileName' name="fileName" placeholder='上传视频成功后自动回填视频文件名'type='text' />
+						<input type="hidden" id="duration" />
+						<input type="hidden" class='span8' id='fileName' name="fileName" placeholder='上传视频成功后自动回填视频文件名'type='text' />
 							<span id="fileName-error" class="help-block error"></span>
 <!-- 							<br><font color="red">*视频文件名按一定规则命名 </font> -->
 					</div>
@@ -111,9 +112,9 @@ color:red;
 				</div>
 				
 					<div class='control-group'>
-					<label class='control-label'>视频url</label>
+<!-- 					<label class='control-label'>视频url</label> -->
 					<div class='controls'>
-						<input class='span8' id='url' name="url" placeholder='上传视频成功后自动回填URL' 
+						<input type="hidden" class='span8' id='url' name="url" placeholder='上传视频成功后自动回填URL' 
 							type='text' />
 							<span id="url-error" class="help-block error"></span>
 					</div>
@@ -128,26 +129,13 @@ color:red;
 <!-- 					</div> -->
 <!-- 				</div> -->
 
-			<form id="qupload" action="/cms/VodCloud/upload" method="post" enctype="multipart/form-data">
+			<form id="qupload" action="/cms/vodCloud/upload" method="post" enctype="multipart/form-data">
 				<div class='controls'>
 					<input type="file" id="videoFile" name="videoFile" multiple="multiple"
 						class="form-control input-sm mb15"  required>
 						 <span id="qvideoFile-error" class="help-block error"></span>
 						<button type="submit" id ="qsubmitbutton">腾讯云上传</button>
 				</div>
-				
-				<!-- 是否转码与水印 暂不使用 -->
-<!-- 				<div class="input_area"> -->
-<!-- 					<span>转 码: </span> 开启<input type="radio" name="transcode" value="1" -->
-<!-- 						checked=""> &nbsp;&nbsp;&nbsp;禁用<input type="radio" -->
-<!-- 						name="transcode" value="0"> -->
-<!-- 				</div> -->
-<!-- 				<div class="input_area"> -->
-<!-- 					<span>水 印: </span> 开启<input type="radio" name="watermark" value="1"> -->
-<!-- 					&nbsp;&nbsp;&nbsp;禁用<input type="radio" name="watermark" value="0" -->
-<!-- 						checked=""> -->
-<!-- 				</div> -->
-
 			</form>			
 			
 			<div class='modal-footer'>
