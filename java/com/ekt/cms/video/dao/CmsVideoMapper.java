@@ -41,4 +41,10 @@ public interface CmsVideoMapper {
 	 * @return
 	 */
 	int insert(@Param("CmsVideo")CmsVideo cmsVideo);
+	/**
+	 * 根据videoKey更新URL 时长 文件名 
+	 * @param CmsVideo
+	 * @return
+	 */
+	int updateByVideoKey(@Param("CmsVideo")CmsVideo cmsVideo);
 }

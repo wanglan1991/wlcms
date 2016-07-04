@@ -3,6 +3,7 @@ package com.ekt.cms.video.controller;
 import java.io.File;
 import java.util.TreeMap;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -22,14 +23,18 @@ import com.ekt.cms.utils.Constants;
 import com.ekt.cms.utils.DateUtil;
 import com.ekt.cms.utils.FileUtil;
 import com.ekt.cms.video.entity.CmsVideo;
+import com.ekt.cms.video.service.CmsVideoService;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 /**
  * 2016-05-02
  * 
  * @author zhuyanqiong 视频上传云点播控制器
  */
 @Controller
-@RequestMapping("/VodCloud")
+@RequestMapping("/vodCloud")
 public class VodCloud {
+	@Resource
+	private CmsVideoService cmsVideoService;
 	//视频上传到第三方
 	@RequestMapping(value = "/upload" , method = RequestMethod.POST) 
 	@ResponseBody
@@ -84,8 +89,6 @@ public class VodCloud {
 				file.transferTo(targetFile);
 			}
 			long fileSize = targetFile.length();
-//			int isTranscode=Integer.parseInt(request.getParameter("transcode"));//转码
-//			int isWatermark=Integer.parseInt(request.getParameter("watermark"));//水印
 			
 		//视频文件的sha，采用SHA-1计算文件内容
 			String fileSHA1 = SHA1.fileNameToSHA(filePath);
@@ -107,7 +110,7 @@ public class VodCloud {
 				params.put("fileSize", fileSize);
 				params.put("dataSize", tmpDataSize);
 				params.put("offset", tmpOffset);
-//				params.put("isTranscode", isTranscode);
+//				params.put("isTranscode", 1);//是否转码 0:否 1:是     默认0
 //				params.put("isWatermark", isWatermark);
 				params.put("file", filePath);
 				resultJson = module.call("MultipartUploadVodFile", params);
@@ -146,8 +149,49 @@ public class VodCloud {
 		return result;
 	}
 	
-	//获取视频的播放信息url 视频名称  时长等
 	/**
+	 * 根据视频id进行转码
+	 * @param fileId
+	 * @return
+	 */
+	@RequestMapping(value = "/transcode" ) 
+	@ResponseBody
+	public Result transcodeVideo(String  fileId){
+		Result result=Result.getResults();
+		//调用接口的公共参数
+				TreeMap<String, Object> config = new TreeMap<String, Object>();
+				config.put("SecretId", Constants.DEFAULT_UPLOAD_SECRETID);
+				config.put("SecretKey", Constants.DEFAULT_UPLOAD_SECRETKEY);
+				config.put("RequestMethod", "POST");
+				config.put("DefaultRegion", "gz");
+				VodInfo vodInfo = new VodInfo();
+				//通过ConvertVodFile接口对视频转码
+				QcloudApiModuleCenter module = new QcloudApiModuleCenter(vodInfo, config);
+				try{
+					//给ConvertVodFile传参并调用
+					String resultUrl = null;
+					TreeMap<String, Object> params = new TreeMap<String, Object>();
+					params.put("fileId", fileId);
+					params.put("notifyUrl", "http://112.74.105.4:8080/cms/vodCloud/describeVodInfo?fileId="+fileId);
+					resultUrl = module.call("ConvertVodFile", params);
+					JSONObject jsonObject=new JSONObject(resultUrl);
+					int code=jsonObject.getInt("code");
+					String msg=jsonObject.getString("message");
+					if(code==0){
+						System.out.println("转码成功");
+						result.setMsg("转码成功");
+					}else {
+						result.setMsg(msg);
+					}
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+		return result;
+		
+	}
+	/**
+	 * 获取视频的播放信息url 视频名称  时长等
 	 * @param fileId
 	 * @return
 	 */
@@ -209,6 +253,7 @@ public class VodCloud {
 					video.setVideoKey(videoId);
 					video.setFileName(fileNameReal);
 					video.setDuration(duration);
+					cmsVideoService.updateByVideoKey(video);
 					result.setValue(video);
 					return result;
 				}

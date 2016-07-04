@@ -339,6 +339,10 @@
 					<shiro:hasPermission name="video:play">
 						<span id="basejs_video_play" style="display: none;" />
 					</shiro:hasPermission>
+					<shiro:hasPermission name="video:transcode">
+						<span id="basejs_video_transcode" style="display: none;" />
+					</shiro:hasPermission>
+					
 					<shiro:hasPermission name="region:check">
 						<span id="basejs_region_check" style="display: none;" />
 					</shiro:hasPermission>
@@ -638,6 +642,9 @@ $(".icon-adjust").click(function(){
 		}
 		if ($('#basejs_video_play').length > 0) {
 			base.perList.video.play = true;
+		}
+		if ($('#basejs_video_transcode').length > 0) {
+			base.perList.video.transcode = true;
 		}
 		
 		

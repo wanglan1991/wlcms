@@ -19,4 +19,6 @@ public interface ICmsVideoService {
 	int update(CmsVideo cmsVideo);
 	//新增
 	int insert(CmsVideo cmsVideo);
+	//转码更新
+	int updateByVideoKey(CmsVideo cmsVideo);
 }
