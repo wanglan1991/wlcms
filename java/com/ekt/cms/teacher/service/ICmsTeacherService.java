@@ -17,5 +17,18 @@ public interface ICmsTeacherService {
 	 * @return List<CmsTeacher> 
 	 */
 	public List<CmsTeacher> listPage(CmsTeacher cmsTeacher);
+	
+	/**
+	 * 新增教师
+	 * @param cmsTeacher
+	 * @return
+	 */
+	public int insertTeacher(CmsTeacher cmsTeacher);
+	
+	/**
+	 * 根据教师名称以及userId获取名师
+	 * @return
+	 */
+	public CmsTeacher getCmsTeacherByUserIdAndTeacherName(int userId,String teacherName);
 
 }

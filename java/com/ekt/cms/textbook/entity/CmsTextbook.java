@@ -38,6 +38,8 @@ public class CmsTextbook {
 	private List<String> knowledgeList;
 	// 摘要
 	private String digest;
+	//教师id
+	private int authorId;
 	// 作者
 	private String author;
 	// 图片URL
@@ -50,7 +52,14 @@ public class CmsTextbook {
 	private Date crateTime;
 	
 	private String knowledgePointArrVal;
+	
+	public int getAuthorId() {
+		return authorId;
+	}
 
+	public void setAuthorId(int authorId) {
+		this.authorId = authorId;
+	}
 	public Date getCrateTime() {
 		return crateTime;
 	}

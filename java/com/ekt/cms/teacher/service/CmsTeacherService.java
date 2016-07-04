@@ -27,4 +27,14 @@ public class CmsTeacherService implements ICmsTeacherService {
 		return cmsTeacherMapper.listPage(cmsTeacher);
 	}
 
+	@Override
+	public int insertTeacher(CmsTeacher cmsTeacher) {
+		return cmsTeacherMapper.insertTeacher(cmsTeacher);
+	}
+
+	@Override
+	public CmsTeacher getCmsTeacherByUserIdAndTeacherName(int userId, String teacherName) {
+		return cmsTeacherMapper.getCmsTeacherByUserIdAndTeacherName(userId, teacherName);
+	}
+
 }

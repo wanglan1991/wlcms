@@ -884,7 +884,7 @@ define(function (require, exports, module) {
 							title:title,
 							digest:digest,
 							imgUrl:imgUrl,
-							author:author,
+							authorId:author,
 							pushPerson:pushPerson,
 							knowledgePointArr:arrId,
 							knowledgePointArrVal:arrName
@@ -953,7 +953,7 @@ define(function (require, exports, module) {
 						title:title,
 						digest:digest,
 						imgUrl:imgUrl,
-						author:author,
+						authorId:author,
 						pushPerson:pushPerson,
 						knowledgePointArr:arrId,
 						knowledgePointArrVal:arrName

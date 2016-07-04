@@ -20,5 +20,21 @@ public interface CmsTeacherMapper {
 	 * @return  List<CmsTeacher>
 	 */
 	public List<CmsTeacher> listPage(@Param("cmsTeacher")CmsTeacher cmsTeacher);
+	
+	/**
+	 * 新增插入教师
+	 * @param cmsTeacher
+	 * @return
+	 */
+	public int insertTeacher(@Param("cmsTeacher")CmsTeacher cmsTeacher);
+	
+	/**
+	 * 根据教师名以及用户id获取教师对象
+	 * @param userId
+	 * @param teacherName
+	 * @return
+	 */
+	
+	public CmsTeacher getCmsTeacherByUserIdAndTeacherName(@Param("userId")int userId,@Param("teacherName")String teacherName);
 
 }

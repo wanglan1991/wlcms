@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ekt.cms.apiUser.dao.ApiUserMapper">
+	<resultMap id="BaseResultMap" type="com.ekt.cms.apiUser.entity.ApiUser">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="user_name" property="userName" jdbcType="CHAR" />
+		<result column="password" property="password" jdbcType="CHAR" />
+		<result column="real_name" property="realName" jdbcType="CHAR" />
+		<result column="telephone" property="telephone" jdbcType="CHAR" />
+		<result column="sex" property="sex" jdbcType="CHAR" />
+		<result column="register_type" property="registerType" jdbcType="CHAR" />
+		<result column="qq_open_id" property="qqOpenId" jdbcType="CHAR" />
+		<result column="nickname" property="nickName" jdbcType="CHAR" />
+		<result column="register_date" property="registerDate" jdbcType="DATE" />
+		<result column="head_picture" property="headPicture" jdbcType="CHAR" />
+		<result column="wechat_open_id" property="wechatOpenId" jdbcType="CHAR" />
+		<result column="wechat_unionId" property="wechatUnionId" jdbcType="CHAR" />
+		<result column="wechatGZ_open_id" property="wechatGZOpenId" jdbcType="CHAR" />
+	</resultMap>
+	
+	<select id="getUserByUsername" parameterType="java.lang.String"
+		resultType="com.ekt.cms.apiUser.entity.ApiUser">
+		SELECT
+		id,
+		user_name userName,
+		PASSWORD,
+		real_name realName,
+		telephone,
+		sex,
+		qq_open_id qqOpenId,
+		nickname nickName,
+		head_picture headPicture,
+		register_date registerDate,
+		wechat_open_id wechatOpenId,
+		wechat_unionId wechatUnionId,
+		wechatGZ_open_id wechatGZOpenId
+		FROM
+		api_user
+		WHERE
+		user_name=#{userName}
+		OR
+		telephone=#{userName}
+		OR
+		qq_open_id=#{userName}
+		OR
+		wechat_open_id=#{userName}
+		OR
+		wechatGZ_open_id=#{userName}
+		OR
+		wechat_unionId=#{userName}
+	</select>
+
+</mapper>

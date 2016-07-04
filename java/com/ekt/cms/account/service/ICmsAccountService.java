@@ -71,6 +71,8 @@ public interface ICmsAccountService {
      * @return CmsAccount
      */
     public List<CmsAccount> listAccountByRole(String  role);
+    
+    
 
 }
 

@@ -55,7 +55,7 @@
 		LEFT JOIN cms_dictionary d3 ON
 		t.textbook_type_no = d3.id
 		LEFT JOIN api_teacher ft on 
-		ft.id=t.author
+		ft.id=t.author_id
 		WHERE 1=1
 		<if test="textbook.title !=null and textbook.title !=''">
 			AND (t.title like '%${textbook.title}%')
@@ -86,7 +86,7 @@
 		<if test="digest !=null and digest !=''">
 			digest,
 		</if>
-			author,
+			author_id,
 			img_url,
 			push_person,
 			crate_time,
@@ -103,8 +103,8 @@
 			<if test="digest !=null and digest !=''">
 					#{digest,jdbcType=VARCHAR},
 			</if>
-			<if test="author !=null and author !='' and author!=0">
-					#{author,jdbcType=INTEGER},
+			<if test="authorId!=null and authorId !='' and authorId!=0">
+					#{authorId,jdbcType=INTEGER},
 			</if>
 				#{imgUrl,jdbcType=VARCHAR},
 				#{pushPerson,jdbcType=VARCHAR},
@@ -148,8 +148,8 @@
 		<if test="digest !=null and digest !=''">
 			digest=#{digest},
 		</if>
-		<if test="author !=null and author !=''">
-			author=#{author}, 
+		<if test="authorId !=null and authorId !='' and authorId!=0">
+			author_id=#{authorId}, 
 		</if>
 		<if test="imgUrl !=null and imgUrl !=''">
 			img_url=#{imgUrl}, 

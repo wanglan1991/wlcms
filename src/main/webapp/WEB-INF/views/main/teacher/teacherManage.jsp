@@ -36,9 +36,14 @@ color:red;
 	<div class='modal hide fade' id='addModal-teacher' role='dialog' tabindex='-1'>
     <div class='modal-header'>
         <button class='close' data-dismiss='modal' type='button'>&times;</button>
-        <h3></h3>
+        <h3></h3>是否是名师&nbsp;&nbsp;<input type='checkbox' id='isFamous'/>
     </div>
-    <div class='modal-body'>
+    <div class='modal-body' style="max-height:618px;">
+    <div style="width: 240px;">
+    	<div class='control-group'>
+            <label class='control-label'></label>
+            	
+        </div>
         <div class='control-group'>
             <label class='control-label'>姓名</label>
             <div class='controls'>
@@ -48,7 +53,7 @@ color:red;
         <div class='control-group'>
             <label class='control-label'>性别</label>
             <div class='controls'>
-            	<select id='addSex'><option value='男'>男</option><option value='女'>女</option></select>
+            	<select id='addSex'><option value='1'>男</option><option value='0'>女</option></select>
             </div>
         </div>
          <div class='control-group'>
@@ -63,11 +68,36 @@ color:red;
             	<select id='addSubject'></select>
             </div>
         </div>
-        <div class='control-group'>
-            <label class='control-label'>头像</label>
+         <div class='control-group'>
+            <label class='control-label'>平台用户</label>
             <div class='controls'>
-            	<input type="file" id="addHeadPicture" name='img' style='width:216px'/>
-            	<button type="submit">点击上传</button>
+            	<input type="text" id="user" userId='0' placeholder="用户名" />
+            </div>
+        </div>
+    </div>
+    <div style="width: 260px;height: 289px;margin-left: 251px;margin-top: -302px;">
+    <img alt="" id="headPic" src="http://img2.imgtn.bdimg.com/it/u=1861826228,3577032310&fm=21&gp=0.jpg" style="width: 216px;height: 237px;">
+    <div class='control-group'>
+            <div class='controls' >
+             <form id="upload" action="/cms/upload/imageUpload" method="post" enctype="multipart/form-data">
+					<input type="file" id="imgFile" name="imgFile" multiple="multiple"	style='width: 216px;'required><br>
+						<button type="submit" id="submitbutton">点击上传</button>
+					</form>
+            </div>
+        </div>
+       
+    </div>
+    <div style="margin-top: 15px;">
+         <div class='control-group'>
+            <label class='control-label'>个性签名</label>
+            <div class='controls'>
+            	<textarea id="motto" placeholder="个性签名" style="width:445px;" ></textarea>
+            </div>
+        </div>
+        <div class='control-group'>
+            <label class='control-label'>名师信息</label>
+            <div class='controls'>
+            	<textarea id="info" placeholder="名师信息" style="width:445px;"></textarea>
             </div>
         </div>
         <div class='control-group'>
@@ -79,16 +109,36 @@ color:red;
             	<select id="addSchool" style='width: 182px;'><option value='-1'>..学校..</option></select>
             </div>
         </div>
+        </div>
        
-        
          
     </div>
     <div class='modal-footer'>
-    	<msg id='msg'></msg>
+    	<msg id='msg' style='color:red'></msg>
         <button type="button" id="btnClose" class='btn'>关闭</button>
-        <button type="button" id="btnSubmit" style='display:none' class='btn btn-primary'>保存</button>
+        <button type="button" id="btnSubmit" class='btn btn-primary'>保存</button>
     </div>
-    </form>
+</div>
+
+		
+		
+		
+								
+<div class='modal hide fade' id='addModal-Honour' role='dialog' tabindex='-1' style="width:800px;margin-left:-410px;">
+    <div class='modal-header'>
+        <button class='close' data-dismiss='modal' type='button'>&times;</button>
+        <h3></h3>
+    </div>
+    <div style="height:600px;">
+    	<button type="button" id="addHonour" class='btn'>添加荣誉</button>  
+    	<button type="button" id="delHonour" class='btn'>删除荣誉</button>  
+    </div>
+   
+    <div class='modal-footer'>
+    	<msg id='msg' style='color:red'></msg>
+        <button type="button" id="HonourBtnClose" class='btn'>关闭</button>
+        <button type="button" id="HonourBtnSubmit" class='btn btn-primary'>保存</button>
+    </div>
 </div>
 	
 	

@@ -61,6 +61,75 @@
 			
 	</select>
 	
+	<select id="getCmsTeacherByUserIdAndTeacherName" resultType="com.ekt.cms.teacher.entity.CmsTeacher">
+			SELECT
+					t.id,
+					t.`name`,
+					t.sex,
+					t.head_picture headPicture,
+					t.school_id schoolId,
+					s.school_name schoolName, 
+					t.subject_no subjectNo,
+					d.`value`  `subject`,
+					t.grade_no gradeNo ,
+					d2.`value` grade,
+					t.user_id userId,
+					u.user_name userName,
+					t.motto,
+					t.info,
+					t.phase_no phaseNo,
+					d3.`value` phase,
+					t.is_famous isFamous
+				FROM
+					api_teacher t
+					LEFT JOIN cms_school s ON t.school_id = s.id
+					LEFT JOIN cms_dictionary d ON t.subject_no = d.id
+					LEFT JOIN cms_dictionary d2 ON t.grade_no = d2.id
+					LEFT JOIN cms_dictionary d3 ON t.phase_no = d3.id
+					LEFT JOIN api_user u ON t.user_id = u.id
+				WHERE 1=1 
+				AND t.user_id=#{userId}
+				AND t.name=#{teacherName}
+	</select>
+	<insert id="insertTeacher" parameterType="com.ekt.cms.teacher.entity.CmsTeacher">
+	INSERT INTO api_teacher(
+	 `name`,
+	 `sex`,
+	 `head_picture`, 
+	 `school_id`,
+	 `subject_no`,
+	 `grade_no`,
+  <if test="cmsTeacher.userId!=null and cmsTeacher.userId!='' and cmsTeacher.userId>1 ">
+	 `user_id`, 
+  </if> 
+  <if test="cmsTeacher.motto!=null and cmsTeacher.motto!=''">
+	 `motto`, 
+  </if>
+	 `info`, 
+	 `phase_no`, 
+	 `is_famous`
+	 ) VALUES ( 
+	 #{cmsTeacher.name},
+	 #{cmsTeacher.sex},
+	 #{cmsTeacher.headPicture},
+	 #{cmsTeacher.schoolId},
+	 #{cmsTeacher.subjectNo},
+	 #{cmsTeacher.gradeNo},
+  <if test="cmsTeacher.userId!=null and cmsTeacher.userId!='' and cmsTeacher.userId!=0 ">
+	 #{cmsTeacher.userId}, 
+  </if>
+  <if test="cmsTeacher.motto!=null and cmsTeacher.motto!=''">
+	 #{cmsTeacher.motto},
+  </if>
+  	 #{cmsTeacher.info},
+	 #{cmsTeacher.phaseNo},
+	 #{cmsTeacher.isFamous}	 
+	 )
+	
+	
+	
+	
+	</insert>
 
 
 </mapper>
