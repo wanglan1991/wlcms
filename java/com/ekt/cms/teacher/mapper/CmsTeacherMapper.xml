@@ -126,10 +126,38 @@
 	 #{cmsTeacher.isFamous}	 
 	 )
 	
-	
-	
-	
 	</insert>
+	
+	<delete id="deleteTeacher" parameterType="java.lang.Integer">
+		DELETE FROM api_teacher WHERE id=#{id}
+	</delete>
 
+	<insert id="addHonours" parameterType="java.util.Map">
+		INSERT INTO api_teacher_honour( 
+		`time`,
+		`title`,
+		`content`,
+		`famous_teacher_id`
+		) VALUES (
+		#{dateTime},#{title},#{detail},#{teacherId}
+		)
+	</insert>
+	
+	<select id="getHonours" resultType="java.util.Map" parameterType="java.lang.Integer">
+		SELECT 
+			id,
+			time,
+			title,
+			content
+		FROM 
+			api_teacher_honour
+		WHERE 
+			famous_teacher_id =#{teacherId} 
+			GROUP BY id ASC
+	</select>
+	
+	<delete id="removeHonoursByTeacherId" parameterType="java.lang.Integer">
+		DELETE FROM api_teacher_honour WHERE famous_teacher_id=#{teacherId}
+	</delete>
 
 </mapper>

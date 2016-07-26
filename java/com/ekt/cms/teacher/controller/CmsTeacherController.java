@@ -3,14 +3,20 @@ package com.ekt.cms.teacher.controller;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import com.alibaba.fastjson.JSONObject;
 import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.teacher.entity.CmsTeacher;
 import com.ekt.cms.teacher.service.ICmsTeacherService;
 import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.utils.pageHelper.PageContext;
+import java.util.List;
+import java.util.Map;
+
+
 
 /**
  * @author wanglan
@@ -74,5 +80,62 @@ public class CmsTeacherController {
 		result.setResult(cmsTeacherService.insertTeacher(cmsTeacher));
 		return result;
 	}
+	
+	/**
+	 * 根据id删除名师
+	 * @param ids
+	 * @return
+	 */
+	@RequestMapping(value="/delete")
+	@ResponseBody
+	public Result delete(@RequestParam("ids")String ids){
+		Result result = Result.getResults();
+		String[] arr = ids.split(",");
+		int total = 0;
+		for (String id : arr) {
+			total += cmsTeacherService.deleteTeacher(Integer.parseInt(id));
+		}
+		result.setResult(total);
+		return result;
+	}
+	
+	/**
+	 * 添加荣誉
+	 * @param teacherId
+	 * @param arr
+	 * @return
+	 */
+	@Transactional
+	@RequestMapping(value="/addHonours")
+	@ResponseBody
+	public Result addHonours(@RequestParam("teacherId")int teacherId,@RequestParam("arr")String arr){
+		Result result =Result.getResults();
+		List<Object> list=JSONObject.parseArray(arr);
+		cmsTeacherService.removeHonoursByTeacherId(teacherId);
+		int count = 0;
+		for(Object obj:list){
+			Map<String,Object> map=(Map<String, Object>) obj;			
+			map.put("teacherId", teacherId);
+			count+=cmsTeacherService.addHonours(map);
+		}
+		result.setResult(count);			
+		return result;
+	}
+	
+	/**
+	 * 获取荣誉集合
+	 * @param teacherId
+	 * @return
+	 */
+	@RequestMapping(value="/getHonours")
+	@ResponseBody
+	public Result getHonours(@RequestParam("teacherId")int teacherId){
+		Result result =Result.getResults();
+		result.setValue(cmsTeacherService.getHonours(teacherId));		
+		return result;		
+	}
+	
+	
+	
 
 }

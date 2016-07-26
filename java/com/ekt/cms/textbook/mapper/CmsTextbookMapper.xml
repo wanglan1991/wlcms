@@ -86,7 +86,9 @@
 		<if test="digest !=null and digest !=''">
 			digest,
 		</if>
+		<if test="authorId!=null and authorId !='' and authorId!=0">
 			author_id,
+		</if>
 			img_url,
 			push_person,
 			crate_time,
@@ -148,7 +150,10 @@
 		<if test="digest !=null and digest !=''">
 			digest=#{digest},
 		</if>
-		<if test="authorId !=null and authorId !='' and authorId!=0">
+		<if test="authorId==0">
+			author_id=null, 
+		</if>
+		<if test="authorId!=0">
 			author_id=#{authorId}, 
 		</if>
 		<if test="imgUrl !=null and imgUrl !=''">

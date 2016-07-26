@@ -421,6 +421,20 @@
 					<shiro:hasPermission name="exercise:preview">
 						<span id="basejs_exercise_preview" style="display: none;" />
 					</shiro:hasPermission>
+					
+					
+					<shiro:hasPermission name="teacher:check">
+						<span id="basejs_teacher_check" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="teacher:add">
+						<span id="basejs_teacher_add" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="teacher:del">
+						<span id="basejs_teacher_del" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="teacher:editHonour">
+						<span id="basejs_teacher_editHonour" style="display: none;" />
+					</shiro:hasPermission>
 
             </div>
         </div>
@@ -729,6 +743,21 @@ $(".icon-adjust").click(function(){
 		if($("#basejs_exercise_preview").length>0){
 			base.perList.exercise.preview =true;
 		}
+		
+// 		名师
+		if($("#basejs_teacher_check").length>0){
+			base.perList.teacher.check =true;
+		}
+		if($("#basejs_teacher_add").length>0){
+			base.perList.teacher.add =true;
+		}
+		if($("#basejs_teacher_del").length>0){
+			base.perList.teacher.del =true;
+		}
+		if($("#basejs_teacher_editHonour").length>0){
+			base.perList.teacher.editHonour =true;
+		}
+			
 		index.init('${ctx}');
 	});
 

@@ -1,6 +1,7 @@
 package com.ekt.cms.teacher.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -35,6 +36,26 @@ public class CmsTeacherService implements ICmsTeacherService {
 	@Override
 	public CmsTeacher getCmsTeacherByUserIdAndTeacherName(int userId, String teacherName) {
 		return cmsTeacherMapper.getCmsTeacherByUserIdAndTeacherName(userId, teacherName);
+	}
+
+	@Override
+	public int deleteTeacher(int id) {
+		return cmsTeacherMapper.deleteTeacher(id);
+	}
+
+	@Override
+	public int addHonours(Map<String, Object> map) {
+		return cmsTeacherMapper.addHonours(map);
+	}
+
+	@Override
+	public List<Map<String, Object>> getHonours(int teacherId) {
+		return cmsTeacherMapper.getHonours(teacherId);
+	}
+
+	@Override
+	public int removeHonoursByTeacherId(int teacherId) {
+		return cmsTeacherMapper.removeHonoursByTeacherId(teacherId);
 	}
 
 }

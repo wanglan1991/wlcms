@@ -14,6 +14,7 @@ define(function (require, exports, module) {
         
         //公共字典opitons
         getDictOptions:function(type,dictType,selectId){
+        	$(selectId).empty();
         	var optionsHtml="<option value='0'>-- "+type+" --</option>";
         	$.ajax({
         		url:'/cms/dict/queryDictByCondition',

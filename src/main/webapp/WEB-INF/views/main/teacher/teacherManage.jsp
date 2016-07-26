@@ -76,7 +76,7 @@ color:red;
         </div>
     </div>
     <div style="width: 260px;height: 289px;margin-left: 251px;margin-top: -302px;">
-    <img alt="" id="headPic" src="http://img2.imgtn.bdimg.com/it/u=1861826228,3577032310&fm=21&gp=0.jpg" style="width: 216px;height: 237px;">
+    <img alt="" id="headPic" src="http://ekt.oss-cn-shenzhen.aliyuncs.com/headPicture/ironman.png" style="width: 216px;height: 237px;">
     <div class='control-group'>
             <div class='controls' >
              <form id="upload" action="/cms/upload/imageUpload" method="post" enctype="multipart/form-data">
@@ -124,18 +124,20 @@ color:red;
 		
 		
 								
-<div class='modal hide fade' id='addModal-Honour' role='dialog' tabindex='-1' style="width:800px;margin-left:-410px;">
+<div class='modal hide fade' id='addModal-Honour' role='dialog' tabindex='-1' style="width:822px;margin-left:-410px;">
     <div class='modal-header'>
         <button class='close' data-dismiss='modal' type='button'>&times;</button>
         <h3></h3>
     </div>
-    <div style="height:600px;">
-    	<button type="button" id="addHonour" class='btn'>添加荣誉</button>  
-    	<button type="button" id="delHonour" class='btn'>删除荣誉</button>  
+    <div id='honours' style="height:510px;">
+    	<div id="honourHead" style="margin-left:595px;margin-top:15px;">
+	    	<button type="button" id="addHonour" class='btn'>添加荣誉</button>  
+	    	<button type="button" id="delHonour" class='btn' disabled='disabled'>删除荣誉</button> 
+    	</div> 
     </div>
    
     <div class='modal-footer'>
-    	<msg id='msg' style='color:red'></msg>
+    	<msg id='honourMsg' style='color:red'></msg>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <button type="button" id="HonourBtnClose" class='btn'>关闭</button>
         <button type="button" id="HonourBtnSubmit" class='btn btn-primary'>保存</button>
     </div>

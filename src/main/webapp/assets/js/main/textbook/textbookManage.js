@@ -374,9 +374,6 @@ define(function (require, exports, module) {
 		 	                    {
 		 	        		        checkbox:true
 		 	        		    }, {
-		 	        		        field: 'id',
-		 	        		        title: '主键'
-		 	        		    }, {
 		 	        		        field: 'catalogName',
 		 	        		        title: '章/节 -名称'
 		 	        		    },{
@@ -409,10 +406,7 @@ define(function (require, exports, module) {
 	        var cols = [
 	                    {
 	        		        checkbox:true
-	        		    }, {
-	        		        field: 'id',
-	        		        title: '主键'
-	        		    }, {
+	        		    },{
 	        		        field: 'title',
 	        		        title: '名称'
 	        		    },{
@@ -873,7 +867,6 @@ define(function (require, exports, module) {
 				if(title.length<1){$("#addMsg").text("标题不能为空！");return}
 				if(digest.lengt<1){$("#addMsg").text("摘要不能为空！");return}
 				if(imgUrl.length<1){$("#addMsg").text("图片不能为空！");return}
-				if(author<1){$("#addMsg").text("选择作者！");return}
 				if(pushPerson.length<1){$("#addMsg").html("录入人不能为空！");return}
 				var datas ={
 							phaseNo:phaseNo,
@@ -941,7 +934,6 @@ define(function (require, exports, module) {
 				if(title.length<1){$("#editMsg").text("标题不能为空！");return}
 				if(digest.lengt<1){$("#editMsg").text("摘要不能为空！");return}
 				if(imgUrl.length<1){$("#editMsg").text("图片不能为空！");return}
-				if(author<1){$("#editMsg").text("请选择作者！");return}
 				if(pushPerson.length<1){$("#editMsg").html("录入人不能为空！");return}
 				var datas ={
 						id:id,

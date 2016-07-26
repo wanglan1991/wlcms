@@ -1,18 +1,15 @@
 package com.ekt.cms.common.controller;
-
+import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.ekt.cms.common.entity.CmsKnowledge;
 import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.common.service.ICmsKnowledgeService;
 import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.utils.pageHelper.PageContext;
-import com.github.pagehelper.PageHelper;
 /**
  * 2016-05-02
  * 
@@ -49,13 +46,26 @@ public class CmsKnowledgeController {
 	@ResponseBody
 	public Result insert(CmsKnowledge cmsKnowledge) {
 		Result result = Result.getResults();
-		List<CmsKnowledge> list = cmsKnowledgeService.queryByTitle(cmsKnowledge);
-		if (list.size() > 0) {
-			result.setMsg("该知识点已存在");
-		} else {
-			result.setResult(cmsKnowledgeService.insert(cmsKnowledge));
+		List<String>list=new ArrayList<String>();
+		String[]title=cmsKnowledge.getTitle().split(",");
+		int rs =0;
+		for(String str:title){
+			if(str.equals("")){
+				continue;
+			}
+			cmsKnowledge.setTitle(str);
+			if(cmsKnowledgeService.queryByTitle(cmsKnowledge).size()!=0){ 
+				list.add(str);				
+			}else{
+				cmsKnowledge.setTitle(str);
+				cmsKnowledge.setOrderNo(rs);
+				rs += cmsKnowledgeService.insert(cmsKnowledge);
+			}
+			
 		}
-
+		
+		result.setResult(rs);
+		result.setMsg("成功添加"+rs+"个知识点！"+(list.size()>0?list.toString()+"已存在无法被添加！":""));
 		return result;
 	}
 
