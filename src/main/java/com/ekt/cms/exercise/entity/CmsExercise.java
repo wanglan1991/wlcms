@@ -50,8 +50,18 @@ public class CmsExercise {
 	private Integer gradeNo;
 	// 年级 value
 	private String grade;
+	//字典 学段
+	private Integer phaseNo;
+	//学段value
+	
 	public Integer getId() {
 		return id;
+	}
+	public Integer getPhaseNo() {
+		return phaseNo;
+	}
+	public void setPhaseNo(Integer phaseNo) {
+		this.phaseNo = phaseNo;
 	}
 	public void setId(Integer id) {
 		this.id = id;

@@ -5,22 +5,22 @@
 </head>
 <body>
   <div class='box-header' id="exercise-header">
-    <div class='actions'></div>
+    <div class='actions' id="exercise-actions"></div>
   </div>
   <div class='box-content box-no-padding'>
     <div class='responsive-table'>
       <div class='scrollable-area-x'>
-        <table id="exerciseTable"></table>
+        <table id="exerciseTable" width='150'></table>
       </div>
     </div>
   </div>
 <!-- 预览模态框 -->
-<div class='modal hide fade' id='modal-preview' role='dialog' tabindex='-1' style= "width:45%;height:80%;left: 42%;">
+<div class='modal hide fade' id='modal-preview' role='dialog' tabindex='-1' style= "width:45%;height:80%;overflow: auto;left: 42%;">
     <div class='modal-header'>
         <button class='close' id="addClose"  data-dismiss='modal' type='button'>&times;</button>
         <h3></h3>
     </div>
-   <div id="exerciseContent" style="margin-left: 96px;margin-top: 29px;">
+   <div id="exerciseContent" style="margin-left: 56px;margin-top: 29px;">
     </div>
       	</div>
 </div>
@@ -36,7 +36,7 @@
 	               <select id='addCategoryOption'></select>
 	            </div>
 	             <div class='controls'>
-	               <select id='addTypeOption'> </select>
+	               <select id='addTypeOption'></select>
 	            </div>
 	             <div class='controls'>
 	               <select id='addDifficultyOption'></select>
@@ -45,12 +45,10 @@
 	               <select id='addGradeOption'></select>
 	            </div>
 	             <div class='controls'>
-	               <select id='addSubjectOption'></select>
+	               <select id='addSubjectOption'><option value='0'>学科--</option></select>
 	            </div>
-				<div class="col-sm-9">
-					<select id="addKnoeledgeOption" name="knowledge"
-						style="width: 218.609px; height:30px" multiple="true"></select>
-						<span id="knowledge-error" class="help-block error"></span>
+				<div class="controls">
+					<select id="addKnoeledgeOption"><option value='0'>知识点--</option></select>
 				</div>
 	              <div class='controls'>
 	               <input type='text' id='author' placeholder='请输入作者....' maxlength='10'>

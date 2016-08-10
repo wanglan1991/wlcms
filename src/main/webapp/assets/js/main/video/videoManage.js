@@ -19,7 +19,11 @@ define(function(require, exports, module) {
 			if (base.perList.video.check) {
 				$("#video-header .actions")
 						.append(
-								"<input autocomplete='off'  id='q_k_select' name='q_k_select'  placeholder='知识点、视频名称' type='text' />&nbsp;&nbsp;<select  id='q_k_grade' class='select2-chosen' style='width:200px'></select>&nbsp;&nbsp;<select  id='q_k_subject' class='select2-chosen' style='width:200px'></select>&nbsp;&nbsp;<select  id='q_k_author' class='select2-chosen' style='width:200px'></select>&nbsp;&nbsp;<input autocomplete='off'  id='q_k_isp' name='q_k_isp'  placeholder='可运营商查询' type='text' /><a href='#' id='queryByCondition' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>");				
+								"<input autocomplete='off'  id='q_k_select' name='q_k_select'  placeholder='知识点、视频名称' type='text' />" +
+								"&nbsp;&nbsp;<select  id='q_k_grade' class='select2-chosen' style='width:200px'></select>" +
+								"&nbsp;&nbsp;<select  id='q_k_subject' class='select2-chosen' style='width:200px'></select>" +
+								"&nbsp;&nbsp;<select  id='q_k_author' class='select2-chosen' style='width:200px'></select>" +
+								"&nbsp;&nbsp;<a href='#' id='queryByCondition' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>");				
 				//初始化知识点查询框
 //				knowldgeSelect({gradeNo:0,subjectNo:0},'#q_k_select');
 			}
@@ -47,29 +51,13 @@ define(function(require, exports, module) {
 			 * param : 查询参数 
 			 * selectId ： select元素ID
 			 */
-			var dictList = function(url, param, selectId) {
-				$(selectId).empty();
-				// 查询条件的下拉框给出提示信息
-//				if (selectId == "#q_k_grade" || selectId == "#q_k_subject") {
-					$(selectId).prepend("<option value='0' >" + "--请选择"+ (param == 'grade' ? "年级--" : "学科--")+ "</option>");
-//				} 
-				$.ajax({
-					url : F.basepath + url,
-					data : param,
-					type : 'POST',	
-					success : function(data) {
-						for (var i = 0; i < data.value.length; i++) {
-							$(selectId).append("<option	value=" + data.value[i].id + ">"+ data.value[i].value + "</option>");
-						}
-					}
-				});
-			}
-			dictList("/cms/dict/queryDictByCondition" , {typeEncoding:"grade"} ,"#q_k_grade");
-			dictList("/cms/dict/queryDictByCondition" , {typeEncoding:"subject"} ,"#q_k_subject");
-			dictList("/cms/dict/queryDictByCondition" , {typeEncoding:"grade"} ,"#EditGrade");
-			dictList("/cms/dict/queryDictByCondition" , {typeEncoding:"subject"} ,"#EditSubject");
-			dictList("/cms/dict/queryDictByCondition" , {typeEncoding:"grade"} ,"#grade");
-			dictList("/cms/dict/queryDictByCondition" , {typeEncoding:"subject"} ,"#subject");
+			
+			core.getDictOptions('年级','grade',"#q_k_grade");
+			core.getDictOptions('年级','grade',"#EditGrade");
+			core.getDictOptions('年级','grade',"#grade");
+			core.getDictOptions('学科','subject',"#q_k_subject");
+			core.getDictOptions('学科','subject',"#EditSubject");
+			core.getDictOptions('学科','subject',"#subject");
 //			accountList("/cms/account/listAccountByRole" , {role:"teacher"} ,"#q_k_author");
 			
 			/**
@@ -204,7 +192,7 @@ define(function(require, exports, module) {
 //			
 				
 				/**
-				 * 删除角色
+				 * 删除视频
 				 */
 				'click .delVideo' : function(e, value, row, index) {
 					base.bootConfirm("是否确定删除？", function() {
@@ -239,7 +227,7 @@ define(function(require, exports, module) {
 				 * 调用播放器
 				 */
 				'click .videoPlay' : function(e, value, row, index) {
-					core.openModel('modal-playVideo',(function(){
+					core.openModel('modal-playVideo',"正在播放视频："+row.videoName,(function(){
 							 var option = {
 										"auto_play": "0",
 										"file_id": row.videoKey,
@@ -251,6 +239,15 @@ define(function(require, exports, module) {
 									};
 					player = new qcVideo.Player("id_video_container",option);
 					})() );
+				} ,
+				/**
+				 * 编辑视频配套习题
+				 */
+				'click .editVideoExercise' : function(e, value, row, index) {
+					core.openModel('modal-editVideoExercise',"编辑视频："+row.videoName+"配套习题",(function(){
+							
+					
+					}));
 				} ,
 				/**
 				 * 视频转码
@@ -466,10 +463,15 @@ define(function(require, exports, module) {
 				$("#editVideo-error").html('');
 				$("#editUrl-error").html('');
 				$("#editAuthor-error").html('');
-				core.closeModel('modal-editVideo');
-			
-
+				core.closeModel('modal-editVideo');		
 			});
+			//关闭编辑配套习题模态框
+			$("#editVideoExerciseClose").click(function(){
+				core.closeModel('modal-editVideoExercise');
+				
+			})
+			
+			
 			//新增清除页面数据
 			function clear(){
 				//关闭模态框时清除所有错误提示
@@ -486,8 +488,6 @@ define(function(require, exports, module) {
 				$("#fileName").val('');
 				$("#digest").val('');
 				$("#author").val('');
-				$("#grade").val('');
-				$("#subject").val('');
 				$("#knowledge").val('');
 				$("#isp").val('');
 				$("#url").val('');
@@ -533,7 +533,10 @@ define(function(require, exports, module) {
 		operateFormatter : function(value, row, index) {
 			var _btnAction = "";
 			
-			_btnAction += "<a class='videoPlay btn btn-primary btn-small' href='#'  title='点播' style='margin-left:5px'>点播</a>";
+				_btnAction += "<a class='editVideoExercise btn btn-primary btn-small' href='#'  title='编辑配套习题' style='margin-left:5px'>编辑配套习题</a>";
+			if (base.perList.video.play) {
+				_btnAction += "<a class='videoPlay btn btn-primary btn-small' href='#'  title='点播' style='margin-left:5px'>点播</a>";
+			}
 			if (base.perList.video.confine) {
 				_btnAction += "<a class='confine btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"
 						+ (row.status == 1 ? "停用" : "启用") + "</a>";
@@ -543,9 +546,6 @@ define(function(require, exports, module) {
 			}
 			if (base.perList.video.del) {
 				_btnAction += "<a class='delVideo btn btn-danger btn-small' href='#'  title='删除角色' style='margin-left:5px'>删除</a>";
-			}
-			if (base.perList.video.play) {
-//				_btnAction += "<a class='playVideo btn btn-primary btn-small' href='"+row.url+"' target='_blank'  title='播放视频' style='margin-left:5px'>播放</a>";
 			}
 			if (base.perList.video.transcode && row.transcodeStatus==0) {
 			_btnAction += "<a data-toggle='modal' class='transcodeVideo btn btn-success btn-small' href='#' title='视频转码' style='margin-left:5px'>未转码</a>";

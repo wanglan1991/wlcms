@@ -22,6 +22,7 @@
 		<result column="subject" property="subject" jdbcType="VARCHAR" />
 		<result column="grade_no" property="gradeNo" jdbcType="INTEGER" />
 		<result column="grade" property="grade" jdbcType="VARCHAR" />
+		<result column="phase_no" property="phaseNo" jdbcType="INTEGER" />
 	</resultMap>
 	<resultMap id="answerResultMap" type="com.ekt.cms.exercise.entity.CmsAnswer">
 			<result column="id" property="id" jdbcType="INTEGER" />
@@ -102,8 +103,8 @@
 		`knowledge`, 
 		`status`,
 		`grade_no`,
-		`subject_no`
-		
+		`subject_no`,
+		`phase_no`
 		) VALUES (
 		#{content},
 		#{difficultyNo},
@@ -117,7 +118,8 @@
 		#{knowledges},
 		1,
 		#{gradeNo},
-		#{subjectNo}
+		#{subjectNo},
+		#{phaseNo}
 		)
 
 	</insert>
@@ -132,9 +134,11 @@
 			 `type_no` = #{typeNo},
 			 `category_no` = #{categoryNo},
 			 `order_no` = #{orderNo},
-<!-- 			 `knoeledge_id` = #{knoeledgeId}, -->
-			 `grade_no`=#{gradeNo},
-			 `subject_no`=#{subjectNo}
+			 `knoeledge_id` = #{knowledgeIds},
+			 `knowledge` = #{knowledges},
+			 `grade_no`= #{gradeNo},
+			 `subject_no`= #{subjectNo},
+			 `phase_no`= #{phaseNo}
 		WHERE
 			 `id` = #{id};
 	</update>

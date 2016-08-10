@@ -67,9 +67,7 @@
 		<if test="CmsVideo.authorId !=null and CmsVideo.authorId !=0" >
 			AND (author_id = #{CmsVideo.authorId})
 		</if>
-		<if test="CmsVideo.isp !=null and CmsVideo.isp !=''">
-			AND (isp like '%${CmsVideo.isp}%')
-		</if>
+		
 	</select>
 	<!-- 按主键删除 -->
 	<delete id="delete" parameterType="java.lang.Integer">

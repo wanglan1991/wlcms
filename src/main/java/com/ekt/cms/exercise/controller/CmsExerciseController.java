@@ -119,6 +119,8 @@ public class CmsExerciseController extends BaseController {
 	public Result addExercise(CmsAnswerList answerList, CmsExercise exercise) {
 		List<Map<String, Object>> list = answerList.getAnswerList();
 		Result result = Result.getResults();
+		int grade = exercise.getGradeNo();
+		exercise.setPhaseNo(grade==19||grade==20||grade==21?60:61);
 		result.setResult(cmsExerciseService.insertExercise(exercise));
 		for (Map<String, Object> map : list) {
 			cmsExerciseService.insertAnswer(exercise.getId(), map.get("option").toString(),
@@ -141,6 +143,8 @@ public class CmsExerciseController extends BaseController {
 		Result result = Result.getResults();
 		List<Map<String, Object>> list = answerList.getAnswerList();
 		if (list != null) {
+			int grade = exercise.getGradeNo();
+			exercise.setPhaseNo(grade==19||grade==20||grade==21?60:61);
 			cmsExerciseService.updateExercise(exercise);
 			cmsExerciseService.deleteAnswer(exercise.getId());
 			for (Map<String, Object> map : list) {

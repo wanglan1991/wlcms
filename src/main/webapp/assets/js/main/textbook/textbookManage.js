@@ -348,7 +348,7 @@ define(function (require, exports, module) {
 			        						table+="<tr>"+
 					        							"<td>"+sonCatalogs[j].order_no+"</td>"+
 					        							"<td>"+sonCatalogs[j].catalog_name+"</td>"+
-					        							"<td>"+data.value[i].sonCatalogs[0].introduction+"</td>" +
+					        							"<td>"+sonCatalogs[j].introduction+"</td>"+
 					        							"<td>"+sonCatalogs[j].video_file_name+"</td>"+
 				        							"</tr>"
 			        					}
