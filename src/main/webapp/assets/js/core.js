@@ -14,7 +14,8 @@ define(function (require, exports, module) {
         
         //公共字典opitons
         getDictOptions:function(type,dictType,selectId){
-        	var optionsHtml="<option value='0'>-- "+type+" --</option>";
+        	$(selectId).empty();
+        	var optionsHtml="<option value='0'>"+type+"----</option>";
         	$.ajax({
         		url:'/cms/dict/queryDictByCondition',
         		type:"GET",
@@ -22,6 +23,26 @@ define(function (require, exports, module) {
         		success:function(data){
         			for(var i=0;i<data.value.length;i++){
         				optionsHtml+="<option value='"+data.value[i].id+"'>"+data.value[i].value+"</option>"
+        			}
+        			$(selectId).append(optionsHtml);
+        		}
+        	});	
+        },
+        //加载编辑字典
+        getEditDictOptions:function (type,dictType,selectId,value){
+        	$(selectId).empty();
+        	var optionsHtml="<option value='0'>"+type+"----</option>";
+        	$.ajax({
+        		url:'/cms/dict/queryDictByCondition',
+        		type:"GET",
+        		data:{typeEncoding:dictType},
+        		success:function(data){
+        			for(var i=0;i<data.value.length;i++){
+        				if(data.value[i].id==value){
+        					optionsHtml+="<option value='"+data.value[i].id+"' selected='true' >"+data.value[i].value+"</option>"
+        				}else{
+        					optionsHtml+="<option value='"+data.value[i].id+"'  >"+data.value[i].value+"</option>"
+        				}
         			}
         			$(selectId).append(optionsHtml);
         		}
@@ -176,6 +197,7 @@ define(function (require, exports, module) {
         		$('#'+_tableId).bootstrapTable({
         			locale:'zh-CN',
         			height:490,
+        			striped: true,
         			sidePagination:'server',
         			pagination:true,
         			pageList:'[10, 20, 30]',

@@ -213,6 +213,12 @@ define(function (require, exports, module) {
                  edit:false,
                  confine:false,
                  preview:false
+            },
+            teacher:{
+            	 check:false,
+                 add:false,
+                 del:false,
+          editHonour:false
             }
         }
     };

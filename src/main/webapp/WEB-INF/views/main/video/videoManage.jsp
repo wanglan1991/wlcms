@@ -28,9 +28,6 @@ color:red;
 			<button class='close' id="tatil" data-dismiss='modal' type='button'>&times;</button>
 			<h3></h3>
 		</div>
-<!-- 		<form class='form validate-form' id='submit-form' role="form" -->
-<!-- 		 action="/cms/vodCloud/upload" method="post" enctype="multipart/form-data" -->
-<!-- 			style='margin-bottom: 0;'> -->
 				<div class='modal-body'  style="max-height: 700px" >
 				
 				<div class='control-group'>
@@ -45,12 +42,10 @@ color:red;
 				</div>
 				<!-- 视频文件名直接从视频信息上取得 -->
 				<div class='control-group'>
-<!-- 					<label class='control-label'>视频文件名</label> -->
 					<div class='controls'>
 						<input type="hidden" id="duration" />
 						<input type="hidden" class='span8' id='fileName' name="fileName" placeholder='上传视频成功后自动回填视频文件名'type='text' />
 							<span id="fileName-error" class="help-block error"></span>
-<!-- 							<br><font color="red">*视频文件名按一定规则命名 </font> -->
 					</div>
 				</div>
 				
@@ -102,7 +97,7 @@ color:red;
 					</div>
 				</div>
 				
-						<div class='control-group'>
+				<div class='control-group'>
 					<label class='control-label'>运营商</label>
 					<div class='controls'>
 						<input class='span8' id='isp' name="isp"
@@ -112,7 +107,6 @@ color:red;
 				</div>
 				
 					<div class='control-group'>
-<!-- 					<label class='control-label'>视频url</label> -->
 					<div class='controls'>
 						<input type="hidden" class='span8' id='url' name="url" placeholder='上传视频成功后自动回填URL' 
 							type='text' />
@@ -120,21 +114,14 @@ color:red;
 					</div>
 					</div>
 				
-				<!-- 新增的时候先不考虑备用URL -->
-<!-- 				<div class='control-group'> -->
-<!-- 					<label class='control-label'>备用视频url</label> -->
-<!-- 					<div class='controls'> -->
-<!-- 						<input class='span8' id='urlBak' name="urlBak" placeholder='请输入备用视频url'  -->
-<!-- 							type='text' /> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
+				
 
 			<form id="qupload" action="/cms/vodCloud/upload" method="post" enctype="multipart/form-data">
 				<div class='controls'>
 					<input type="file" id="videoFile" name="videoFile" multiple="multiple"
 						class="form-control input-sm mb15"  required>
 						 <span id="qvideoFile-error" class="help-block error"></span>
-						<button type="submit" id ="qsubmitbutton">腾讯云上传</button>
+						<button type="submit" id ="qsubmitbutton">点击上传</button>
 				</div>
 			</form>			
 			
@@ -250,7 +237,7 @@ color:red;
 		
 		
 		<!-- 播放器模态框 -->
-	<div class='modal hide fade' id='modal-playVideo' style="width:690px;height: 460px;" role='dialog' tabindex='-1'>
+	<div class='modal hide fade' id='modal-playVideo' style="width:690px;height: 490px;" role='dialog' tabindex='-1'>
 		<div class='modal-header'>
 			<button class='close' data-dismiss='modal' type='button'>&times;</button>
 			<h3></h3>
@@ -258,6 +245,41 @@ color:red;
 		<div class='modal-body'></div>
 		<div id="id_video_container" ></div>
 		<div class='modal-footer'></div>
+	</div>
+	
+	
+	
+	
+	<!-- 	编辑习题 -->
+	<div class='modal hide fade' id='modal-editVideoExercise' role='dialog'
+		tabindex='-1'>
+		<div class='modal-header'>
+			<button class='close' id="tatil" data-dismiss='modal' type='button'>&times;</button>
+			<h3></h3>
+		</div>
+		<div class='modal-body'>
+				<div class='control-group'>
+					<label class='control-label'>年级</label>
+					<div class='controls'>
+						<select class='span8' id='grade'  placeholder='年级' ></select>
+					</div>
+				</div>
+				<div class='control-group'>
+					<label class='control-label'>学科</label>
+					<div class='controls'>
+						<select class='span8' id='subject'  placeholder='学科' ></select>
+					</div>
+				</div>
+				
+		
+		
+		</div>
+		
+		<div class='modal-footer'>
+				<msg id='edit-msg'></msg>
+				<button type="button" id="editVideoExerciseClose" class='btn'>关闭</button>
+				<button  id="editVideoExerciseSubmit" class='btn btn-primary'>保存</button>
+			</div>		
 	</div>
 
 

@@ -19,7 +19,8 @@ define(function(require, exports, module) {
 			$("#knowledge-header .actions")
 					.append(
 							"<input autocomplete='off'  id='q_k_title' name='q_k_title' placeholder='请输入知识点' type='text' />&nbsp;&nbsp;<select  id='q_k_grade' data-placeholder='请选择年级'></select>&nbsp;&nbsp;<select  id='q_k_subject'></select><a href='#' id='queryByCondition' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>");
-
+					core.getDictOptions("年级","grade","#q_k_grade");
+					core.getDictOptions("学科","subject","#q_k_subject");		
 			 }
 			/**
 			 * 是否具有添加知识点权限
@@ -39,10 +40,40 @@ define(function(require, exports, module) {
 			 "<a href='#' id='delKnowledges' class='btn btn-danger btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-remove'></i>删除</a>");
 						
 			 }
-			
-			/**
-			 * 加载树
-			 */
+			 	core.getDictOptions("年级","grade","#EditGrade");
+				core.getDictOptions("学科","subject","#EditSubject");	
+			 /**
+			  * 提交
+			  */
+			$("#btnSubmit").click(function(){
+				var gradeNo =$("#grade").val();
+				var subjectNo = $("#subject").val();
+				var title =$("#title").val();
+				if(gradeNo<1){$("#msg").text("请选择年级！");$("#msg").css('color',"red");return;}
+				if(subjectNo<1){$("#msg").text("请选择学科！");$("#msg").css('color',"red");return;}
+				if(title.length<1){$("#msg").text("请输入知识点！");$("#msg").css('color',"red");return;-error}
+				$.ajax({
+					url : F.basepath + '/knowledge/addKnowledge',
+					type : 'POST',
+					data : {gradeNo:gradeNo,subjectNo:subjectNo,title:title},
+					success : function(data) {
+						if(data.result>0){
+							F.table.reload();
+							if(confirm(data.msg+",是否继续添加  ？")){								
+								$("#title").val('');
+							}else{
+								core.closeModel('modal-Knowledge');
+								$("#title").val('');
+							}
+						}else{
+							alert("异常！稍后再尝试 ")
+						}
+						
+						
+					}
+				})
+				
+			});
 
 			operateEvents = {
 				/**
@@ -56,8 +87,8 @@ define(function(require, exports, module) {
 						$("#EditGradeNo").val(row.gradeNo);
 						$("#EditGrade").val(row.grade);
 						$("#EditSubjectNo").val(row.subjectNo);
-						$("#EditGrade     option[value='"+row.gradeNo+"']").attr("selected",true);
-						$("#EditSubject   option[value='"+row.subjectNo+"']").attr("selected",true);
+						$("#EditGrade option[value='"+row.gradeNo+"']").attr("selected",true);
+						$("#EditSubject option[value='"+row.subjectNo+"']").attr("selected",true);
 						$("#tatil").next("h3").html(
 								"编辑知识点         " + row.title);
 
@@ -190,42 +221,16 @@ define(function(require, exports, module) {
 						}
 					});
 			
-			/**
-			 * 加载下拉框
-			 * param : 查询条件
-			 * selectId ： select元素ID
-			 */
-			var dictList= function(url,param ,selectId) {
-				//查询条件的下拉框给出提示信息
-				if(selectId=="#q_k_grade" || selectId=="#q_k_subject" ){
-					var html = "<option value='0' >"+"--请选择"+(param == 'grade' ? "年级--" : "学科--")+"</option>";
-				}else{
-					var html='';
-				}
-				$.ajax({
-			 url: F.basepath+ url,
-			 data : {typeEncoding:param},
-			 type:'POST',
-			 success:function(data){
-			 for(var i=0;i<data.value.length;i++){
-			 html+="<option	value="+data.value[i].id+">"+data.value[i].value+"</option>";
-			 }
-			 $(selectId).append(html);
-			 }
-			 });
-			}
-			dictList("/dict/queryDictByCondition" , "grade" ,"#EditGrade");
-			dictList("/dict/queryDictByCondition" , "subject" ,"#EditSubject");
-			dictList("/dict/queryDictByCondition" , "grade" ,"#q_k_grade");
-			dictList("/dict/queryDictByCondition" , "subject" ,"#q_k_subject");
-			dictList("/dict/queryDictByCondition" , "grade" ,"#grade");
-			dictList("/dict/queryDictByCondition" , "subject" ,"#subject");
+			
+			
 			/**
 			 * 打开模态框
 			 */
 			$('#addKnowledge').click(function() {
-				
 				core.openModel('modal-Knowledge', '新增知识点', function() {
+					core.getDictOptions("年级","grade","#grade");
+					core.getDictOptions("学科","subject","#subject");
+					
 					
 				});
 				return false;
@@ -308,103 +313,5 @@ define(function(require, exports, module) {
 		},
 		
 	}
-	
-	
-	jQuery(document).ready(function() { 
-		/**
-		 * 表单验证 提交修改知识点
-		 */
-		$('#Editsubmit-form').validate({				
-			submitHandler:function(form){
-					var id = $("#EditId").val();
-					var title = $("#EditTitle").val();
-					var orderNo = $("#EditOrderNo").val();
-					var gradeNo = $("#EditGrade").val();
-					var subjectNo = $("#EditSubject").val();
-					$.ajax({
-						url : F.basepath + '/knowledge/editKnowledge',
-						type : 'POST',
-						data : {
-							id : id,
-							title : title,
-							orderNo : orderNo,
-							gradeNo : gradeNo,
-							subjectNo : subjectNo
-						},
-						success : function(data) {
-							if (data.result > 0) {
-								core.closeModel('modal-EditKnowledge');								
-								F.table.reload();
-								
-							} else {
-								$("#edit-title-error").html(data.msg);
-								$("#edit-title-error").css('color', 'red');
-
-							}
-						}
-
-					});
-			},
-		rules:{
-			EditTitle:{required:true},
-			EditOrderNo:{required:true},
-		},
-		messages:{
-			EditTitle: '知识点不能为空',
-			EditOrderNo:'请给知识点标序',
-		},
-			
-		});
-		/**
-		 * 表单验证 提交添加知识点
-		 */
-		$('#submit-form').validate({
-		submitHandler:function(form){
-			var title = $("#title").val();
-			var orderNo = $("#orderNo").val();
-			var gradeNo = $("#grade").val();
-			var subjectNo = $("#subject").val();
-				$.ajax({
-				url :  F.basepath + '/knowledge/addKnowledge',
-				type : 'POST',
-				data : {
-					title : title,
-					orderNo : orderNo,
-					gradeNo : gradeNo,
-					subjectNo : subjectNo
-				},
-				dataType: "json", 
-				success : function(data) {
-					if (data.result > 0) {
-						core.closeModel('modal-Knowledge');
-						F.table.reload();
-						
-					}
-					 else{
-					 $("#stitle-error").html(data.msg);
-					 $("#stitle-error").css('color','red');
-					 }
-				}
-
-			});
-		},
-	rules:{
-		title:{required:true},
-		orderNo:{required:true},
-		grade:{required:true},
-		subject:{required:true},
-	},
-	messages:{
-		title: '知识点不能为空',
-		orderNo:'请给知识点标序',
-		grade:'请选择所属年级',
-		subject:'请选择所属学科'
-	},
 		
-	});
-			
-	}); 
-	
-	
-	
 });
