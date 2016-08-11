@@ -40,32 +40,14 @@ color:red;
 			<button class='close' data-dismiss='modal' type='button'>&times;</button>
 			<h3></h3>
 		</div>
-		<form class='form validate-form' id='submit-form' role="form"
-			style='margin-bottom: 0;'>
 			<div id="info"></div>
 			<div class='modal-body'>
-				<div class='control-group'>
-					<label class='control-label'>知识点</label>
-					<div class='controls'>
-						<input class='span8' id='title' name="title" placeholder='请输入知识点' 
-							type='text' />
-							<span id="stitle-error" class="help-block error"></span>
-					</div>
-				</div>
-				
-				<div class='control-group'>
-					<label class='control-label'>序号</label>
-					<div class='controls'>
-						<input class='span8' id='orderNo' name="orderNo"
-							placeholder='请输入序号' type='text' />
-					</div>
-				</div>
-				
-				<div class='control-group'>
+			<div class='control-group'>
 					<label class='control-label'>年级</label>
 					<div class='controls'>
 						 <div class='input-append'>
 		               		<select id='grade' name='grade' ></select>
+		               		<span id="grade-error" class="help-block error"></span>
 		                </div>
 					</div>
 				</div>
@@ -74,19 +56,25 @@ color:red;
 					<label class='control-label'>科目</label>
 					<div class='controls'>
 						<div class='input-append'>
-		               		<select id='subject' name='subject'>
-		               		</select>
+		               		<select id='subject' name='subject'></select>
+		               		<span id="subject-error" class="help-block error"></span>
 		                </div>
 					</div>
 				</div>
-				
+				<div class='control-group'>
+					<label class='control-label'>知识点</label>
+					<div class='controls'>
+						<input class='span8' id='title' name="title" placeholder='如多个请使用英文状态下的“，”作为分隔符 '
+							type='text' />
+							<span id="stitle-error" class="help-block error"></span>
+					</div>
+				</div>
 			</div>
 			<div class='modal-footer'>
 				<msg id='msg'></msg>
 				<button type="button" id="btnClose" class='btn'>关闭</button>
 				<button id="btnSubmit" class='btn btn-primary'>保存</button>
 			</div>
-		</form>
 	</div>
 	<!-- 编辑字典模态框 -->
 	<div class='modal hide fade' id='modal-EditKnowledge' role='dialog'
