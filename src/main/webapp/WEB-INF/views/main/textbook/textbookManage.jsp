@@ -8,7 +8,7 @@
 <body>
 <div id="table">
   <div class='box-header' id="perm-header">
-    <div class='actions'></div>
+    <div class='actions' id="textbook-actions"></div>
   </div>
   <div class='box-content box-no-padding'>
     <div class='responsive-table'>
@@ -22,7 +22,7 @@
 
 <div id="table2" style="display: none" >
   <div class='box-header' id="catalog-header">
-    <div class='action'>
+    <div class='action' id="catalog-action">
     </div>
   </div>
   <div class='box-content box-no-padding'>

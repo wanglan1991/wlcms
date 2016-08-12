@@ -59,14 +59,14 @@
 
 	<!-- 会话验证调度器 -->
 	<bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler"> 
-		<property name="sessionValidationInterval" value="${session.outdate}"/> 
+<!-- 		<property name="sessionValidationInterval" value="${session.outdate}"/>  -->
 		<property name="sessionManager" ref="sessionManager"/> </bean>
 		
 	<bean id="sessionManager"
 		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-		<property name="globalSessionTimeout" value="${session.outdate}" />
-		<property name="deleteInvalidSessions" value="true" />
-		<property name="sessionValidationSchedulerEnabled" value="false" />
+<!-- 		<property name="globalSessionTimeout" value="${session.outdate}" /> -->
+<!-- 		<property name="deleteInvalidSessions" value="true" /> -->
+<!-- 		<property name="sessionValidationSchedulerEnabled" value="false" /> -->
 		<!-- <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/> -->
 		<property name="sessionDAO" ref="sessionDao" />
 		<property name="sessionIdCookieEnabled" value="true" />
@@ -96,6 +96,7 @@
 		<constructor-arg value="rememberMe" />
 		<property name="httpOnly" value="true" />
 		<property name="maxAge" value="2592000" /><!-- 30天 -->
+									   
 	</bean>
 	<!-- rememberMe管理器 -->
 	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">

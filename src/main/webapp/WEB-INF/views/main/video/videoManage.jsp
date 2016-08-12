@@ -251,29 +251,51 @@ color:red;
 	
 	
 	<!-- 	编辑习题 -->
-	<div class='modal hide fade' id='modal-editVideoExercise' role='dialog'
+	<div class='modal hide fade' id='modal-editVideoExercise' role='dialog' style="min-height: 708px;"
 		tabindex='-1'>
 		<div class='modal-header'>
 			<button class='close' id="tatil" data-dismiss='modal' type='button'>&times;</button>
 			<h3></h3>
 		</div>
-		<div class='modal-body'>
+		<div style="margin-top: 18px;width: 510px;margin-left: 25px;">
 				<div class='control-group'>
 					<label class='control-label'>年级</label>
 					<div class='controls'>
-						<select class='span8' id='grade'  placeholder='年级' ></select>
+						<select class='span8' id='exerciseGrade' placeholder='年级' ></select>
 					</div>
 				</div>
 				<div class='control-group'>
 					<label class='control-label'>学科</label>
 					<div class='controls'>
-						<select class='span8' id='subject'  placeholder='学科' ></select>
+						<select class='span8' id='exerciseSubject' placeholder='学科'>
+							<option value='0'>学科----</option>
+						</select>
 					</div>
 				</div>
-				
-		
-		
-		</div>
+				<div class='control-group'>
+					<label class='control-label'>知识点</label>
+					<div class='controls'>
+						<select class='span8' id='exerciseKnoeledge' placeholder='学科'>
+							<option value='0'>知识点----</option>
+						</select>
+					</div>
+				</div>
+
+				<div class='control-group'>
+					<label class='control-label'>可选习题</label>
+					<div class='controls'>
+						<ul id="exerciseTree" class="ztree" style="background:
+						 #f0f6e4;width:100%;height:361px;overflow-y:scroll;overflow-x:auto;"></ul>
+					</div>
+				</div>
+      
+       
+
+    
+
+
+
+	</div>
 		
 		<div class='modal-footer'>
 				<msg id='edit-msg'></msg>

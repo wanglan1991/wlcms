@@ -1,9 +1,11 @@
 package com.ekt.cms.video.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.ekt.cms.common.entity.TreeBean;
 import com.ekt.cms.video.entity.CmsVideo;
 /**
  * 2016-05-02
@@ -47,4 +49,18 @@ public interface CmsVideoMapper {
 	 * @return
 	 */
 	int updateByVideoKey(@Param("CmsVideo")CmsVideo cmsVideo);
+	
+	/**
+	 * 根据年级、学科、知识点、视频id获取参照tree
+	 * @param cmsVideo
+	 * @return
+	 */
+	List<TreeBean> getVideoExerciseTree(@Param("CmsVideo")CmsVideo cmsVideo);
+	
+	//更新视频配套习题
+	int addVideoExerciseTree(@Param("exerciseId")int exerciseId,@Param("videoId")int videoId,@Param("orderNo")int orderNo);
+	
+	//删除视频配套习题
+	int removeVideoExerciseByVideoId(int videoId);
+	
 }

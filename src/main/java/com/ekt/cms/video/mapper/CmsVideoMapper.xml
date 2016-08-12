@@ -22,10 +22,29 @@
 		<result column="subject" property="subject" jdbcType="VARCHAR"></result>
 		<result column="video_key" property="videoKey" jdbcType="VARCHAR"></result>
 		<result column="transcode_status" property="transcodeStatus" jdbcType="INTEGER"></result>
+		<result column="exercise_grade_no" property="exerciseGradeNo" jdbcType="INTEGER"></result>
+		<result column="exercise_subject_no" property="exerciseSubjectNo" jdbcType="INTEGER"></result>
+		<result column="exercise_knoeledge_id" property="exerciseKnoeledgeId" jdbcType="INTEGER"></result>
 	</resultMap>
+	
+	<resultMap type="com.ekt.cms.common.entity.TreeBean" id="TreeBeanMap">
+		<result column="id" property="id" jdbcType="INTEGER"></result>
+		<result column="chkDisabled" property="chkDisabled" jdbcType="VARCHAR"></result>
+		<result column="name" property="name" jdbcType="VARCHAR"></result> 
+		<result column="oncheck" property="oncheck" jdbcType="VARCHAR"></result>
+		<result column="open" property="open" jdbcType="VARCHAR"></result> 
+		<result column="pId" property="pId" jdbcType="INTEGER"></result> 
+		<result column="parent" property="parent" jdbcType="VARCHAR"></result>
+		<result column="checked" property="checked" jdbcType="VARCHAR"></result>
+	</resultMap>
+	
 	<!-- 分页查询 -->
 	<select id="listPage" parameterType="com.ekt.cms.video.entity.CmsVideo" resultMap='BaseMap'>
-			SELECT
+	SELECT a.*,
+		e1.grade_no AS exercise_grade_no,
+		e1.subject_no AS exercise_subject_no,
+		e1.knoeledge_id AS exercise_knoeledge_id FROM (
+		SELECT
 			v.id id,
 			video_name,
 			video_key,
@@ -67,7 +86,10 @@
 		<if test="CmsVideo.authorId !=null and CmsVideo.authorId !=0" >
 			AND (author_id = #{CmsVideo.authorId})
 		</if>
-		
+		) AS a
+			LEFT JOIN api_video_exercise e on e.video_id=a.id
+			LEFT JOIN cms_exercise e1 on e1.id=e.exercise_id
+			GROUP BY a.id
 	</select>
 	<!-- 按主键删除 -->
 	<delete id="delete" parameterType="java.lang.Integer">
@@ -159,4 +181,52 @@
 		WHERE
 			video_key=#{CmsVideo.videoKey}
 	</update>
+	<select id="getVideoExerciseTree" parameterType="com.ekt.cms.video.entity.CmsVideo" resultMap="TreeBeanMap">
+		SELECT a.*,
+			   IF(b.exercise_id IS NULL,'false','true')AS checked
+			    FROM(
+						SELECT
+							e.id,
+							'false'chkDisabled,
+							 CONCAT('[',e.id,']  ',IF(LENGTH(e.content)&gt;30,SUBSTR(e.content,1,30),content),'...')AS name,
+							'false'oncheck,
+							'true'open,
+							'0'pId,
+							'false'parent
+						FROM
+							cms_exercise e
+						WHERE
+							e.`status`=1
+						AND e.subject_no=#{CmsVideo.subjectNo}
+						AND e.grade_no=#{CmsVideo.gradeNo}
+						AND e.knoeledge_id=#{CmsVideo.knowledgeId}
+						ORDER BY e.order_no
+					)AS a
+					LEFT JOIN (
+					SELECT 
+						exercise_id 
+					FROM api_video_exercise 
+					WHERE 
+						video_id=#{CmsVideo.id}
+					)b on b.exercise_id=a.id
+					UNION (
+							 SELECT '0'id,	
+							'false' chkDisabled,
+							'全部' name,
+							'false' oncheck,
+		
+							'true' open,
+							'-1' pId,
+							'true' parent,
+							'false' checked 	)		
+	</select>
+	
+	<delete id="removeVideoExerciseByVideoId" parameterType="java.lang.Integer">
+		DELETE FROM api_video_exercise WHERE video_id=#{videoId} 
+	</delete>
+	
+	<insert id="addVideoExerciseTree" parameterType="java.lang.Integer">
+		INSERT INTO api_video_exercise(`video_id`, `exercise_id`, `order_no`) VALUES (#{videoId}, #{exerciseId}, #{orderNo});
+	</insert>
+	
 	</mapper>

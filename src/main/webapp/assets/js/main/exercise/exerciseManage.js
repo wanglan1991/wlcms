@@ -138,9 +138,6 @@ define(function (require, exports, module) {
 	        			$(id).append(knowledgesOption);
 	        		}
 	        	})
-        
-   			
-   			
    		}
             
             function editGetKnoeledgeOption(id,subjectNo,knowledgeId){
@@ -320,7 +317,6 @@ define(function (require, exports, module) {
     	        	query();	
     	        }  
     	    } 
-    		
 			/**
 			 * 打开模态框
 			 */
