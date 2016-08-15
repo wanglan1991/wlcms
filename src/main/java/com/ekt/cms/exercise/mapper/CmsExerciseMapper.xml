@@ -4,7 +4,7 @@
 	<resultMap id="BaseResultMap" type="com.ekt.cms.exercise.entity.CmsExercise">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="content" property="content" jdbcType="VARCHAR" />
-		<result column="knoeledge_id" property="knowledgeIds" jdbcType="VARCHAR" />
+		<result column="knoeledge_id" property="knowledgeId" jdbcType="INTEGER" />
 		<result column="knowledge" property="knowledges" jdbcType="VARCHAR" />
 		<result column="type_no" property="typeNo" jdbcType="INTEGER" />
 		<result column="type" property="type" jdbcType="VARCHAR" />
@@ -114,7 +114,7 @@
 		#{typeNo},
 		#{categoryNo},
 		#{orderNo},
-		#{knowledgeIds},
+		#{knowledgeId},
 		#{knowledges},
 		1,
 		#{gradeNo},
@@ -134,7 +134,7 @@
 			 `type_no` = #{typeNo},
 			 `category_no` = #{categoryNo},
 			 `order_no` = #{orderNo},
-			 `knoeledge_id` = #{knowledgeIds},
+			 `knoeledge_id` = #{knowledgeId},
 			 `knowledge` = #{knowledges},
 			 `grade_no`= #{gradeNo},
 			 `subject_no`= #{subjectNo},

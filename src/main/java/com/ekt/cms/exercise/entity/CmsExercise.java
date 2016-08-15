@@ -15,7 +15,7 @@ public class CmsExercise {
 	// 题目类容
 	private String content;
 	// 知识点
-	private String knowledgeIds;
+	private Integer knowledgeId;
 	// 知识内容
 	private String knowledges;
 	// 字典 类型
@@ -72,11 +72,12 @@ public class CmsExercise {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getKnowledgeIds() {
-		return knowledgeIds;
+	
+	public Integer getKnowledgeId() {
+		return knowledgeId;
 	}
-	public void setKnowledgeIds(String knowledgeIds) {
-		this.knowledgeIds = knowledgeIds;
+	public void setKnowledgeId(Integer knowledgeId) {
+		this.knowledgeId = knowledgeId;
 	}
 	public String getKnowledges() {
 		return knowledges;

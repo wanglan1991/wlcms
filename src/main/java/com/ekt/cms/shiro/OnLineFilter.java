@@ -42,6 +42,7 @@ public class OnLineFilter extends FormAuthenticationFilter  {
 		
 			Subject subject = SecurityUtils.getSubject();
 			Session session = subject.getSession();
+			System.out.println("session的默认超时时间为："+session.getTimeout());
 			CmsAccount cmsUser=(CmsAccount)session.getAttribute(Constants.DEFAULT_SESSION_ACCOUNT);
 			if(cmsUser!=null||((HttpServletRequest) request).getServletPath().equals("/user/exit")){
 				return true;

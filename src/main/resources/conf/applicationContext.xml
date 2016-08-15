@@ -45,15 +45,14 @@
 	<!-- 启动对@AspectJ注解的支持 -->
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 
-	<!--方案1.缓存管理 Redis -->
-	<!-- <bean id="cache" class="com.larva.shiro.cache.WTCache"> <property name="redisManager" 
-		ref="redisManager"/> </bean> <bean id="cacheManager" class="com.larva.shiro.cache.WTCacheManager"> 
-		<property name="cache" ref="cache"/> </bean> -->
+	
+	 
 
+	
 	<!--方案2.缓存管理 EhCache -->
 	<bean id="ehCacheManager"
 		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-		<property name="configLocation" value="classpath:${ehcache.configFile}" />
+		<property name="configLocation" value="classpath:cache/ehcache-local.xml" />
 	</bean>
 	<bean id="ehCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
 		<property name="cacheManager" ref="ehCacheManager" />
@@ -64,6 +63,64 @@
 	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
 		<property name="cacheManager" ref="ehCacheManager" />
 	</bean>
+
+
+
+<!--方案1.缓存管理 Redis -->
+<!-- 	 <bean id="cache" class="com.ekt.cms.shiro.cache.WTCache">  -->
+<!-- 	 	<property name="redisManager" ref="redisManager"/> -->
+<!-- 	 </bean>  -->
+	 
+<!-- 	 <bean id="cacheManager" class="com.ekt.cms.shiro.cache.WTCacheManager">  -->
+<!-- 		<property name="cache" ref="cache"/> </bean>  -->
+
+
+<!-- 	 redis管理器 -->
+<!-- 	 <bean id="redisManager" class="com.ekt.cms.shiro.RedisManager"> -->
+<!-- 	 	<property name="jedisPool" ref="jedisPool"/> -->
+<!-- 	 </bean> -->
+
+<!-- redis连接池的配置 -->
+<!--     <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig"> -->
+<!--       <property name="maxActive" value="300"/> -->
+<!--       <property name="maxIdle" value="100"/> -->
+<!--       <property name="minIdle" value="90"/> -->
+<!--       <property name="maxWait" value="1000"/> -->
+<!--       <property name="testOnBorrow" value="true"/> -->
+<!--       <property name="testOnReturn" value="true"/> -->
+<!--     </bean> -->
+    
+    <!-- redis的连接池pool，不是必选项：timeout/password  -->
+<!--     <bean id = "jedisPool" class="redis.clients.jedis.JedisPool"> -->
+<!--       <constructor-arg index="0" ref="jedisPoolConfig"/> -->
+<!--       <constructor-arg index="1" value="${redis.host}"/> -->
+<!--       <constructor-arg index="2" value="${redis.port}" type="int"/> -->
+<!--       <constructor-arg index="3" value="${redis.timeout}" type="int"/> -->
+<!--       <constructor-arg index="4" value="${redis.password}"/> -->
+<!-- 	  <constructor-arg index="1" value="112.74.105.4"/> -->
+<!--       <constructor-arg index="2" value="6379" type="int"/> -->
+<!--       <constructor-arg index="3" value="180000" type="int"/> -->
+<!--       <constructor-arg index="4" value="Yunzhong"/> -->
+<!--     </bean> -->
+<!-- #redis.timeout=180000 -->
+<!-- redis.host=112.74.105.4 -->
+<!-- redis.port=6379 -->
+<!-- redis.pass=Yunzhong -->
+
+<!-- redis.maxIdle=100 -->
+<!-- redis.maxActive=300 -->
+<!-- redis.maxWait=1000 -->
+<!-- redis.testOnBorrow=true -->
+<!-- redis.testOnReturn=true -->
+
+
+
+
+
+
+
+
+
 
 
 	<import resource="classpath:/conf/spring-mybatis.xml" />

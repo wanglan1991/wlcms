@@ -3,6 +3,20 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
+       
+       <!-- 用户授权信息Cache（本机内存实现） -->    
+<bean id="memoryConstrainedCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />     
+       
+     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">    
+        <property name="sessionManager" ref="defaultWebSessionManager" />    
+        <property name="realm" ref="adminRealm" />    
+        <property name="cacheManager" ref="memoryConstrainedCacheManager" />    
+    </bean>   
+    
+    <bean id="defaultWebSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">    
+        <property name="globalSessionTimeout" value="86400000" />    
+    </bean>  
+       
 
 	<!--Shiro配置 -->
 	<bean
@@ -21,11 +35,11 @@
 	</bean>
 	
 	<!-- shiro 权限管理 -->
-	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-		<property name="realm" ref="adminRealm" />
-		<property name="sessionManager" ref="sessionManager" />
-		<property name="rememberMeManager" ref="rememberMeManager" />
-	</bean>
+<!-- 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager"> -->
+<!-- 		<property name="realm" ref="adminRealm" /> -->
+<!-- 		<property name="sessionManager" ref="sessionManager" /> -->
+<!-- 		<property name="rememberMeManager" ref="rememberMeManager" /> -->
+<!-- 	</bean> -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<!-- Shiro的核心安全接口，这个属性是必须的 -->
 		<property name="securityManager" ref="securityManager" />
@@ -60,18 +74,18 @@
 	<!-- 会话验证调度器 -->
 	<bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler"> 
 <!-- 		<property name="sessionValidationInterval" value="${session.outdate}"/>  -->
-		<property name="sessionManager" ref="sessionManager"/> </bean>
+		<property name="sessionManager" ref="defaultWebSessionManager"/> </bean>
 		
-	<bean id="sessionManager"
-		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+<!-- 	<bean id="sessionManager" -->
+<!-- 		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager"> -->
 <!-- 		<property name="globalSessionTimeout" value="${session.outdate}" /> -->
 <!-- 		<property name="deleteInvalidSessions" value="true" /> -->
 <!-- 		<property name="sessionValidationSchedulerEnabled" value="false" /> -->
 		<!-- <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/> -->
-		<property name="sessionDAO" ref="sessionDao" />
-		<property name="sessionIdCookieEnabled" value="true" />
-		<property name="sessionIdCookie" ref="sessionIdCookie" />
-	</bean>
+<!-- 		<property name="sessionDAO" ref="sessionDao" /> -->
+<!-- 		<property name="sessionIdCookieEnabled" value="true" /> -->
+<!-- 		<property name="sessionIdCookie" ref="sessionIdCookie" /> -->
+<!-- 	</bean> -->
 	
 	<bean id="sessionIdGenerator"
 		class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator" />
