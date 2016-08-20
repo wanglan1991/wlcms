@@ -207,6 +207,7 @@ define(function (require, exports, module) {
 		        		core.getEditDictOptions("难易度","difficulty","#editDifficultyOption",row.difficultyNo);
 		        		editGetKnoeledgeOption("#editKnoeledgeOption",row.subjectNo,row.knowledgeId);
 		        		$("#modal-editExercise").attr('exerciseid',row.id);
+		        		$("#editAnalysis").val(row.analysis);
 		        		$("#editExerciseContent").val(row.content);
 		        		$("#editAuthor").val(row.author);
 		        		$("#editOrderNo").val(row.orderNo);
@@ -509,6 +510,7 @@ define(function (require, exports, module) {
 				$("#author").val('');
 				$("#orderNo").val('');
 				$("#answer").find("div").remove();
+				$("#addAnalysis").val('');
 				core.closeModel('modal-addExercise');	
 			}
 			//清理 编辑表单
@@ -519,6 +521,7 @@ define(function (require, exports, module) {
 				$("#editDifficulty-error").html('');
 				$("#editSubject-error").html('');
 				$("#editKnoeledge-error").html('');
+				$("#editAnalysis").val('');
 				$("#editMsg").html('');
 				$("#editExeFile").val('');
 				$("#editUrl").val('');
@@ -571,7 +574,7 @@ define(function (require, exports, module) {
 						var content = $("#addExerciseContent").val();
 						var order =$("#orderNo").val();
 						var answerLength = $("#answer").find("div").length;
-						
+						var analysis =$("#addAnalysis").val();
 						if(grade==0){$("#msg").html("请选择年级！"); return;}
 						if(category==0){$("#msg").html("请选择题类！"); return;}
 						if(type==0){$("#msg").html("请选择题型！"); return;}
@@ -612,7 +615,8 @@ define(function (require, exports, module) {
 					author : author,
 					content : content,
 					orderNo:order,
-					answerList:answerList
+					answerList:answerList,
+					analysis:analysis
 				}
 				$.ajax({
 					url:F.basepath+'/cms/exercise/addExercise',
@@ -623,6 +627,7 @@ define(function (require, exports, module) {
 							if(confirm("提交成功是否继续添加!")){
 								$("#modal-addExercise input").val('');
 								$("#addExerciseContent").val('');
+								$("#addAnalysis").val('');
 								$("#answer input[name=isTrue]").removeAttr("checked");
 								F.reload();
 							}else{
@@ -645,7 +650,7 @@ define(function (require, exports, module) {
 					var subject = $("#editSubjectOption").val();
 					var knowledgeId = $("#editKnoeledgeOption").val();
 					var knowledges =$("#editKnoeledgeOption").find('option:selected').text();
-					
+					var analysis = $("#editAnalysis").val();
 					var author = $("#editAuthor").val();
 					var content = $("#editExerciseContent").val();
 					
@@ -693,7 +698,8 @@ define(function (require, exports, module) {
 				author : author,
 				content : content,
 				orderNo:order,
-				answerList:answerList
+				answerList:answerList,
+				analysis:analysis
 			}
 			$.ajax({
 				url:F.basepath+'/cms/exercise/editExercise',

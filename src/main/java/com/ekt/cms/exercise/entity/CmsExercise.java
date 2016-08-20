@@ -53,7 +53,16 @@ public class CmsExercise {
 	//字典 学段
 	private Integer phaseNo;
 	//学段value
+	private String analysis;
 	
+	
+	
+	public String getAnalysis() {
+		return analysis;
+	}
+	public void setAnalysis(String analysis) {
+		this.analysis = analysis;
+	}
 	public Integer getId() {
 		return id;
 	}

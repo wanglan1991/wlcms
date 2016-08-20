@@ -104,7 +104,8 @@
 		`status`,
 		`grade_no`,
 		`subject_no`,
-		`phase_no`
+		`phase_no`,
+		`analysis`
 		) VALUES (
 		#{content},
 		#{difficultyNo},
@@ -119,7 +120,8 @@
 		1,
 		#{gradeNo},
 		#{subjectNo},
-		#{phaseNo}
+		#{phaseNo},
+		#{analysis}
 		)
 
 	</insert>
@@ -138,7 +140,8 @@
 			 `knowledge` = #{knowledges},
 			 `grade_no`= #{gradeNo},
 			 `subject_no`= #{subjectNo},
-			 `phase_no`= #{phaseNo}
+			 `phase_no`= #{phaseNo},
+			 `analysis` =#{analysis}
 		WHERE
 			 `id` = #{id};
 	</update>
