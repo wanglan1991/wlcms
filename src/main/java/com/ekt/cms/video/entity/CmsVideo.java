@@ -39,6 +39,36 @@ public class CmsVideo {
 	private String  videoKey;
 	//转码状态 0:未转码 1:已转码
 	private int transcodeStatus;
+	//配套习题念年级
+	private int exerciseGradeNo;
+	//配套习题科目
+	private int exerciseSubjectNo;
+	//配套习题知识点
+	private int exerciseKnoeledgeId;
+	
+	public int getExerciseGradeNo() {
+		return exerciseGradeNo;
+	}
+
+	public void setExerciseGradeNo(int exerciseGradeNo) {
+		this.exerciseGradeNo = exerciseGradeNo;
+	}
+
+	public int getExerciseSubjectNo() {
+		return exerciseSubjectNo;
+	}
+
+	public void setExerciseSubjectNo(int exerciseSubjectNo) {
+		this.exerciseSubjectNo = exerciseSubjectNo;
+	}
+
+	public int getExerciseKnoeledgeId() {
+		return exerciseKnoeledgeId;
+	}
+
+	public void setExerciseKnoeledgeId(int exerciseKnoeledgeId) {
+		this.exerciseKnoeledgeId = exerciseKnoeledgeId;
+	}
 
 	public int getId() {
 		return id;

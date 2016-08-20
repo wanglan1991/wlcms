@@ -342,6 +342,14 @@
 					<shiro:hasPermission name="video:transcode">
 						<span id="basejs_video_transcode" style="display: none;" />
 					</shiro:hasPermission>
+					<shiro:hasPermission name="video:editVideoExercise">
+						<span id="basejs_video_editVideoExercise" style="display: none;" />
+					</shiro:hasPermission>
+					
+					
+					
+					
+					
 					
 					<shiro:hasPermission name="region:check">
 						<span id="basejs_region_check" style="display: none;" />
@@ -660,7 +668,9 @@ $(".icon-adjust").click(function(){
 		if ($('#basejs_video_transcode').length > 0) {
 			base.perList.video.transcode = true;
 		}
-		
+		if ($('#basejs_video_editVideoExercise').length > 0) {
+			base.perList.video.editVideoExercise = true;
+		}
 		
 // 	学校	
 		if ($('#basejs_region_check').length > 0) {

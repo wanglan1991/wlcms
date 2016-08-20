@@ -141,6 +141,11 @@ public class CmsExerciseController extends BaseController {
 	@ResponseBody
 	public Result updateExercise(CmsAnswerList answerList, CmsExercise exercise) {
 		Result result = Result.getResults();
+		if(answerList==null||exercise==null){
+			result.setResult(0);
+			return  result;
+					
+		}
 		List<Map<String, Object>> list = answerList.getAnswerList();
 		if (list != null) {
 			int grade = exercise.getGradeNo();

@@ -180,7 +180,8 @@ define(function (require, exports, module) {
                 check:false,
                 confine:false,
                 play : false,
-                transcode : false
+                transcode : false,
+            	editVideoExercise:false
             },
             region: {
                 check:false,

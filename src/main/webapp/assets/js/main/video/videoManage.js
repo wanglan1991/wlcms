@@ -12,7 +12,6 @@ define(function(require, exports, module) {
 		table : new core.Table('videoTable'),
 		init : function(_basepath) {
 			F.basepath = _basepath;
-
 			/**
 			 * 是否具有查询权限
 			 */
@@ -24,8 +23,6 @@ define(function(require, exports, module) {
 								"&nbsp;&nbsp;<select  id='q_k_subject' class='select2-chosen' style='width:200px'></select>" +
 								"&nbsp;&nbsp;<select  id='q_k_author' class='select2-chosen' style='width:200px'></select>" +
 								"&nbsp;&nbsp;<a href='#' id='queryByCondition' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>");				
-				//初始化知识点查询框
-//				knowldgeSelect({gradeNo:0,subjectNo:0},'#q_k_select');
 			}
 			/**
 			 * 是否具有删除权限
@@ -58,7 +55,6 @@ define(function(require, exports, module) {
 			core.getDictOptions('学科','subject',"#q_k_subject");
 			core.getDictOptions('学科','subject',"#EditSubject");
 			core.getDictOptions('学科','subject',"#subject");
-//			accountList("/cms/account/listAccountByRole" , {role:"teacher"} ,"#q_k_author");
 			
 			/**
 			 * 讲师下拉框加载 
@@ -144,9 +140,8 @@ define(function(require, exports, module) {
 						var gradeNo = $("#q_k_grade").val();
 						var subjectNo=$("#q_k_subject").val();
 						var authorId = $("#q_k_author").val();
-						var isp = $("#q_k_isp").val();
 						var query_url = F.basepath + '/cms/video/listPage?&videoName=' +videoName+'&knowledge='
-								+ knowledge + '&gradeNo=' + gradeNo+'&subjectNo='+subjectNo+'&authorId='+authorId+'&isp='+isp;
+								+ knowledge + '&gradeNo=' + gradeNo+'&subjectNo='+subjectNo+'&authorId='+authorId;
 						
 						$('#videoTable').bootstrapTable('refresh', {
 							url : query_url
@@ -243,10 +238,26 @@ define(function(require, exports, module) {
 				/**
 				 * 编辑视频配套习题
 				 */
-				'click .editVideoExercise' : function(e, value, row, index) {
+				'click .editVideoExercise' : function(e, value, row, index){
+					$('#modal-editVideoExercise').attr('videoId',row.id);
+					$("#exerciseTree").empty();
+					$("#exerciseSubject").empty();
+					$("#exerciseKnoeledge").empty();
 					core.openModel('modal-editVideoExercise',"编辑视频："+row.videoName+"配套习题",(function(){
-							
-					
+						if(row.exerciseSubjectNo!=0&&row.exerciseGradeNo!=0&&row.exerciseKnoeledgeId!=0){
+							core.getEditDictOptions("年级","grade","#exerciseGrade",row.exerciseGradeNo);
+							core.getEditDictOptions("科目","subject","#exerciseSubject",row.exerciseSubjectNo);
+							core.editGetKnoeledgeOption("#exerciseKnoeledge",row.exerciseGradeNo,row.exerciseSubjectNo,row.exerciseKnoeledgeId);
+							core.commonTree(F.basepath+'/cms/video/exerciseTree',
+								{subjectNo:row.exerciseSubjectNo,
+		            			    gradeNo:row.exerciseGradeNo,
+		            				knowledgeId:row.exerciseKnoeledgeId,
+		            				id:row.id},"#exerciseTree");
+		            	}else{
+		            		core.getDictOptions("年级","grade","#exerciseGrade");
+		            		$("#exerciseSubject").append("<option value='0'>学科----</option>");
+							$("#exerciseKnoeledge").append("<option value='0'>知识点----</option>");
+		            	}
 					}));
 				} ,
 				/**
@@ -350,12 +361,114 @@ define(function(require, exports, module) {
 					events : operateEvents,
 					formatter : F.operateFormatter
 				});
+			
+			
 
 			/**
 			 * 角色列表
 			 */
 			F.table.init(F.basepath + '/cms/video/listPage', cols);
-
+			
+			//添加知识点
+			 function getKnoeledgeOption(id,subjectNo,gradeNo){
+	            	if(subjectNo==0||gradeNo==0){return}
+		        	$(id).empty();
+		        	var knowledgesOption ="";
+		        	$.ajax({
+		        		url:F.basepath+"/cms/knowledge/listPage",
+		        		type:"GET",
+		        		data:{subjectNo:subjectNo,gradeNo:gradeNo},
+		        		success:function(data){
+		        			if(data.rows.length<1){
+		        				knowledgesOption+="<option value = '0'>无 ----</option>";
+		        			}
+		        			for(var i=0;i<data.rows.length;i++){
+		        				if(i==0){
+		        				knowledgesOption+="<option value = '0'>知识点----</option>";
+		        				};
+		        				knowledgesOption+="<option value = '"+data.rows[i].id+"'>"+data.rows[i].title+"</option>"
+		        			}
+		        			$(id).append(knowledgesOption);
+		        		}
+		        	})
+	   		}
+			 //添加中加载学科
+            function addSubjectOption(gradeNo,idOrClass){
+            	if(gradeNo==0){return}
+            	var subjectOption="";
+            	$(idOrClass).empty();
+            	$.ajax({
+	        		url:F.basepath+"/cms/exercise/subjectList",
+	        		type:"GET",
+	        		data:{gradeNo:gradeNo},
+	        		success:function(data){
+	        			if(data.value.length<1){
+	        				subjectOption+="<option value = '0'>无 ---</option>";
+	        			}
+	        			for(var i=0;i<data.value.length;i++){
+	        					if(i==0){
+	        							subjectOption+="<option value=0>学科---</option>";
+	        					}
+	        					subjectOption+="<option value = '"+data.value[i].subjectNo+"'>"+data.value[i].subject+"</option>";
+	        			}
+	        			$(idOrClass).append(subjectOption);
+	        		}
+	        	});
+            }
+			
+			/**
+			 * 监听视频习题编辑
+			 */
+			$('#exerciseGrade').change(function(){
+				var gradeNo = $("#exerciseGrade").val();
+				var subjectNo = $("#exerciseSubject").val();
+				addSubjectOption(gradeNo,"#exerciseSubject");
+				getKnoeledgeOption("#exerciseKnoeledge",subjectNo,gradeNo);
+			});
+			
+			/**
+			 * 监听年级选择
+			 */
+			$('#exerciseSubject').change(function(){
+				var subjectNo = $("#exerciseSubject").val();
+				var gradeNo = $("#exerciseGrade").val();
+				getKnoeledgeOption("#exerciseKnoeledge",subjectNo,gradeNo);
+			});
+			
+			$('#exerciseKnoeledge').change(function(){
+				var url=F.basepath+'/cms/video/exerciseTree';
+            		var obj={
+            				subjectNo:$("#exerciseSubject").val(),
+            				gradeNo:$("#exerciseGrade").val(),
+            				knowledgeId:$("#exerciseKnoeledge").val(),
+            				id:$("#modal-editVideoExercise").attr('videoId')
+            		}
+          		core.commonTree(url.toString(),obj,"#exerciseTree");
+			});
+			
+			/**
+			 * 修改视频配套习题提交
+			 */
+			$("#editVideoExerciseSubmit").click(function(){
+					var arrIds = core.getTreeIds("exerciseTree");
+					$.ajax({
+						url : F.basepath+'/cms/video/updateVideoExercise',
+						type : 'POST',
+						data : {arr:arrIds,videoId:$("#modal-editVideoExercise").attr('videoId')},
+						dataType: "json", 
+						success : function(data) {
+							if (data.result > 0) {
+								F.table.reload();
+							}
+						}
+					});
+					core.closeModel('modal-editVideoExercise');
+					$("#exerciseTree").empty();
+				});
+			
+			
+			
+			
 			/**
 			 * 批量删除
 			 */
@@ -533,7 +646,9 @@ define(function(require, exports, module) {
 		operateFormatter : function(value, row, index) {
 			var _btnAction = "";
 			
+			if(base.perList.video.editVideoExercise){
 				_btnAction += "<a class='editVideoExercise btn btn-primary btn-small' href='#'  title='编辑配套习题' style='margin-left:5px'>编辑配套习题</a>";
+			}
 			if (base.perList.video.play) {
 				_btnAction += "<a class='videoPlay btn btn-primary btn-small' href='#'  title='点播' style='margin-left:5px'>点播</a>";
 			}
