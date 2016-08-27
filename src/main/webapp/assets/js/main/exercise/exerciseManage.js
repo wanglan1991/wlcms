@@ -892,7 +892,7 @@ define(function (require, exports, module) {
     					
     					if(data.value.status == 0){
     						var file = $("#editExeFile").val();
-    						var fileName = "</exercise/" + getFileName(file)+"/>";
+    						var fileName = "</exercise/" + core.getFileName(file)+"/>";
     						$("#editUrl").val(fileName);
     					}
     				} else {
@@ -901,12 +901,6 @@ define(function (require, exports, module) {
     			}
     		});
     	});
-    	
-    	//获取带后缀名的文件名
-    	function getFileName(o){
-    	    var pos=o.lastIndexOf("\\");
-    	    return o.substring(pos+1);  
-    	}
     	
     	
     });
