@@ -220,7 +220,12 @@ define(function (require, exports, module) {
                  add:false,
                  del:false,
           editHonour:false
-            }
+            },
+       quintessence:{
+	    	    check:false,
+	            add:false,
+	            del:false,
+       			}
         }
     };
 });
