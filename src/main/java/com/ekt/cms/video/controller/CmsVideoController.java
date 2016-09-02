@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ekt.cms.common.entity.Result;
@@ -76,5 +77,41 @@ public class CmsVideoController {
 		result.setResult(cmsVideoService.insert(cmsVideo));
 		return result;
 		}
+	
+	
+	/**
+	 * 根据 gradeNo、subjectNo、videoId获取视频习题tree
+	 * @param cmsVideo
+	 * @return
+	 */
+	@RequestMapping("/exerciseTree")
+	@ResponseBody
+	public Result getVideoExerciseTree(CmsVideo cmsVideo){
+		Result result =Result.getResults();
+		result.setValue(cmsVideoService.getVideoExerciseTree(cmsVideo));
+		return result;
+	} 
+	
+	/**
+	 * 跟新视频配套习题
+	 * @param arr
+	 * @return
+	 */
+	@RequestMapping("/updateVideoExercise")
+	@ResponseBody
+	public Result updateVideoExerciseTree(@RequestParam("arr")String arr,
+			@RequestParam("videoId")int videoId){
+		Result result =Result.getResults();
+		int excutResult =cmsVideoService.removeVideoExerciseByVideoId(videoId);
+			String[] ids =arr.split(",");
+			if(arr!=""){
+				for(int i=0;i<ids.length;i++){
+					cmsVideoService.addVideoExerciseTree(Integer.parseInt(ids[i]), videoId, i);
+				}	
+			}
+			result.setResult(1);
+		return result;
+	}
+	
 
 }

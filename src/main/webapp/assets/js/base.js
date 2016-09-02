@@ -180,7 +180,8 @@ define(function (require, exports, module) {
                 check:false,
                 confine:false,
                 play : false,
-                transcode : false
+                transcode : false,
+            	editVideoExercise:false
             },
             region: {
                 check:false,
@@ -219,7 +220,12 @@ define(function (require, exports, module) {
                  add:false,
                  del:false,
           editHonour:false
-            }
+            },
+       quintessence:{
+	    	    check:false,
+	            add:false,
+	            del:false,
+       			}
         }
     };
 });

@@ -138,9 +138,6 @@ define(function (require, exports, module) {
 	        			$(id).append(knowledgesOption);
 	        		}
 	        	})
-        
-   			
-   			
    		}
             
             function editGetKnoeledgeOption(id,subjectNo,knowledgeId){
@@ -156,7 +153,7 @@ define(function (require, exports, module) {
 	        			}
 	        			for(var i=0;i<data.rows.length;i++){
 	        				if(data.rows[i].id==knowledgeId){
-	        					knowledgesOption+="<option value = '"+data.rows[i].id+" selected='true' >"+data.rows[i].title+"</option>"
+	        					knowledgesOption+="<option value = '"+data.rows[i].id+"' selected='true' >"+data.rows[i].title+"</option>"
 	        				}else{
 	        				knowledgesOption+="<option value = '"+data.rows[i].id+"'>"+data.rows[i].title+"</option>"
 	        				}
@@ -210,6 +207,7 @@ define(function (require, exports, module) {
 		        		core.getEditDictOptions("难易度","difficulty","#editDifficultyOption",row.difficultyNo);
 		        		editGetKnoeledgeOption("#editKnoeledgeOption",row.subjectNo,row.knowledgeId);
 		        		$("#modal-editExercise").attr('exerciseid',row.id);
+		        		$("#editAnalysis").val(row.analysis);
 		        		$("#editExerciseContent").val(row.content);
 		        		$("#editAuthor").val(row.author);
 		        		$("#editOrderNo").val(row.orderNo);
@@ -320,7 +318,6 @@ define(function (require, exports, module) {
     	        	query();	
     	        }  
     	    } 
-    		
 			/**
 			 * 打开模态框
 			 */
@@ -513,6 +510,7 @@ define(function (require, exports, module) {
 				$("#author").val('');
 				$("#orderNo").val('');
 				$("#answer").find("div").remove();
+				$("#addAnalysis").val('');
 				core.closeModel('modal-addExercise');	
 			}
 			//清理 编辑表单
@@ -523,6 +521,7 @@ define(function (require, exports, module) {
 				$("#editDifficulty-error").html('');
 				$("#editSubject-error").html('');
 				$("#editKnoeledge-error").html('');
+				$("#editAnalysis").val('');
 				$("#editMsg").html('');
 				$("#editExeFile").val('');
 				$("#editUrl").val('');
@@ -569,28 +568,19 @@ define(function (require, exports, module) {
 						var type = $("#addTypeOption").val();
 						var difficulty = $("#addDifficultyOption").val();
 						var subject = $("#addSubjectOption").val();
-						
-						var arrKnoeledge=$("#addKnoeledgeOption").find('option:selected');
-						var knowledgeIds='';
-						var knowledges='';
-						if(arrKnoeledge!=null){
-						
-							for(var i=0; i<arrKnoeledge.length;i++){
-								knowledgeIds+=$(arrKnoeledge[i]).val()+',';
-								knowledges +=$(arrKnoeledge[i]).text()+',';
-							}
-						}
-						
+						var knowledgeId=$("#addKnoeledgeOption").val();
+						var knowledges =$("#addKnoeledgeOption").find('option:selected').text()
 						var author = $("#author").val();
 						var content = $("#addExerciseContent").val();
 						var order =$("#orderNo").val();
 						var answerLength = $("#answer").find("div").length;
+						var analysis =$("#addAnalysis").val();
 						if(grade==0){$("#msg").html("请选择年级！"); return;}
 						if(category==0){$("#msg").html("请选择题类！"); return;}
 						if(type==0){$("#msg").html("请选择题型！"); return;}
 						if(difficulty==0){$("#msg").html("请选择难易度！"); return;}
 						if(subject==0){$("#msg").html("请选择科目！"); return;}
-						if(knoeledge==0){$("#msg").html("请选择知识点！"); return;}
+						if(knowledgeId==0){$("#msg").html("请选择知识点！"); return;}
 						if(content.length<5){$("#msg").html("习题内容不能为空！不能小于5个字符"); return;}
 						if(answerLength<4){$("#msg").html("至少4个答案！"); return;}
 				var answerList=new Array();	
@@ -620,12 +610,13 @@ define(function (require, exports, module) {
 					typeNo : type,
 					difficultyNo : difficulty,
 					subjectNo : subject,
-					knowledgeIds : knowledgeIds,
+					knowledgeId : knowledgeId,
 					knowledges:knowledges,
 					author : author,
 					content : content,
 					orderNo:order,
-					answerList:answerList
+					answerList:answerList,
+					analysis:analysis
 				}
 				$.ajax({
 					url:F.basepath+'/cms/exercise/addExercise',
@@ -636,6 +627,7 @@ define(function (require, exports, module) {
 							if(confirm("提交成功是否继续添加!")){
 								$("#modal-addExercise input").val('');
 								$("#addExerciseContent").val('');
+								$("#addAnalysis").val('');
 								$("#answer input[name=isTrue]").removeAttr("checked");
 								F.reload();
 							}else{
@@ -656,18 +648,12 @@ define(function (require, exports, module) {
 					var type = $("#editTypeOption").val();
 					var difficulty = $("#editDifficultyOption").val();
 					var subject = $("#editSubjectOption").val();
-					var knoeledgeId = $("#editKnoeledgeOption").val();
-					var knoeledgeArr = $("#editKnoeledgeOption").find('option:selected');
-					var knowledges='';
-					var knoeledgeIds='';
-					if(knoeledgeArr!=null){
-						for(var i=0; i<knoeledgeArr.length;i++){
-							knoeledgeIds+=$(knoeledgeArr[i]).val()+',';
-							knowledges+=$(knoeledgeArr[i]).text()+',';
-						}
-					}
+					var knowledgeId = $("#editKnoeledgeOption").val();
+					var knowledges =$("#editKnoeledgeOption").find('option:selected').text();
+					var analysis = $("#editAnalysis").val();
 					var author = $("#editAuthor").val();
 					var content = $("#editExerciseContent").val();
+					
 					var order =$("#editOrderNo").val();
 					var id = $("#modal-editExercise").attr('exerciseid');
 					var answerLength = $("#editAnswer").find("div").length;
@@ -676,7 +662,7 @@ define(function (require, exports, module) {
 					if(type==0){$("#editMsg").html("请选择题型！");return;}
 					if(difficulty==0){$("#editMsg").html("请选择难易度！");return;}
 					if(subject==0){$("#editMsg").html("请选择科目！");return;}
-					if(knoeledgeId==0){$("#editMsg").html("请选择知识点！");return;}
+					if(knowledgeId==0){$("#editMsg").html("请选择知识点！");return;}
 					if(content.length<5){$("#editMsg").html("习题内容不能为空！不能小于5个字符");return;}
 					if(answerLength<4){$("#editMsg").html("至少4个答案！");return;}
 			var answerList=new Array();	
@@ -707,12 +693,13 @@ define(function (require, exports, module) {
 				typeNo : type,
 				difficultyNo : difficulty,
 				subjectNo : subject,
-				knowledgeIds : knoeledgeIds,
-				knowledges :knowledges,
+				knowledgeId : knowledgeId,
+				knowledges : knowledges,
 				author : author,
 				content : content,
 				orderNo:order,
-				answerList:answerList
+				answerList:answerList,
+				analysis:analysis
 			}
 			$.ajax({
 				url:F.basepath+'/cms/exercise/editExercise',
@@ -905,7 +892,7 @@ define(function (require, exports, module) {
     					
     					if(data.value.status == 0){
     						var file = $("#editExeFile").val();
-    						var fileName = "</exercise/" + getFileName(file)+"/>";
+    						var fileName = "</exercise/" + core.getFileName(file)+"/>";
     						$("#editUrl").val(fileName);
     					}
     				} else {
@@ -914,12 +901,6 @@ define(function (require, exports, module) {
     			}
     		});
     	});
-    	
-    	//获取带后缀名的文件名
-    	function getFileName(o){
-    	    var pos=o.lastIndexOf("\\");
-    	    return o.substring(pos+1);  
-    	}
     	
     	
     });

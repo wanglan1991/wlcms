@@ -12,6 +12,20 @@ define(function (require, exports, module) {
         	return this;
         },
         
+        //时间转换器
+        dateTimeFormatter:function (date) {  
+	            var t = Date.parse(date);  
+	            if (!isNaN(t)) {  
+	                return new Date(Date.parse(date.replace(/-/g, "/")));  
+	            } else {  
+	                return new Date();  
+	            }  
+            },
+          //获取带后缀名的文件名
+            getFileName:function(o){
+        	    var pos=o.lastIndexOf("\\");
+        	    return o.substring(pos+1);  
+        	},  
         //公共字典opitons
         getDictOptions:function(type,dictType,selectId){
         	$(selectId).empty();
@@ -63,6 +77,48 @@ define(function (require, exports, module) {
 				} 
 			})
 			
+		},
+		/**
+		 * 获取treeId
+		 */
+		getTreeIds:function(idOrClass){
+			var treeObj = $.fn.zTree.getZTreeObj(idOrClass);				
+			var arrId='';
+				var nodes = treeObj.transformToArray(treeObj.getNodes()); 
+				for (var i = 0; i < nodes.length; i++) { 
+					if(nodes[i].checked==true){
+						if(nodes[i].id==0){
+							continue;
+						}
+						arrId+=nodes[i].id+',';
+					}
+				}
+				return arrId;
+		},
+		/**
+		 * 加载编辑状态下的知识点
+		 */
+		editGetKnoeledgeOption:function(id,gradeNo,subjectNo,knowledgeId){
+        	$(id).empty();
+        	var knowledgesOption ="";
+        	$.ajax({
+        		url:"/cms/knowledge/listPage",
+        		type:"GET",
+        		data:{subjectNo:subjectNo,gradeNo:gradeNo},
+        		success:function(data){
+        			if(data.rows.length<1){
+        				knowledgesOption+="<option value = '0'>-- 无 --</option>";
+        			}
+        			for(var i=0;i<data.rows.length;i++){
+        				if(data.rows[i].id==knowledgeId){
+        					knowledgesOption+="<option value = '"+data.rows[i].id+" selected='true' >"+data.rows[i].title+"</option>"
+        				}else{
+        				knowledgesOption+="<option value = '"+data.rows[i].id+"'>"+data.rows[i].title+"</option>"
+        				}
+        			}
+        			$(id).append(knowledgesOption);
+        		}
+        	})
 		},
 		//学校字典options
 		getSchoolList:function(idOrClass,cityCode){
@@ -118,7 +174,6 @@ define(function (require, exports, module) {
          	 * 加载知识点树
          	 */
 	         loadKnowledgeTree:function(_url,subjectNo,gradeNo,idOrClass){   
-//	        	 alert(_url+"-----"+subjectNo+"-----"+gradeNo+"----"+idOrClass);
 	        	 var setting = {
 	     				check: {
 	     					enable: true,
@@ -164,6 +219,35 @@ define(function (require, exports, module) {
 					         		 url:_url,
 					         		 type:'get',
 					         		 data:{gradeNo:gradeNo,subjectNo:subjectNo,knowledgePointArr:knowledgePointArr},
+					         		 success:function(data){
+					         			 $.fn.zTree.init($(idOrClass), setting, data.value)
+					         		 }
+					         	 })
+		         },
+		         /**
+		          * 通用tree控件
+		          * 
+		          */
+		         commonTree:function(_url,obj,idOrClass){  
+		        	 $(idOrClass).empty();
+		        	 var setting = {
+			     				check: {
+			     					enable: true,
+			     					chkboxType:{ "Y" : "ps", "N" : "ps" }
+			     				},
+			     				view: {
+			     					dblClickExpand: false
+			     				},
+			     				data: {
+			     					simpleData: {
+			     						enable: true
+			     					}
+			     				}
+			     			};
+					        	  $.ajax({
+					         		 url:_url,
+					         		 type:'GET',
+					         		 data:obj,
 					         		 success:function(data){
 					         			 $.fn.zTree.init($(idOrClass), setting, data.value)
 					         		 }
@@ -306,4 +390,34 @@ define(function (require, exports, module) {
 			});
         }
 	}
+	
+	
+//	时间格式化
+	Date.prototype.format = function(format){ 
+	var o = { 
+	"M+" : this.getMonth()+1, //month 
+	"d+" : this.getDate(), //day 
+	"h+" : this.getHours(), //hour 
+	"m+" : this.getMinutes(), //minute 
+	"s+" : this.getSeconds(), //second 
+	"q+" : Math.floor((this.getMonth()+3)/3), //quarter 
+	"S" : this.getMilliseconds() //millisecond 
+	} 
+
+	if(/(y+)/.test(format)) { 
+	format = format.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+	} 
+
+	for(var k in o) { 
+	if(new RegExp("("+ k +")").test(format)) { 
+	format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length)); 
+	} 
+	} 
+	return format; 
+	} 	
 })
+
+
+
+
+	

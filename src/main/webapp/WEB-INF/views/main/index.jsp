@@ -195,17 +195,17 @@
                         </ul>
                     </li>
                 </ul>
-               <form accept-charset="UTF-8" action="search_results.html"
-						id="search" class="navbar-search pull-right hidden-phone"
-						method="get" />
-					<div style="margin: 0; padding: 0; display: inline">
-						<input name="utf8" type="hidden" value="&#x2713;" />
-					</div>
-					<button class="btn btn-link icon-search" name="button"
-						type="submit"></button>
-					<input autocomplete="off" class="search-query span2" id="q_header"
-						name="q" placeholder="Search..." type="text" value="" />
-					</form>
+<!--                <form accept-charset="UTF-8" action="search_results.html" -->
+<!-- 						id="search" class="navbar-search pull-right hidden-phone" -->
+<!-- 						method="get" /> -->
+<!-- 					<div style="margin: 0; padding: 0; display: inline"> -->
+<!-- 						<input name="utf8" type="hidden" value="&#x2713;" /> -->
+<!-- 					</div> -->
+<!-- 					<button class="btn btn-link icon-search" name="button" -->
+<!-- 						type="submit"></button> -->
+<!-- 					<input autocomplete="off" class="search-query span2" id="q_header" -->
+<!-- 						name="q" placeholder="Search..." type="text" value="" /> -->
+<!-- 					</form> -->
 
 					<shiro:hasPermission name="permission:delete">
 						<span id="basejs_permission_del" style="display: none;" />
@@ -342,6 +342,14 @@
 					<shiro:hasPermission name="video:transcode">
 						<span id="basejs_video_transcode" style="display: none;" />
 					</shiro:hasPermission>
+					<shiro:hasPermission name="video:editVideoExercise">
+						<span id="basejs_video_editVideoExercise" style="display: none;" />
+					</shiro:hasPermission>
+					
+					
+					
+					
+					
 					
 					<shiro:hasPermission name="region:check">
 						<span id="basejs_region_check" style="display: none;" />
@@ -435,6 +443,20 @@
 					<shiro:hasPermission name="teacher:editHonour">
 						<span id="basejs_teacher_editHonour" style="display: none;" />
 					</shiro:hasPermission>
+					
+					
+					
+					<shiro:hasPermission name="quintessence:check">
+						<span id="basejs_quintessence_check" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="quintessence:add">
+						<span id="basejs_quintessence_add" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="quintessence:del">
+						<span id="basejs_quintessence_del" style="display: none;" />
+					</shiro:hasPermission>
+					
+					
 
             </div>
         </div>
@@ -660,7 +682,9 @@ $(".icon-adjust").click(function(){
 		if ($('#basejs_video_transcode').length > 0) {
 			base.perList.video.transcode = true;
 		}
-		
+		if ($('#basejs_video_editVideoExercise').length > 0) {
+			base.perList.video.editVideoExercise = true;
+		}
 		
 // 	学校	
 		if ($('#basejs_region_check').length > 0) {
@@ -757,6 +781,19 @@ $(".icon-adjust").click(function(){
 		if($("#basejs_teacher_editHonour").length>0){
 			base.perList.teacher.editHonour =true;
 		}
+		
+		if($("#basejs_quintessence_check").length>0){
+			base.perList.quintessence.check =true;
+		}
+		if($("#basejs_quintessence_add").length>0){
+			base.perList.quintessence.add =true;
+		}
+		if($("#basejs_quintessence_del").length>0){
+			base.perList.quintessence.del =true;
+		}
+		
+		
+		
 			
 		index.init('${ctx}');
 	});

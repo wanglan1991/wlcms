@@ -355,7 +355,7 @@ define(function(require, exports, module) {
 			})
 			
 			/**
-			 * 批量删除教材
+			 * 批量删除教师
 			 */
 			$('#delTeacher').click(function(){
 				var ids = F.table.getIdSelections();

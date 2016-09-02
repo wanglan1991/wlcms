@@ -8,8 +8,7 @@
         http://www.springframework.org/schema/context
 	    http://www.springframework.org/schema/context/spring-context.xsd
 	    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
-	    http://www.springframework.org/schema/cache
-	    http://www.springframework.org/schema/cache/spring-cache.xsd">
+	    http://www.springframework.org/schema/cache">
 
 	<!--加载属性文件 -->
 	<bean
@@ -45,15 +44,14 @@
 	<!-- 启动对@AspectJ注解的支持 -->
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 
-	<!--方案1.缓存管理 Redis -->
-	<!-- <bean id="cache" class="com.larva.shiro.cache.WTCache"> <property name="redisManager" 
-		ref="redisManager"/> </bean> <bean id="cacheManager" class="com.larva.shiro.cache.WTCacheManager"> 
-		<property name="cache" ref="cache"/> </bean> -->
+	
+	 
 
+	
 	<!--方案2.缓存管理 EhCache -->
 	<bean id="ehCacheManager"
 		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-		<property name="configLocation" value="classpath:${ehcache.configFile}" />
+		<property name="configLocation" value="classpath:cache/ehcache-local.xml" />
 	</bean>
 	<bean id="ehCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
 		<property name="cacheManager" ref="ehCacheManager" />
@@ -64,7 +62,6 @@
 	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
 		<property name="cacheManager" ref="ehCacheManager" />
 	</bean>
-
 
 	<import resource="classpath:/conf/spring-mybatis.xml" />
 	<import resource="classpath:/conf/spring-shiro.xml" />

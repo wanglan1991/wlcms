@@ -56,8 +56,8 @@ define(function (require, exports, module) {
 				"<select id='grade'></select>&nbsp;&nbsp;" +
 				"<select id='subject'></select>&nbsp;&nbsp;" +
 				"<a href='#' id='query' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>&nbsp;&nbsp;&nbsp;&nbsp;");
-            	getDictOptions("年级","grade","#grade");
-            	getDictOptions("科目","subject","#subject");
+            	core.getDictOptions("年级","grade","#grade");
+            	core.getDictOptions("科目","subject","#subject");
             	
             	
             }	
@@ -78,7 +78,7 @@ define(function (require, exports, module) {
 	    				"<select id='catalogLevel'></select>&nbsp;&nbsp;" +
 	    				"<select id='parentOptions' style='display:none;'></select>&nbsp;&nbsp;" +
 		    			"<a href='javascript:void(0)' id='catalogQuery' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>&nbsp;&nbsp;&nbsp;&nbsp;");
-		        		 getDictOptions("目录级别","catalogLevel","#catalogLevel");
+		        		 core.getDictOptions("目录级别","catalogLevel","#catalogLevel");
 		        		 
 	        	 }
 		      if(base.perList.textbook.delCatalog){
@@ -93,21 +93,7 @@ define(function (require, exports, module) {
             	
             
             
-          //加载字典
-            function getDictOptions(type,dictType,idOrClass){
-            	var optionsHtml="<option value='0'>-- 请选择"+type+" --</option>";
-            	$.ajax({
-            		url:F.basepath+'/cms/dict/queryDictByCondition',
-            		type:"GET",
-            		data:{typeEncoding:dictType,status:1},
-            		success:function(data){
-            			for(var i=0;i<data.value.length;i++){
-            				optionsHtml+="<option value='"+data.value[i].id+"'    >"+data.value[i].value+"</option>"
-            			}
-            			$(idOrClass).append(optionsHtml);
-            		}
-            	});	
-            }
+         
            //获取名师
            function getFamousTeachers(idOrClass){
         	   var optionsHtml="<option value='0'>-- 请选择作者 --</option>";
@@ -438,15 +424,32 @@ define(function (require, exports, module) {
     		 * 带参查询教材
     		 */
     		$('.actions #query').click(function(){
+    			query()
+    		});
+    		
+    		function query(){
     			var title=$("#name").val();
     			var grade=$("#grade").val();
     			var subject=$("#subject").val();
     			var url= F.basepath+'/cms/textbook/pageList?title='+title+'&gradeNo='+grade+"&subjectNo="+subject;
-				$("#textbookTable").bootstrapTable('refresh',{url:url});	
-    		});
+				$("#textbookTable").bootstrapTable('refresh',{url:url});
+    		}
+    		
+    		
+    		//监听键盘事件
+//    		document.onkeydown=keyDownSearch; 
+    		document.getElementById('textbook-actions').onkeydown=keyDownSearch; 
+    		function keyDownSearch(e) {  
+    	        // 兼容FF和IE和Opera  
+    	        var theEvent = e || window.event;  
+    	        var code = theEvent.keyCode || theEvent.which || theEvent.charCode;  
+    	        if (code == 13) {   
+    	        	query();	
+    	        }  
+    	    } 
     		
     		/**
-    		 * 带参查询目录
+    		 * 带参查询目录 
     		 */
     		$("#catalogQuery").click(function(){
     			var catalogName = $("#catalogName").val();
@@ -469,10 +472,10 @@ define(function (require, exports, module) {
 			$('#addTextbook').click(function(){
 				$("#table").hide();
 				$("#modal-addTextbook").show();
-				getDictOptions("年级","grade","#addGrade");
-				getDictOptions("科目","subject","#addSubject");
-				getDictOptions("教材类型","textbookType","#addTextbookType");
-				getDictOptions("出版社","publish","#addPublisher");
+				core.getDictOptions("年级","grade","#addGrade");
+				core.getDictOptions("科目","subject","#addSubject");
+				core.getDictOptions("教材类型","textbookType","#addTextbookType");
+				core.getDictOptions("出版社","publish","#addPublisher");
 				getFamousTeachers("#author");
 				
 			});
@@ -602,7 +605,7 @@ define(function (require, exports, module) {
 			//开启添加目录模态框
 			$("#addCatalog").click(function(){
 				core.openModel('modal-addCatalog','添加章/节');
-				 getDictOptions("目录级别","catalogLevel","#addCatalogLevel");
+				 core.getDictOptions("目录级别","catalogLevel","#addCatalogLevel");
 				 $("#catalogLevels").show();
 			});
 			//关闭查看目录章节结构

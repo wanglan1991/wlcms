@@ -56,6 +56,7 @@
 	             <div class='controls'>
 	               <input type='text' id='orderNo' onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" placeholder='请输入排序....' maxlength='4'>
 	            </div>
+	            <textarea id="addAnalysis" rows="100" cols="50" placeholder='习题解析...' style="max-height:49%"></textarea>
             </div>
             <div style="margin-left: 36%;margin-top:-40%;width:62%;;height: 450px;">
              <div class='control-group'>
@@ -120,6 +121,7 @@
 	             <div class='controls'>
 	               <input type='text' id='editOrderNo' onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" placeholder='请输入排序....' maxlength='4'>
 	            </div>
+	             <textarea id="editAnalysis" rows="100" cols="50" placeholder='习题解析...' style="max-height:49%"></textarea>
             </div>
            
             <div style="margin-left: 36%;margin-top:-40%;width:62%;;height: 450px;">

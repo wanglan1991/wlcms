@@ -1653,7 +1653,7 @@ select:focus:invalid:focus {
 
 .help-block {
     display: block;
-    margin-bottom: 10px;
+/*     margin-bottom: 10px; */
 }
 
 .help-inline {
