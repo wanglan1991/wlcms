@@ -115,15 +115,25 @@ color:red;
 					</div>
 				
 				
-
-			<form id="qupload" action="/cms/vodCloud/upload" method="post" enctype="multipart/form-data">
+		<!-- 乐视云点播 
+			<form id="leUpload" action="/cms/LetvController/initUpload" method="post" enctype="multipart/form-data">
+				<div class='controls'>
+					<input type="file" id="videoFile" name="videoFile" multiple="multiple"
+						class="form-control input-sm mb15"  required>
+						 <span id="qvideoFile-error" class="help-block error"></span>
+						<button type="submit" id ="submitbutton">点击上传</button>
+				</div>
+			</form>	-->
+			
+			<!-- 腾讯云点播-->	
+			 <form id="qupload" action="/cms/vodCloud/upload" method="post" enctype="multipart/form-data">
 				<div class='controls'>
 					<input type="file" id="videoFile" name="videoFile" multiple="multiple"
 						class="form-control input-sm mb15"  required>
 						 <span id="qvideoFile-error" class="help-block error"></span>
 						<button type="submit" id ="qsubmitbutton">点击上传</button>
 				</div>
-			</form>			
+			</form>		
 			
 			<div class='modal-footer'>
 				<msg id='msg'></msg>

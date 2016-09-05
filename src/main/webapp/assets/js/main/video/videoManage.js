@@ -750,8 +750,8 @@ define(function(require, exports, module) {
 		$(function() {
 			$("#qupload").ajaxForm({
 				//定义返回JSON数据，还包括xml和script格式
-//				dataType : 'json',
-				beforeSend : function() {
+				dataType : 'json',
+				beforeSubmit : function() {
 					//表单提交前做表单验证
 					if($("#qvideoFile").val()=="")
 					{
@@ -768,14 +768,17 @@ define(function(require, exports, module) {
 						var fileId= data.value;
 						$("#videoKey").val(data.value);
 						alter("上传成功")
-//						getVideoInfo(fileId);
-//						
+						getVideoInfo(fileId);
+						
 					} else {
 						alert(data.msg);
 					}
 				}
 			});
 		});
+		
+
+		
 		var getVideoInfo =function(fileId){
 			$.ajax({
 				url : F.basepath + '/cms/vodCloud/describeVodInfo',
@@ -803,8 +806,8 @@ define(function(require, exports, module) {
 //		$(function() {
 //			$("#leUpload").ajaxForm({
 //				//定义返回JSON数据，还包括xml和script格式
-////				dataType : 'json',
-//				beforeSend : function() {
+//				dataType : 'json',
+//				beforeSubmit : function() {
 //					//表单提交前做表单验证
 //					if($("#videoFile").val()=="")
 //					{
@@ -820,8 +823,9 @@ define(function(require, exports, module) {
 //					//提交成功后调用
 //					if (data.value!=null) {
 //						var fileId= data.value;
-//						getVideoInfo(fileId);
-////						
+//						alert("上传成功")
+////						getVideoInfo(fileId);
+//						
 //					} else {
 //						alter("----");
 //						alert(data.msg);
@@ -829,7 +833,7 @@ define(function(require, exports, module) {
 //				}
 //			});
 //		});
-		
+//		
 		
 	}); 
 	
