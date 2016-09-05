@@ -62,7 +62,7 @@ public class LetvController {
 //			File file = new File("D:\\516221120.mp4");
 			 //MultipartFile
 	        MultipartHttpServletRequest mulRequest = (MultipartHttpServletRequest) request;
-			MultipartFile  file=mulRequest.getFile("video_file");
+			MultipartFile  file=mulRequest.getFile("videoFile");
 			
 			String video_name=file.getOriginalFilename();
 			   //创建文件保存路径
