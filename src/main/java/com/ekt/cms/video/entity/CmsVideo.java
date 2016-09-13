@@ -45,7 +45,17 @@ public class CmsVideo {
 	private int exerciseSubjectNo;
 	//配套习题知识点
 	private int exerciseKnoeledgeId;
+	//文件Id;
+	private String fileId;
 	
+	public String getFileId() {
+		return fileId;
+	}
+
+	public void setFileId(String fileId) {
+		this.fileId = fileId;
+	}
+
 	public int getExerciseGradeNo() {
 		return exerciseGradeNo;
 	}

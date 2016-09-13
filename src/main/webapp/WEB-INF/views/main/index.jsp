@@ -530,6 +530,9 @@ $(".icon-adjust").click(function(){
 	$(".icon-adjust").attr("class","icon-globe");
 })
 
+$("#ekt_index").click(function(){
+	  window.open('http://www.aiekt.com');  
+})
 
 
 
@@ -790,14 +793,12 @@ $(".icon-adjust").click(function(){
 		}
 		if($("#basejs_quintessence_del").length>0){
 			base.perList.quintessence.del =true;
-		}
-		
-		
-		
-			
+		}	
 		index.init('${ctx}');
 	});
 
+	
+	
 </script>
 <!-- <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=cTYtHPV1spdnWgFSeKfXqjTh"></script> -->
 </body>

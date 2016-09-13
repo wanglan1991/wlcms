@@ -151,6 +151,7 @@
 			id=#{CmsVideo.id}
 	</update>
 	<!-- 新增 -->
+	
 	<insert id="insert" parameterType="com.ekt.cms.video.entity.CmsVideo">
 	<selectKey resultType="java.lang.Integer" keyProperty="id"
 			order="AFTER">
@@ -158,9 +159,37 @@
 	</selectKey>
 		INSERT INTO
 		 cms_video
-			(video_name,digest,url,url1,isp,file_name,author_id,duration,knowledge_id,grade_no,subject_no,knowledge,video_key,status)
+			(video_name,
+			digest,
+			url,
+			url1,
+			isp,
+			file_name,
+			author_id,
+			duration,
+			knowledge_id,
+			grade_no,
+			subject_no,
+			knowledge,
+			video_key,
+			status,
+			discount)
 		VALUES
-			(#{CmsVideo.videoName},#{CmsVideo.digest},#{CmsVideo.url},#{CmsVideo.urlBak},#{CmsVideo.isp},#{CmsVideo.fileName},#{CmsVideo.authorId},#{CmsVideo.duration},#{CmsVideo.knowledgeId},#{CmsVideo.gradeNo},#{CmsVideo.subjectNo},#{CmsVideo.knowledge},#{CmsVideo.videoKey},1)
+			(#{CmsVideo.videoName},
+			#{CmsVideo.digest},
+			#{CmsVideo.url},
+			#{CmsVideo.urlBak},
+			#{CmsVideo.isp},
+			#{CmsVideo.fileName},
+			#{CmsVideo.authorId},
+			#{CmsVideo.duration},
+			#{CmsVideo.knowledgeId},
+			#{CmsVideo.gradeNo},
+			#{CmsVideo.subjectNo},
+			#{CmsVideo.knowledge},
+			#{CmsVideo.videoKey},
+			1,
+			1)
 	</insert>
 	<!-- 根据视频key更新视频URL 时长 文件名 -->
 	<update id="updateByVideoKey" parameterType="com.ekt.cms.video.entity.CmsVideo">
@@ -176,7 +205,7 @@
 			<if test="CmsVideo.duration !=null and CmsVideo.duration !=0">
 			duration= #{CmsVideo.duration},
 			</if>
-			transcode_status=1
+			transcode_status=2
 			
 		WHERE
 			video_key=#{CmsVideo.videoKey}
@@ -229,4 +258,7 @@
 		INSERT INTO api_video_exercise(`video_id`, `exercise_id`, `order_no`) VALUES (#{videoId}, #{exerciseId}, #{orderNo});
 	</insert>
 	
+	<update id="updateVideoTransStatusByFileId" >
+		UPDATE cms_video SET transcode_status=#{status} WHERE video_key =#{videoKey}
+	</update>
 	</mapper>

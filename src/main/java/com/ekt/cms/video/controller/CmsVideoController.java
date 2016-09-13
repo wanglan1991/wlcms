@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ekt.cms.common.BaseController;
 import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.utils.pageHelper.PageContext;
@@ -19,7 +20,7 @@ import com.ekt.cms.video.service.ICmsVideoService;
  */
 @Controller
 @RequestMapping("/video")
-public class CmsVideoController {
+public class CmsVideoController extends BaseController{
 	@Resource
 	private ICmsVideoService cmsVideoService;
 
@@ -45,7 +46,9 @@ public class CmsVideoController {
 		String[] arr = ids.split(",");
 		int total = 0;
 		for (String id : arr) {
-			total = total + cmsVideoService.delete(Integer.parseInt(id));
+			int videoId =Integer.parseInt(id);
+			total = total + cmsVideoService.delete(videoId);
+			cmsVideoService.removeVideoExerciseByVideoId(videoId);
 		}
 		result.setResult(total);
 		return result;
@@ -74,6 +77,7 @@ public class CmsVideoController {
 	@ResponseBody
 	public Result insert(CmsVideo cmsVideo){
 		Result result =  Result.getResults();
+		cmsVideo.setAuthorId(getCurrentAccount().getId());
 		result.setResult(cmsVideoService.insert(cmsVideo));
 		return result;
 		}

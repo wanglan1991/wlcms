@@ -67,6 +67,11 @@ public class CmsVideoService implements ICmsVideoService {
 		return cmsVideoMapper.addVideoExerciseTree(exerciseId, videoId, orderNo);
 	}
 
+	@Override
+	public int updateVideoTransStatusByFileId(String videoKey,int status) {
+		return cmsVideoMapper.updateVideoTransStatusByFileId(videoKey,status);
+	}
+
 	
 
 	

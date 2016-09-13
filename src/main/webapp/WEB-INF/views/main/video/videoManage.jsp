@@ -22,14 +22,13 @@ color:red;
 		</div>
 	</div>
 <!-- 新增视频模态框 -->
-	<div class='modal hide fade ' id='modal-Video' z-index='2' role='dialog'
+	<div class='modal hide fade ' id='modal-Video'  z-index='2' role='dialog'
 		tabindex='-1'>
 		<div class='modal-header'>
-			<button class='close' id="tatil" data-dismiss='modal' type='button'>&times;</button>
+			<button class='close' id="tatil" data-dismiss='modal'  type='button'>&times;</button>
 			<h3></h3>
 		</div>
-				<div class='modal-body'  style="max-height: 700px" >
-				<button id="addDiv">添加DIV</button>
+				<div class='modal-body' >
 				<div class='control-group'>
 					<label class='control-label'>视频名称</label>
 					<input type="hidden" id="id" />
@@ -37,15 +36,12 @@ color:red;
 					<div class='controls'>
 						<input class='span8' id='videoName' name="videoName" placeholder='请输入视频名称' 
 							type='text' />
-							<span id="videoName-error" class="help-block error"></span>
 					</div>
 				</div>
 				<!-- 视频文件名直接从视频信息上取得 -->
 				<div class='control-group'>
 					<div class='controls'>
-						<input type="hidden" id="duration" />
-						<input type="hidden" class='span8' id='fileName' name="fileName" placeholder='上传视频成功后自动回填视频文件名'type='text' />
-							<span id="fileName-error" class="help-block error"></span>
+						<input type="hidden" id="videoFileName" />
 					</div>
 				</div>
 				
@@ -54,19 +50,8 @@ color:red;
 					<div class='controls'>
 						<textarea class='span8' id='digest' name="digest"
 							placeholder='简介' type='text' style="height:50px;" />
-							<span id="digest-error" class="help-block error"></span>
 					</div>
 				</div>
-			
-				<div class='control-group'>
-					<label class='control-label'>讲师</label>
-					<div class='controls'>
-						<select class='span8' id='author' name="author"
-							placeholder='讲师' />
-							<span id="author-error" class="help-block error"></span>
-					</div>
-				</div>
-					
 						<div class='control-group'>
 					<label class='control-label'>年级</label>
 					<div class='controls'>
@@ -90,29 +75,11 @@ color:red;
 					<div class="form-group">
 						<label class="col-sm-3 control-label">知识点</label>
 						<div class="col-sm-9">
-							<select id="knowledge" name="knowledge"
-								style="width: 337.609px; height:30px" multiple="true"></select>
-								<span id="knowledge-error" class="help-block error"></span>
+							<select id="knowledge"  style="width: 337.609px; height:30px" multiple="true"></select>
 						</div>
 					</div>
 				</div>
 				
-				<div class='control-group'>
-					<label class='control-label'>运营商</label>
-					<div class='controls'>
-						<input class='span8' id='isp' name="isp"
-							placeholder='运营商' type='text' />
-							<span id="isp-error" class="help-block error"></span>
-					</div>
-				</div>
-				
-					<div class='control-group'>
-					<div class='controls'>
-						<input type="hidden" class='span8' id='url' name="url" placeholder='上传视频成功后自动回填URL' 
-							type='text' />
-							<span id="url-error" class="help-block error"></span>
-					</div>
-					</div>
 				
 				
 <!-- 乐视云点播
@@ -130,18 +97,16 @@ color:red;
 			<form id="qupload" action="/cms/vodCloud/upload" method="post" enctype="multipart/form-data">
 				<div class='controls'>
 					<input type="file" id="videoFile" name="videoFile" multiple="multiple"
-						class="form-control input-sm mb15"  required>
-						 <span id="qvideoFile-error" class="help-block error"></span>
+						class="form-control input-sm mb15"  required><br>
 						<button type="submit" id ="qsubmitbutton">点击上传</button>
 				</div>
 			</form>	 		
-			
+	</div>
 			<div class='modal-footer'>
-				<msg id='msg'></msg>
+				<msg id='msg' style='color:red'></msg>
 				<button type="button" id="btnClose" class='btn'>关闭</button>
 				<button   id="btnSubmit" class='btn btn-primary'>保存</button>
 			</div>
-	</div>
 	</div>
 	
 	
@@ -172,34 +137,8 @@ color:red;
 							placeholder='简介' type='text' style="height:50px;" />
 					</div>
 				</div>
-			
-				<div class='control-group'>
-					<label class='control-label'>视频url</label>
-					<div class='controls'>
-						<input class='span8' id='editUrl' name="editUrl" placeholder='请输入视频url' 
-							type='text' />
-						
-					</div>
-				</div>
 				
 				<div class='control-group'>
-					<label class='control-label'>运营商</label>
-					<div class='controls'>
-						<input class='span8' id='editIsp' name="editIsp"
-							placeholder='运营商' type='text' />
-					</div>
-				</div>
-				
-				   <div class='control-group'>
-					<label class='control-label'>讲师</label>
-					<div class='controls'>
-						 <div class='input-append'>
-		               		<select id='editAuthor' name='editAuthor' ></select>
-		                </div>
-					</div>
-				</div>
-				
-						<div class='control-group'>
 					<label class='control-label'>年级</label>
 					<input type="hidden" id="EditGradeNo" />
 					<div class='controls'>

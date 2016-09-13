@@ -1,6 +1,7 @@
 package com.ekt.cms.video.controller;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 import javax.annotation.Resource;
@@ -25,6 +26,7 @@ import com.ekt.cms.utils.FileUtil;
 import com.ekt.cms.video.entity.CmsVideo;
 import com.ekt.cms.video.service.CmsVideoService;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import com.sun.javafx.collections.MappingChange.Map;
 /**
  * 2016-05-02
  * 
@@ -64,7 +66,7 @@ public class VodCloud {
 				if(code==0 ){
 					//获取视频信息成功
 					System.out.println("返回的结果为DescribeVodPlayInfo------------"+jsonObject);
-					result.setMsg("该视频已上传");
+					result.setMsg("“"+fileName+"” 已存在，无法重复上传。");
 					return result;
 				}
 		}
@@ -95,7 +97,7 @@ public class VodCloud {
 		//获取文件名的后缀 
 			String fileType=fileName.substring(fileName.lastIndexOf(".")+1);
 			int fixDataSize = 1024*1024*50;  //每次上传字节数，可自定义 1024*1024*50; 
-			int firstDataSize = 1024*512;    //最小片字节数（默认不变）
+			int firstDataSize = 1024*1024;    //最小片字节数（默认不变）
 			int tmpDataSize = firstDataSize;
 			long remainderSize = fileSize;
 			int tmpOffset = 0;
@@ -110,7 +112,7 @@ public class VodCloud {
 				params.put("fileSize", fileSize);
 				params.put("dataSize", tmpDataSize);
 				params.put("offset", tmpOffset);
-				params.put("isTranscode", 1);//是否转码 0:否 1:是     默认0
+//				params.put("isTranscode", 1);//是否转码 0:否 1:是     默认0
 //				params.put("isWatermark", isWatermark);
 				params.put("file", filePath);
 				resultJson = module.call("MultipartUploadVodFile", params);
@@ -123,14 +125,17 @@ public class VodCloud {
 					tmpOffset = 0;
 					continue;
 				} else if (code != 0) {
+					result.setResult(-1);
 					result.setMsg("上传异常");
 					return result;
 				}
 				flag = json_result.getInt("flag");
 				if (flag == 1) {
-					fileId = json_result.getString("fileId");
-					result.setValue(fileId);
-					System.out.println(result.getValue());
+					CmsVideo video =new CmsVideo();
+					video.setFileId(json_result.getString("fileId"));
+					video.setFileName(fileName);
+					result.setValue(video);
+					result.setResult(1);
 					return result;
 				} else {
 					tmpOffset = Integer.parseInt(json_result.getString("offset"));
@@ -145,7 +150,10 @@ public class VodCloud {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
+			result.setResult(-1);
+			return result;
 		}
+    	
 		return result;
 	}
 	
@@ -173,19 +181,26 @@ public class VodCloud {
 					TreeMap<String, Object> params = new TreeMap<String, Object>();
 					params.put("fileId", fileId);
 					params.put("notifyUrl", "http://112.74.105.4:8080/cms/vodCloud/describeVodInfo?fileId="+fileId);
+					
+					/*
+					 * 测试回调
+					 *	params.put("notifyUrl", "http://fjsk.tunnel.qydev.com/cms/vodCloud/describeVodInfo?fileId="+fileId);
+					 */
 					resultUrl = module.call("ConvertVodFile", params);
 					JSONObject jsonObject=new JSONObject(resultUrl);
 					int code=jsonObject.getInt("code");
 					String msg=jsonObject.getString("message");
 					if(code==0){
-						System.out.println("转码成功");
-						result.setMsg("转码成功");
+						cmsVideoService.updateVideoTransStatusByFileId(fileId, 1);
+						result.setMsg("提交转码成功！请耐心等待转码完成。");
 					}else {
 						result.setMsg(msg);
 					}
 			}
 			catch (Exception e) {
 				e.printStackTrace();
+				result.setMsg("异常！转码失败！");
+				return result;
 			}
 		return result;
 		
@@ -198,6 +213,7 @@ public class VodCloud {
 	@RequestMapping(value = "/describeVodInfo" ) 
 	@ResponseBody
 	public  Result  getUrl(String fileId) {
+		System.out.println(fileId+"腾讯回调回来了 我曹我曹！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！");
 		Result result= Result.getResults();
 		CmsVideo video=new CmsVideo();
 		//调用接口的公共参数
