@@ -62,8 +62,9 @@
              <div class='control-group'>
 	            <div class='controls'>
 	               
-	                <form id="upload" action="/cms/upload/imageUpload" method="post" enctype="multipart/form-data">
-					<input type="file" id="exeFile" name="exeFile" multiple="multiple"	 required>
+	                <form id="upload"  enctype="multipart/form-data">
+					
+					<input type="file" id="exeFile" name="exeFile" multiple="multiple" accept="image/gif,image/jpeg,image/png,image/jpg"	 required>
 						 <span id="exeFile-error" class="help-block error"></span>
 						<div><button type="submit" id ="submitbutton">图片上传</button><input type=button value="复制" onclick="jsCopy('url')">
 						 <input id='url'  maxlength='100'  placeholder='&lt; &frasl;img.png &frasl; &gt;图片文件名' type='text' /></div>

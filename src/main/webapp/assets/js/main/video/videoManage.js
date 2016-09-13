@@ -51,10 +51,10 @@ define(function(require, exports, module) {
 			
 			core.getDictOptions('年级','grade',"#q_k_grade");
 			core.getDictOptions('年级','grade',"#EditGrade");
-			core.getDictOptions('年级','grade',"#grade");
 			core.getDictOptions('学科','subject',"#q_k_subject");
 			core.getDictOptions('学科','subject',"#EditSubject");
-			core.getDictOptions('学科','subject',"#subject");
+			$("#knowledge").select2();
+			$("#editKnowledge").select2();
 			
 			/**
 			 * 讲师下拉框加载 
@@ -81,15 +81,21 @@ define(function(require, exports, module) {
 			/**
 			 * 级联，根据年级和学科缩小知识点范围 
 			 */
-			function setknowldgeSelect(grade,subject,Knowledge){
+			function setknowldgeSelect(gradeNo,subjectNo,Knowledge){
 				var gradeId=0;
 				var subjectId=0
-				if($(grade).val()>0 ){
-					gradeId=$(gradeId).val()
+				if($(gradeNo).val()>0 ){
+					gradeId=$(gradeNo).val()
+				}else{
+					return ;
 				}
-				if($(subject).val()>0 ){
-					 subjectId=$(subject).val()
+				if($(subjectNo).val()>0 ){
+					 subjectId=$(subjectNo).val()
+				}else{
+					return ;
 				}
+			
+				
 				knowldgeSelect('/cms/knowledge/queryByCondition',{gradeNo : gradeId,subjectNo : subjectId},Knowledge);
 			};
 			
@@ -100,10 +106,12 @@ define(function(require, exports, module) {
 				setknowldgeSelect('#EditGrade','#EditSubject','editKnowledge');
 			});
 			$("#grade").change(function(){
-				setknowldgeSelect('#grade','#subject','knowledge');
+				
+				setknowldgeSelect('#grade','#subject','#knowledge');
 			});
 			$("#subject").change(function(){
-				setknowldgeSelect('#grade','#subject','knowledge');
+			
+				setknowldgeSelect('#grade','#subject','#knowledge');
 			});
 
 			
@@ -113,18 +121,20 @@ define(function(require, exports, module) {
 			 * selectId ： select元素ID
 			 */
 			var knowldgeSelect=function(url,param,selectId){
-				
-				jQuery("#" + selectId).empty();
-//				jQuery("#" + selectId).prepend("<option value='-1'>--请选择知识点--</option>");
-				jQuery.ajax({
+				if(param.gradeNo==0||param.subjectNo==0){return;}
+				$(selectId).empty();
+				$.ajax({
 					url: url, 
 					data:param,
-					dataType: "json", 
-					async: false,
+					type:"get", 
 					success : function(data) {
+						var html="";
 						for (var i = 0; i < data.value.length; i++) {
-							jQuery("#" + selectId).append("<option	value=" + data.value[i].id + ">"+ data.value[i].title + "</option>");
+							html+="<option value=" + data.value[i].id + ">"+ data.value[i].title + "</option>"
 						}
+						$(selectId).append(html);
+						$(selectId).select2();
+						console.log(html);
 					}
 				}); 
 				
@@ -156,12 +166,10 @@ define(function(require, exports, module) {
 				'click .editVideo' : function(e, value, row, index) {
 					core.openModel('modal-editVideo', '修改视频     '
 							+ row.videoName, function() {
-						$('#modal-editVideo').modal().css({
-							height:'650px'
-						})
+						
+						knowldgeSelect('/cms/knowledge/queryByCondition',{gradeNo : row.gradeNo,subjectNo : row.subjectNo},"#editKnowledge");
 						$.fn.modal.Constructor.prototype.enforceFocus = function () { };
 						if (row != null) {
-							knowldgeSelect('/cms/knowledge/queryByCondition',{gradeNo:row.gradeNo,subjectNo:row.subjectNo},'editKnowledge');
 							$('#editId').val(row.id);
 							$('#editVideo').val(row.videoName);
 							$('#editDigest').val(row.digest);
@@ -173,14 +181,16 @@ define(function(require, exports, module) {
 							$("#EditSubject option[value='"+row.subjectNo+"']").attr("selected",true);
 							$('#editStatus').val(row.status);
 							//设置knowledgeId的默认选中值
-							if(row.knowledgeId.length>1){
+							if(row.knowledgeId!=null&&row.knowledgeId.length>1){
 								var ids=row.knowledgeId.split(",");
 								for(var i=0;i<ids.length;i++){
-							$("#editKnowledge option[value='"+ids[i]+"']").attr("selected",true);	
+									if(ids[i]!=""){
+										$('#editKnowledge').val(ids[i]).trigger('change');
+									}
 								}
 							}
-							$("#editKnowledge option[value='"+row.knowledgeId+"']").attr("selected",true);
-							$("#editKnowledge").select2();
+//							$("#editKnowledge option[value='"+row.knowledgeId+"']").attr("selected","selected");
+//							$("#editKnowledge").select2();
 						}
 					});
 				},
@@ -273,11 +283,10 @@ define(function(require, exports, module) {
 						success : function(data) {
 							if (data.msg != "") {
 								alert(data.msg);
-								row.transcodeStatus = 1;
-								F.reload();
 							} else {
-								alert("操作失败！")
+								alert("异常！！")
 							}
+							F.reload();
 						}
 					})
 				},
@@ -286,7 +295,7 @@ define(function(require, exports, module) {
 			};
 
 			var cols = [ {
-				checkbox : true
+				checkbox : true,
 			}, {
 				field : 'id',
 				title : '主键',
@@ -333,12 +342,8 @@ define(function(require, exports, module) {
 				visible : false
 			}, {
 				field : 'author',
-				title : '讲师'
+				title : '上传者'
 			},
-//			{
-//				field : 'url',
-//				title : '链接'
-//			}, 
 			{
 				field :'videoKey',
 				title : '视频key',
@@ -346,7 +351,8 @@ define(function(require, exports, module) {
 			},
 			{
 				field : 'isp',
-				title : '运营商'
+				title : '运营商',
+				visible : false
 			},{
 				field : 'transcodeStatus',
 				title : '转码状态',
@@ -467,17 +473,6 @@ define(function(require, exports, module) {
 				});
 			
 			
-			$("#addDiv").click(function(){
-				
-				$("#modal-Video").append("<div id='wanglan'background-color:azure style='opacity: 0.6;position: absolute;" +
-						"position: absolute;z-index=4; width: 560px;height: 669px;margin-top: -647px'>" +
-						"<div style='margin-left: 40%;margin-top: 37%;'><h3><b>上传中...</b></h3><img src='/cms/assets/images/upload.gif' style='max-width: 19%;'/></div></div>");
-				
-				
-			})
-			
-			
-			
 			
 			/**
 			 * 批量删除
@@ -497,6 +492,7 @@ define(function(require, exports, module) {
 							});
 						}
 					});
+		
 
 			/**
 			 * 打开模态框
@@ -505,28 +501,28 @@ define(function(require, exports, module) {
 			$('#addVideo').click(function() {
 				core.openModel('modal-Video', '新增视频',
 						function(){
-					$('#modal-Video').modal().css({
-						height:'730px'
-					})
+					
 					$.fn.modal.Constructor.prototype.enforceFocus = function () { };
 				}
 						);
-				accountList("/cms/account/listAccountByRole" , {role:"teacher"} ,"#author");
-				knowldgeSelect('/cms/knowledge/queryByCondition',{gradeNo:0,subjectNo:0},'knowledge');
-				$('#knowledge').select2();
+				core.getDictOptions('年级','grade',"#grade");
+				core.getDictOptions('学科','subject',"#subject");
+				$("#qsubmitbutton").removeAttr("disabled");
+				$("#videoFile").removeAttr("disabled");	
 				return false;
 			});
-			
+				
+		
 			//新增视频提交
 			$('#btnSubmit').click(function(){
 				var videoName=$("#videoName").val();
 				var videoKey=$("#videoKey").val();
 				var digest=$("#digest").val();
-				var isp=$("#isp").val();
-				var authorId=$("#author").val();
 				var gradeNo=$("#grade").val();
 				var subjectNo=$("#subject").val();
 				var arrKnoeledge=$("#knowledge").find('option:selected');
+				var videoFileName = $("#videoFileName").val();
+				var videoUrl =$("#videoUrl").val();
 				var knowledgeId='';
 				var arr='';
 				if(arrKnoeledge!=null){
@@ -536,12 +532,12 @@ define(function(require, exports, module) {
 						arr +=$(arrKnoeledge[i]).text()+',';
 					}
 				}
-			
-				var videoKey=$("#videoKey").val();
-				if(videoName.length<1){$("#videoName-error").html("请输入视频名称!");$("#videoName-error").css("color","#b94a48");return ;}
-				if(authorId==0){$("#author-error").html("请选择讲师!");$("#author-error").css("color","#b94a48");return ;}
-				if(knowledgeId==-1){$("#knowledge-error").html("请选择所属知识点!");$("#knowledge-error").css("color","#b94a48");return ;}
-			
+				var videoKey=$("#videoKey").val();			
+				if(videoName.length<1){$("#msg").html("请输入视频名称!");return ;}
+				if(gradeNo==0){$("#msg").html(" 请选择年级!");return;}
+				if(subjectNo==0){$("#msg").html(" 请选择科目!");return;}
+				if(videoFileName==""||videoKey==""){$("#msg").html(" 请上传视频!");return;}
+				
 				$.ajax({
 					url :  F.basepath + '/cms/video/addVideo',
 					type : 'POST',
@@ -549,12 +545,12 @@ define(function(require, exports, module) {
 						videoName : videoName,
 						videoKey : videoKey,
 						digest : digest,
-						isp : isp,
-						authorId : authorId,
 						gradeNo : gradeNo,
 						subjectNo : subjectNo,
 						knowledgeId : knowledgeId,
 						knowledge : arr,
+						fileName : videoFileName,
+						isp : "tencent"
 					},
 					dataType: "json", 
 					success : function(data) {
@@ -564,10 +560,7 @@ define(function(require, exports, module) {
 							F.table.reload();
 							
 						}
-						 else{
-						 $("#stitle-error").html(data.msg);
-						 $("#stitle-error").css('color','red');
-						 }
+						
 					}
 
 				});
@@ -594,28 +587,19 @@ define(function(require, exports, module) {
 				
 			})
 			
-			
 			//新增清除页面数据
 			function clear(){
 				//关闭模态框时清除所有错误提示
-				$("#videoName-error").html('');
-				$("#url-error").html('');
-				$("#author-error").html('');
-				$("#duration-error").html('');
-				$("#knowledge-error").html('');
 				$("#msg").html('');
-				$("#fileName-error").html('');
-				$("#videoFile-error").html('');
 				//清除页面输入值
 				$("#videoName").val('');
-				$("#fileName").val('');
+				$("#videoFileName").val('');
 				$("#digest").val('');
-				$("#author").val('');
-				$("#knowledge").val('');
-				$("#isp").val('');
-				$("#url").val('');
+				$("#videoKey").val('');
+				$("#knowledge").select2().empty('');
+				$("#knowledge").select2().empty('');
+				$("#knowledge").select2().empty('');
 				$("#videoFile").val('');
-				$("#submitbutton").attr("disabled",false);
 			}
 			
 			
@@ -652,32 +636,37 @@ define(function(require, exports, module) {
 		reload : function() {
 			F.table.reload();
 		},
-
+		
+	
 		operateFormatter : function(value, row, index) {
 			var _btnAction = "";
 			
-			if(base.perList.video.editVideoExercise){
+			if(base.perList.video.editVideoExercise&&row.transcodeStatus==2){
 				_btnAction += "<a class='editVideoExercise btn btn-primary btn-small' href='#'  title='编辑配套习题' style='margin-left:5px'>编辑配套习题</a>";
+				
 			}
-			if (base.perList.video.play) {
+			if (base.perList.video.play&&row.transcodeStatus==2) {
 				_btnAction += "<a class='videoPlay btn btn-primary btn-small' href='#'  title='点播' style='margin-left:5px'>点播</a>";
 			}
-			if (base.perList.video.confine) {
+			
+			
+			if (base.perList.video.confine&&row.transcodeStatus==2) {
 				_btnAction += "<a class='confine btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"
 						+ (row.status == 1 ? "停用" : "启用") + "</a>";
 			}
-			if (base.perList.video.edit) {
+			if (base.perList.video.edit&&row.transcodeStatus==2) {
 				_btnAction += "<a data-toggle='modal' class='editVideo btn btn-success btn-small' href='#' title='编辑视频' style='margin-left:5px'>编辑</a>";
 			}
 			if (base.perList.video.del) {
 				_btnAction += "<a class='delVideo btn btn-danger btn-small' href='#'  title='删除角色' style='margin-left:5px'>删除</a>";
 			}
-			if (base.perList.video.transcode && row.transcodeStatus==0) {
-			_btnAction += "<a data-toggle='modal' class='transcodeVideo btn btn-success btn-small' href='#' title='视频转码' style='margin-left:5px'>未转码</a>";
-			}
-			if (base.perList.video.transcode && row.transcodeStatus==1) {
-			_btnAction += "<a data-toggle='modal' class='transcodeVideoDone btn btn-success btn-small' href='#' title='视频转码' style='margin-left:5px'>已转码</a>";
+			if (base.perList.video.transcode) {
+				if(row.transcodeStatus==0){
+					_btnAction += "<a data-toggle='modal' class='transcodeVideo btn btn-success btn-small' href='#' title='点击转码' style='margin-left:5px'>转码</a>";
+				}else if(row.transcodeStatus==1){
+					_btnAction += "<a data-toggle='modal' class='transcodeVideo btn btn-success btn-small' href='#' disabled='disabled' title='转码中..' style='margin-left:5px'>转码中</a>";
 				}
+			}
 			return _btnAction;
 		}
 	};
@@ -757,58 +746,44 @@ define(function(require, exports, module) {
 		
 		//上传表单验证和提交
 		//腾讯云上传
-//		$(function() {
-//			$("#qupload").ajaxForm({
-//				//定义返回JSON数据，还包括xml和script格式
-////				dataType : 'json',
-//				beforeSend : function() {
-//					//表单提交前做表单验证
+		$(function() {
+			$("#qupload").ajaxForm({
+				//定义返回JSON数据，还包括xml和script格式
+				dataType : 'json',
+				beforeSend : function() {
+					//表单提交前做表单验证
 //					if($("#qvideoFile").val()=="")
 //					{
 //					alert("请先上传文件");
 //					return;
 //					}
-//				
-//				$("#qsubmitbutton").attr("disabled","disalbed");
-//				},
-//				success : function(data) {
-//					$("#qsubmitbutton").attr("disabled",false);
-//					//提交成功后调用
-//					if (data.value!=null) {
-//						var fileId= data.value;
-//						$("#videoKey").val(data.value);
-//						alter("上传成功")
-////						getVideoInfo(fileId);
-////						
-//					} else {
-//						alert(data.msg);
-//					}
-//				}
-//			});
-//		});
-		var getVideoInfo =function(fileId){
-			$.ajax({
-				url : F.basepath + '/cms/vodCloud/describeVodInfo',
-				type : 'post',
-				data : {
-					fileId : fileId,
+					$("#msg").html('');
+						$("#modal-Video").append("<div id='waitForUpload'background-color:azure style='opacity: 0.6;position: absolute;" +
+								"position: absolute;z-index=4; width: 100%;height: 100%;margin-top: -96%'>" +
+								"<div style='margin-left: 40%;margin-top: 37%;'><h3><b>uploading...</b></h3><img src='/cms/assets/images/upload.gif' style='max-width: 19%;'/></div></div>");
+		
+				$("#qsubmitbutton").attr("disabled","disalbed");
+				$("#videoFile").attr("disabled","disalbed");
+				
 				},
+				
 				success : function(data) {
-					if (data.value!=null) {
-						$("#videoKey").val(data.value.videoKey);
-						$("#fileName").val(data.value.fileName);
-						$("#url").val(data.value.url);
-						$("#duration").val(data.value.duration);
+					//提交成功后调用
+					$("#waitForUpload").remove();
+					if (data.result==1) {
+						$("#videoKey").val(data.value.fileId);
+						$("#videoFileName").val(data.value.fileName);
+						$("#videoUrl").val(data.value.url);
 					} else {
-						alert(data.msg);
-						$("#videoFile-error").html(data.msg);
+						$("#qsubmitbutton").attr("disabled",false);
+						$("#videoFile").attr("disabled",false);	
+						$("#msg").html(data.msg);
 					}
 				}
-			})
-		}
+			});
+		});
 		
-		
-		
+
 		//乐视云上传
 //		$(function() {
 //			$("#leUpload").ajaxForm({

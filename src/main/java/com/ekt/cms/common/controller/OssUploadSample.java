@@ -68,14 +68,21 @@ public class OssUploadSample {
         	data.put("status", 0);
         	data.put("msg", "上传成功");
             result.setValue(data);
-        } catch (OSSException oe) {
+        }catch (NullPointerException oe) {
+            data.put("status", 1);
+        	data.put("msg", "上传异常，请重新尝试");
+        	result.setValue(data);
+        	 return result;
+        }catch (OSSException oe) {
             data.put("status", 1);
         	data.put("msg", "访问对象存储服务出异常");
         	result.setValue(data);
+        	 return result;
         } catch (ClientException ce) {
             data.put("status", 1);
         	data.put("msg", "访问阿里云出异常");
         	result.setValue(data);
+        	 return result;
         } finally {
          
             client.shutdown();

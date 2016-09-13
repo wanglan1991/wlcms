@@ -787,22 +787,21 @@ define(function (require, exports, module) {
     	$(function() {
     		$("#upload").ajaxForm({
     			//图片上传的文件夹
-    			
-    			data :
-    			{key:"exercise/",
-    			fileName:"exeFile"},
+    			url:"/cms/upload/imageUpload",
+    			type:"post",
+    			data:$('#upload').serialize(),// 你的formid
+    			data:{key:"exercise/",fileName:"exeFile"},
     			beforeSend : function() {
-    			
-    			$("#submitbutton").attr("disabled","disalbed");
+    				$("#submitbutton").attr("disabled","disalbed");
     			},
     			success : function(data) {
     				$("#submitbutton").attr("disabled",false);
+    				$("#exeFile").val('');
     				//提交成功后调用
     				if (data.value!=null) {
-    					alert(data.value.msg);
     					if(data.value.status == 0){
     						var file = $("#exeFile").val();
-    						var fileName = "</exercise/" + getFileName(file)+"/>";
+    						var fileName = "</exercise/" + core.getFileName(file)+"/>";
     						$("#url").val(fileName);
     					}
     				} else {
@@ -864,9 +863,7 @@ define(function (require, exports, module) {
     			beforeSend : function() {
     			},
     			success : function(data){
-    				
-    			
-    			
+ 	
     			}   		
     	});
     		

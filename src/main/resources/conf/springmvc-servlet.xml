@@ -65,7 +65,7 @@
 		<!-- 文件大小最大值 -->
 		<property name="maxUploadSize" value="10485760000" />
 		<!-- 内存中的最大值 -->																																						
-		<property name="maxInMemorySize" value="40960" />
+		<property name="maxInMemorySize" value="409600" />
 		<!-- 配置文件上传临时目录 -->
 		<property name="uploadTempDir" value="/uploadfile/upload/temp"></property>
 	</bean>

@@ -29,5 +29,7 @@ public interface ICmsVideoService {
 	int addVideoExerciseTree(int exerciseId,int videoId,int orderNo);
 	//删除视频配套习题
 	int removeVideoExerciseByVideoId(int videoId);
+	//更新转码状态
+	int updateVideoTransStatusByFileId(String videoKey,int status);
 	
 }
