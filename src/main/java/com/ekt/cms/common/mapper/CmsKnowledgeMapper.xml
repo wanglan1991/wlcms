@@ -179,4 +179,18 @@
 					'-1' pId,
 					'true' parent)
 	</select>
+	<select id="getKnowledgeByName" parameterType="java.lang.String" resultType="com.ekt.cms.common.entity.CmsKnowledge">
+		SELECT
+			id,
+			title,
+			grade_no AS gradeNo,
+			order_no AS orderno,
+			subject_no AS subjectNo
+		FROM
+			cms_knowledge_point
+		WHERE
+			title = #{name}
+		LIMIT 1
+	</select>
+	
 </mapper>

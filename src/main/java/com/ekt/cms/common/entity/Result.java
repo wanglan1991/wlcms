@@ -12,8 +12,25 @@ import java.util.List;
 public final class Result {
 	
 	
-	private Result(){
+	public Result(){
 		
+	}
+	
+	/**
+	 * 
+	 * @param msg
+	 * @param result
+	 * @param value
+	 */
+	public Result(int result,String msg, Object value) {
+		this.msg = msg;
+		this.result = result;
+		this.value = value;
+	}
+	
+	public Result(int result,String msg) {
+		this.msg = msg;
+		this.result = result;
 	}
 
 	private String msg;

@@ -123,7 +123,10 @@ public class VodCloud {
 				if (code == -3002) {               //服务器异常返回，需要重试上传(offset=0, dataSize=512K)
 					tmpDataSize = firstDataSize;
 					tmpOffset = 0;
-					continue;
+					result.setResult(-1);
+					result.setMsg("上传异常！解决办法 ，请检查文件名是否为中文或重新尝试。");
+					return result;
+					
 				} else if (code != 0) {
 					result.setResult(-1);
 					result.setMsg("上传异常");
@@ -213,7 +216,6 @@ public class VodCloud {
 	@RequestMapping(value = "/describeVodInfo" ) 
 	@ResponseBody
 	public  Result  getUrl(String fileId) {
-		System.out.println(fileId+"腾讯回调回来了 我曹我曹！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！");
 		Result result= Result.getResults();
 		CmsVideo video=new CmsVideo();
 		//调用接口的公共参数

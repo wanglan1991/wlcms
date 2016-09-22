@@ -101,15 +101,15 @@ define(function (require, exports, module) {
 	        	var knowledgesOption ="";
 	        	$(idOrClass).empty();
 	        	$.ajax({
-	        		url:F.basepath+"/cms/knowledge/listPage",
+	        		url:F.basepath+"/cms/knowledge/list",
 	        		type:"GET",
 	        		data:{subjectNo:subjectNo},
 	        		success:function(data){
-	        			if(data.rows.length<1){
+	        			if(data.value.length<1){
 	        				knowledgesOption+="<option value = '0'>-- 无 --</option>";
 	        			}
-	        			for(var i=0;i<data.rows.length;i++){
-	        				knowledgesOption+="<option value = '"+data.rows[i].id+"'>"+data.rows[i].title+"</option>"
+	        			for(var i=0;i<data.value.length;i++){
+	        				knowledgesOption+="<option value = '"+data.value[i].id+"'>"+data.value[i].title+"</option>"
 	        			}
 	        			$(idOrClass).append(knowledgesOption);
 	        		}
@@ -122,40 +122,40 @@ define(function (require, exports, module) {
 	        	$(id).empty();
 	        	var knowledgesOption ="";
 	        	$.ajax({
-	        		url:F.basepath+"/cms/knowledge/listPage",
+	        		url:F.basepath+"/cms/knowledge/list",
 	        		type:"GET",
 	        		data:{subjectNo:subjectNo,gradeNo:gradeNo},
 	        		success:function(data){
-	        			if(data.rows.length<1){
+	        			if(data.value.length<1){
 	        				knowledgesOption+="<option value = '0'>无 ----</option>";
 	        			}
-	        			for(var i=0;i<data.rows.length;i++){
+	        			for(var i=0;i<data.value.length;i++){
 	        				if(i==0){
 	        				knowledgesOption+="<option value = '0'>知识点----</option>";
 	        				};
-	        				knowledgesOption+="<option value = '"+data.rows[i].id+"'>"+data.rows[i].title+"</option>"
+	        				knowledgesOption+="<option value = '"+data.value[i].id+"'>"+data.value[i].title+"</option>"
 	        			}
 	        			$(id).append(knowledgesOption);
 	        		}
 	        	})
    		}
             
-            function editGetKnoeledgeOption(id,subjectNo,knowledgeId){
+            function editGetKnoeledgeOption(id,subjectNo,gradeNo,knowledgeId){
 	        	$(id).empty();
 	        	var knowledgesOption ="";
 	        	$.ajax({
-	        		url:F.basepath+"/cms/knowledge/listPage",
+	        		url:F.basepath+"/cms/knowledge/list",
 	        		type:"GET",
-	        		data:{subjectNo:subjectNo},
+	        		data:{subjectNo:subjectNo,gradeNo:gradeNo},
 	        		success:function(data){
-	        			if(data.rows.length<1){
+	        			if(data.value.length<1){
 	        				knowledgesOption+="<option value = '0'>-- 无 --</option>";
 	        			}
-	        			for(var i=0;i<data.rows.length;i++){
-	        				if(data.rows[i].id==knowledgeId){
-	        					knowledgesOption+="<option value = '"+data.rows[i].id+"' selected='true' >"+data.rows[i].title+"</option>"
+	        			for(var i=0;i<data.value.length;i++){
+	        				if(data.value[i].id==knowledgeId){
+	        					knowledgesOption+="<option value = '"+data.value[i].id+"' selected='true' >"+data.value[i].title+"</option>"
 	        				}else{
-	        				knowledgesOption+="<option value = '"+data.rows[i].id+"'>"+data.rows[i].title+"</option>"
+	        				knowledgesOption+="<option value = '"+data.value[i].id+"'>"+data.value[i].title+"</option>"
 	        				}
 	        			}
 	        			$(id).append(knowledgesOption);
@@ -172,20 +172,28 @@ define(function (require, exports, module) {
 	        		'click .preview':function(e, value,row,index){
 	        			$("#exerciseContent").empty();
 	        			core.openModel('modal-preview','习题预览',function(){
-	        				var reg= new RegExp('</','g');
-	        				var reg1= new RegExp('/>','g');
-	        				var content=row.content.replace(reg,"<img  src='http://ekt.oss-cn-shenzhen.aliyuncs.com/");
-	        				var html="<div style='margin-left:4px;width:91%;'><h3>"+content.replace(reg1,"'>")+"</h3></div><br><br>";
+	        				var reg= new RegExp('<//','g');
+	        				var reg1= new RegExp('//>','g');
+	        				var enter=new RegExp("\n","g");
+	        				var content=row.content.replace(enter,"<br>")
+	        				    content=content.replace(reg,"</h3><img  src='http://ekt.oss-cn-shenzhen.aliyuncs.com/");
+	        				var html="<div style='margin-left:4px;width:91%;'><h3>"+content.replace(reg1,"'><h3>")+"</h3></div><br><br>";
 		        				$.ajax({
 		        					url:F.basepath+"/cms/exercise/answer",
 		        	        		type:"GET",
 		        	        		data:{exerciseId:row.id},
 		        	        		success:function(data){
 		        	        			for(var i=0;i<data.value.length;i++){
-		        	        				var content1=data.value[i].contents.replace(reg,"<img style='min-width:13px' src='http://ekt.oss-cn-shenzhen.aliyuncs.com/");
-		        	        				html+="<span><h4>"+data.value[i].option+".&nbsp;&nbsp;"+content1.replace(reg1,"'>")+"&nbsp;&nbsp;"+(data.value[i].isTrue==1?"<b style='color:blue'>正确</b>":"<b style='color:red'>错误</b>")+"</h4></span><br>";
+		        	        				var content1 = data.value[i].contents.replace(enter,"<br>")
+		        	        					content1 =content1.replace(reg,"<img style='min-width:13px' src='http://ekt.oss-cn-shenzhen.aliyuncs.com/");
+		        	        				
+		        	        				html+="<span><h4>"+data.value[i].option+".&nbsp;&nbsp;"+content1.replace(reg1,"'>")+
+		        	        				"&nbsp;&nbsp;"+(data.value[i].isTrue==1?"<b style='color:blue'>√</b>":"<b style='color:red'>×</b>")+"</h4></span><br>";
 		        	        			}
 		        	        			$("#exerciseContent").append(html);
+		        	        			var analysis = row.analysis.replace(enter,"<br>")
+		        	        			analysis="<h4>"+analysis.replace(reg,"</h4><img style='min-width:13px' src='http://ekt.oss-cn-shenzhen.aliyuncs.com/");
+		        	        			$("#exerciseAnalysis").html(analysis.replace(reg1,"'><h4>")+"</h4>");
 		        	        		}
 		        					
 		        				});
@@ -205,7 +213,7 @@ define(function (require, exports, module) {
 		        		core.getEditDictOptions("题型","exerciseType","#editTypeOption",row.typeNo);
 		        		core.getEditDictOptions("学科","subject","#editSubjectOption",row.subjectNo);
 		        		core.getEditDictOptions("难易度","difficulty","#editDifficultyOption",row.difficultyNo);
-		        		editGetKnoeledgeOption("#editKnoeledgeOption",row.subjectNo,row.knowledgeId);
+		        		editGetKnoeledgeOption("#editKnoeledgeOption",row.subjectNo,row.gradeNo,row.knowledgeId);
 		        		$("#modal-editExercise").attr('exerciseid',row.id);
 		        		$("#editAnalysis").val(row.analysis);
 		        		$("#editExerciseContent").val(row.content);
@@ -276,6 +284,9 @@ define(function (require, exports, module) {
 	        		    },{
 	        		        field: 'knowledges',
 	        		        title: '知识点'
+	        		    },{
+	        		    	field: 'accountRealName',
+	        		    	title: '更新账号'
 	        		    }];
 	        //是否需要操作列
 	        if(base.perList.exercise.edit||base.perList.exercise.confine||base.perList.exercise.del)
@@ -343,7 +354,7 @@ define(function (require, exports, module) {
 			 * 打开导入习题模态框
 			 */
 			$('#impExercise').click(function(){
-				
+				$("#waitForUpload").remove();
 				$("#uploadCategoryOption").empty();
 				$("#uploadTypeOption").empty();
 				$("#uploadGradeOption").empty();
@@ -482,7 +493,7 @@ define(function (require, exports, module) {
 				$("#addSubjectOption").empty();
 				$("#addSubjectOption").append("<option value='0'>科目----</option>");
 				$("#addKnoeledgeOption").empty();
-				$("#addKnoeledgeOption").append("<option value='0'>学科----</option>");
+				$("#addKnoeledgeOption").append("<option value='0'>知识点----</option>");
 				clear();
 			});
 			/**
@@ -511,6 +522,12 @@ define(function (require, exports, module) {
 				$("#orderNo").val('');
 				$("#answer").find("div").remove();
 				$("#addAnalysis").val('');
+				$("#addCategoryOption").val(0);
+				$("#addTypeOption").val(0);
+				$("#addDifficultyOption").val(0);
+				$("#addGradeOption").val(0);
+				$("#addSubjectOption").val(0);
+				$("#addKnoeledgeOption").val(0)
 				core.closeModel('modal-addExercise');	
 			}
 			//清理 编辑表单
@@ -534,7 +551,9 @@ define(function (require, exports, module) {
 			
 			//清理 上传表单
 			function clearUpload(){
-				$("#filePath").val("");
+				$("#fileData").val("");
+				$("#result textarea").val('');
+				$("#result").hide();
 			}
 			
 			//查询是否包含
@@ -555,9 +574,6 @@ define(function (require, exports, module) {
 			});  
 			
 			
-			
-			
-			
 			/**
 			 * 新增提交
 			 */
@@ -576,7 +592,7 @@ define(function (require, exports, module) {
 						var answerLength = $("#answer").find("div").length;
 						var analysis =$("#addAnalysis").val();
 						if(grade==0){$("#msg").html("请选择年级！"); return;}
-						if(category==0){$("#msg").html("请选择题类！"); return;}
+//						if(category==0){$("#msg").html("请选择题类！"); return;}
 						if(type==0){$("#msg").html("请选择题型！"); return;}
 						if(difficulty==0){$("#msg").html("请选择难易度！"); return;}
 						if(subject==0){$("#msg").html("请选择科目！"); return;}
@@ -629,6 +645,7 @@ define(function (require, exports, module) {
 								$("#addExerciseContent").val('');
 								$("#addAnalysis").val('');
 								$("#answer input[name=isTrue]").removeAttr("checked");
+								$("#msg").html('');
 								F.reload();
 							}else{
 								clear();
@@ -658,7 +675,7 @@ define(function (require, exports, module) {
 					var id = $("#modal-editExercise").attr('exerciseid');
 					var answerLength = $("#editAnswer").find("div").length;
 					if(grade==0){$("#editMsg").html("请选择年级！");return;}
-					if(category==0){$("#editMsg").html("请选择题类！");return;}
+//					if(category==0){$("#editMsg").html("请选择题类！");return;}
 					if(type==0){$("#editMsg").html("请选择题型！");return;}
 					if(difficulty==0){$("#editMsg").html("请选择难易度！");return;}
 					if(subject==0){$("#editMsg").html("请选择科目！");return;}
@@ -782,8 +799,6 @@ define(function (require, exports, module) {
     };
     
     jQuery(document).ready(function(){
-    	//上传表单验证和提交 新增
-    	//图片上传到阿里云OSS 
     	$(function() {
     		$("#upload").ajaxForm({
     			//图片上传的文件夹
@@ -796,17 +811,17 @@ define(function (require, exports, module) {
     			},
     			success : function(data) {
     				$("#submitbutton").attr("disabled",false);
-    				$("#exeFile").val('');
     				//提交成功后调用
     				if (data.value!=null) {
     					if(data.value.status == 0){
     						var file = $("#exeFile").val();
-    						var fileName = "</exercise/" + core.getFileName(file)+"/>";
+    						var fileName = "<//exercise/" + core.getFileName(file)+"//>";
     						$("#url").val(fileName);
     					}
     				} else {
     					alert("上传异常 ")
     				}
+    				$("#exeFile").val('');
     			}
     		});
     	});
@@ -839,30 +854,27 @@ define(function (require, exports, module) {
     	
 //    	
     	$("#uploadExercise").click(function(){
-    		var category = $("#uploadCategoryOption").val();
-    		var type = $("#uploadTypeOption").val();
-    		var difficultyNo = $("#uploadDifficultyOption").val();
-    		var gradeNo = $("#uploadGradeOption").val();
-    		var subjectNo = $("#uploadSubjectOption").val();
-    		var knowledgeIds =knowledgeIdArr();
-    		var knowledges = knowledgeArr();
-    		alert(category);
-    		alert(knowledgeIds);
     		$("#excelUpload").ajaxForm({
-    			//图片上传的文件夹
-    			data:{
-    				category:category,
-    				type:type,
-    				difficultyNo:difficultyNo,
-    				gradeNo:gradeNo,
-    				subjectNo:subjectNo,
-    				knowledgeIds:knowledgeIds,
-    				knowledges:knowledges
-    				},
-    				
+    			url:"/cms/upload/exercises",
+    			type:"post",
+    			data:$('#excelUpload').serialize(),// 你的formid
     			beforeSend : function() {
+    				$("#modal-impExercise").append("<div id='waitForUpload'background-color:azure style='opacity: 0.6;position: absolute;" +
+							"position: absolute;z-index=4; width: 100%;height: 100%;margin-top:-60%'>" +
+							"<div style='margin-left: 40%;margin-top: 25%;'><h3><b>uploading...</b>" +
+							"</h3><img src='/cms/assets/images/upload.gif' style='max-width: 19%;'/></div></div>");
     			},
     			success : function(data){
+    				F.reload();
+    				$("#waitForUpload").remove();
+    				$("#result textarea").val('');
+    				$("#uploadMsg").html('');
+    				$("#result").show();
+    				if(data.result==-1){
+    					$("#result textarea").val(data.msg);
+    				}else if(data.result==0){
+    					$("#uploadMsg").html(data.msg);
+    				}
  	
     			}   		
     	});
@@ -873,11 +885,10 @@ define(function (require, exports, module) {
     	//图片上传到阿里云OSS
     	$(function() {
     		$("#editUpload").ajaxForm({
-    			//图片上传的文件夹
-    		
-    			data :
-    			{key:"exercise/",
-    			 fileName:"editExeFile"},
+    			url:"/cms/upload/imageUpload",
+    			type:"post",
+    			data:$('#editUpload').serialize(),// 你的formid
+    			data :{key:"exercise/",fileName:"editExeFile"},
     			beforeSend : function() {
     			
     			$("#editSubmitbutton").attr("disabled","disalbed");
@@ -889,12 +900,13 @@ define(function (require, exports, module) {
     					
     					if(data.value.status == 0){
     						var file = $("#editExeFile").val();
-    						var fileName = "</exercise/" + core.getFileName(file)+"/>";
+    						var fileName = "<//exercise/" + core.getFileName(file)+"//>";
     						$("#editUrl").val(fileName);
     					}
     				} else {
     					alert("上传异常 ")
     				}
+    				$("#editExeFile").val('');
     			}
     		});
     	});

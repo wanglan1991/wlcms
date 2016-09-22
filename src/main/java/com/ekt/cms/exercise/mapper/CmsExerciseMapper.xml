@@ -23,6 +23,8 @@
 		<result column="grade_no" property="gradeNo" jdbcType="INTEGER" />
 		<result column="grade" property="grade" jdbcType="VARCHAR" />
 		<result column="phase_no" property="phaseNo" jdbcType="INTEGER" />
+		<result column="real_name" property="accountRealName" jdbcType="VARCHAR" />
+		<result column="analysis" property="analysis" jdbcType="VARCHAR" />
 	</resultMap>
 	<resultMap id="answerResultMap" type="com.ekt.cms.exercise.entity.CmsAnswer">
 			<result column="id" property="id" jdbcType="INTEGER" />
@@ -37,29 +39,33 @@
 	</resultMap>
 	
 	<select id="pageList" resultMap="BaseResultMap" parameterType="com.ekt.cms.exercise.entity.CmsExercise">
-		SELECT * FROM cms_exercise
-			WHERE 1=1 
+		SELECT 
+			e.*,a.real_name 
+		FROM cms_exercise e
+		LEFT JOIN cms_account  a on e.input_account_id=a.id
+		WHERE 1=1 
 		<if test="exercise.gradeNo != null and exercise.gradeNo!=''">
-			AND grade_no=#{exercise.gradeNo}
+			AND e.grade_no=#{exercise.gradeNo}
 		</if>
 		<if test="exercise.subjectNo != null and exercise.subjectNo!=''">
-			AND subject_no=#{exercise.subjectNo}
+			AND e.subject_no=#{exercise.subjectNo}
 		</if>
 		<if test="exercise.typeNo != null and exercise.typeNo!=''">
-			AND type_no=#{exercise.typeNo}
+			AND e.type_no=#{exercise.typeNo}
 		</if>
 		<if test="exercise.knowledges != null and exercise.knowledges!=''">
-			AND ( knowledge LIKE '%${exercise.knowledges}%' ) 
+			AND ( e.knowledge LIKE '%${exercise.knowledges}%' ) 
 		</if>
 		<if test="exercise.categoryNo != null and exercise.categoryNo !=''">
-			AND category_no=#{exercise.categoryNo}
+			AND e.category_no=#{exercise.categoryNo}
 		</if>
 		<if test="exercise.difficultyNo != null and exercise.difficultyNo!=''">
-			AND difficulty_no=#{exercise.difficultyNo}
+			AND e.difficulty_no=#{exercise.difficultyNo}
 		</if>
 		<if test="exercise.content != null and exercise.content!=''">
-			AND ( content LIKE '%${exercise.content}%' )
+			AND ( e.content LIKE '%${exercise.content}%' )
 		</if>
+		ORDER BY id DESC
 	</select>
 	<!-- 停用习题 -->
 	<update id="exerciseConfine" parameterType="java.lang.Integer">
@@ -105,7 +111,8 @@
 		`grade_no`,
 		`subject_no`,
 		`phase_no`,
-		`analysis`
+		`analysis`,
+		`input_account_id`
 		) VALUES (
 		#{content},
 		#{difficultyNo},
@@ -121,7 +128,8 @@
 		#{gradeNo},
 		#{subjectNo},
 		#{phaseNo},
-		#{analysis}
+		#{analysis},
+		#{inputAccountId}
 		)
 
 	</insert>
@@ -141,7 +149,8 @@
 			 `grade_no`= #{gradeNo},
 			 `subject_no`= #{subjectNo},
 			 `phase_no`= #{phaseNo},
-			 `analysis` =#{analysis}
+			 `analysis` =#{analysis},
+			 `input_account_id`=#{inputAccountId}
 		WHERE
 			 `id` = #{id};
 	</update>

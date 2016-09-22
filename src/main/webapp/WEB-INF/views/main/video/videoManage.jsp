@@ -94,9 +94,9 @@ color:red;
 			
 			
 			<!-- 腾讯云点播-->
-			<form id="qupload" action="/cms/vodCloud/upload" method="post" enctype="multipart/form-data">
+			<form id="qupload"  enctype="multipart/form-data">
 				<div class='controls'>
-					<input type="file" id="videoFile" name="videoFile" multiple="multiple"
+					<input type="file" id="videoFile" name="videoFile" accept=".avi,.mp4,.rmvb,.mkv" 
 						class="form-control input-sm mb15"  required><br>
 						<button type="submit" id ="qsubmitbutton">点击上传</button>
 				</div>

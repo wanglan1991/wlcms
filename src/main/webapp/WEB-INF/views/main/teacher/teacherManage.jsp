@@ -79,8 +79,8 @@ color:red;
     <img alt="" id="headPic" src="http://ekt.oss-cn-shenzhen.aliyuncs.com/headPicture/ironman.png" style="width: 216px;height: 237px;">
     <div class='control-group'>
             <div class='controls' >
-             <form id="upload" action="/cms/upload/imageUpload" method="post" enctype="multipart/form-data">
-					<input type="file" id="imgFile" name="imgFile" multiple="multiple"	style='width: 216px;'required><br>
+             <form id="upload"  enctype="multipart/form-data">
+					<input type="file" id="imgFile" name="imgFile" accept="image/gif,image/jpeg,image/png,image/jpg"	style='width: 216px;'required><br>
 						<button type="submit" id="submitbutton">点击上传</button>
 					</form>
             </div>

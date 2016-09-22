@@ -381,18 +381,18 @@ define(function(require, exports, module) {
 		        	$(id).empty();
 		        	var knowledgesOption ="";
 		        	$.ajax({
-		        		url:F.basepath+"/cms/knowledge/listPage",
+		        		url:F.basepath+"/cms/knowledge/list",
 		        		type:"GET",
 		        		data:{subjectNo:subjectNo,gradeNo:gradeNo},
 		        		success:function(data){
-		        			if(data.rows.length<1){
+		        			if(data.value.length<1){
 		        				knowledgesOption+="<option value = '0'>无 ----</option>";
 		        			}
-		        			for(var i=0;i<data.rows.length;i++){
+		        			for(var i=0;i<data.value.length;i++){
 		        				if(i==0){
 		        				knowledgesOption+="<option value = '0'>知识点----</option>";
 		        				};
-		        				knowledgesOption+="<option value = '"+data.rows[i].id+"'>"+data.rows[i].title+"</option>"
+		        				knowledgesOption+="<option value = '"+data.value[i].id+"'>"+data.value[i].title+"</option>"
 		        			}
 		        			$(id).append(knowledgesOption);
 		        		}
@@ -749,19 +749,15 @@ define(function(require, exports, module) {
 		$(function() {
 			$("#qupload").ajaxForm({
 				//定义返回JSON数据，还包括xml和script格式
-				dataType : 'json',
+				url:"/cms/vodCloud/upload",
+//				url:"/cms/qiniu/uploadByQiNiu",
+				type:'post',
 				beforeSend : function() {
-					//表单提交前做表单验证
-//					if($("#qvideoFile").val()=="")
-//					{
-//					alert("请先上传文件");
-//					return;
-//					}
-					$("#msg").html('');
-						$("#modal-Video").append("<div id='waitForUpload'background-color:azure style='opacity: 0.6;position: absolute;" +
-								"position: absolute;z-index=4; width: 100%;height: 100%;margin-top: -96%'>" +
-								"<div style='margin-left: 40%;margin-top: 37%;'><h3><b>uploading...</b></h3><img src='/cms/assets/images/upload.gif' style='max-width: 19%;'/></div></div>");
-		
+				$("#msg").html('');
+					$("#modal-Video").append("<div id='waitForUpload'background-color:azure style='opacity: 0.6;position: absolute;" +
+							"position: absolute;z-index=4; width: 100%;height: 100%;margin-top: -96%'>" +
+							"<div style='margin-left: 40%;margin-top: 37%;'><h3><b>uploading...</b></h3><img src='/cms/assets/images/upload.gif' style='max-width: 19%;'/></div></div>");
+	
 				$("#qsubmitbutton").attr("disabled","disalbed");
 				$("#videoFile").attr("disabled","disalbed");
 				
