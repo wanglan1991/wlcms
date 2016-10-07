@@ -206,7 +206,8 @@ define(function (require, exports, module) {
 	         /**
 	         	 * 加载教材知识点树
 	         	 */
-	         editloadKnowledgeTree:function(_url,gradeNo,subjectNo,knowledgePointArr,idOrClass){   
+	         editloadKnowledgeTree:function(_url,gradeNo,subjectNo,knowledgePointArr,idOrClass){ 
+	        	 $(idOrClass).empty();
 		        	 var setting = {
 		     				check: {
 		     					enable: true,

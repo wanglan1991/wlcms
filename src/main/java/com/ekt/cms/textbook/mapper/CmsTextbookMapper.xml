@@ -10,8 +10,7 @@
 		<result column="subject" property="subject" jdbcType="VARCHAR" />
 		<result column="publisher_no" property="publisherNo" jdbcType="INTEGER" />
 		<result column="publisher" property="publisher" jdbcType="VARCHAR" />
-		<result column="textbook_type_no" property="textbookTypeNo"
-			jdbcType="INTEGER" />
+		<result column="textbook_type_no" property="textbookTypeNo" jdbcType="INTEGER" />
 		<result column="textbook_type" property="textbookType"
 			jdbcType="VARCHAR" />
 		<result column="title" property="title" jdbcType="VARCHAR" />
@@ -21,58 +20,67 @@
 		<result column="author" property="author" jdbcType="VARCHAR" />
 		<result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
 		<result column="status" property="status" jdbcType="INTEGER" />
-		<result column="push_person" property="pushPerson" jdbcType="VARCHAR" />
+		<result column="real_name" property="inputAccountRealName" jdbcType="VARCHAR" />
+		<result column="price" property="price" jdbcType="DOUBLE" />
+		<result column="discount" property="discount" jdbcType="DOUBLE" />
+		<result column="is_hot" property="isHot" jdbcType="INTEGER" />
 		<result column="crate_time" property="crateTime" jdbcType="DATE" />
 		<result column="knowledge_point_arr_val" property="knowledgePointArrVal" jdbcType="VARCHAR" />
 	</resultMap>
 	<select id="listPage" resultMap="BaseResultMap"	parameterType="com.ekt.cms.textbook.entity.CmsTextbook">
-		SELECT
-		t.id,
-		t.title,
-		t.phase_no,
-		t.grade_no,
-		d.`value` grade,
-		t.subject_no,
-		d1.`value` SUBJECT,
-		t.publisher_no,
-		d2.`value` publisher,
-		t.textbook_type_no,
-		d3.`value` textbook_type,
-		ft.`name` author,
-		t.digest,
-		t.knowledge_point_arr,
-		t.img_url,
-		t.`status`,
-		t.push_person,
-		t.crate_time
-		FROM
-		cms_textbook t
-		LEFT JOIN cms_dictionary d ON t.grade_no = d.id
-		LEFT JOIN
-		cms_dictionary d1 ON t.subject_no = d1.id
-		LEFT JOIN cms_dictionary d2
-		ON t.publisher_no = d2.id
-		LEFT JOIN cms_dictionary d3 ON
-		t.textbook_type_no = d3.id
-		LEFT JOIN api_teacher ft on 
-		ft.id=t.author_id
-		WHERE 1=1
-		<if test="textbook.title !=null and textbook.title !=''">
-			AND (t.title like '%${textbook.title}%')
-		</if>
-		<if test="textbook.subjectNo!=null and textbook.subjectNo!='' and textbook.subjectNo !=0">
-			AND t.subject_no=#{textbook.subjectNo}
-		</if>
-		<if test="textbook.gradeNo!=null and textbook.gradeNo!='' and textbook.gradeNo !=0 ">
-			AND t.grade_no= #{textbook.gradeNo}
-		</if>
-		<if test="textbook.publisherNo!=null and textbook.publisherNo!=''">
-			AND t.publisher_no= #{textbook.publisherNo}
-		</if>
-		<if test="textbook.textbookTypeNo !=null and textbook.textbookTypeNo !=''">
-			AND t.textbook_type_no=#{textbook.textbookTypeNo}
-		</if>
-	</select>
+				SELECT
+					t.id,
+					t.title,
+					t.phase_no,
+					t.grade_no,
+					d.`value` grade,
+					t.subject_no,
+					d1.`value` SUBJECT,
+					t.publisher_no,
+					d2.`value` publisher,
+					t.textbook_type_no,
+					d3.`value` textbook_type,
+					ft.`name` author,
+					t.digest,
+					t.knowledge_point_arr,
+					t.img_url,
+					t.`status`,
+					t.input_account_id,
+					ac.real_name,
+					t.crate_time,
+					t.discount,
+					t.price,
+					t.is_hot
+				FROM
+				cms_textbook t
+				LEFT JOIN cms_account ac on t.input_account_id=ac.id
+				LEFT JOIN cms_dictionary d ON t.grade_no = d.id
+				LEFT JOIN
+				cms_dictionary d1 ON t.subject_no = d1.id
+				LEFT JOIN cms_dictionary d2
+				ON t.publisher_no = d2.id
+				LEFT JOIN cms_dictionary d3 ON
+				t.textbook_type_no = d3.id
+				LEFT JOIN api_teacher ft on 
+				ft.id=t.author_id
+				WHERE 1=1
+				<if test="textbook.title !=null and textbook.title !=''">
+					AND (t.title like '%${textbook.title}%')
+				</if>
+				<if test="textbook.subjectNo!=null and textbook.subjectNo!='' and textbook.subjectNo !=0">
+					AND t.subject_no=#{textbook.subjectNo}
+				</if>
+				<if test="textbook.gradeNo!=null and textbook.gradeNo!='' and textbook.gradeNo !=0 ">
+					AND t.grade_no= #{textbook.gradeNo}
+				</if>
+				<if test="textbook.publisherNo!=null and textbook.publisherNo!=''">
+					AND t.publisher_no= #{textbook.publisherNo}
+				</if>
+				<if test="textbook.textbookTypeNo !=null and textbook.textbookTypeNo !=''">
+					AND t.textbook_type_no=#{textbook.textbookTypeNo}
+				</if>
+					ORDER BY t.id DESC
+			</select>
 	<insert id="insertTextbook" parameterType="com.ekt.cms.textbook.entity.CmsTextbook">
 			INSERT INTO cms_textbook(
 			phase_no,
@@ -83,35 +91,35 @@
 			title,
 			knowledge_point_arr,
 			knowledge_point_arr_val,
-		<if test="digest !=null and digest !=''">
 			digest,
-		</if>
-		<if test="authorId!=null and authorId !='' and authorId!=0">
 			author_id,
-		</if>
 			img_url,
-			push_person,
+			input_account_id,
 			crate_time,
-			status
+			isfree,
+			price,
+			discount,
+			status,
+			is_hot
 			)VALUES(
-				#{phaseNo,jdbcType=INTEGER},
-				#{gradeNo ,jdbcType=INTEGER},
-				#{subjectNo,jdbcType=INTEGER},
-				#{publisherNo,jdbcType=INTEGER},
-				#{textbookTypeNo,jdbcType=INTEGER},
-				#{title,jdbcType=VARCHAR},
-				#{knowledgePointArr,jdbcType=VARCHAR},
-				#{knowledgePointArrVal,jdbcType=VARCHAR},
-			<if test="digest !=null and digest !=''">
-					#{digest,jdbcType=VARCHAR},
-			</if>
-			<if test="authorId!=null and authorId !='' and authorId!=0">
-					#{authorId,jdbcType=INTEGER},
-			</if>
-				#{imgUrl,jdbcType=VARCHAR},
-				#{pushPerson,jdbcType=VARCHAR},
+				#{phaseNo},
+				#{gradeNo },
+				#{subjectNo},
+				#{publisherNo},
+				#{textbookTypeNo},
+				#{title},
+				#{knowledgePointArr},
+				#{knowledgePointArrVal},
+				#{digest},		
+				#{authorId},
+				#{imgUrl},
+				#{inputAccountId},
 				SYSDATE(),
-				1
+				#{isFree},
+				#{price},
+				#{discount},
+				1,
+				#{isHot}
 			)
 	</insert>
 	<delete id="deleteTextbook" parameterType="java.lang.Integer">
@@ -162,9 +170,19 @@
 		<if test="status !=null and status !=''">
 			status=#{status}, 
 		</if>
-		<if test="pushPerson !=null and pushPerson !=''">
-			push_person =#{pushPerson}  
+		<if test="inputAccountId !=null and inputAccountId !=0">
+			input_account_id =#{inputAccountId}  ,
 		</if>
+		<if test="price !=null and price !=''">
+			price =#{price},
+		</if>
+		<if test="discount !=null and discount !=''">
+			discount =#{discount},
+		</if>
+			is_hot =#{isHot},
+			
+			isfree =#{isFree}
+			
 		WHERE id=#{id};
 		
 	</update>

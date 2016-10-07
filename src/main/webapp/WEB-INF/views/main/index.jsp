@@ -478,7 +478,7 @@
                 <li class=''>
                     <a href='javascript:void(0)' id='ekt_index'>
                         <i class='icon-location-arrow'></i>
-                        <span>首页</span>
+                        <span>EKT首页</span>
                     </a>
                 </li>
             </ul>

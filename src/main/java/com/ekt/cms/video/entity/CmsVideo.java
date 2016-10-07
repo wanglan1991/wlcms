@@ -47,7 +47,38 @@ public class CmsVideo {
 	private int exerciseKnoeledgeId;
 	//文件Id;
 	private String fileId;
+	//价格
+	private Double price;
+	//折扣
+	private Double discount;
+	//是否免费
+	private Integer isFree;
 	
+	
+	public Integer getIsFree() {
+		return isFree;
+	}
+
+	public void setIsFree(Integer isFree) {
+		this.isFree = isFree;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public Double getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(Double discount) {
+		this.discount = discount;
+	}
+
 	public String getFileId() {
 		return fileId;
 	}

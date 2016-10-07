@@ -68,6 +68,8 @@ public class CmsVideoController extends BaseController{
 	@ResponseBody
 	public Result update(CmsVideo cmsVideo){
 		Result result =  Result.getResults();
+		cmsVideo.setAuthorId(getCurrentAccount().getId());
+		cmsVideo.setIsFree(cmsVideo.getPrice()>0?0:1);
 		result.setResult(cmsVideoService.update(cmsVideo));
 		return result;
 	}
@@ -78,6 +80,7 @@ public class CmsVideoController extends BaseController{
 	public Result insert(CmsVideo cmsVideo){
 		Result result =  Result.getResults();
 		cmsVideo.setAuthorId(getCurrentAccount().getId());
+		cmsVideo.setIsFree(cmsVideo.getPrice()>0?0:1);
 		result.setResult(cmsVideoService.insert(cmsVideo));
 		return result;
 		}

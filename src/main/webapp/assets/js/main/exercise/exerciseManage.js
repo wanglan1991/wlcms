@@ -175,7 +175,9 @@ define(function (require, exports, module) {
 	        				var reg= new RegExp('<//','g');
 	        				var reg1= new RegExp('//>','g');
 	        				var enter=new RegExp("\n","g");
-	        				var content=row.content.replace(enter,"<br>")
+	        				var blank=new RegExp(" ","g");
+	        				var content=row.content.replace(blank,"&nbsp;");
+	        					content=content.replace(enter,"<br>");
 	        				    content=content.replace(reg,"</h3><img  src='http://ekt.oss-cn-shenzhen.aliyuncs.com/");
 	        				var html="<div style='margin-left:4px;width:91%;'><h3>"+content.replace(reg1,"'><h3>")+"</h3></div><br><br>";
 		        				$.ajax({
@@ -184,15 +186,17 @@ define(function (require, exports, module) {
 		        	        		data:{exerciseId:row.id},
 		        	        		success:function(data){
 		        	        			for(var i=0;i<data.value.length;i++){
-		        	        				var content1 = data.value[i].contents.replace(enter,"<br>")
+		        	        				var content1 = data.value[i].contents.replace(blank,"&nbsp");
+		        	        					content1 =content1.replace(enter,"<br>");
 		        	        					content1 =content1.replace(reg,"<img style='min-width:13px' src='http://ekt.oss-cn-shenzhen.aliyuncs.com/");
 		        	        				
 		        	        				html+="<span><h4>"+data.value[i].option+".&nbsp;&nbsp;"+content1.replace(reg1,"'>")+
 		        	        				"&nbsp;&nbsp;"+(data.value[i].isTrue==1?"<b style='color:blue'>√</b>":"<b style='color:red'>×</b>")+"</h4></span><br>";
 		        	        			}
 		        	        			$("#exerciseContent").append(html);
-		        	        			var analysis = row.analysis.replace(enter,"<br>")
-		        	        			analysis="<h4>"+analysis.replace(reg,"</h4><img style='min-width:13px' src='http://ekt.oss-cn-shenzhen.aliyuncs.com/");
+		        	        			var analysis = row.analysis.replace(blank,"&nbsp;");
+		        	        				analysis = analysis.replace(enter,"<br>")
+		        	        				analysis ="<h4>"+analysis.replace(reg,"</h4><img style='min-width:13px' src='http://ekt.oss-cn-shenzhen.aliyuncs.com/");
 		        	        			$("#exerciseAnalysis").html(analysis.replace(reg1,"'><h4>")+"</h4>");
 		        	        		}
 		        					
@@ -227,7 +231,7 @@ define(function (require, exports, module) {
 			        		success:function(data){
 			        			for(var i=0;i<data.value.length;i++){
 			        				answerHtml+=" <div class='controls"+data.value[i].option+"' option='"+data.value[i].option+"' id='editAnswerOption'>"+data.value[i].option+"：&nbsp;&nbsp;" +
-			        						"<input class='span8'   style='width:52%;' value='"+data.value[i].contents+"' required name='editAnswer' maxlength='900'  placeholder='答案..' type='text' />&nbsp;&nbsp;isTrue:";
+			        						"<textarea class='span8'   style='width:52%;'  required name='editAnswer' maxlength='900'  placeholder='答案..'>"+data.value[i].contents+"</textarea>&nbsp;&nbsp;isTrue:";
 			        						if(data.value[i].isTrue==1){
 			        						answerHtml+="<input style='margin-top:-1px' checked='checked'  name='editIsTrue' isTrue='0' type='checkbox' />";
 			        						}else{
@@ -343,7 +347,7 @@ define(function (require, exports, module) {
 					var tag=4;
 					for(var i=0;i<tag;i++){
 						var option =i==0?'A':i==1?"B":i==2?"C":i==3?"D":i==4?"E":"F";
-					$("#answer").append(" <div class='controls"+option+"' option='"+option+"' id='answerOption'>"+option+"：&nbsp;&nbsp;<input class='span8'  style='width:52%;' required name='answer' maxlength='900'  placeholder='答案..' type='text' />" +
+					$("#answer").append(" <div class='controls"+option+"' option='"+option+"' id='answerOption'>"+option+"：&nbsp;&nbsp;<textarea class='span8'  style='width:52%;' required name='answer' maxlength='900'  placeholder='答案..'></textarea>" +
 					"&nbsp;&nbsp;isTrue:<input style='margin-top:-1px' name='isTrue' isTrue='0' type='checkbox' /></div>");
 				}
 				
@@ -390,7 +394,7 @@ define(function (require, exports, module) {
 				var input = $("#answer").find("div").length
 				var option =input==0?'A':input==1?"B":input==2?"C":input==3?"D":input==4?"E":"F";
 				if(input>5){return; }
-				$("#answer").append(" <div class='controls"+option+"' option='"+option+"' id='answerOption'>"+option+"：&nbsp;&nbsp;<input class='span8'  style='width:52%;' required name='answer' maxlength='900'  placeholder='答案..' type='text' />" +
+				$("#answer").append(" <div class='controls"+option+"' option='"+option+"' id='answerOption'>"+option+"：&nbsp;&nbsp;<textarea class='span8'  style='width:52%;' required name='answer' maxlength='900'  placeholder='答案..'></textarea>" +
 						"&nbsp;&nbsp;isTrue:<input style='margin-top:-1px' name='isTrue' isTrue='0' type='checkbox' /></div>");
 			});
 //			增加编辑习题答案输入框
@@ -398,7 +402,7 @@ define(function (require, exports, module) {
 				var input = $("#editAnswer").find("div").length
 				var option =input==0?'A':input==1?"B":input==2?"C":input==3?"D":input==4?"E":"F";
 				if(input>5){return; }
-				$("#editAnswer").append(" <div class='controls"+option+"' option='"+option+"' id='editAnswerOption'>"+option+"：&nbsp;&nbsp;<input class='span8'  style='width:52%;' required name='editAnswer' maxlength='900'  placeholder='答案..' type='text' />" +
+				$("#editAnswer").append(" <div class='controls"+option+"' option='"+option+"' id='editAnswerOption'>"+option+"：&nbsp;&nbsp;<textarea class='span8'  style='width:52%;' required name='editAnswer' maxlength='900'  placeholder='答案..' type='text'></textarea>" +
 						"&nbsp;&nbsp;isTrue:<input style='margin-top:-1px' name='editIsTrue' editIsTrue='0' type='checkbox' /></div>");
 			});
 //			删除习题答案输入框
@@ -604,7 +608,7 @@ define(function (require, exports, module) {
 				var list=new Array();
 				var isTrueTag=0;
 				$("#answer div").each(function(){
-					var answer=$(this).find("[name='answer']").val().replace(/\s+/g, "");
+					var answer=$(this).find("[name='answer']").val();
 					length=answer.length;
 					if(answer.length<1){$("#msg").html("答案内容不能为空！"); return false;}
 					var isTrue=$(this).find("[name='isTrue']").attr('checked')=='checked'?1:0;
@@ -687,7 +691,7 @@ define(function (require, exports, module) {
 			var list=new Array();
 			var isTrueTag=0;
 			$("#editAnswer div").each(function(){
-				var answer=$(this).find("[name='editAnswer']").val().replace(/\s+/g, "");
+				var answer=$(this).find("[name='editAnswer']").val();
 				length=answer.length;
 				if(answer.length<1){$("#editMsg").html("答案内容不能为空！");return false;}
 				var isTrue=$(this).find("[name='editIsTrue']").attr('checked')=='checked'?1:0;

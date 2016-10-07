@@ -87,7 +87,7 @@
             </div>
        
 		<div style='height:40px;margin-top:60px;margin-left: 42%;color:#b94a48' id='msg'></div>	
-		<div style="height:120px;margin-top:30px">
+		<div style="height:120px;margin-top:100px">
 	    <span style="margin-left: 41%;width:100px">
 	        <button type="button" id="btnClose" class='btn'>关闭</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	        <button type="button" id="btnSubmit" class='btn btn-primary'>保存</button>
@@ -156,7 +156,7 @@
             	</br></br></div>
             </div>
 		<div style='height:40px;margin-top:60px;margin-left: 42%;color:#b94a48' id='editMsg'></div>	
-		<div style="height:120px;margin-top:30px;">
+		<div style="height:120px;margin-top:100px;">
 	    <span style="margin-left: 41%;width:100px">
 	        <button type="button" id="editBtnClose" class='btn'>关闭</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	        <button type="button" id="editBtnSubmit" class='btn btn-primary'>保存</button>

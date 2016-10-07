@@ -24,11 +24,12 @@ color:red;
 <!-- 新增视频模态框 -->
 	<div class='modal hide fade ' id='modal-Video'  z-index='2' role='dialog'
 		tabindex='-1'>
+	
 		<div class='modal-header'>
 			<button class='close' id="tatil" data-dismiss='modal'  type='button'>&times;</button>
 			<h3></h3>
 		</div>
-				<div class='modal-body' >
+				<div class='modal-body' style="max-height:540px" >
 				<div class='control-group'>
 					<label class='control-label'>视频名称</label>
 					<input type="hidden" id="id" />
@@ -52,7 +53,7 @@ color:red;
 							placeholder='简介' type='text' style="height:50px;" />
 					</div>
 				</div>
-						<div class='control-group'>
+				<div class='control-group'>
 					<label class='control-label'>年级</label>
 					<div class='controls'>
 						 <div class='input-append'>
@@ -79,7 +80,18 @@ color:red;
 						</div>
 					</div>
 				</div>
-				
+			 <div class='control-group'>
+		            <label class='control-label'>价格</label>
+		            <div class='controls'>
+		                <input  id='addPrice'  onkeyup="value=value.replace(/[^\d.]/g,'')"  maxlength='3'  placeholder='￥....' type='text' />
+		            </div>
+		        </div> 
+	        <div class='control-group'>
+		            <label class='control-label'>折扣</label>
+		            <div class='controls'>
+		                <input  id='addDiscount'  onkeyup="value=value.replace(/[^\d.]/g,'')"  maxlength='3'  placeholder='%....' type='text' />
+		            </div>
+	        </div> 
 				
 				
 <!-- 乐视云点播
@@ -94,19 +106,20 @@ color:red;
 			
 			
 			<!-- 腾讯云点播-->
-			<form id="qupload"  enctype="multipart/form-data">
-				<div class='controls'>
-					<input type="file" id="videoFile" name="videoFile" accept=".avi,.mp4,.rmvb,.mkv" 
-						class="form-control input-sm mb15"  required><br>
-						<button type="submit" id ="qsubmitbutton">点击上传</button>
-				</div>
-			</form>	 		
-	</div>
+				<form id="qupload"  enctype="multipart/form-data">
+					<div class='controls'>
+						<input type="file" id="videoFile" name="videoFile" accept=".avi,.mp4,.rmvb,.mkv" 
+							class="form-control input-sm mb15"  required><br>
+							<button type="submit" id ="qsubmitbutton">点击上传</button>
+					</div>
+				</form>	 		
+			</div>
 			<div class='modal-footer'>
 				<msg id='msg' style='color:red'></msg>
 				<button type="button" id="btnClose" class='btn'>关闭</button>
 				<button   id="btnSubmit" class='btn btn-primary'>保存</button>
 			</div>
+		
 	</div>
 	
 	
@@ -117,14 +130,12 @@ color:red;
 			<button class='close' id="tatil" data-dismiss='modal' type='button'>&times;</button>
 			<h3></h3>
 		</div>
-		<form class='form validate-form' id='Editsubmit-form' role="form"
-			style='margin-bottom: 0;'>
-				<div class='modal-body' style="max-height: 550px">
+				<div class='modal-body'  style="max-height:540px">
 				<div class='control-group'>
 					<label class='control-label'>视频名称</label>
 					<input type="hidden" id="editId" />
 					<div class='controls'>
-						<input class='span8' id='editVideo' name="editVideo" placeholder='请输入视频名称' 
+						<input class='span8' id='editVideo'  placeholder='请输入视频名称' 
 							type='text' />
 							<span id="edit-video-error" class="help-block error"></span>
 					</div>
@@ -133,8 +144,7 @@ color:red;
 				<div class='control-group'>
 					<label class='control-label'>简介</label>
 					<div class='controls'>
-						<textarea class='span8' id='editDigest' name="editDigest"
-							placeholder='简介' type='text' style="height:50px;" />
+						<textarea class='span8' id='editDigest' placeholder='简介' type='text' style="height:50px;" />
 					</div>
 				</div>
 				
@@ -143,7 +153,7 @@ color:red;
 					<input type="hidden" id="EditGradeNo" />
 					<div class='controls'>
 						 <div class='input-append'>
-		               		<select id='EditGrade'></select>
+		               		<select id='editGrade'></select>
 		                </div>
 					</div>
 				</div>
@@ -153,23 +163,33 @@ color:red;
 					<input type="hidden" id="EditSubjectNo" />
 					<div class='controls'>
 						<div class='input-append'>
-		               		<select id='EditSubject'>
+		               		<select id='editSubject'>
 		               		</select>
 		                </div>
 					</div>
 				</div>
-			
 
-			
           <div class="col-md-11 col-sm-12">
                 <div class="form-group">
             		<label class="col-sm-3 control-label">知识点</label>
             		<div class="col-sm-9">
-                    	<select id="editKnowledge"  name="editKnowledge"  style="width:300px;" multiple="true"></select>      
+                    	<select id="editKnowledge"    style="width:300px;" multiple="true"></select>      
             		</div>			
         		</div>
             </div>
             
+             <div class='control-group'>
+		            <label class='control-label'>价格</label>
+		            <div class='controls'>
+		                <input  id='editPrice'  onkeyup="value=value.replace(/[^\d.]/g,'')"  maxlength='10'  placeholder='￥....' type='text' />
+		            </div>
+		        </div> 
+	        <div class='control-group'>
+		            <label class='control-label'>折扣</label>
+		            <div class='controls'>
+		                <input  id='editDiscount'  onkeyup="value=value.replace(/[^\d.]/g,'')"  maxlength='10'  placeholder='%....' type='text' />
+		            </div>
+	        </div> 
            
             
 			<div class='control-group'>
@@ -177,11 +197,10 @@ color:red;
 			</div>
 			</div>
 			<div class='modal-footer'>
-				<msg id='edit-msg'></msg>
+				<msg id='edit-msg' style='color:red'></msg>
 				<button type="button" id="EditbtnClose" class='btn'>关闭</button>
-				<button  id="EditbtnSubmit" class='btn btn-primary'>保存</button>
+				<button  id="editbtnSubmit" class='btn btn-primary'>保存</button>
 			</div>
-		</form>
 	</div>
 		
 		
@@ -237,12 +256,6 @@ color:red;
 						 #f0f6e4;width:100%;height:361px;overflow-y:scroll;overflow-x:auto;"></ul>
 					</div>
 				</div>
-      
-       
-
-    
-
-
 
 	</div>
 		

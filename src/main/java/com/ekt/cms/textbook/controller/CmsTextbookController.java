@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ekt.cms.common.BaseController;
 import com.ekt.cms.common.entity.CmsKnowledge;
 import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.common.service.ICmsKnowledgeService;
@@ -39,7 +40,7 @@ import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
  */
 @Controller
 @RequestMapping("/textbook")
-public class CmsTextbookController {
+public class CmsTextbookController  extends BaseController{
 
 	/**
 	 * 返回教材页面
@@ -166,6 +167,8 @@ public class CmsTextbookController {
 	@ResponseBody
 	public Result addTextbook(CmsTextbook cmsTextbook) {
 		Result result = Result.getResults();
+		cmsTextbook.setInputAccountId(getCurrentAccount().getId());
+		cmsTextbook.setIsFree(cmsTextbook.getPrice()==0?1:0);
 		result.setResult(cmsTextbookService.addTextbook(cmsTextbook));
 		return result;
 	}
@@ -193,6 +196,8 @@ public class CmsTextbookController {
 	@ResponseBody
 	public Result update(CmsTextbook cmsTextbook){
 		Result result = Result.getResults();
+		cmsTextbook.setInputAccountId(getCurrentAccount().getId());
+		cmsTextbook.setIsFree(cmsTextbook.getPrice()==0?1:0);
 		result.setResult(cmsTextbookService.update(cmsTextbook));
 		return result;
 	}

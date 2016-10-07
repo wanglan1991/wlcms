@@ -25,6 +25,8 @@
 		<result column="exercise_grade_no" property="exerciseGradeNo" jdbcType="INTEGER"></result>
 		<result column="exercise_subject_no" property="exerciseSubjectNo" jdbcType="INTEGER"></result>
 		<result column="exercise_knoeledge_id" property="exerciseKnoeledgeId" jdbcType="INTEGER"></result>
+		<result column="price" property="price" jdbcType="DOUBLE"></result>
+		<result column="discount" property="discount" jdbcType="DOUBLE"></result>
 	</resultMap>
 	
 	<resultMap type="com.ekt.cms.common.entity.TreeBean" id="TreeBeanMap">
@@ -64,7 +66,9 @@
 			v.grade_no grade_no,
 			d.value grade,
 			v.subject_no subject_no,
-			d1.value subject
+			d1.value subject,
+			v.price,
+			v.discount
 		FROM
 			cms_video v
 		LEFT JOIN cms_dictionary d on v.grade_no=d.id
@@ -144,8 +148,13 @@
 			subject_no= #{CmsVideo.subjectNo, jdbcType=INTEGER},
 			</if>
 			<if test="CmsVideo.status !=null ">
-			status=#{CmsVideo.status}
+			status=#{CmsVideo.status},
 			</if>
+			price =#{CmsVideo.price},
+			
+			discount =#{CmsVideo.discount},
+			
+			isfree =#{CmsVideo.isFree}
 			
 		WHERE
 			id=#{CmsVideo.id}
@@ -157,8 +166,7 @@
 			order="AFTER">
 			SELECT LAST_INSERT_ID()
 	</selectKey>
-		INSERT INTO
-		 cms_video
+		INSERT INTO cms_video
 			(video_name,
 			digest,
 			url,
@@ -173,7 +181,9 @@
 			knowledge,
 			video_key,
 			status,
-			discount)
+			price,
+			discount,
+			isfree)
 		VALUES
 			(#{CmsVideo.videoName},
 			#{CmsVideo.digest},
@@ -189,7 +199,9 @@
 			#{CmsVideo.knowledge},
 			#{CmsVideo.videoKey},
 			1,
-			1)
+			#{CmsVideo.price},
+			#{CmsVideo.discount},
+			#{CmsVideo.isFree})
 	</insert>
 	<!-- 根据视频key更新视频URL 时长 文件名 -->
 	<update id="updateByVideoKey" parameterType="com.ekt.cms.video.entity.CmsVideo">
