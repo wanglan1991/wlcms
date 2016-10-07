@@ -46,7 +46,7 @@ color:red;
         <div class='control-group'>
             <label class="col-sm-3 control-label">内容</label>
 			<div class="col-sm-9" style="width:225px">
-				<select id="quintessenceContent" style="width:220px; height:30px" multiple="true"></select>
+				<select id="quintessenceContent" style="width:220px; height:30px"></select>
             </div>
         </div>
         <div class='control-group'>

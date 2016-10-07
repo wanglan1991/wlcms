@@ -84,4 +84,15 @@ public class CmsKnowledgeService implements ICmsKnowledgeService {
 		return CmsKnowledgeMapper.knowledgeTree(gradeNo,subjectNo);
 	}
 
+	@Override
+	public List<CmsKnowledge> knowledgeList(CmsKnowledge cmsKnowledge) {
+		// TODO Auto-generated method stub
+		return CmsKnowledgeMapper.listPage(cmsKnowledge);
+	}
+
+	@Override
+	public CmsKnowledge getKnowledgeByName(String name) {
+		return CmsKnowledgeMapper.getKnowledgeByName(name);
+	}
+
 }

@@ -33,7 +33,16 @@ public class CmsKnowledgeController {
 		page.paging();
 		return cmsKnowledgeService.listPage(cmsKnowledge);
 	}
-
+	
+	
+	@RequestMapping("/list")
+	@ResponseBody
+	public Result knowledgeList(CmsKnowledge cmsKnowledge){
+		Result result =Result.getResults();
+		result.setValue(cmsKnowledgeService.knowledgeList(cmsKnowledge));
+		return result ;
+	}
+	
 	@RequestMapping("/editKnowledge")
 	@ResponseBody
 	public Result update(CmsKnowledge cmsKnowledge) {

@@ -415,11 +415,9 @@ define(function(require, exports, module) {
 	 jQuery(document).ready(function() {
 		 $(function() {
 				$("#upload").ajaxForm({
-					//图片上传的文件夹
-					
-					data :
-					{key:"headPicture/",
-					fileName:"imgFile"},
+					url:"/cms/upload/imageUpload",
+					type:"post",
+					data :{key:"headPicture/",fileName:"imgFile"},
 					beforeSend : function() {
 					
 					$("#submitbutton").attr("disabled","disalbed");

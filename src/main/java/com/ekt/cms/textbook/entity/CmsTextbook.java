@@ -47,12 +47,62 @@ public class CmsTextbook {
 	// 状态
 	private Integer status;
 	//录入者
-	private String pushPerson; 
+	private Integer inputAccountId; 
+	//录入者名称
+	private String inputAccountRealName;
 	//创建时间
 	private Date crateTime;
 	
 	private String knowledgePointArrVal;
+	//折扣
+	private Double discount;
+	//价格
+	private Double price;
+	//是否免费
+	private Integer isFree;
+	//是否为热门
+	private Integer isHot;
 	
+	
+	public Integer getIsHot() {
+		return isHot;
+	}
+
+	public void setIsHot(Integer isHot) {
+		this.isHot = isHot;
+	}
+
+	public Integer getIsFree() {
+		return isFree;
+	}
+
+	public void setIsFree(Integer isFree) {
+		this.isFree = isFree;
+	}
+
+	public String getInputAccountRealName() {
+		return inputAccountRealName;
+	}
+
+	public void setInputAccountRealName(String inputAccountRealName) {
+		this.inputAccountRealName = inputAccountRealName;
+	}
+	public Double getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(Double discount) {
+		this.discount = discount;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
 	public int getAuthorId() {
 		return authorId;
 	}
@@ -76,14 +126,15 @@ public class CmsTextbook {
 		this.crateTime = crateTime;
 	}
 
-	public String getPushPerson() {
-		return pushPerson;
+	
+
+	public Integer getInputAccountId() {
+		return inputAccountId;
 	}
 
-	public void setPushPerson(String pushPerson) {
-		this.pushPerson = pushPerson;
+	public void setInputAccountId(Integer inputAccountId) {
+		this.inputAccountId = inputAccountId;
 	}
-
 
 	public Integer getId() {
 		return id;

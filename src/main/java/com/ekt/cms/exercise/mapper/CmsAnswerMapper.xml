@@ -15,7 +15,7 @@
 	</resultMap>
 
 	<select id="getAnswerList" resultMap="answerResultMap" parameterType="java.lang.Integer">
-		SELECT * FROM cms_exercise_answer WHERE exercise_id=#{exerciseId} ORDER BY `option` ASC
+		SELECT * FROM cms_exercise_answer WHERE exercise_id=#{exerciseId} ORDER BY id ASC
 	</select>
 	
 

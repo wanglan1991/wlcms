@@ -42,6 +42,12 @@ define(function (require, exports, module) {
         		}
         	});	
         },
+        /**
+         * 去空格
+         */
+        trim: function (str,is_global){
+        	return str.replace(/(^\s*)|(\s*$)/g, ""); 
+        },
         //加载编辑字典
         getEditDictOptions:function (type,dictType,selectId,value){
         	$(selectId).empty();
@@ -200,7 +206,8 @@ define(function (require, exports, module) {
 	         /**
 	         	 * 加载教材知识点树
 	         	 */
-	         editloadKnowledgeTree:function(_url,gradeNo,subjectNo,knowledgePointArr,idOrClass){   
+	         editloadKnowledgeTree:function(_url,gradeNo,subjectNo,knowledgePointArr,idOrClass){ 
+	        	 $(idOrClass).empty();
 		        	 var setting = {
 		     				check: {
 		     					enable: true,

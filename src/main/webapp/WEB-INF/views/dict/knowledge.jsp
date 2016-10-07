@@ -81,17 +81,15 @@ color:red;
 		tabindex='-1'>
 		<div class='modal-header'>
 			<button class='close' id="tatil" data-dismiss='modal' type='button'>&times;</button>
-			<h3></h3>
+			<h4></h4>
 		</div>
-		<form class='form validate-form' id='Editsubmit-form' role="form"
-			style='margin-bottom: 0;'>
 				<div class='modal-body'>
 				<div class='control-group'>
 
 					<label class='control-label'>知识点</label>
-					<input type="hidden" id="EditId" />
+					<input type="hidden" id="editKnowledgeId" />
 					<div class='controls'>
-						<input class='span8' id='EditTitle' name="EditTitle" placeholder='知识点' 
+						<input class='span8' id='editKnowledgeTitle'  placeholder='知识点' 
 							type='text' />
 							<span id="edit-title-error" class="help-block error"></span>
 					</div>
@@ -99,13 +97,13 @@ color:red;
 				<div class='control-group'>
 					<label class='control-label'>序号</label>
 					<div class='controls'>
-						<input class='span8' id='EditOrderNo' name="EditOrderNo"
+						<input class='span8' id='editKnowledgeOrderNo' 
 							placeholder='序号' type='text' />
 					</div>
 				</div>
 				<div class='control-group'>
 					<label class='control-label'>年级</label>
-					<input type="hidden" id="EditGradeNo" />
+					<input type="hidden" id="editKnowledgeGradeNo" />
 					<div class='controls'>
 						 <div class='input-append'>
 		               		<select id='EditGrade'></select>
@@ -114,7 +112,7 @@ color:red;
 				</div>
 				<div class='control-group'>
 					<label class='control-label'>科目</label>
-					<input type="hidden" id="EditSubjectNo" />
+					<input type="hidden" id="editKnowledgeSubjectNo" />
 					<div class='controls'>
 						<div class='input-append'>
 		               		<select id='EditSubject'>
@@ -124,11 +122,11 @@ color:red;
 				</div>
 			</div>
 			<div class='modal-footer'>
-				<msg id='edit-msg'></msg>
+				<msg id='edit-msg' style="color:red"></msg>
 				<button type="button" id="EditbtnClose" class='btn'>关闭</button>
-				<button  id="EditbtnSubmit" class='btn btn-primary'>保存</button>
+				<button  id="EditKnowledgeSubmit" class='btn'>保存</button>
 			</div>
-		</form>
+		
 	</div>
 	
 

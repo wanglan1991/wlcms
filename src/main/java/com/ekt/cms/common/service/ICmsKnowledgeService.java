@@ -13,6 +13,8 @@ import com.ekt.cms.utils.pageHelper.PageBean;
 public interface ICmsKnowledgeService {
 	// 分页查询
 	PageBean<CmsKnowledge> listPage(CmsKnowledge cmsKnowledge);
+	//知识点字典
+	List<CmsKnowledge> knowledgeList(CmsKnowledge cmsKnowledge);
 	//根据主键更新
 	int updateByPrimaryKey(CmsKnowledge cmsKnowledge);
 	//新增
@@ -33,4 +35,7 @@ public interface ICmsKnowledgeService {
 	List<CmsKnowledge> knowledgelist(CmsKnowledge cmsKnowledge);
 	//加载知识点树
 	List<Map<String,Object>> knowledgeTree(int gradeNo,int subjectNo);
+	//根据名称 获取知识点
+	CmsKnowledge getKnowledgeByName(String name);
+	
 }
