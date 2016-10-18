@@ -1,9 +1,11 @@
 package com.ekt.cms.textbook.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.ekt.cms.textbook.entity.CmsCatalogMessage;
 import com.ekt.cms.textbook.entity.CmsTextbook;
 
 /**
@@ -47,5 +49,20 @@ public interface CmsTextbookMapper {
 	 * @return
 	 */
 	public Integer updateTextbook(CmsTextbook cmsTextbook);
+	
+	/**
+	 * 根据textbookId获取该教材的所有节
+	 * @param textbookId
+	 * @return
+	 */
+	public List<Map<String, Object>> getCatalogTree(int textbookId);
+	
+
+	/**
+	 * 根据catalogId获取catalog以及视频相关信息
+	 * @param list
+	 * @return
+	 */
+	public List<CmsCatalogMessage> selectCatalogById(@Param("list")String [] list);
 
 }

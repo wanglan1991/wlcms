@@ -373,6 +373,9 @@
 					</shiro:hasPermission>
 					
 					
+					<shiro:hasPermission name="textbook:split">
+						<span id="basejs_textbook_split" style="display: none;" />
+					</shiro:hasPermission>
 					<shiro:hasPermission name="textbook:check">
 						<span id="basejs_textbook_check" style="display: none;" />
 					</shiro:hasPermission>
@@ -712,7 +715,9 @@ $("#ekt_index").click(function(){
 		}
 		
 // 	教材
-		
+		if ($("#basejs_textbook_split").length>0){
+			base.perList.textbook.split = true;
+		}
 		if ($("#basejs_textbook_check").length>0){
 			base.perList.textbook.check = true;
 		}

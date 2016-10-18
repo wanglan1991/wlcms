@@ -290,7 +290,7 @@ define(function (require, exports, module) {
 	        		        title: '知识点'
 	        		    },{
 	        		    	field: 'accountRealName',
-	        		    	title: '更新账号'
+	        		    	title: '更新者'
 	        		    }];
 	        //是否需要操作列
 	        if(base.perList.exercise.edit||base.perList.exercise.confine||base.perList.exercise.del)

@@ -283,6 +283,17 @@ define(function (require, exports, module) {
 		    			F.delTextbook(ids);
 		    		});
 		        },
+		        
+		        /**
+		         * 拆分教材
+		         */
+		        'click .splitTextbook':function(e, value, row, index){
+		        	core.openModel('modal-splitTextbook',"分离出册");
+		        	core.catalogTree(F.basepath+'/cms/textbook/catalogTree',row.id,"#catalogTree");
+		        },  
+		        
+		        
+		        
 		        /**
 		         * 查看目录大纲
 		         */
@@ -405,14 +416,20 @@ define(function (require, exports, module) {
 	        		        field: 'subject',
 	        		        title: '学科'
 	        		    },{
+	        		        field: 'chapterCount',
+	        		        title: '章数'
+	        		    },{
+	        		        field: 'sectionCount',
+	        		        title: '节数'
+	        		    },{
 	        		        field: 'price',
-	        		        title: '价格'
+	        		        title: '价格￥'
 	        		    },{
 	        		        field: 'discount',
-	        		        title: '折扣'
+	        		        title: '折扣%'
 	        		    },{
 	        		        field: 'inputAccountRealName',
-	        		        title: '更新人'
+	        		        title: '更新者'
 	        		    }];
 	        //是否需要操作列
 	        		if(base.perList.textbook.outline||
@@ -675,6 +692,33 @@ define(function (require, exports, module) {
 			})
 			
 			/**
+			 * 提交拆分textbook
+			 */
+			$('#splitTextbookBtnSubmit').click(function(){
+				var ids = core.getTreeIds("catalogTree");
+				if(ids.length==0){
+					$("#splitTextbookMsg").html("提交保存前必须至少选择一项！");
+					return;
+				}
+				$.ajax({
+					url:F.basepath+'/cms/textbook/splitTextbook',
+	        		type:'post',
+	        		data:{ids:ids},
+	        		success:function(data){
+	        			if(data.result>0){
+	        				F.reload();
+	        				core.closeModel('modal-splitTextbook');
+	        				$("#splitTextbookMsg").html('');
+	        			}else{
+	        				$("#splitTextbookMsg").html(data.msg);
+	        			}
+	        			
+	        		}	
+				});
+				
+			});
+
+			/**
 			 * 关闭新增框
 			 */
 			$('#btnClose').click(function(){
@@ -688,6 +732,11 @@ define(function (require, exports, module) {
 			$("#editCatalogBtnClose").click(function(){
 				core.closeModel('modal-editCatalogContent');
 			});
+			//关闭拆分成册的模态框
+			$("#splitTextbookNtnClose").click(function(){
+				core.closeModel('modal-splitTextbook');
+				$("#splitTextbookMsg").html('');
+			})
 			//清理器
 			function clear(){
 				core.closeModel('modal-addbook');
@@ -707,6 +756,8 @@ define(function (require, exports, module) {
 				$("#adddiscount").val('');
 				$("#isHot").removeAttr("checked");
 			}
+			
+			
 			
 			function editClear(){
 				core.closeModel('modal-editTextbook');
@@ -1018,7 +1069,7 @@ define(function (require, exports, module) {
         	var _btnAction = "";
         	
         	if (base.perList.textbook.outline) {
-            	_btnAction += "<a class='outline btn btn-primary btn-small' href='#' title='目录大纲' style='margin-left:5px'>目录大纲</a>";
+            	_btnAction += "<a class='outline btn btn-primary btn-small' href='#' title='目录预览' style='margin-left:5px'>目录预览</a>";
             	}
         	if (base.perList.textbook.confine) {
         	_btnAction += "<a class='confine btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"+(row.status==1?"停用":"启用")+"</a>";
@@ -1031,6 +1082,9 @@ define(function (require, exports, module) {
         	}
         	if(base.perList.textbook.catalog){
         		_btnAction += "<a class='category btn btn-primary btn-small' href='#' title='编辑目录章节' style='margin-left:5px'>编辑目录章节</a>";
+        	}
+        	if(base.perList.textbook.split&&row.chapterCount>0&&row.sectionCount>1){
+        		_btnAction += "<a class='splitTextbook btn btn-primary btn-small' href='#' title='分离成册' style='margin-left:5px'>分离成册</a>";
         	}
         		return _btnAction;
         } 

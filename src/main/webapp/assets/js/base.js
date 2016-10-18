@@ -201,6 +201,7 @@ define(function (require, exports, module) {
 	             edit:false,
 	             outline:false,
 	             catalog:false,
+	         	 split:false,
 	             checkCatalog:false,
 	             editCatalog:false,
 	             delCatalog:false,

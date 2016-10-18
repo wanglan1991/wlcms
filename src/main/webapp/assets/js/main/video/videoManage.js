@@ -309,9 +309,6 @@ define(function(require, exports, module) {
 			}, {
 				field : 'duration',
 				title : '时长'
-			}, {
-				field : 'digest',
-				title : '简介'
 			},{
 				field : 'price',
 				title : '价格 ￥'
@@ -332,7 +329,7 @@ define(function(require, exports, module) {
 				visible : false
 			}, {
 				field : 'author',
-				title : '更新人'
+				title : '更新者'
 			},
 			{
 				field :'videoKey',
