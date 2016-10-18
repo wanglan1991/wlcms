@@ -62,8 +62,40 @@ public class CmsTextbook {
 	private Integer isFree;
 	//是否为热门
 	private Integer isHot;
+	//章数
+	private Integer chapterCount;
+	//节数
+	private Integer sectionCount;
+	//父级id
+	private  Integer parentId;
 	
 	
+	
+	
+	public Integer getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
+	}
+
+	public Integer getChapterCount() {
+		return chapterCount;
+	}
+
+	public void setChapterCount(Integer chapterCount) {
+		this.chapterCount = chapterCount;
+	}
+
+	public Integer getSectionCount() {
+		return sectionCount;
+	}
+
+	public void setSectionCount(Integer sectionCount) {
+		this.sectionCount = sectionCount;
+	}
+
 	public Integer getIsHot() {
 		return isHot;
 	}

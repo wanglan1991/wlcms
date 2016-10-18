@@ -10,8 +10,7 @@
 <div id='wrapper' style='margin-top: 160px;'>
     <div class='application'>
         <div class='application-content'>
-                <span>EKT-CMS</span>
-            </a>
+         <img  src="http://ekt.oss-cn-shenzhen.aliyuncs.com/headPicture/cms-logo.png">
         </div>
     </div>
     <div class='controls'>
@@ -64,4 +63,11 @@
             login.init('${ctx}');
         });
     });
+    
+    document.onreadystatechange = function () {//监听dom加载事件 document.readyState == 'loaded' ||'interactive'||'complete'
+        if (document.readyState == 'complete') { //完全加载
+        	 document.body.style.display = "block";
+        }
+    }
+    
 </script>

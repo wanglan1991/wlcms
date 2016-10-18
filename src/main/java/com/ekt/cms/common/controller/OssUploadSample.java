@@ -3,6 +3,7 @@ package com.ekt.cms.common.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
@@ -26,10 +27,10 @@ import com.ekt.cms.utils.Constants;
 @RequestMapping("/upload")
 public class OssUploadSample {
     
-    private static String endpoint = Constants.DEFAULT_OSS_ENDPOINT;
-    private static String accessKeyId = Constants.DEFAULT_OSS_ACCESS_KEY_ID;
-    private static String accessKeySecret = Constants.DEFAULT_OSS_ACCESS_KEY_SECRET;
-    private static String bucketName = "ekt";
+    public static String endpoint = Constants.DEFAULT_OSS_ENDPOINT;
+    public static String accessKeyId = Constants.DEFAULT_OSS_ACCESS_KEY_ID;
+    public static String accessKeySecret = Constants.DEFAULT_OSS_ACCESS_KEY_SECRET;
+    public static String bucketName = "ekt";
     
     
     
@@ -48,15 +49,14 @@ public class OssUploadSample {
      */
     @RequestMapping("/imageUpload")
     @ResponseBody
-    public  Result uploadImage(HttpServletRequest request,String key,String fileName) throws IOException {
+    public  Result uploadImage(HttpServletRequest request,String key,String name) throws IOException {
         
     	Result result=Result.getResults();
         OSSClient client = new OSSClient(endpoint, accessKeyId, accessKeySecret);
         
         Map<String, Object> data = new HashMap<String, Object>();
         MultipartHttpServletRequest mulRequest = (MultipartHttpServletRequest) request;
-		MultipartFile  file=mulRequest.getFile(fileName);
-        
+		MultipartFile  file=mulRequest.getFile(name);
         try {
             
         	 String realKey = key + file.getOriginalFilename();

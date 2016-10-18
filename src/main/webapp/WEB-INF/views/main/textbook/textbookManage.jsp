@@ -48,6 +48,34 @@
 		</div>
 </div>
 
+<div class='modal hide fade' id='modal-splitTextbook'  role='dialog' tabindex='-1'>
+		<div class='modal-header'>
+			<button class='close' data-dismiss='modal' type='button'>&times;</button>
+			<h3></h3>			
+		</div>
+			<div class='modal-body' style='overflow-y: visible;'>
+					
+					<div id='Tree'>
+					     <label class='control-label' style="color:blue">..请选择好需要分离的实例 ，然后点保存</label>
+					    <form class='form validate-form' id='submit-distributePermissionTreeForm' method="post" role="form"  style='margin-bottom: 0;'>
+					    <div style="border: 1px solid #d0d0d0;">
+					       <input type="hidden"/>
+					       <input type="hidden" id="distributePermissionTreeHidden"/>
+					       <ul id="catalogTree" class="ztree" style="background: #fbfbfb;width:97%;height:462px;overflow-y:scroll;overflow-x:auto;"></ul>
+					    </div>
+					    </form>
+		 			</div> 		        	
+			 </div>
+			        
+			 <div class='modal-footer' style="margin-top: 99px;">
+			  	 <msg id="splitTextbookMsg" style="color:red"></msg>
+		         <button type="button" id="splitTextbookNtnClose" class='btn'>关闭</button>&nbsp;&nbsp;&nbsp;
+	   	         <button type="button" id="splitTextbookBtnSubmit" class='btn btn-primary'>保存</button>
+   	         </div>
+   	        </div>
+
+
+
 <div class='modal hide fade' id='modal-addbook' style="width:683px; height:791px;" role='dialog' tabindex='-1'>
 		<div class='modal-header'>
 			<button class='close' data-dismiss='modal' type='button'>&times;</button>

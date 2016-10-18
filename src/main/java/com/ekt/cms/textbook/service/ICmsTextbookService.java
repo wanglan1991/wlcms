@@ -1,20 +1,24 @@
 package com.ekt.cms.textbook.service;
 
 import java.util.List;
+import java.util.Map;
+
+import com.ekt.cms.textbook.entity.CmsCatalogMessage;
 import com.ekt.cms.textbook.entity.CmsTextbook;
 
 /**
  * 
- * @author wanglan
- *	2016-05-02
+ * @author wanglan 2016-05-02
  */
 public interface ICmsTextbookService {
 	/**
 	 * 获取教材集合
+	 * 
 	 * @param cmsTextbook
 	 * @return
 	 */
 	List<CmsTextbook> listPage(CmsTextbook cmsTextbook);
+
 	/**
 	 * 添加教材
 	 * 
@@ -33,13 +37,33 @@ public interface ICmsTextbookService {
 	 * 
 	 */
 	Integer confine(Integer id, Integer status);
-	
-	
+
 	/**
 	 * 修改教材
+	 * 
 	 * @param cmsTextbook
 	 * @return
 	 */
 	Integer update(CmsTextbook cmsTextbook);
 
+	/**
+	 * 根据textbookId获取该教材的所有节
+	 * @param textbookId
+	 * @return
+	 */
+	List<Map<String, Object>> getCatalogTree(int textbookId);
+	
+	/**
+	 * 根据catalogId获取catalog以及视频相关信息
+	 * @param list
+	 * @return
+	 */
+	List<CmsCatalogMessage> selectCatalogById(String [] list);
+	
+	
+
+	
+	
+	
+	
 }
