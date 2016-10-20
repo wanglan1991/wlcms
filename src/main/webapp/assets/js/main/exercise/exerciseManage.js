@@ -602,7 +602,7 @@ define(function (require, exports, module) {
 						if(subject==0){$("#msg").html("请选择科目！"); return;}
 						if(knowledgeId==0){$("#msg").html("请选择知识点！"); return;}
 						if(content.length<5){$("#msg").html("习题内容不能为空！不能小于5个字符"); return;}
-						if(answerLength<4){$("#msg").html("至少4个答案！"); return;}
+						if(answerLength<2){$("#msg").html("至少2个答案！"); return;}
 				var answerList=new Array();	
 				var length=0;
 				var list=new Array();
@@ -685,7 +685,7 @@ define(function (require, exports, module) {
 					if(subject==0){$("#editMsg").html("请选择科目！");return;}
 					if(knowledgeId==0){$("#editMsg").html("请选择知识点！");return;}
 					if(content.length<5){$("#editMsg").html("习题内容不能为空！不能小于5个字符");return;}
-					if(answerLength<4){$("#editMsg").html("至少4个答案！");return;}
+					if(answerLength<2){$("#editMsg").html("至少2个答案！");return;}
 			var answerList=new Array();	
 			var length=0;
 			var list=new Array();

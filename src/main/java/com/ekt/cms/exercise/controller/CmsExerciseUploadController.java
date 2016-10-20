@@ -39,6 +39,7 @@ import com.ekt.cms.exercise.service.ICmsExerciseService;
 @Controller
 @RequestMapping("/upload")
 public class CmsExerciseUploadController extends BaseController {
+	
 	@Resource
 	private ICmsDictService dictService;
 
