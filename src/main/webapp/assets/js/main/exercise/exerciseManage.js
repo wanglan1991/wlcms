@@ -109,7 +109,10 @@ define(function (require, exports, module) {
 	        				knowledgesOption+="<option value = '0'>-- 无 --</option>";
 	        			}
 	        			for(var i=0;i<data.value.length;i++){
-	        				knowledgesOption+="<option value = '"+data.value[i].id+"'>"+data.value[i].title+"</option>"
+	        				var lt=new RegExp("<","g");
+	        				var gt=new RegExp(">","g");
+	        				var val=data.value[i].title.replace(lt,"&lt;").replace(gt,"&gt;");
+	        				knowledgesOption+="<option value = '"+data.value[i].id+"'>"+val+"</option>"
 	        			}
 	        			$(idOrClass).append(knowledgesOption);
 	        		}
@@ -133,8 +136,13 @@ define(function (require, exports, module) {
 	        				if(i==0){
 	        				knowledgesOption+="<option value = '0'>知识点----</option>";
 	        				};
-	        				knowledgesOption+="<option value = '"+data.value[i].id+"'>"+data.value[i].title+"</option>"
+	        				var lt=new RegExp("<","g");
+	        				var gt=new RegExp(">","g");
+	        				var vals=data.value[i].title.replace(lt,"&lt;").replace(gt,"&gt;");
+	        				knowledgesOption+="<option value = '"+data.value[i].id+"'>"+vals+"</option>";
+	        				
 	        			}
+	        			
 	        			$(id).append(knowledgesOption);
 	        		}
 	        	})
@@ -152,10 +160,13 @@ define(function (require, exports, module) {
 	        				knowledgesOption+="<option value = '0'>-- 无 --</option>";
 	        			}
 	        			for(var i=0;i<data.value.length;i++){
+	        				var lt=new RegExp("<","g");
+	        				var gt=new RegExp(">","g");
+	        				var vals=data.value[i].title.replace(lt,"&lt;").replace(gt,"&gt;");
 	        				if(data.value[i].id==knowledgeId){
-	        					knowledgesOption+="<option value = '"+data.value[i].id+"' selected='true' >"+data.value[i].title+"</option>"
+	        					knowledgesOption+="<option value = '"+data.value[i].id+"' selected='true' >"+vals+"</option>"
 	        				}else{
-	        				knowledgesOption+="<option value = '"+data.value[i].id+"'>"+data.value[i].title+"</option>"
+	        				knowledgesOption+="<option value = '"+data.value[i].id+"'>"+vals+"</option>"
 	        				}
 	        			}
 	        			$(id).append(knowledgesOption);
@@ -645,7 +656,8 @@ define(function (require, exports, module) {
 					success:function(data){
 						if(data.result>0){
 							if(confirm("提交成功是否继续添加!")){
-								$("#modal-addExercise input").val('');
+								$("#modal-addExercise input").val('');    
+								$("#modal-addExercise textarea").val('');  
 								$("#addExerciseContent").val('');
 								$("#addAnalysis").val('');
 								$("#answer input[name=isTrue]").removeAttr("checked");

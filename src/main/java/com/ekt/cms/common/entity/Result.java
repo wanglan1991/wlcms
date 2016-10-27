@@ -85,5 +85,34 @@ public final class Result {
 	public static Result getResults(){
 		return new Result();
 	}
+	
+	public static Result getResults(int result,String msg){
+		Result r =getResults();
+		r.setResult(result);
+		r.setMsg(msg);
+		return r;
+	}
+	
+	public static Result getResults(int result,String msg,Object value){
+		Result r =getResults();
+		r.setResult(result);
+		r.setMsg(msg);
+		r.setValue(value);
+		return r;
+	}
+	
+	public static Result getResults(int result,Object value){
+		Result r =getResults();
+		r.setResult(result);
+		r.setValue(value);
+		return r;
+	}
+	
+	public static Result getResults(Object value){
+		Result r =getResults();
+		r.setValue(value);
+		r.setResult(1);
+		return r;
+	}
 
 }

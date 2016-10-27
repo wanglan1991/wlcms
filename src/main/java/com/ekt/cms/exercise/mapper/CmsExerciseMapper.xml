@@ -139,8 +139,7 @@
 			 `content` = #{content},
 			 `difficulty_no` = #{difficultyNo},
 			 `publisher_no` = #{publisherNo},
-			 `author` = #{author},
-			 `create_time`= SYSDATE(),
+<!-- 			 `author` = #{author}, -->
 			 `type_no` = #{typeNo},
 			 `category_no` = #{categoryNo},
 			 `order_no` = #{orderNo},

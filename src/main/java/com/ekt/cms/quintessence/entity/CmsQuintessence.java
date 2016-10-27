@@ -35,7 +35,23 @@ public class CmsQuintessence {
 	private int totalCount;
 	//类型
 	private String type;
+	//更新人
+	public int inputAccountId;
+	//更新人名称
+	public String inputAccountName;
 
+	public String getInputAccountName() {
+		return inputAccountName;
+	}
+	public void setInputAccountName(String inputAccountName) {
+		this.inputAccountName = inputAccountName;
+	}
+	public int getInputAccountId() {
+		return inputAccountId;
+	}
+	public void setInputAccountId(int inputAccountId) {
+		this.inputAccountId = inputAccountId;
+	}
 	public int getId() {
 		return id;
 	}

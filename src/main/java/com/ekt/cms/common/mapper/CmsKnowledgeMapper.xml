@@ -41,7 +41,7 @@
 		<if test="CmsKnowledge.id !=null and CmsKnowledge.id !=0">
 			AND k.id=#{CmsKnowledge.id, jdbcType=INTEGER}
 		</if>
-		ORDER BY id DESC
+		ORDER BY k.order_no 
 		
 	</select>
 	

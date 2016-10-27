@@ -55,5 +55,7 @@ public class BaseController {
 	public void destroySession(){
 		Subject curAccount=SecurityUtils.getSubject();
 		curAccount.getSession().removeAttribute(Constants.DEFAULT_SESSION_ACCOUNT);
+		curAccount.logout();
+		
 	}
 }

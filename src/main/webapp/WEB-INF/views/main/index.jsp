@@ -7,6 +7,7 @@
     <title>EKT-CMS</title>
     <%@include file="/WEB-INF/views/include/baseCSS.jsp" %>
 </head>
+
 <body class='contrast-blue'>
 <header>
     <div class='navbar'>
@@ -174,17 +175,12 @@
                         </a>
                         <ul class='dropdown-menu'>
                             <li>
-                                <a href='user_profile.html'>
+                                <a href='javascript:void(0)' id="userCenter">
                                     <i class='icon-user'></i>
                                     	个人信息
                                 </a>
                             </li>
-                            <li>
-                                <a href='user_profile.html'>
-                                    <i class='icon-cog'></i>
-                                    	我的设置
-                                </a>
-                            </li>
+                           
                             <li class='divider'></li>
                             <li>
                                 <a href='${ctx}/user/exit'>
@@ -503,6 +499,61 @@
         </div>
     </section>
 </div>
+
+<div class='modal hide fade' id='modal-userCenter'  role='dialog' tabindex='-1'>
+		<div class='modal-header'>
+			<button class='close' data-dismiss='modal' type='button'>&times;</button>
+			<h3></h3>			
+		</div>
+			<div class='modal-body' style='overflow-y: visible;'>
+					 <div class='control-group'>
+			            <label class='control-label'>账号</label>
+			            <div class='controls'>
+			                <input  id='username'  disabled type='text' />
+			            </div>
+			        </div>
+			         <div class='control-group'>
+			            <label class='control-label'>角色</label>
+			            <div class='controls'>
+			                <input  id='roleName'  disabled type='text' />
+			            </div>
+			        </div> 
+			         <div class='control-group'>
+			            <label class='control-label'>昵称</label>
+			            <div class='controls'>
+			                <input  id='nickname'  maxlength='30'  placeholder='nickname...' type='text' />
+			            </div>
+			        </div> 
+			         <div class='control-group'>
+			            <label class='control-label'>手机号码</label>
+			            <div class='controls'>
+			                <input  id='telephone'   maxlength='11'  placeholder='tel..' type='text' />
+			            </div>
+			        </div>
+			        <div class='control-group' >
+			           <button type="button" id="updatePassword">修改密码</button>
+			           	<div id="pwd" style='display:none'>
+			          	 <input  id='currentPwd'  onkeyup="value=value.replace(/[\W]/g,'')"  maxlength='20' placeholder='请输入当前密码..' type='password' />
+			          	 <br> <button type="button"  id="validPwd">验证</button>
+			          	</div>
+			          		
+		          		<div id="editPwd" style='display:none'>
+			          	 <input  id='newPwd'  onkeyup="value=value.replace(/[\W]/g,'')"  maxlength='20' placeholder='请输入新密码..' type='password' />
+			          	 <br> <button type="button"  id="submitPwd">确定</button>
+			          	</div>
+			        </div>
+			         
+					        	
+			 </div>
+			        
+			 <div class='modal-footer' style="margin-top: 99px;">
+			  	 <msg id="userCenterMsg" style="color:red"></msg>
+		         <button type="button"   class='btn'>关闭</button>&nbsp;&nbsp;&nbsp;
+	   	         <button type="button"  class='btn btn-primary'>保存</button>
+   	         </div>
+   	        </div>
+
+
 <%@include file="/WEB-INF/views/include/baseJS.jsp" %>
 <script type="text/javascript">
 var menusTxt="";
@@ -525,18 +576,18 @@ $(document).ready(function(){
 					 menusTxt+=" <li class=''><a  target='mainFrame' class='dropdown-collapse  in' href='#'><i class='icon-frown'></i><span style='color:red'>请 等 待 授 权 !</span></a><ul class='nav nav-stacked'>";
 			   $('ul#navigation-menu').append(menusTxt);
 		  }
-	  })    
-
+	  })  
+	  
+		
 })
 
-$(".icon-adjust").click(function(){
+$(".icon-adjust").click(function(){   
 	$(".icon-adjust").attr("class","icon-globe");
 })
 
 $("#ekt_index").click(function(){
 	  window.open('http://www.aiekt.com');  
 })
-
 
 
     seajs.config({

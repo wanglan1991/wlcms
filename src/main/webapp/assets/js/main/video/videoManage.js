@@ -21,7 +21,6 @@ define(function(require, exports, module) {
 								"<input autocomplete='off'  id='q_k_select' name='q_k_select'  placeholder='知识点、视频名称' type='text' />" +
 								"&nbsp;&nbsp;<select  id='q_k_grade' class='select2-chosen' style='width:200px'></select>" +
 								"&nbsp;&nbsp;<select  id='q_k_subject' class='select2-chosen' style='width:200px'></select>" +
-								"&nbsp;&nbsp;<select  id='q_k_author' class='select2-chosen' style='width:200px'></select>" +
 								"&nbsp;&nbsp;<a href='#' id='queryByCondition' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>");				
 			}
 			/**
@@ -130,9 +129,8 @@ define(function(require, exports, module) {
 						var knowledge = $("#q_k_select").val();
 						var gradeNo = $("#q_k_grade").val();
 						var subjectNo=$("#q_k_subject").val();
-						var authorId = $("#q_k_author").val();
 						var query_url = F.basepath + '/cms/video/listPage?&videoName=' +videoName+'&knowledge='
-								+ knowledge + '&gradeNo=' + gradeNo+'&subjectNo='+subjectNo+'&authorId='+authorId;
+								+ knowledge + '&gradeNo=' + gradeNo+'&subjectNo='+subjectNo;
 						
 						$('#videoTable').bootstrapTable('refresh', {
 							url : query_url
@@ -150,6 +148,10 @@ define(function(require, exports, module) {
 						
 						knowldgeSelect('/cms/knowledge/queryByCondition',{gradeNo : row.gradeNo,subjectNo : row.subjectNo},"#editKnowledge");
 //						$.fn.modal.Constructor.prototype.enforceFocus = function () { };
+						$("#editVideoImg").removeAttr("disabled"); 
+						$("#editUploadVideoImgButton").removeAttr("disabled"); 
+						$("#edit-msg").html('');
+						$("#editVideoImg").val('');
 						if (row != null) {
 							$('#editId').val(row.id);
 							$('#editVideo').val(row.videoName);
@@ -160,6 +162,7 @@ define(function(require, exports, module) {
 							$("#editDiscount").val(row.discount);
 							$('#editFileName').val(row.fileName);
 							$('#editStatus').val(row.status);
+							$("#editVideoImgUrl").val(row.imageUrl);
 							//设置knowledgeId的默认选中值
 //							if(row.knowledgeId!=null&&row.knowledgeId.length>1){
 //								var ids=row.knowledgeId.split(",");
@@ -450,6 +453,7 @@ define(function(require, exports, module) {
 				var subjectNo = $("#editSubject").val();
 				var price = $("#editPrice").val();
 				var discount = $("#editDiscount").val();
+				var videoImageUrl =$("#editVideoImgUrl").val();
 				var arrKnoeledge=$("#editKnowledge").find('option:selected');
 				var knowledgeId='';
 				var arr='';
@@ -468,6 +472,7 @@ define(function(require, exports, module) {
 				if(price.length<1){$("#edit-msg").html("价格为必填项！");return;}
 				if(discount.length<1){$("#edit-msg").html("折扣为必填项！");return;}
 				if(knowledgeId.length<1){$("#edit-msg").html("请选择知识点！");return;}
+				if(videoImageUrl.length<1){$("#edit-msg").html("必须填写该截图URL！");return;}
 				
 				
 				$.ajax({
@@ -482,6 +487,7 @@ define(function(require, exports, module) {
 						digest : digest,
 						gradeNo : gradeNo,
 						subjectNo : subjectNo,
+						imageUrl:videoImageUrl,
 						knowledgeId : knowledgeId,
 						knowledge : arr
 					},
@@ -551,7 +557,6 @@ define(function(require, exports, module) {
 			$('#addVideo').click(function() {
 				core.openModel('modal-Video', '新增视频',
 						function(){
-					
 					$.fn.modal.Constructor.prototype.enforceFocus = function () { };
 				}
 						);
@@ -559,6 +564,10 @@ define(function(require, exports, module) {
 				core.getDictOptions('学科','subject',"#subject");
 				$("#qsubmitbutton").removeAttr("disabled");
 				$("#videoFile").removeAttr("disabled");	
+				$("#videoImg").removeAttr("disabled");
+				$("#uploadVideoImgButton").removeAttr("disabled");
+				
+				$("#videoImgUrl").val('');
 				return false;
 			});
 				
@@ -575,6 +584,7 @@ define(function(require, exports, module) {
 				var price = $("#addPrice").val();
 				var discount = $("#addDiscount").val();
 				var videoUrl =$("#videoUrl").val();
+				var videoImgUrl=$("#videoImgUrl").val();
 				var knowledgeId='';
 				var arr='';
 				if(arrKnoeledge!=null){
@@ -590,6 +600,7 @@ define(function(require, exports, module) {
 				if(videoName.length<1){$("#msg").html("请输入视频名称!");return ;}
 				if(gradeNo==0){$("#msg").html(" 请选择年级!");return;}
 				if(subjectNo==0){$("#msg").html(" 请选择科目!");return;}
+				if(videoImgUrl.length<10){$("#msg").html("请给该视频上传截图!");return;}
 				if(videoFileName==""||videoKey==""){$("#msg").html(" 请上传视频!");return;}
 				
 				$.ajax({
@@ -598,6 +609,7 @@ define(function(require, exports, module) {
 					data : {
 						price:price,
 						discount:discount,
+						imageUrl:videoImgUrl,
 						videoName : videoName,
 						videoKey : videoKey,
 						digest : digest,
@@ -656,6 +668,8 @@ define(function(require, exports, module) {
 				$("#knowledge").select2().empty('');
 				$("#knowledge").select2().empty('');
 				$("#videoFile").val('');
+				$("#videoImgUrl").val('');
+				$("#videoImg").val('');
 			}
 			
 			
@@ -765,38 +779,73 @@ define(function(require, exports, module) {
 				}
 			});
 		});
+//		编辑上传
+		$(function() {
+			$("#editUploadVideoImg").ajaxForm({
+				//图片上传的文件夹
+				url:"/cms/upload/imageUpload",
+				type:"post",
+				data :{key:"textBook/",fileName:"imgFile"},
+				beforeSend : function() {
+				$("#editUploadVideoImgButton").attr("disabled","disalbed");
+				$("#editVideoImg").attr("disabled","disalbed");
+				},
+				success : function(data) {
+					//提交成功后调用
+					if (data.value!=null) {
+						if(data.value.status == 0){
+							var file = $("#editVideoImg").val();
+							var fileName = "http://ekt.oss-cn-shenzhen.aliyuncs.com/textBook/" + getFileName(file);
+							var imgUrl = $("#editVideoImgUrl").val(fileName);
+						}
+					} else {
+						$("#editVideoImg").attr("disabled",false);
+						$("#editUploadVideoImgButton").attr("disabled",false);
+						alert("上传异常 ")
+					}
+				}
+			});
+		});
 		
-
-		//乐视云上传
-//		$(function() {
-//			$("#leUpload").ajaxForm({
-//				//定义返回JSON数据，还包括xml和script格式
-////				dataType : 'json',
-//				beforeSend : function() {
-//					//表单提交前做表单验证
-//					if($("#videoFile").val()=="")
-//					{
-//					alert("请先上传文件");
-//					return;
-//					}
-//				
-//				$("#submitbutton").attr("disabled","disalbed");
-//				},
-//				success : function(data) {
-//					$("#submitbutton").attr("disabled",false);
-//					alter("提交成功");
-//					//提交成功后调用
-//					if (data.value!=null) {
-//						var fileId= data.value;
-////						getVideoInfo(fileId);
-////						
-//					} else {
-//						alter("----");
-//						alert(data.msg);
-//					}
-//				}
-//			});
-//		});
+		
+		
+		
+		
+		
+//		新增上传
+		$(function() {
+			$("#uploadVideoImg").ajaxForm({
+				//图片上传的文件夹
+				url:"/cms/upload/imageUpload",
+				type:"post",
+				data :{key:"textBook/",fileName:"imgFile"},
+				beforeSend : function() {
+				$("#uploadVideoImgButton").attr("disabled","disalbed");
+				$("#videoImg").attr("disabled","disalbed");
+				},
+				success : function(data) {
+					//提交成功后调用
+					if (data.value!=null) {
+						if(data.value.status == 0){
+							var file = $("#videoImg").val();
+							var fileName = "http://ekt.oss-cn-shenzhen.aliyuncs.com/textBook/" + getFileName(file);
+							var imgUrl = $("#videoImgUrl").val(fileName);
+						}
+					} else {
+						$("#videoImg").attr("disabled",false);
+						$("#uploadVideoImgButton").attr("disabled",false);
+						alert("上传异常 ")
+					}
+				}
+			});
+		});
+		
+		//获取带后缀名的文件名
+		function getFileName(o){
+		    var pos=o.lastIndexOf("\\");
+		    return o.substring(pos+1);  
+		}
+		
 		
 		
 	}); 

@@ -73,7 +73,10 @@ define(function(require, exports, module) {
 				field : 'publishDate',
 				title : '到期时间'
 				,formatter: F.publishDateFormatter
-			} 	];
+			} , {
+				field : 'inputAccountName',
+				title : '更新者'
+			}];
 			
 			//操作
 			operateEvents={
@@ -170,6 +173,7 @@ define(function(require, exports, module) {
 					type:"GET",
 					data:{contentType:contentType},
 					success:function(data){
+						console.log(data.value);
 						var html="";
 						for(var i=0;i<data.value.length;i++){
 							html+="<option value='"+data.value[i].id+"'>"+data.value[i].name+"</option>"
@@ -187,7 +191,7 @@ define(function(require, exports, module) {
 			 */
 			$("#quintessenceBtnSubmit").click(function(){
 				var contentType=$("#addQuintessenceType").val();
-				var contentId =$("#quintessenceContent").val();
+				var contentId =$("#quintessenceContent").val();;
 				var expireDate=$("#expireDate").val();
 //				alert(expireDate);
 				if(contentType<1){$("#quintessenceMsg").text("请选择类型!");return}
@@ -196,7 +200,7 @@ define(function(require, exports, module) {
 				$.ajax({
 					url:F.basepath+'/quintessence/add',
 	        		type:'post',
-	        		data:{contentType:contentType,contentId:contentId[0].toString(),type:expireDate},
+	        		data:{contentType:contentType,contentId:contentId,type:expireDate},
 	        		success:function(data){
 	        			if(data.result==-1){
 	        				$("#quintessenceMsg").text(data.msg);
