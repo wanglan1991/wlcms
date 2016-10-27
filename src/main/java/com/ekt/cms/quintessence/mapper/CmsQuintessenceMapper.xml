@@ -10,14 +10,16 @@
 			<result column="publish_date" property="publishDate" jdbcType="TIMESTAMP" />
 			<result column="name" property="name" jdbcType="VARCHAR" />
 			<result column="total_count" property="totalCount" jdbcType="INTEGER" />
-			<result column="type" property="type" jdbcType="VARCHAR" />			
+			<result column="type" property="type" jdbcType="VARCHAR" />		
+			<result column="input_account_id" property="inputAccountId" jdbcType="INTEGER" />
+			<result column="real_name" property="inputAccountName" jdbcType="VARCHAR" />		
 	</resultMap>
 	
 <!-- 	每日精选列表 -->
 	<select id="listPage" parameterType="com.ekt.cms.quintessence.entity.CmsQuintessence" resultMap="QuintessenceMap">
 		SELECT * FROM(	
 				SELECT
-					q.*,  
+					q.*,a.real_name,  
 					IF(t.title IS NULL,t1.testpaper_name,t.title)AS name,
 			 		IF(t.title IS NULL,COUNT(d.id),COUNT(c.id))total_count,
 					IF(q.content_type=1,'组卷','课程')AS type
@@ -29,6 +31,7 @@
 				LEFT JOIN cms_catalog c on t.id=c.textbook_id AND c.catalog_level=52
 				LEFT JOIN api_testpaper t1 ON q.content_id=t1.id AND q.content_type=1
 				LEFT JOIN api_exercise_detail d  on d.testpaper_id=t1.id AND d.task_id IS NULL
+				LEFT JOIN cms_account a on a.id=q.input_account_id
 				GROUP BY q.content_id
 		)AS a
 			WHERE 1=1
@@ -50,7 +53,7 @@
 	</select>
 <!-- 	获取可选的组卷 -->
 	<select id="getQuintessenceTestpaper" resultType="java.util.Map">
-			SELECT id,testpaper_name AS name FROM api_testpaper WHERE `status`=1 AND user_id=65
+			SELECT id,testpaper_name AS name FROM api_testpaper WHERE `status`=1 AND user_id=11
 	</select>
 	
 	<insert id="addQuintessence" parameterType="com.ekt.cms.quintessence.entity.CmsQuintessence">
@@ -58,12 +61,14 @@
 			 `create_time`,
 			 `content_type`,
 			 `content_id`,
-			 `publish_date`
+			 `publish_date`,
+			 `input_account_id`
 			 ) VALUES (
 			 	SYSDATE(),
 			 	#{contentType},
 			 	#{contentId},
-			 	#{type}
+			 	#{type},
+			 	#{inputAccountId}
 			 )
 	</insert>
 	

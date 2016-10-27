@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ekt.cms.common.BaseController;
 import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.quintessence.entity.CmsQuintessence;
 import com.ekt.cms.quintessence.service.ICmsQuintessenceService;
@@ -31,7 +32,7 @@ import com.ekt.cms.utils.pageHelper.PageContext;
 
 @Controller
 @RequestMapping(value ="/quintessence")
-public class CmsQuintessenceController {
+public class CmsQuintessenceController extends BaseController{
 	
 	@Resource
 	private ICmsQuintessenceService quintessenceService;
@@ -106,6 +107,7 @@ public class CmsQuintessenceController {
 	public Result addQuintessence(CmsQuintessence cmsQuintessence){
 		Result result = Result.getResults();
 		if(quintessenceService.getQuintessence(cmsQuintessence).size()<1){
+			cmsQuintessence.setInputAccountId(getCurrentAccount().getId());
 		result.setResult(quintessenceService.addQuintessence(cmsQuintessence));
 		}else{
 		result.setResult(-1);

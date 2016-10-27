@@ -109,10 +109,18 @@ color:red;
 				<form id="qupload"  enctype="multipart/form-data">
 					<div class='controls'>
 						<input type="file" id="videoFile" name="videoFile" accept=".avi,.mp4,.rmvb,.mkv" 
-							class="form-control input-sm mb15"  required><br>
-							<button type="submit" id ="qsubmitbutton">点击上传</button>
+							class="form-control input-sm mb15"  required>
+							<button type="submit" id ="qsubmitbutton">上传视频</button>
 					</div>
-				</form>	 		
+				</form>	 
+				
+				 <form id="uploadVideoImg"  enctype="multipart/form-data">
+			                <input type="file" id="videoImg" name="imgFile" accept="image/gif,image/jpeg,image/png,image/jpg"
+							class="form-control input-sm mb15"  required>
+							<input type="text" id="videoImgUrl" style="display: none">
+			                <button type="submit" id ="uploadVideoImgButton">上传截图</button>
+				</form>	
+					
 			</div>
 			<div class='modal-footer'>
 				<msg id='msg' style='color:red'></msg>
@@ -190,6 +198,18 @@ color:red;
 		                <input  id='editDiscount'  onkeyup="value=value.replace(/[^\d.]/g,'')"  maxlength='10'  placeholder='%....' type='text' />
 		            </div>
 	        </div> 
+	         <div class='control-group'>
+		            <label class='control-label'>截图</label>
+		            <div class='controls'>
+		            	<input type="text" id="editVideoImgUrl"  placeholder='视频截图URL....'>
+		            </div>
+	        </div> 
+	        
+	         <form id="editUploadVideoImg"  enctype="multipart/form-data">
+			                <input type="file" id="editVideoImg" name="imgFile" accept="image/gif,image/jpeg,image/png,image/jpg"
+							class="form-control input-sm mb15"  required>
+			                <button type="submit" id ="editUploadVideoImgButton">修改截图</button>
+				</form>	
            
             
 			<div class='control-group'>

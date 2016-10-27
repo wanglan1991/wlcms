@@ -132,6 +132,9 @@
 			<if test="CmsVideo.fileName !=null and CmsVideo.fileName != ''">
 			file_name=#{CmsVideo.fileName},
 			</if>
+			<if test="CmsVideo.imageUrl !=null and CmsVideo.imageUrl != ''">
+			image_url=#{CmsVideo.imageUrl},
+			</if>
 			<if test="CmsVideo.authorId !=null and CmsVideo.authorId != ''">
 			author_id=#{CmsVideo.authorId},
 			</if>
@@ -175,6 +178,7 @@
 			file_name,
 			author_id,
 			duration,
+			image_url,
 			knowledge_id,
 			grade_no,
 			subject_no,
@@ -193,6 +197,7 @@
 			#{CmsVideo.fileName},
 			#{CmsVideo.authorId},
 			#{CmsVideo.duration},
+			#{CmsVideo.imageUrl},
 			#{CmsVideo.knowledgeId},
 			#{CmsVideo.gradeNo},
 			#{CmsVideo.subjectNo},

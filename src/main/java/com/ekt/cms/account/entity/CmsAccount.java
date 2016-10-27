@@ -106,5 +106,16 @@ public class CmsAccount {
 	public void setCmsPermissions(List<CmsPermission> cmsPermissions) {
 		this.cmsPermissions = cmsPermissions;
 	}
+	
+	public CmsAccount(){
+		
+	}
+	
+	public CmsAccount(int id,String password){
+		this.id=id;
+		this.password=password;
+		
+	}
+	
 }
 

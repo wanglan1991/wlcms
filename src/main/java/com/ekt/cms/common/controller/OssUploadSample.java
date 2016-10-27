@@ -49,14 +49,14 @@ public class OssUploadSample {
      */
     @RequestMapping("/imageUpload")
     @ResponseBody
-    public  Result uploadImage(HttpServletRequest request,String key,String name) throws IOException {
+    public  Result uploadImage(HttpServletRequest request,String key,String fileName) throws IOException {
         
     	Result result=Result.getResults();
         OSSClient client = new OSSClient(endpoint, accessKeyId, accessKeySecret);
         
         Map<String, Object> data = new HashMap<String, Object>();
         MultipartHttpServletRequest mulRequest = (MultipartHttpServletRequest) request;
-		MultipartFile  file=mulRequest.getFile(name);
+		MultipartFile  file=mulRequest.getFile(fileName);
         try {
             
         	 String realKey = key + file.getOriginalFilename();
