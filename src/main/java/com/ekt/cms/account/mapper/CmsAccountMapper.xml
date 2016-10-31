@@ -123,16 +123,18 @@
 
 	<select id="queryByUserName" resultType="com.ekt.cms.account.entity.CmsAccount" parameterType="java.lang.String">
 		SELECT
-			id,
-			user_name userName,
-			`password`,
-			real_name realName,
-			role,
-			cellphone,
-			`status`,
-			create_date createDate
+			a.id,
+			a.user_name userName,
+			a.password,
+			a.real_name realName,
+			a.role,
+			r.`name` AS roleName,
+			a.cellphone,
+			a.status,
+			a.create_date createDate
 		FROM
-			cms_account
+			cms_account a
+		LEFT JOIN cms_role r on a.role=r.id
 		WHERE 1=1
 			AND user_name =#{userName}	
 	</select>

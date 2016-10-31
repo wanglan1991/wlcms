@@ -114,5 +114,11 @@ public final class Result {
 		r.setResult(1);
 		return r;
 	}
+	
+	public static Result getResults(int result){
+		Result r =getResults();
+		r.setResult(result);
+		return r;
+	}
 
 }

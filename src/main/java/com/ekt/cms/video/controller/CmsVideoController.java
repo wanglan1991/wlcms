@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ekt.cms.common.BaseController;
 import com.ekt.cms.common.entity.Result;
+import com.ekt.cms.textbook.entity.CmsCatalog;
+import com.ekt.cms.textbook.entity.CmsTextbook;
+import com.ekt.cms.textbook.service.ICmsCatalogService;
+import com.ekt.cms.textbook.service.ICmsTextbookService;
 import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.utils.pageHelper.PageContext;
 import com.ekt.cms.video.entity.CmsVideo;
@@ -23,10 +27,15 @@ import com.ekt.cms.video.service.ICmsVideoService;
 public class CmsVideoController extends BaseController{
 	@Resource
 	private ICmsVideoService cmsVideoService;
+	
+	@Resource
+	private ICmsTextbookService  cmsTextbookService;
+	
+	@Resource
+	private ICmsCatalogService cmsCatalogService;
 
 	@RequestMapping("/toVideo")
 	public String toVideoPage() {
-//		return "main/video/vidoe";
 		return "main/video/videoManage";
 	}
 
@@ -118,6 +127,31 @@ public class CmsVideoController extends BaseController{
 			}
 			result.setResult(1);
 		return result;
+	}
+	
+	/**
+	 * 生成选课
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/createTextbook")
+	@ResponseBody
+	public  Result  createTextbook(@RequestParam("id")int id){
+		int result = 0;
+		int result2 =0;
+		int result3 =0;
+		CmsVideo video = cmsVideoService.getVideoById(id);
+		CmsTextbook book =video.getTextbook();
+		book.setInputAccountId(getCurrentAccount().getId());
+		result = cmsTextbookService.addTextbook(book);
+		if(result>0){
+			CmsCatalog catalog = new CmsCatalog(book.getTitle(),book.getId(),0,0,51,null,null);
+			result2 = cmsCatalogService.add(catalog);
+			if(result2>0){
+				result3 = cmsCatalogService.add(new CmsCatalog(book.getTitle(),book.getId(),0,catalog.getId(),52,book.getDigest(),video.getFileName()));
+			}
+		}
+		return Result.getResults(result3);
 	}
 	
 

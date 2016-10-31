@@ -181,7 +181,8 @@ define(function (require, exports, module) {
                 confine:false,
                 play : false,
                 transcode : false,
-            	editVideoExercise:false
+            	editVideoExercise:false,
+            	createTextbook:false
             },
             region: {
                 check:false,
