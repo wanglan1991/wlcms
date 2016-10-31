@@ -27,6 +27,7 @@
 		<result column="exercise_knoeledge_id" property="exerciseKnoeledgeId" jdbcType="INTEGER"></result>
 		<result column="price" property="price" jdbcType="DOUBLE"></result>
 		<result column="discount" property="discount" jdbcType="DOUBLE"></result>
+		<result column="textbook_id" property="textbookId" jdbcType="INTEGER"></result>
 	</resultMap>
 	
 	<resultMap type="com.ekt.cms.common.entity.TreeBean" id="TreeBeanMap">
@@ -40,41 +41,66 @@
 		<result column="checked" property="checked" jdbcType="VARCHAR"></result>
 	</resultMap>
 	
+	<select id="getVideoById" parameterType="java.lang.Integer" resultType="com.ekt.cms.video.entity.CmsVideo">
+			SELECT
+				 c.id
+				,c.video_name AS videoName
+				,c.digest
+				,c.url
+				,c.isp
+				,c.file_name AS fileName
+				,c.duration
+				,c.image_url AS imageUrl
+			    ,c.knowledge_id AS knowledgeId
+				,c.knowledge 
+				,c.grade_no AS gradeNo
+				,c.subject_no AS subjectNo
+				,c.price
+				,c.discount
+				,c.isfree	
+			FROM
+				cms_video c
+			WHERE
+				c.id = #{id}
+	</select>
+	
 	<!-- 分页查询 -->
 	<select id="listPage" parameterType="com.ekt.cms.video.entity.CmsVideo" resultMap='BaseMap'>
 	SELECT a.*,
 		e1.grade_no AS exercise_grade_no,
 		e1.subject_no AS exercise_subject_no,
 		e1.knoeledge_id AS exercise_knoeledge_id FROM (
-		SELECT
-			v.id id,
-			video_name,
-			video_key,
-			digest,
-			url,
-			url1,
-			isp,
-			file_name,
-			author_id,
-			a.real_name author,
-			duration,
-			image_url,
-			knowledge_id,
-			v.status status,
-			transcode_status,
-			 knowledge,
-			v.grade_no grade_no,
-			d.value grade,
-			v.subject_no subject_no,
-			d1.value subject,
-			v.price,
-			v.discount
-		FROM
-			cms_video v
-		LEFT JOIN cms_dictionary d on v.grade_no=d.id
-		LEFT JOIN cms_dictionary d1 on v.subject_no=d1.id
-		LEFT JOIN cms_account a on a.id= v.author_id
-		WHERE 1=1
+				SELECT
+					v.id id,
+					video_name,
+					video_key,
+					v.digest,
+					url,
+					url1,
+					isp,
+					file_name,
+					v.author_id,
+					a.real_name author,
+					duration,
+					image_url,
+					knowledge_id,
+					v.status status,
+					transcode_status,
+					 knowledge,
+					v.grade_no grade_no,
+					d.value grade,
+					v.subject_no subject_no,
+					d1.value subject,
+					v.price,
+					v.discount,
+					IF(t.id IS NULL,0,t.id)AS textbook_id
+				FROM
+					cms_video v
+				LEFT JOIN cms_dictionary d on v.grade_no=d.id
+				LEFT JOIN cms_dictionary d1 on v.subject_no=d1.id
+				LEFT JOIN cms_account a on a.id= v.author_id
+				LEFT JOIN cms_textbook t on t.title=v.video_name
+				WHERE 1=1
 		<if test="CmsVideo.videoName !=null and CmsVideo.videoName != ''">
 			AND (video_name like '%${CmsVideo.videoName}%')
 		</if>
@@ -187,7 +213,8 @@
 			status,
 			price,
 			discount,
-			isfree)
+			isfree,
+			create_time)
 		VALUES
 			(#{CmsVideo.videoName},
 			#{CmsVideo.digest},
@@ -206,7 +233,8 @@
 			1,
 			#{CmsVideo.price},
 			#{CmsVideo.discount},
-			#{CmsVideo.isFree})
+			#{CmsVideo.isFree},
+			SYSDATE())
 	</insert>
 	<!-- 根据视频key更新视频URL 时长 文件名 -->
 	<update id="updateByVideoKey" parameterType="com.ekt.cms.video.entity.CmsVideo">

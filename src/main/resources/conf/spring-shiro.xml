@@ -29,9 +29,9 @@
 		<property name="authorizationCachingEnabled" value="true" />
 		<property name="authorizationCacheName" value="authorizationCache_" />
 		<property name="cachingEnabled" value="true" />
-		<property name="authenticationCachingEnabled" value="true" />
+		<property name="authenticationCachingEnabled" value="false" />
 		<property name="authenticationCacheName" value="authenticationCache_" />
-		<property name="cacheManager" ref="cacheManager" />
+		<property name="CacheManager" ref="cacheManager" />
 	</bean>
 	
 	<!-- shiro 权限管理 -->

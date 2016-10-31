@@ -1,5 +1,7 @@
 package com.ekt.cms.video.entity;
 
+import com.ekt.cms.textbook.entity.CmsTextbook;
+
 /**
  * 2016-05-02
  * 
@@ -53,8 +55,20 @@ public class CmsVideo {
 	private Double discount;
 	//是否免费
 	private Integer isFree;
+	//选课Id
+	private int textbookId;
 	
 	
+	
+
+	public int getTextbookId() {
+		return textbookId;
+	}
+
+	public void setTextbookId(int textbookId) {
+		this.textbookId = textbookId;
+	}
+
 	public Integer getIsFree() {
 		return isFree;
 	}
@@ -275,7 +289,27 @@ public class CmsVideo {
 	}
 
 	
+	//转换选课
+	public CmsTextbook getTextbook(){
+		CmsTextbook  book=new CmsTextbook();
+		book.setTitle(this.videoName);
+		book.setDigest(this.digest);
+		book.setGradeNo(this.gradeNo);
+		book.setSubjectNo(this.subjectNo);
+		book.setPhaseNo(this.gradeNo==19||this.gradeNo==20||this.gradeNo==21?61:60);
+		book.setTextbookTypeNo(46);
+		book.setImgUrl(this.imageUrl);
+		book.setKnowledgePointArr(this.knowledgeId);
+		book.setKnowledgePointArrVal(this.knowledge);
+		book.setIsHot(1);
+		book.setPrice(this.price);
+		book.setDiscount(this.discount);
+		book.setIsFree(this.isFree);
+		return book;
+	}
 
+	
+	
 
 
 }

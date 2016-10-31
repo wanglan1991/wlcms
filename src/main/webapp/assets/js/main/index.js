@@ -18,10 +18,17 @@ define(function (require, exports, module) {
     
     $("#userCenter").click(function(){
     	core.openModel('modal-userCenter','个人信息编辑',function(){
-    		
-    		
-    		
     	}); 	
+		$.ajax({
+	  		  url:'/cms/account/info',
+	  		  type:"POST",
+	  		  success:function(data){
+	  			$("#username").val(data.value.userName);
+	  			$("#realName").val(data.value.realName);
+	  			$("#telephone").val(data.value.cellphone);
+	  			$("#roleName").val(data.value.roleName);
+	  		  }
+	    	})
     });
 
     $("#updatePassword").click(function(){
@@ -69,4 +76,24 @@ define(function (require, exports, module) {
     		  }
       	});
     });
+    
+    //提交修改个人信息
+    $("#submitAccountInfoBtn").click(function(){
+    		var realname = $("#realName").val();
+			var telephone = $("#telephone").val();
+			$.ajax({
+	    		  url:'/cms/account/updateAccountInfo',
+	    		  type:"POST",
+	    		  data:{realName:realname,cellphone:telephone},
+	    		  success:function(data){  
+	    			  if(data.result>0){
+	    				  core.closeModel('modal-userCenter');
+	    			  }else{
+	    				  $("#userCenterMsg").html("操作数据库异常！请与管理员联系")
+	    			  }
+	    		  }
+	      	});
+    	
+    });
+    
 });

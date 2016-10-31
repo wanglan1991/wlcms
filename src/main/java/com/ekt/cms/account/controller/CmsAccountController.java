@@ -253,5 +253,29 @@ public class CmsAccountController extends BaseController {
 		}
 
 	}
+	
+	/**
+	 * 获取个人信息
+	 * @return
+	 */
+	@RequestMapping("/info")
+	@ResponseBody
+	public Result getAccountInfo(){
+		return Result.getResults(getCurrentAccount());
+	}
+	
+	
+	/**
+	 * 修改个人部分信息
+	 */
+	@RequestMapping("/updateAccountInfo")
+	@ResponseBody
+	public Result updateAccountInfo(CmsAccount account){
+		account.setId(getCurrentAccount().getId());
+		int result = cmsAccountService.updateAccount(account);
+		return Result.getResults(result>0?1:0);
+	}
+	
+	
 
 }

@@ -341,6 +341,9 @@
 					<shiro:hasPermission name="video:editVideoExercise">
 						<span id="basejs_video_editVideoExercise" style="display: none;" />
 					</shiro:hasPermission>
+					<shiro:hasPermission name="video:createTextbook">
+						<span id="basejs_video_createTextbook" style="display: none;" />
+					</shiro:hasPermission>
 					
 					
 					
@@ -503,25 +506,26 @@
 <div class='modal hide fade' id='modal-userCenter'  role='dialog' tabindex='-1'>
 		<div class='modal-header'>
 			<button class='close' data-dismiss='modal' type='button'>&times;</button>
-			<h3></h3>			
+			<h3></h3>	
+			<p style="color:blue;margin-left: 172px;">修改成功后部分信息将在下次登录时生效</p>		
 		</div>
 			<div class='modal-body' style='overflow-y: visible;'>
 					 <div class='control-group'>
 			            <label class='control-label'>账号</label>
 			            <div class='controls'>
-			                <input  id='username'  disabled type='text' />
+			                <input type="text" disabled id='username'/>
 			            </div>
 			        </div>
 			         <div class='control-group'>
 			            <label class='control-label'>角色</label>
 			            <div class='controls'>
-			                <input  id='roleName'  disabled type='text' />
+			                <input type="text"  disabled id='roleName' />
 			            </div>
 			        </div> 
 			         <div class='control-group'>
-			            <label class='control-label'>昵称</label>
+			            <label class='control-label'>姓名</label>
 			            <div class='controls'>
-			                <input  id='nickname'  maxlength='30'  placeholder='nickname...' type='text' />
+			                <input  id='realName'  maxlength='30'  placeholder='realName....' type='text' />
 			            </div>
 			        </div> 
 			         <div class='control-group'>
@@ -548,8 +552,8 @@
 			        
 			 <div class='modal-footer' style="margin-top: 99px;">
 			  	 <msg id="userCenterMsg" style="color:red"></msg>
-		         <button type="button"   class='btn'>关闭</button>&nbsp;&nbsp;&nbsp;
-	   	         <button type="button"  class='btn btn-primary'>保存</button>
+		         <button type="button"  data-dismiss="modal" class='btn'>关闭</button>&nbsp;&nbsp;&nbsp;
+	   	         <button type="button" id="submitAccountInfoBtn" class='btn btn-primary'>保存</button>
    	         </div>
    	        </div>
 
@@ -742,6 +746,10 @@ $("#ekt_index").click(function(){
 		if ($('#basejs_video_editVideoExercise').length > 0) {
 			base.perList.video.editVideoExercise = true;
 		}
+		if ($('#basejs_video_createTextbook').length > 0) {
+			base.perList.video.createTextbook = true;
+		}
+		
 		
 // 	学校	
 		if ($('#basejs_region_check').length > 0) {

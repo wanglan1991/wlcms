@@ -31,5 +31,8 @@ public interface ICmsVideoService {
 	int removeVideoExerciseByVideoId(int videoId);
 	//更新转码状态
 	int updateVideoTransStatusByFileId(String videoKey,int status);
+	//用户视频id 获取视频对象
+	CmsVideo getVideoById(int id);
+	
 	
 }
