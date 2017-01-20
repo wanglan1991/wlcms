@@ -57,9 +57,52 @@ public class CmsVideo {
 	private Integer isFree;
 	//选课Id
 	private int textbookId;
+	//试看视频video key
+	private String subVideoKey;
+	//习题个数
+	private int exerciseCount;
+	//是否存在题库组卷
+	private int hasTestpaper;
+	//试看版videoKey
+	private String subUrl;
 	
 	
 	
+	
+	
+	
+
+	public String getSubUrl() {
+		return subUrl;
+	}
+
+	public void setSubUrl(String subUrl) {
+		this.subUrl = subUrl;
+	}
+
+	public int getHasTestpaper() {
+		return hasTestpaper;
+	}
+
+	public void setHasTestpaper(int hasTestpaper) {
+		this.hasTestpaper = hasTestpaper;
+	}
+
+	public int getExerciseCount() {
+		return exerciseCount;
+	}
+
+	public void setExerciseCount(int exerciseCount) {
+		this.exerciseCount = exerciseCount;
+	}
+
+	public String getSubVideoKey() {
+		return subVideoKey;
+	}
+
+	public void setSubVideoKey(String subVideoKey) {
+		this.subVideoKey = subVideoKey;
+	}
 
 	public int getTextbookId() {
 		return textbookId;

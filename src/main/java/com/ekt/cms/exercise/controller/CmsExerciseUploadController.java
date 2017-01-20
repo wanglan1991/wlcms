@@ -113,8 +113,8 @@ public class CmsExerciseUploadController extends BaseController {
 					if (j == 0) {
 						exercise.setIndex((int)Double.parseDouble(cell));
 					} else if (j == 1 && cell.trim().length() > 0) {
-						exercise.setGradeNo(dictService.queryByDictName(cell).getId());
-						Integer grade =Integer.parseInt(cell);
+						Integer grade =dictService.queryByDictName(cell).getId();
+						exercise.setGradeNo(grade);
 						exercise.setPhaseNo(grade==19||grade==20||grade==21?61:60);
 					} else if (j == 2 && cell.trim().length() > 0) {
 						exercise.setSubjectNo(dictService.queryByDictName(cell).getId());
@@ -133,9 +133,21 @@ public class CmsExerciseUploadController extends BaseController {
 						if( cell.split("`").length>=2){
 							String[] answerArr = cell.split("`");
 							List<CmsAnswer> answerList = new ArrayList<CmsAnswer>();
+							List<Integer> isTrueArr =new ArrayList<Integer>();
 							for (int x = 0; x < answerArr.length; x++) {
 								String[] temp = answerArr[x].toString().trim().split(",");
-								answerList.add(new CmsAnswer(temp[0], temp[1], Integer.parseInt(temp[2].toString()), 1));
+								Integer isTrue =Integer.parseInt(temp[2].toString());
+								answerList.add(new CmsAnswer(temp[0], temp[1], isTrue, 1));
+								if(isTrue==1){
+									isTrueArr.add(isTrue);
+								}
+							}
+							//没有给出正确答案时抛出
+							if(isTrueArr.size()==0){
+								exercise.setErrorMsg("至少需要给出一个正确的答案！");
+							}
+							if(isTrueArr.size()==cell.split("`").length){
+								exercise.setErrorMsg("至少需要给出一个错误的答案！");
 							}
 							exercise.setOptions(answerList);
 						}else{
@@ -152,13 +164,15 @@ public class CmsExerciseUploadController extends BaseController {
 				if (exercise.getGradeNo() == null || exercise.getSubjectNo() == null
 						|| exercise.getDifficultyNo() == null || exercise.getKnowledgeId() == null
 						|| exercise.getContent() == null || exercise.getTypeNo() == null
-						|| exercise.getOptions() == null) {
+						|| exercise.getOptions() == null||exercise.getErrorMsg()!=null){
 					msg += "【E】习题序号为:[" + exercise.getIndex() + "] 添加失败！ 原因:";
 					
 					if(exercise.getOptions()==null){
-						msg+="习题答案不小于2个。";
+						msg+="习题答案不小于2个。";					
 					}
-				
+					if(exercise.getErrorMsg()!=null){
+						msg+=exercise.getErrorMsg();
+					}
 					if(exercise.getGradeNo()==null){
 						msg+="年级、";
 					}else{
@@ -180,9 +194,10 @@ public class CmsExerciseUploadController extends BaseController {
 					if(exercise.getTypeNo()==null){
 						msg+="题型、";
 					}
-					
-					
-					msg=msg.substring(0, msg.length()-1)+" 参数不存在或为空\n";
+					if(exercise.getOptions()!=null&&exercise.getErrorMsg()==null){
+						msg=msg.substring(0, msg.length()-1)+" 参数不存在或为空";
+					}	
+					msg+="\n";
 					
 					continue;
 				}

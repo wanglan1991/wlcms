@@ -283,11 +283,13 @@ define(function(require, exports, module) {
 				 * 视频转码
 				 */
 				'click .transcodeVideo' : function(e, value, row, index) {
+					
 					$.ajax({
 						url : F.basepath + '/cms/vodCloud/transcode',
 						type : 'POST',
 						data : {
-							fileId : row.videoKey
+							fileId : row.videoKey,
+							type :1
 						},
 						success : function(data) {
 							if (data.msg != "") {
@@ -297,8 +299,39 @@ define(function(require, exports, module) {
 							}
 							F.reload();
 						}
-					})
+					})									
+					if(row.subVideoKey!=null){
+						$.ajax({
+							url : F.basepath + '/cms/vodCloud/transcode',
+							type : 'POST',
+							data : {
+								fileId : row.subVideoKey,
+								type : 2
+							},
+							success : function(data) {}
+						})
+					}
 				},
+				'click .createTestpaper' :function(e, value, row, index){
+					$(".createTestpaper."+row.id).remove();
+					$.ajax({
+						url : F.basepath + '/cms/video/createTestpaper',
+						type : 'POST',
+						data : {
+							id : row.id
+						},
+						success : function(data) {
+							if(data.result>0){
+								F.reload();
+							}else{
+								alert("系统发生异常！");
+							}
+							
+						}
+					})
+					
+					
+				}
 				
 			
 			};
@@ -308,7 +341,6 @@ define(function(require, exports, module) {
 			}, {
 				field : 'id',
 				title : '主键',
-				visible : false
 			}, {
 				field : 'videoName',
 				title : '视频名称'
@@ -321,10 +353,7 @@ define(function(require, exports, module) {
 				field : 'knowledgeId',
 				title : '知识点id',
 				visible : false
-			}, {
-				field : 'knowledge',
-				title : '知识点'
-			}, {
+			},  {
 				field : 'grade',
 				title : '年级'
 
@@ -541,15 +570,14 @@ define(function(require, exports, module) {
 						data : {arr:arrIds,videoId:$("#modal-editVideoExercise").attr('videoId')},
 						dataType: "json", 
 						success : function(data) {
-							if (data.result > 0) {
+							
 								F.table.reload();
-							}
+						
 						}
 					});
 					core.closeModel('modal-editVideoExercise');
 					$("#exerciseTree").empty();
 				});
-			
 			
 			
 			/**
@@ -584,20 +612,23 @@ define(function(require, exports, module) {
 						);
 				core.getDictOptions('年级','grade',"#grade");
 				core.getDictOptions('学科','subject',"#subject");
+				$("#subVideoKey").val('');
+				$("#videoFileSub").val('');
 				$("#qsubmitbutton").removeAttr("disabled");
 				$("#videoFile").removeAttr("disabled");	
 				$("#videoImg").removeAttr("disabled");
 				$("#uploadVideoImgButton").removeAttr("disabled");
-				
+				$("#addPrice").val('');
 				$("#videoImgUrl").val('');
 				return false;
 			});
-				
+			
 		
 			// 新增视频提交
 			$('#btnSubmit').click(function(){
 				var videoName=$("#videoName").val();
 				var videoKey=$("#videoKey").val();
+				var subVideoKey = $("#subVideoKey").val();
 				var digest=$("#digest").val();
 				var gradeNo=$("#grade").val();
 				var subjectNo=$("#subject").val();
@@ -640,6 +671,7 @@ define(function(require, exports, module) {
 						knowledgeId : knowledgeId,
 						knowledge : arr,
 						fileName : videoFileName,
+						subVideoKey:subVideoKey,
 						isp : "tencent"
 					},
 					dataType: "json", 
@@ -692,6 +724,9 @@ define(function(require, exports, module) {
 				$("#videoFile").val('');
 				$("#videoImgUrl").val('');
 				$("#videoImg").val('');
+				$("#subVideoKey").val('');
+				$("#videoFileSub").val('');
+				$("#addPrice").val('');
 			}
 			
 			
@@ -733,6 +768,11 @@ define(function(require, exports, module) {
 		operateFormatter : function(value, row, index) {
 			var _btnAction = "";
 			
+			
+			if(base.perList.video.createTextbook&&row.exerciseCount>0&&row.hasTestpaper<1){
+				_btnAction += "<a class='createTestpaper "+row.id+" btn btn-success btn-small' href='#'  title='生成题库组卷' style='margin-left:5px'>生成组卷</a>";
+				
+			}
 			if(base.perList.video.createTextbook&&row.textbookId==0){
 				_btnAction += "<a class='createTextbook btn btn-success btn-small' href='#'  title='生成选课' style='margin-left:5px'>生成选课</a>";
 				
@@ -771,31 +811,33 @@ define(function(require, exports, module) {
 		
 	jQuery(document).ready(function() { 
 		
+		
+		
+		
+		
+		
+		
+		
 		// 上传表单验证和提交
 		// 腾讯云上传
 		$(function() {
 			$("#qupload").ajaxForm({
 				// 定义返回JSON数据，还包括xml和script格式
 				url:"/cms/vodCloud/upload",
-// url:"/cms/qiniu/uploadByQiNiu",
 				type:'post',
 				beforeSend : function() {
 				$("#msg").html('');
-					$("#modal-Video").append("<div id='waitForUpload'background-color:azure style='opacity: 0.6;position: absolute;" +
-							"position: absolute;z-index=4; width: 100%;height: 100%;margin-top: -96%'>" +
-							"<div style='margin-left: 40%;margin-top: 37%;'><h3><b>uploading...</b></h3><img src='/cms/assets/images/upload.gif' style='max-width: 19%;'/></div></div>");
-	
+				$("#modal-Video").append("<div id='waitForUpload'background-color:azure style='opacity: 0.6;position: absolute;" +
+				"position: absolute;z-index=4; width: 100%;height: 100%;margin-top: -111%'>" +
+				"<div style='margin-left: 40%;margin-top: 37%;'><h3><b>uploading...</b></h3><img src='/cms/assets/images/upload.gif' style='max-width: 19%;'/></div></div>");
 				$("#qsubmitbutton").attr("disabled","disalbed");
-				$("#videoFile").attr("disabled","disalbed");
-				
 				},
-				
 				success : function(data) {
 					// 提交成功后调用
 					$("#waitForUpload").remove();
 					if (data.result==1) {
 						$("#videoKey").val(data.value.fileId);
-						$("#videoFileName").val(data.value.fileName);
+						$("#videoFileName").val(data.value.fileName.substring(0,data.value.fileName.length-4));
 						$("#videoUrl").val(data.value.url);
 					} else {
 						$("#qsubmitbutton").attr("disabled",false);
@@ -805,7 +847,37 @@ define(function(require, exports, module) {
 				}
 			});
 		});
+		
+		$(function() {
+			$("#quploadSub").ajaxForm({
+				// 定义返回JSON数据，还包括xml和script格式
+				url:"/cms/vodCloud/upload",
+				type:'post',
+				beforeSend : function() {
+				$("#msg").html('');
+				$("#modal-Video").append("<div id='waitForUploadSub'background-color:azure style='opacity: 0.6;position: absolute;" +
+				"position: absolute;z-index=4; width: 100%;height: 100%;margin-top: -111%'>" +
+				"<div style='margin-left: 40%;margin-top: 37%;'><h3><b>uploading...</b></h3><img src='/cms/assets/images/upload.gif' style='max-width: 19%;'/></div></div>");
+				$("#qsubmitbuttonSub").attr("disabled","disalbed");
+				},
+				success : function(data) {
+					// 提交成功后调用
+					$("#waitForUploadSub").remove();
+					if (data.result==1) {
+						$("#subVideoKey").val(data.value.fileId);
+						
+					} else {
+						$("#qsubmitbuttonSub").attr("disabled",false);
+						$("#videoFileSub").attr("disabled",false);	
+						$("#msg").html(data.msg);
+					}
+				}
+			});
+		});
+		
 // 编辑上传
+		
+		
 		$(function() {
 			$("#editUploadVideoImg").ajaxForm({
 				// 图片上传的文件夹

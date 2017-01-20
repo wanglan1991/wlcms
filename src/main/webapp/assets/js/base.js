@@ -206,7 +206,8 @@ define(function (require, exports, module) {
 	             checkCatalog:false,
 	             editCatalog:false,
 	             delCatalog:false,
-	         	 addCatalog:false
+	         	 addCatalog:false,
+	         	 recommend:false
             },
             exercise:{
             	 check:false,

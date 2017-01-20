@@ -61,6 +61,12 @@ public interface ICmsTextbookService {
 	List<CmsCatalogMessage> selectCatalogById(String [] list);
 	
 	
+	/**
+	 * 推荐或取消推荐
+	 */
+	
+	int  recommendById(int id);
+	
 
 	
 	

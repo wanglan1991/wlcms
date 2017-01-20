@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.ekt.cms.common.entity.Result;
+import com.ekt.cms.utils.Constants;
 
 /**
  * wanglan
@@ -46,7 +47,9 @@ public class DiyUploadController {
 			sourceName = file.getOriginalFilename();
 			System.out.println("上传文件类型为:" + sourceName.substring(sourceName.lastIndexOf(".")) + "文件名为:" + sourceName);
 			String realKey = KEY + file.getOriginalFilename();
-			OSSClient client = new OSSClient(OssUploadSample.endpoint, OssUploadSample.accessKeyId, OssUploadSample.accessKeySecret);
+			OSSClient  client = new OSSClient(Constants.DEFAULT_OSS_ENDPOINT, 
+					   Constants.DEFAULT_OSS_ACCESS_KEY_ID, 
+					   Constants.DEFAULT_OSS_ACCESS_KEY_SECRET);
 			client.putObject(new PutObjectRequest(OssUploadSample.bucketName, realKey, file.getInputStream()));
 			result.setResult(1);
 //			result.setMsg("&lt;//exercise/"+sourceName+"//&gt;");

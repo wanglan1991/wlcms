@@ -150,7 +150,7 @@ public class CmsExerciseController extends BaseController {
 		List<Map<String, Object>> list = answerList.getAnswerList();
 		if (list != null) {
 			int grade = exercise.getGradeNo();
-			exercise.setPhaseNo(grade==19||grade==20||grade==21?60:61);
+			exercise.setPhaseNo(grade==19||grade==20||grade==21?61:60);
 			exercise.setInputAccountId(getCurrentAccount().getId());
 			cmsExerciseService.updateExercise(exercise);
 			cmsExerciseService.deleteAnswer(exercise.getId());

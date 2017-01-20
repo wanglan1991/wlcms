@@ -21,6 +21,7 @@ import com.ekt.cms.quintessence.entity.CmsQuintessence;
 import com.ekt.cms.quintessence.service.ICmsQuintessenceService;
 import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.utils.pageHelper.PageContext;
+import com.ekt.cms.video.service.ICmsTestpaperService;
 
 /** 
 * @ClassName: QuintessenceController 
@@ -36,6 +37,10 @@ public class CmsQuintessenceController extends BaseController{
 	
 	@Resource
 	private ICmsQuintessenceService quintessenceService;
+	
+	
+	@Resource 
+	private ICmsTestpaperService testpaperService;
 	
 	
 	/**
@@ -59,61 +64,51 @@ public class CmsQuintessenceController extends BaseController{
 		page.paging();
 		return new PageBean<CmsQuintessence>(quintessenceService.listPage(quintessence));
 	}
+	/**
+	 * 获取teacher列表
+	 * @return
+	 */
+	@RequestMapping(value = "/teacherList")
+	@ResponseBody
+	public Result getTeacherList(){
+		return Result.getResults(quintessenceService.getTeacherList());
+	}
 	
 	
 	/**
-	 * 删除 可批量删除
-	 * @param ids
-	 * @return 操作是否成功
+	 * app每日精选习题、题库组卷习题。隐藏或显示
+	 * @return
 	 */
-	@RequestMapping(value = "/delete")
+	@RequestMapping(value = "/confine")
 	@ResponseBody
-	public  Result deleteById(@RequestParam("ids")String ids){
-		Result result = Result.getResults();
-		String[]arr =ids.split(",");
-		int total=0;
-		if(arr.length>0){
-			for(int i=0;i<arr.length;i++){
-				total+=quintessenceService.delQuintessenceById(Integer.parseInt(arr[i]));
+	public Result confine(String ids){
+		int result = 0;
+		String [] idsArr =ids.split(",");
+		if(idsArr.length!=0){
+			for(int i=0;i<idsArr.length;i++){
+				result += quintessenceService.confine(Integer.parseInt(idsArr[i]));
 			}
 		}
-			result.setResult(total);		
-		return result;
+		return Result.getResults(result);
 		
-	}
-	/**
-	 * 获取每日精选
-	 * 1:组卷
-	 * 2:课程
-	 * 3:文选
-	 * @param type
-	 * @return
-	 */
-	@RequestMapping(value = "/contentList")
-	@ResponseBody
-	public Result getQuintessenceContentList(@RequestParam("contentType")int type){
-		Result result = Result.getResults();
-		result.setValue(type==1?quintessenceService.getQuintessenceTestpaper():
-						type==2?quintessenceService.getQuintessenceTextbook():null);		
-		return result;
 	}
 	
 	/**
-	 * 添加精选
+	 * 删除题库组卷
+	 * @param ids
 	 * @return
 	 */
-	@RequestMapping(value = "/add")
+	@RequestMapping(value = "/del")
 	@ResponseBody
-	public Result addQuintessence(CmsQuintessence cmsQuintessence){
-		Result result = Result.getResults();
-		if(quintessenceService.getQuintessence(cmsQuintessence).size()<1){
-			cmsQuintessence.setInputAccountId(getCurrentAccount().getId());
-		result.setResult(quintessenceService.addQuintessence(cmsQuintessence));
-		}else{
-		result.setResult(-1);
-		result.setMsg("无法添加，该记录已经存在！");
+	public Result del(String ids){
+	String [] idsArr =ids.split(",");
+	int result = 0;
+	if(idsArr.length>0){
+		for(int i=0;i<idsArr.length;i++){
+			result += testpaperService.removeTestpaperById(Integer.parseInt(idsArr[i]));
 		}
-		return result;
+	}
+		return Result.getResults(result);
 	}
 	
 	

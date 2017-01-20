@@ -12,6 +12,16 @@ import java.util.List;
 public final class Result {
 	
 	
+private String msg;
+	
+	private List <Object> list;
+	
+	private Boolean ok;
+	
+	private int result;
+
+	private Object value;
+	
 	public Result(){
 		
 	}
@@ -33,11 +43,7 @@ public final class Result {
 		this.result = result;
 	}
 
-	private String msg;
 	
-	private List <Object> list;
-	
-	private Boolean ok;
 
 	public Boolean getOk() {
 		return ok;
@@ -79,9 +85,7 @@ public final class Result {
 		this.value = value;
 	}
 
-	private int result;
-
-	private Object value;
+	
 	public static Result getResults(){
 		return new Result();
 	}

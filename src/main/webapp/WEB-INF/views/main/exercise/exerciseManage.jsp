@@ -29,7 +29,7 @@
 </div>
 
 <!-- 添加模态框 -->
-<div class='modal hide fade' id='modal-addExercise' role='dialog' tabindex='-1' style="width:65%;height:80%;left: 35%;">
+<div class='modal hide fade' id='modal-addExercise' role='dialog' tabindex='-1' style="width:65%;height:80%;left: 35%;overflow:auto">
     <div class='modal-header'>
         <button class='close' id="addClose"  data-dismiss='modal' type='button'>&times;</button>
         <h3></h3>
@@ -98,7 +98,7 @@
 
 
 
-<div class='modal hide fade' id='modal-editExercise' exerciseId='' role='dialog' tabindex='-1' style= "width:65%;height:80%;left: 35%;">
+<div class='modal hide fade' id='modal-editExercise' exerciseId='' role='dialog' tabindex='-1' style= "width:65%;height:80%;left:35%;overflow: auto;">
     <div class='modal-header'>
         <button class='close' data-dismiss='modal' type='button'>&times;</button>
         <h3></h3>
