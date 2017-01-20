@@ -43,6 +43,7 @@ public class VodCloud {
 	public Result  upload (HttpServletRequest request){
 		Result result=Result.getResults();
 		//调用接口的公共参数
+		int error = 0;
 		TreeMap<String, Object> config = new TreeMap<String, Object>();
 		config.put("SecretId", Constants.DEFAULT_UPLOAD_SECRETID);
 		config.put("SecretKey", Constants.DEFAULT_UPLOAD_SECRETKEY);
@@ -96,15 +97,15 @@ public class VodCloud {
 			String fileSHA1 = SHA1.fileNameToSHA(filePath);
 		//获取文件名的后缀 
 			String fileType=fileName.substring(fileName.lastIndexOf(".")+1);
-			int fixDataSize = 1024*1024*50;  //每次上传字节数，可自定义 1024*1024*50; 
-			int firstDataSize = 1024*1024;    //最小片字节数（默认不变）
+			int fixDataSize = 1024*1024*5;  //每次上传字节数，可自定义 1024*1024*50; 
+			int firstDataSize = 1024*512;    //最小片字节数（默认不变）
 			int tmpDataSize = firstDataSize;
 			long remainderSize = fileSize;
 			int tmpOffset = 0;
 			int code, flag;
 			String fileId;
 			String resultJson = null;
-						while (remainderSize>0) {
+		while (remainderSize>0) {
 				TreeMap<String, Object> params = new TreeMap<String, Object>();
 				params.put("fileSha", fileSHA1);
 				params.put("fileType", fileType);
@@ -121,12 +122,15 @@ public class VodCloud {
 				System.out.println(resultJson);
 				code = json_result.getInt("code");
 				if (code == -3002) {               //服务器异常返回，需要重试上传(offset=0, dataSize=512K)
+					error+=1;
+					if(error==5){
+							result.setResult(-1);
+							result.setMsg("无法支持的文件上传协议！请修改文件名重新尝试上传。");
+							return result;
+						}
 					tmpDataSize = firstDataSize;
 					tmpOffset = 0;
-					result.setResult(-1);
-					result.setMsg("上传异常！解决办法 ，请检查文件名是否为中文或重新尝试。");
-					return result;
-					
+					continue;
 				} else if (code != 0) {
 					result.setResult(-1);
 					result.setMsg("上传异常");
@@ -167,7 +171,7 @@ public class VodCloud {
 	 */
 	@RequestMapping(value = "/transcode" ) 
 	@ResponseBody
-	public Result transcodeVideo(String  fileId){
+	public Result transcodeVideo(String  fileId,int type){
 		Result result=Result.getResults();
 		//调用接口的公共参数
 				TreeMap<String, Object> config = new TreeMap<String, Object>();
@@ -182,9 +186,9 @@ public class VodCloud {
 					//给ConvertVodFile传参并调用
 					String resultUrl = null;
 					TreeMap<String, Object> params = new TreeMap<String, Object>();
-					params.put("fileId", fileId);
-					params.put("notifyUrl", "http://112.74.105.4:8080/cms/vodCloud/describeVodInfo?fileId="+fileId);
-					
+					params.put("fileId", fileId);  
+					params.put("notifyUrl", "http://112.74.105.4:8080/cms/vodCloud/describeVodInfo?fileId="+fileId+"&type="+type);
+//						params.put("notifyUrl", "http://wanglan.tunnel.qydev.com/cms/vodCloud/describeVodInfo?fileId="+fileId+"&type="+type);
 					/*
 					 * 测试回调
 					 *	params.put("notifyUrl", "http://fjsk.tunnel.qydev.com/cms/vodCloud/describeVodInfo?fileId="+fileId);
@@ -215,7 +219,7 @@ public class VodCloud {
 	 */
 	@RequestMapping(value = "/describeVodInfo" ) 
 	@ResponseBody
-	public  Result  getUrl(String fileId) {
+	public  Result  getUrl(String fileId,int type) {
 		Result result= Result.getResults();
 		CmsVideo video=new CmsVideo();
 		//调用接口的公共参数
@@ -258,7 +262,7 @@ public class VodCloud {
 					System.out.println("返回的结果为DescribeVodPlayUrls------------"+playSet);
 					JSONObject playSetJson = playSet.getJSONObject(0);// 取playSet得第一元素是需要的结果集   
 					String url=playSetJson.getString("url");
-					video.setUrl(url);
+					
 					
 					//从DescribeVodInfo接口中获得视频名称 时长 ID  目前时长取出来是0 
 					JSONArray fileSet=jsonObjectInfo.getJSONArray("fileSet");//fileSet与playSet一样
@@ -268,10 +272,20 @@ public class VodCloud {
 					String fileName=fileSetJson.getString("fileName");
 					String fileNameReal=fileName.substring(0,fileName.lastIndexOf("."));//去掉后缀名
 					int  duration=fileSetJson.getInt("duration");
-					video.setVideoKey(videoId);
-					video.setFileName(fileNameReal);
-					video.setDuration(duration);
-					cmsVideoService.updateByVideoKey(video);
+								
+					if(type==1){
+						video.setUrl(url);
+						video.setVideoKey(videoId);
+						video.setFileName(fileNameReal);
+						video.setDuration(duration);	
+						cmsVideoService.updateByVideoKey(video);
+					}else{
+						video.setSubVideoKey(videoId);
+						video.setSubUrl(url);
+						cmsVideoService.updateVideoBySubKey(video);
+					}
+					
+					
 					result.setValue(video);
 					return result;
 				}

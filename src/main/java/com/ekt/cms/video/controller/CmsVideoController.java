@@ -1,5 +1,7 @@
 package com.ekt.cms.video.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,9 @@ import com.ekt.cms.textbook.service.ICmsTextbookService;
 import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.utils.pageHelper.PageContext;
 import com.ekt.cms.video.entity.CmsVideo;
+import com.ekt.cms.video.entity.ExerciseDetail;
+import com.ekt.cms.video.entity.Testpaper;
+import com.ekt.cms.video.service.ICmsTestpaperService;
 import com.ekt.cms.video.service.ICmsVideoService;
 /**
  * 2016-05-02
@@ -33,6 +38,9 @@ public class CmsVideoController extends BaseController{
 	
 	@Resource
 	private ICmsCatalogService cmsCatalogService;
+	
+	@Resource 
+	private ICmsTestpaperService  testpaperService;
 
 	@RequestMapping("/toVideo")
 	public String toVideoPage() {
@@ -125,7 +133,7 @@ public class CmsVideoController extends BaseController{
 					cmsVideoService.addVideoExerciseTree(Integer.parseInt(ids[i]), videoId, i);
 				}	
 			}
-			result.setResult(1);
+			result.setResult(excutResult);
 		return result;
 	}
 	
@@ -153,6 +161,41 @@ public class CmsVideoController extends BaseController{
 		}
 		return Result.getResults(result3);
 	}
+	
+	
+	/**
+	 * 生成题库组卷
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/createTestpaper")
+	@ResponseBody
+	public Result createTestpaper(@RequestParam("id")int id){
+		CmsVideo video = cmsVideoService.getVideoById(id);
+		int result =0;
+		if(video.getHasTestpaper()>0){
+			Result.getResults(result+1);
+		}
+		List<Integer> ves =testpaperService.getVideoExercises(id);
+		Testpaper  tp =new Testpaper();
+		tp.setUserId(getCurrentAccount().getEktapiUserId());
+		tp.setAuthor("系统题库");
+		tp.setTestpaperName(video.getVideoName()+"（课件）");
+		tp.setDigest("知识点 ："+video.getKnowledge()+ves.size()+"道基础练习题");
+		tp.setSubjectNo(video.getSubjectNo());
+		tp.setPhaseNo(tp.getPhaseNo());
+		tp.setKnowledgePointArr(video.getKnowledgeId());
+		tp.setKnowledgePointArrVal(video.getKnowledge());
+		tp.setDifficultyNo(45);
+		tp.setCategoryNo(39);
+		tp.setVideoId(id);
+		result+=testpaperService.insertTestpaper(tp);
+		for(int i=0;i<ves.size();i++){
+			testpaperService.insertExerciseDetail(new ExerciseDetail(tp.getId(), ves.get(i), getCurrentAccount().getEktapiUserId()));
+		}
+		return Result.getResults(result);
+	}
+	
 	
 
 }

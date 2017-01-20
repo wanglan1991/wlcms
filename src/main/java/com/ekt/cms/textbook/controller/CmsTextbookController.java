@@ -265,4 +265,18 @@ public class CmsTextbookController extends BaseController {
 		}
 		return result;
 	}
+	
+	/**
+	 * 推荐或取消推荐
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/recommend")
+	@ResponseBody
+	public  Result recommend(int id){
+		return Result.getResults(cmsTextbookService.recommendById(id));
+		
+	}
+	
+	
 }

@@ -64,5 +64,12 @@ public interface CmsTextbookMapper {
 	 * @return
 	 */
 	public List<CmsCatalogMessage> selectCatalogById(@Param("list")String [] list);
+	
+
+	/**
+	 * 推荐或取消推荐
+	 */
+	
+	int  recommendById(int id);
 
 }

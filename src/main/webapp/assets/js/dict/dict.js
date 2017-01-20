@@ -26,9 +26,6 @@ define(function(require, exports, module) {
 						success : function(data) {
 							html = "<select  id='q_dict_type'> <option value=''>--请选择--</option>";
 							for (var i = 0; i < data.value.length; i++) {
-								if (data.value[i].status == 0) {
-									continue;
-								}
 								html += "<option value="
 										+ data.value[i].typeEncoding + ">"
 										+ data.value[i].typeName + "</option>"
@@ -250,7 +247,7 @@ define(function(require, exports, module) {
 		operateFormatter : function(value, row, index) {
 			var _btnAction = "";
 			 if (base.perList.dict.confine) {
-			_btnAction += "<a class='startDict btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"
+			_btnAction += "<a class='startDict btn "+(row.status == 1?"btn-success btn-small":" btn-primary btn-small")+"' href='#' title='启用或停用' style='margin-left:5px'>"
 					+ (row.status == 1 ? "停用" : "启用") + "</a>";
 			 }
 			            

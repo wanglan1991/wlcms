@@ -53,8 +53,12 @@ define(function (require, exports, module) {
              */
             if(base.perList.textbook.check){
             	$("#perm-header .actions").append("<input autocomplete='off'  id='name'  placeholder='请输入教材名称' type='text' />&nbsp;&nbsp;" +
-				"<select id='grade'></select>&nbsp;&nbsp;" +
-				"<select id='subject'></select>&nbsp;&nbsp;" +
+				"<select id='grade' style='width:6%'></select>&nbsp;&nbsp;" +
+				"<select id='subject' style='width:6%'></select>&nbsp;&nbsp;" +
+				"<select id='isRecommend' style='width:6%'>" +
+				"<option value='2'>类型...</option>" +
+				"<option value='1'>推荐</option>" +
+				"<option value='0'>未推荐</option></select>&nbsp;&nbsp;" +
 				"<a href='#' id='query' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>&nbsp;&nbsp;&nbsp;&nbsp;");
             	core.getDictOptions("年级","grade","#grade");
             	core.getDictOptions("科目","subject","#subject");
@@ -361,6 +365,21 @@ define(function (require, exports, module) {
 
 		        	});
 		        },
+		        //加入推荐或取消推荐
+		        'click .recommend':function(e, value, row, index){
+		        	$.ajax({
+		        		url:F.basepath+'/cms/textbook/recommend',
+		        		type:'get',
+		        		data:{id:row.id},
+		        		success:function(data){
+		        			if(data.result>0){
+		        				F.reload();
+		        			}else{
+		        				alert("异常！ 稍后再试");
+		        			}
+		        		}
+		        	});
+		        },
 		        /**
 				 * 加载目录结构
 				 */
@@ -457,7 +476,8 @@ define(function (require, exports, module) {
     			var title=$("#name").val();
     			var grade=$("#grade").val();
     			var subject=$("#subject").val();
-    			var url= F.basepath+'/cms/textbook/pageList?title='+title+'&gradeNo='+grade+"&subjectNo="+subject;
+    			var isRecommend=$("#isRecommend").val();
+    			var url= F.basepath+'/cms/textbook/pageList?title='+title+'&gradeNo='+grade+"&subjectNo="+subject+"&isRecommend="+isRecommend;
 				$("#textbookTable").bootstrapTable('refresh',{url:url});
     		}
     		
@@ -1067,10 +1087,12 @@ define(function (require, exports, module) {
         ,
         operateFormatter:function (value, row, index) {
         	var _btnAction = "";
-        	
-        	if (base.perList.textbook.outline) {
-            	_btnAction += "<a class='outline btn btn-primary btn-small' href='#' title='目录预览' style='margin-left:5px'>目录预览</a>";
-            	}
+	        if (base.perList.textbook.recommend) {
+    		_btnAction += "<a class='recommend "+(row.isRecommend==0?"btn btn-success btn-small":"btn btn-primary btn-small")+"' href='#' title='加入推荐或取消推荐' style='margin-left:5px'>"+(row.isRecommend==0?"加入推荐":"取消推荐")+"</a>";
+	        }
+    		if (base.perList.textbook.outline) {
+        	_btnAction += "<a class='outline btn btn-primary btn-small' href='#' title='目录预览' style='margin-left:5px'>目录预览</a>";
+        	}
         	if (base.perList.textbook.confine) {
         	_btnAction += "<a class='confine btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"+(row.status==1?"停用":"启用")+"</a>";
         	}

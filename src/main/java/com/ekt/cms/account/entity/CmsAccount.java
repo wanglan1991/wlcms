@@ -18,6 +18,16 @@ public class CmsAccount {
 	private Integer role;
 	
 	private String roleName;
+	
+	private int ektapiUserId;
+
+	public int getEktapiUserId() {
+		return ektapiUserId;
+	}
+
+	public void setEktapiUserId(int ektapiUserId) {
+		this.ektapiUserId = ektapiUserId;
+	}
 
 	public String getRoleName() {
 		return roleName;

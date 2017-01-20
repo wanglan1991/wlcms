@@ -408,7 +408,10 @@
 					<shiro:hasPermission name="textbook:addCatalog">
 						<span id="basejs_textbook_addCatalog" style="display: none;" />
 					</shiro:hasPermission>
-	
+					<shiro:hasPermission name="textbook:recommend">
+						<span id="basejs_textbook_recommend" style="display: none;" />
+					</shiro:hasPermission>
+				
 
 					<shiro:hasPermission name="exercise:check">
 						<span id="basejs_exercise_check" style="display: none;" />
@@ -809,6 +812,9 @@ $("#ekt_index").click(function(){
 		}
 		if ($("#basejs_textbook_addCatalog").length>0){
 			base.perList.textbook.addCatalog = true;
+		}
+		if ($("#basejs_textbook_recommend").length>0){
+			base.perList.textbook.recommend = true;
 		}
 		
 // 		习题

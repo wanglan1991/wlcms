@@ -2,86 +2,92 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ekt.cms.quintessence.dao.CmsQuintessenceMapper">
 	
-	<resultMap id="QuintessenceMap" type="com.ekt.cms.quintessence.entity.CmsQuintessence">
-			<result column="id" property="id" jdbcType="INTEGER" /> 
-			<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-			<result column="content_type" property="contentType" jdbcType="INTEGER" />
-			<result column="content_id" property="contentId" jdbcType="INTEGER" />
-			<result column="publish_date" property="publishDate" jdbcType="TIMESTAMP" />
-			<result column="name" property="name" jdbcType="VARCHAR" />
-			<result column="total_count" property="totalCount" jdbcType="INTEGER" />
-			<result column="type" property="type" jdbcType="VARCHAR" />		
-			<result column="input_account_id" property="inputAccountId" jdbcType="INTEGER" />
-			<result column="real_name" property="inputAccountName" jdbcType="VARCHAR" />		
+	<resultMap id="quintessenceMap" type="com.ekt.cms.quintessence.entity.CmsQuintessence">
+		<result column="testpaper_id" property="id" jdbcType="INTEGER" />	 
+		<result column="testpaper_name" property="testpaperName" jdbcType="VARCHAR" />	
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />	
+		<result column="knowledge_point_arr_val" property="knowledgePointArrVal" jdbcType="VARCHAR" />	
+		<result column="difficulty" property="difficulty" jdbcType="VARCHAR" />	
+		<result column="digest" property="digest" jdbcType="VARCHAR" />	
+		<result column="user_id" property="userId" jdbcType="INTEGER" />	
+		<result column="nickname" property="nickname" jdbcType="VARCHAR" />	
+		<result column="type" property="type" jdbcType="VARCHAR" />	
+		<result column="exercise_count" property="exerciseCount" jdbcType="INTEGER" />	
+		<result column="examine_status" property="examineStatus" jdbcType="INTEGER" />	
+		<result column="subject" property="subject" jdbcType="VARCHAR" />	
+		<result column="grade" property="grade" jdbcType="VARCHAR" />		
+		<result column="real_name" property="realName" jdbcType="VARCHAR" />			
 	</resultMap>
 	
-<!-- 	每日精选列表 -->
-	<select id="listPage" parameterType="com.ekt.cms.quintessence.entity.CmsQuintessence" resultMap="QuintessenceMap">
-		SELECT * FROM(	
-				SELECT
-					q.*,a.real_name,  
-					IF(t.title IS NULL,t1.testpaper_name,t.title)AS name,
-			 		IF(t.title IS NULL,COUNT(d.id),COUNT(c.id))total_count,
-					IF(q.content_type=1,'组卷','课程')AS type
-				FROM
-					api_quintessence q
-				LEFT JOIN cms_textbook t ON q.content_id = t.id
-				AND q.content_type = 2
-				AND t.`status` = 1
-				LEFT JOIN cms_catalog c on t.id=c.textbook_id AND c.catalog_level=52
-				LEFT JOIN api_testpaper t1 ON q.content_id=t1.id AND q.content_type=1
-				LEFT JOIN api_exercise_detail d  on d.testpaper_id=t1.id AND d.task_id IS NULL
-				LEFT JOIN cms_account a on a.id=q.input_account_id
-				GROUP BY q.content_id
-		)AS a
+	
+	<select id="listPage" parameterType="com.ekt.cms.quintessence.entity.CmsQuintessence" resultMap="quintessenceMap">	
+			SELECT
+				t.id AS testpaper_id,
+				d2.`value` AS grade,
+				d1.`value` AS subject,
+				t.testpaper_name,
+				t.create_time,
+				t.knowledge_point_arr_val,
+				d.`value` AS difficulty,
+				t.digest,
+				t.user_id,
+				u.teacher_id,
+			    CASE t.type  WHEN 2 THEN '每日精选' WHEN 3 THEN '题库组卷' END AS type,
+				COUNT(1) AS exercise_count,
+				t.examine_status,
+				a.real_name
+			FROM
+				api_testpaper t 
+			LEFT JOIN api_user u on t.user_id=u.id
+			LEFT JOIN cms_dictionary d on d.id=t.difficulty_no
+			LEFT JOIN api_exercise_detail de on de.testpaper_id=t.id
+			LEFT JOIN cms_dictionary d1 on d1.id=t.subject_no
+			LEFT JOIN cms_exercise e on e.id=de.exercise_id
+			LEFT JOIN cms_dictionary d2 on d2.id=e.grade_no
+			LEFT JOIN cms_account a on t.user_id=a.ektapi_user_id
 			WHERE 1=1
-			<if test="name!=null and name!=''">
-				AND  a.name LIKE '%${name}%' 
-			</if>
-			<if test="contentType!=0">
-			  	AND a.content_type=#{contentType}
-			</if>	
+				<if test="difficultyNo!=0">
+					AND t.difficulty_no=#{difficultyNo}
+				</if>
+				<if test="subjectNo!=0">
+					AND t.subject_no =#{subjectNo}
+				</if>
+				<if test="gradeNo !=0">
+					AND e.grade_no =#{gradeNo}				
+				</if>
+				<if test="examineStatus !=2">
+					AND t.examine_status=#{examineStatus}				
+				</if>
+				<if test="typeNo!=0">
+					AND t.type =#{typeNo}
+				</if>
+				<if test="userId!=0">
+					AND t.user_id =#{userId}
+				</if>
+				
+				<if test="testpaperName!=null and testpaperName!='' ">
+					AND( t.testpaper_name like '%${testpaperName}%'
+					OR 	t.knowledge_point_arr_val like '%${testpaperName}%'	)		
+				</if>
+				AND u.teacher_id IS NOT NULL
+				AND t.type &lt;&gt; 1
+			GROUP BY t.id
+			ORDER BY t.create_time DESC
 	</select>
 	
-<!-- 	删除精选 -->
-	<delete id="delQuintessenceById" parameterType="java.lang.Integer">
-		 DELETE FROM api_quintessence WHERE id=#{id}
-	</delete>
-<!-- 	获取可选教材 -->
-	<select id="getQuintessenceTextbook" resultType="java.util.Map">
-			SELECT id,title AS name FROM cms_textbook WHERE `status`=1
-	</select>
-<!-- 	获取可选的组卷 -->
-	<select id="getQuintessenceTestpaper" resultType="java.util.Map">
-			SELECT id,testpaper_name AS name FROM api_testpaper WHERE `status`=1 AND user_id=11
+	<select id="getTeacherList" resultType="java.util.Map">
+		SELECT
+			id AS userId,
+			nickname,
+			user_name AS username
+		FROM
+			api_user
+		WHERE
+			`status` = 0
+		AND teacher_id IS NOT NULL
 	</select>
 	
-	<insert id="addQuintessence" parameterType="com.ekt.cms.quintessence.entity.CmsQuintessence">
-			INSERT INTO api_quintessence(
-			 `create_time`,
-			 `content_type`,
-			 `content_id`,
-			 `publish_date`,
-			 `input_account_id`
-			 ) VALUES (
-			 	SYSDATE(),
-			 	#{contentType},
-			 	#{contentId},
-			 	#{type},
-			 	#{inputAccountId}
-			 )
-	</insert>
-	
-	<select id="getQuintessence" parameterType="com.ekt.cms.quintessence.entity.CmsQuintessence" resultMap="QuintessenceMap">
-		SELECT * FROM 
-			api_quintessence 
-		WHERE 1=1
-		<if test="contentType!=0 and contentType!=-1">
-		AND content_type=#{contentType}
-		</if>
-		<if test="contentId !=0">
-		AND content_id=#{contentId} 
-		</if>
-	</select>
-
+	<update id="confine" parameterType="java.lang.Integer">
+		UPDATE api_testpaper SET examine_status=IF(examine_status=1,0,1) WHERE id =#{id}
+	</update>
 </mapper>

@@ -34,6 +34,7 @@ color:red;
 					<label class='control-label'>视频名称</label>
 					<input type="hidden" id="id" />
 					<input type="hidden" id="videoKey" />
+					<input type="hidden" id="subVideoKey" />
 					<div class='controls'>
 						<input class='span8' id='videoName' name="videoName" placeholder='请输入视频名称' 
 							type='text' />
@@ -49,8 +50,7 @@ color:red;
 				<div class='control-group'>
 					<label class='control-label'>简介</label>
 					<div class='controls'>
-						<textarea class='span8' id='digest' name="digest"
-							placeholder='简介' type='text' style="height:50px;" />
+						<textarea class='span8' id='digest' name="digest" placeholder='简介' type='text' style="height:50px;" />
 					</div>
 				</div>
 				<div class='control-group'>
@@ -108,9 +108,16 @@ color:red;
 			<!-- 腾讯云点播-->
 				<form id="qupload"  enctype="multipart/form-data">
 					<div class='controls'>
-						<input type="file" id="videoFile" name="videoFile" accept=".avi,.mp4,.rmvb,.mkv" 
-							class="form-control input-sm mb15"  required>
-							<button type="submit" id ="qsubmitbutton">上传视频</button>
+						<input type="file" id="videoFile" name="videoFile" accept=".avi,.mp4,.rmvb,.mkv" class="form-control input-sm mb15"  required>
+<!-- 							<button type="button"  id ="qsubmitbutton">上传视频</button> -->
+							<button type="submit"  id ="qsubmitbutton">上传完整视频</button>
+					</div>
+				</form>	 
+<!-- 				上传试看视频 -->
+				<form id="quploadSub"  enctype="multipart/form-data">
+					<div class='controls'>
+						<input type="file" id="videoFileSub" name="videoFile" accept=".avi,.mp4,.rmvb,.mkv" class="form-control input-sm mb15"  required>
+							<button type="submit"  id ="qsubmitbuttonSub" style="color:blue">上传试看视频</button>
 					</div>
 				</form>	 
 				

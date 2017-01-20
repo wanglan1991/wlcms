@@ -10,10 +10,11 @@
     <result column="role_name" property="roleName" jdbcType="CHAR" />
     <result column="cellphone" property="cellphone" jdbcType="CHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="ektapi_user_id" property="ektapiUserId" jdbcType="INTEGER" />
   </resultMap>
   
   <sql id="Base_Column_List" >
-    id, user_name, password, real_name, role, cellphone, status
+    id, user_name, password, real_name, role, cellphone, status, ektapi_user_id
   </sql>
   
    <!-- 按主键查询-->
@@ -93,7 +94,7 @@
    <!-- 根据条件查询 -->
 	<select id="queryByCondition" resultMap="BaseResultMap"
 		parameterType="com.ekt.cms.account.entity.CmsAccount">
-		SELECT * FROM cms_account WHERE 1=1
+		SELECT *,ektapi_user_id AS ektapiUserId FROM cms_account WHERE 1=1
 		<if test="cmsAccount.userName != null and cmsAccount.userName !='' ">
 			AND (user_name like '%${cmsAccount.userName}%')
 		</if>
@@ -124,14 +125,15 @@
 	<select id="queryByUserName" resultType="com.ekt.cms.account.entity.CmsAccount" parameterType="java.lang.String">
 		SELECT
 			a.id,
-			a.user_name userName,
+			a.user_name AS userName,
 			a.password,
-			a.real_name realName,
+			a.real_name AS realName,
 			a.role,
 			r.`name` AS roleName,
 			a.cellphone,
 			a.status,
-			a.create_date createDate
+			a.create_date AS createDate,
+			a.ektapi_user_id AS ektapiUserId
 		FROM
 			cms_account a
 		LEFT JOIN cms_role r on a.role=r.id

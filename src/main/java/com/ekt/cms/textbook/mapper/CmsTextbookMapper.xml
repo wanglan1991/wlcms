@@ -28,6 +28,7 @@
 		<result column="knowledge_point_arr_val" property="knowledgePointArrVal" jdbcType="VARCHAR" />
 		<result column="chapter_count" property="chapterCount" jdbcType="INTEGER" />
 		<result column="section_count" property="sectionCount" jdbcType="INTEGER" />
+		<result column="is_recommend" property="isRecommend" jdbcType="INTEGER" />
 	</resultMap>
 	
 	<resultMap type="com.ekt.cms.textbook.entity.CmsCatalogMessage" id="CmsCatalogMessageMap">
@@ -74,6 +75,7 @@
 					t.discount,
 					t.price,
 					t.is_hot,
+					t.is_recommend,
 					COUNT(ca.catalog_level=51 OR NULL)chapter_count,
 					COUNT(ca.catalog_level=52 OR NULL)section_count
 				FROM
@@ -101,6 +103,9 @@
 				<if test="textbook.textbookTypeNo !=null and textbook.textbookTypeNo !=''">
 					AND t.textbook_type_no=#{textbook.textbookTypeNo}
 				</if>
+				<if test="textbook.isRecommend!=null and textbook.isRecommend!=2">
+					AND t.is_recommend=#{textbook.isRecommend}	
+				</if>
 					GROUP BY t.id
 					ORDER BY t.id DESC
 			</select>
@@ -124,7 +129,8 @@
 				discount,
 				status,
 				is_hot,
-				parent_id
+				parent_id,
+				is_recommend
 			)VALUES(
 				#{phaseNo},
 				#{gradeNo },
@@ -144,7 +150,8 @@
 				#{discount},
 				1,
 				#{isHot},
-				#{parentId}
+				#{parentId},
+				0
 			)
 	</insert>
 	<delete id="deleteTextbook" parameterType="java.lang.Integer">
@@ -266,5 +273,9 @@
             		#{item}
        	 </foreach>
 	</select>
+	
+	<update id="recommendById" parameterType="java.lang.Integer">
+		UPDATE cms_textbook SET is_recommend=IF(is_recommend=0,1,0) WHERE id =#{id}
+	</update>
 	
 </mapper>

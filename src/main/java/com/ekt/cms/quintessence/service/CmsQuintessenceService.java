@@ -38,28 +38,14 @@ public class CmsQuintessenceService implements ICmsQuintessenceService {
 	}
 
 	@Override
-	public int delQuintessenceById(int id) {
-		return quintessenceMapper.delQuintessenceById(id);
+	public List<Map<String, Object>> getTeacherList() {
+		return quintessenceMapper.getTeacherList();
 	}
 
 	@Override
-	public List<Map<String, Object>> getQuintessenceTextbook() {
-		return quintessenceMapper.getQuintessenceTextbook();
+	public int confine(int id) {
+		return quintessenceMapper.confine(id);
 	}
 
-	@Override
-	public List<Map<String, Object>> getQuintessenceTestpaper() {
-		return quintessenceMapper.getQuintessenceTestpaper();
-	}
-
-	@Override
-	public int addQuintessence(CmsQuintessence cmsQuintessence) {
-		return quintessenceMapper.addQuintessence(cmsQuintessence);
-	}
-
-	@Override
-	public List<CmsQuintessence> getQuintessence(CmsQuintessence cmsQuintessence) {
-		return quintessenceMapper.getQuintessence(cmsQuintessence);
-	}
-
+	
 }

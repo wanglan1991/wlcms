@@ -64,8 +64,17 @@ public class CmsExercise {
 	private Integer inputAccountId;
 	//更新人真实姓名
 	private String accountRealName;
+	//导入习题时异常时用的信息
+	private String errorMsg;
 	
 	
+	
+	public String getErrorMsg() {
+		return errorMsg;
+	}
+	public void setErrorMsg(String errorMsg) {
+		this.errorMsg = errorMsg;
+	}
 	public String getAccountRealName() {
 		return accountRealName;
 	}

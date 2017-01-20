@@ -55,4 +55,9 @@ public class CmsTextbookService implements ICmsTextbookService {
 		return cmsTextbookMapper.selectCatalogById(list);
 	}
 
+	@Override
+	public int recommendById(int id) {
+		return cmsTextbookMapper.recommendById(id);
+	}
+
 }

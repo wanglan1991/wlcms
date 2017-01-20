@@ -68,10 +68,20 @@ public class CmsTextbook {
 	private Integer sectionCount;
 	//父级id
 	private  Integer parentId;
+	//是否为推荐视频
+	private  Integer isRecommend;
 	
 	
 	
 	
+	public Integer getIsRecommend() {
+		return isRecommend;
+	}
+
+	public void setIsRecommend(Integer isRecommend) {
+		this.isRecommend = isRecommend;
+	}
+
 	public Integer getParentId() {
 		return parentId;
 	}

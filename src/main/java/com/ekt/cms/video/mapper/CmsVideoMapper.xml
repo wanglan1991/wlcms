@@ -28,6 +28,9 @@
 		<result column="price" property="price" jdbcType="DOUBLE"></result>
 		<result column="discount" property="discount" jdbcType="DOUBLE"></result>
 		<result column="textbook_id" property="textbookId" jdbcType="INTEGER"></result>
+		<result column="exercise_count" property="exerciseCount" jdbcType="INTEGER"></result>
+		<result column="has_testpaper" property="hasTestpaper" jdbcType="INTEGER"></result>
+		<result column="sub_video_key" property="subVideoKey" jdbcType="VARCHAR"></result>
 	</resultMap>
 	
 	<resultMap type="com.ekt.cms.common.entity.TreeBean" id="TreeBeanMap">
@@ -58,8 +61,10 @@
 				,c.price
 				,c.discount
 				,c.isfree	
+				,IF(a.id IS NOT NULL,1,0)AS hasTestpaper		
 			FROM
 				cms_video c
+				LEFT JOIN api_testpaper a on a.video_id=c.id
 			WHERE
 				c.id = #{id}
 	</select>
@@ -71,18 +76,17 @@
 		e1.subject_no AS exercise_subject_no,
 		e1.knoeledge_id AS exercise_knoeledge_id FROM (
 				SELECT
-					v.id id,
-					video_name,
-					video_key,
+					v.id ,
+					v.video_name,
+					v.video_key,
 					v.digest,
-					url,
-					url1,
-					isp,
-					file_name,
+					v.url,
+					v.isp,
+					v.file_name,
 					v.author_id,
 					a.real_name author,
-					duration,
-					image_url,
+					v.duration,
+					v.image_url,
 					knowledge_id,
 					v.status status,
 					transcode_status,
@@ -93,14 +97,20 @@
 					d1.value subject,
 					v.price,
 					v.discount,
-					IF(t.id IS NULL,0,t.id)AS textbook_id
+					IF(t.id IS NULL,0,t.id)AS textbook_id,
+					COUNT(e.id IS NOT NULL OR NULL) AS exercise_count,
+					IF(t1.id IS NOT NULL,1,0)AS has_testpaper,
+					v.sub_video_key
 				FROM
 					cms_video v
 				LEFT JOIN cms_dictionary d on v.grade_no=d.id
 				LEFT JOIN cms_dictionary d1 on v.subject_no=d1.id
 				LEFT JOIN cms_account a on a.id= v.author_id
 				LEFT JOIN cms_textbook t on t.title=v.video_name
-				WHERE 1=1
+				LEFT JOIN api_video_exercise e on e.video_id=v.id
+				LEFT JOIN api_testpaper t1 on t1.video_id=v.id
+				WHERE 1=1 
+				GROUP BY v.id
 		<if test="CmsVideo.videoName !=null and CmsVideo.videoName != ''">
 			AND (video_name like '%${CmsVideo.videoName}%')
 		</if>
@@ -214,7 +224,8 @@
 			price,
 			discount,
 			isfree,
-			create_time)
+			create_time,
+			sub_video_key)
 		VALUES
 			(#{CmsVideo.videoName},
 			#{CmsVideo.digest},
@@ -234,7 +245,8 @@
 			#{CmsVideo.price},
 			#{CmsVideo.discount},
 			#{CmsVideo.isFree},
-			SYSDATE())
+			SYSDATE(),
+			#{CmsVideo.subVideoKey})
 	</insert>
 	<!-- 根据视频key更新视频URL 时长 文件名 -->
 	<update id="updateByVideoKey" parameterType="com.ekt.cms.video.entity.CmsVideo">
@@ -249,6 +261,9 @@
 			</if>
 			<if test="CmsVideo.duration !=null and CmsVideo.duration !=0">
 			duration= #{CmsVideo.duration},
+			</if>
+			<if test="CmsVideo.subUrl !=null and CmsVideo.subUrl!=''">
+			sub_url =#{CmsVideo.subUrl},
 			</if>
 			transcode_status=2
 			
@@ -306,4 +321,13 @@
 	<update id="updateVideoTransStatusByFileId" >
 		UPDATE cms_video SET transcode_status=#{status} WHERE video_key =#{videoKey}
 	</update>
+	
+	<select id="getVideoBySubKey" parameterType="java.lang.String">
+		SELECT * FROM cms_video WHERE video_key=#{videoKey}
+	
+	</select>
+	<update id="updateVideoBySubKey" parameterType="com.ekt.cms.video.entity.CmsVideo">
+		  UPDATE cms_video SET sub_url =#{subUrl} WHERE sub_video_key =#{subVideoKey}
+	</update>
+	
 	</mapper>
