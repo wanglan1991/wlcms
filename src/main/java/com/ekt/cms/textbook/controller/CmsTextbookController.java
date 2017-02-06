@@ -228,9 +228,7 @@ public class CmsTextbookController extends BaseController {
 					textbook.setGradeNo(cm.getGradeNo());
 					textbook.setSubjectNo(cm.getSubjectNo());
 					textbook.setPhaseNo(cm.getPhaseNo());
-					if (cmsTextbookService.listPage(textbook).size() > 0) {
-						result.setResult(-1);
-						msg += cm.getCatalogName() + ",";
+					if (cmsTextbookService.getTextbookCountByTextbookTitle(textbook.getTitle()) > 0) {
 						continue;
 					} else {
 						CmsTextbook book = cm.getTextbook();

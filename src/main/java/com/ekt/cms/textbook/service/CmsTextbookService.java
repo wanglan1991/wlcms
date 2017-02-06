@@ -60,4 +60,9 @@ public class CmsTextbookService implements ICmsTextbookService {
 		return cmsTextbookMapper.recommendById(id);
 	}
 
+	@Override
+	public int getTextbookCountByTextbookTitle(String textbookTitle) {
+		return cmsTextbookMapper.getTextbookCountByTextbookTitle(textbookTitle);
+	}
+
 }

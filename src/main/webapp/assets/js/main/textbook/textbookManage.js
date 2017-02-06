@@ -294,6 +294,7 @@ define(function (require, exports, module) {
 		        'click .splitTextbook':function(e, value, row, index){
 		        	core.openModel('modal-splitTextbook',"分离出册");
 		        	core.catalogTree(F.basepath+'/cms/textbook/catalogTree',row.id,"#catalogTree");
+		        	
 		        },  
 		        
 		        
@@ -716,10 +717,13 @@ define(function (require, exports, module) {
 			 */
 			$('#splitTextbookBtnSubmit').click(function(){
 				var ids = core.getTreeIds("catalogTree");
+				
+				 $.fn.zTree.getZTreeObj("catalogTree");
 				if(ids.length==0){
 					$("#splitTextbookMsg").html("提交保存前必须至少选择一项！");
 					return;
 				}
+				core.closeModel('modal-splitTextbook');
 				$.ajax({
 					url:F.basepath+'/cms/textbook/splitTextbook',
 	        		type:'post',
@@ -727,7 +731,6 @@ define(function (require, exports, module) {
 	        		success:function(data){
 	        			if(data.result>0){
 	        				F.reload();
-	        				core.closeModel('modal-splitTextbook');
 	        				$("#splitTextbookMsg").html('');
 	        			}else{
 	        				$("#splitTextbookMsg").html(data.msg);
@@ -1105,7 +1108,7 @@ define(function (require, exports, module) {
         	if(base.perList.textbook.catalog){
         		_btnAction += "<a class='category btn btn-primary btn-small' href='#' title='编辑目录章节' style='margin-left:5px'>编辑目录章节</a>";
         	}
-        	if(base.perList.textbook.split&&row.chapterCount>0&&row.sectionCount>1){
+        	if(base.perList.textbook.split&&row.chapterCount>0&&row.sectionCount>1&&row.sectionCount!=row.childCount){
         		_btnAction += "<a class='splitTextbook btn btn-primary btn-small' href='#' title='分离成册' style='margin-left:5px'>分离成册</a>";
         	}
         		return _btnAction;
