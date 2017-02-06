@@ -29,6 +29,7 @@
 		<result column="chapter_count" property="chapterCount" jdbcType="INTEGER" />
 		<result column="section_count" property="sectionCount" jdbcType="INTEGER" />
 		<result column="is_recommend" property="isRecommend" jdbcType="INTEGER" />
+		<result column="child_count" property="childCount" jdbcType="INTEGER" />
 	</resultMap>
 	
 	<resultMap type="com.ekt.cms.textbook.entity.CmsCatalogMessage" id="CmsCatalogMessageMap">
@@ -77,7 +78,8 @@
 					t.is_hot,
 					t.is_recommend,
 					COUNT(ca.catalog_level=51 OR NULL)chapter_count,
-					COUNT(ca.catalog_level=52 OR NULL)section_count
+					COUNT(ca.catalog_level=52 OR NULL)section_count,
+					(SELECT COUNT(1) FROM cms_textbook t2 WHERE t2.parent_id=t.id )AS child_count
 				FROM
 				cms_textbook t
 				LEFT JOIN cms_account ac on t.input_account_id=ac.id
@@ -109,6 +111,18 @@
 					GROUP BY t.id
 					ORDER BY t.id DESC
 			</select>
+			
+			<select id="getTextbookCountByTextbookTitle" resultType="java.lang.Integer"	parameterType="java.lang.String">
+				SELECT
+					count(1)
+				FROM
+				cms_textbook t
+				WHERE 1=1
+				AND t.title = #{textbookTitle}
+			
+				
+			</select>
+			
 	<insert id="insertTextbook" parameterType="com.ekt.cms.textbook.entity.CmsTextbook" useGeneratedKeys="true" keyProperty="id">
 			INSERT INTO cms_textbook(
 				phase_no,
@@ -148,7 +162,7 @@
 				#{isFree},
 				#{price},
 				#{discount},
-				1,
+				0,
 				#{isHot},
 				#{parentId},
 				0

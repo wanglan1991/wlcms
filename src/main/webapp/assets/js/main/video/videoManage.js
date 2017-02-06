@@ -148,7 +148,10 @@ define(function(require, exports, module) {
 						$("#editVideoImg").removeAttr("disabled"); 
 						$("#editUploadVideoImgButton").removeAttr("disabled"); 
 						$("#edit-msg").html('');
-						$("#editVideoImg").val('');
+						$("#editVideoFile").val('');
+						$("#editVideoKey").val('');
+						$("#editVideoFileSub").val('');
+						$("#editSubVideoKey").val('');
 						if (row != null) {
 							$('#editId').val(row.id);
 							$('#editVideo').val(row.videoName);
@@ -214,7 +217,7 @@ define(function(require, exports, module) {
 					
 					
 				},
-				
+//				
 				
 				/**
 				 * 启用或停用用户
@@ -506,6 +509,8 @@ define(function(require, exports, module) {
 				var discount = $("#editDiscount").val();
 				var videoImageUrl =$("#editVideoImgUrl").val();
 				var arrKnoeledge=$("#editKnowledge").find('option:selected');
+				var videoKey =$("#editVideoKey").val();
+				var videoSubKey =$("#editSubVideoKey").val();
 				var knowledgeId='';
 				var arr='';
 				if(arrKnoeledge!=null){
@@ -514,17 +519,14 @@ define(function(require, exports, module) {
 						knowledgeId+=$(arrKnoeledge[i]).val()+',';
 						arr +=$(arrKnoeledge[i]).text()+',';
 					}
-				}
-				
+				}				
 				if(videoName.length<1){$("#edit-msg").html("视频名称不能为空！");return;}
 				if(digest.length<1){$("#edit-msg").html("摘要不能为空！");return;}
 				if(gradeNo==0){$("#edit-msg").html("年级不能为空！");return;}
 				if(subjectNo==0){$("#edit-msg").html("学科不能为空！");return;}
 				if(price.length<1){$("#edit-msg").html("价格为必填项！");return;}
 				if(discount.length<1){$("#edit-msg").html("折扣为必填项！");return;}
-				if(knowledgeId.length<1){$("#edit-msg").html("请选择知识点！");return;}
 				if(videoImageUrl.length<1){$("#edit-msg").html("必须填写该截图URL！");return;}
-				
 				
 				$.ajax({
 
@@ -540,21 +542,35 @@ define(function(require, exports, module) {
 						subjectNo : subjectNo,
 						imageUrl:videoImageUrl,
 						knowledgeId : knowledgeId,
-						knowledge : arr
+						knowledge : arr,
+						videoKey:videoKey,
+						videoSubKey:videoSubKey
 					},
 					dataType: "json", 
 					success : function(data) {
 						if (data.result > 0) {
 							core.closeModel('modal-editVideo');
 							F.table.reload();
-							
 						}
-						
 					}
-
+				});
 				
-				})
-				
+//				完整视频转码
+				if(videoKey.length>0){
+					$.ajax({
+						url : F.basepath + '/cms/vodCloud/transcode',
+						type : 'POST',
+						data : {fileId : videoKey,type :1}		
+					});
+				}
+//				试看视频转码
+				if(videoSubKey.length>0){
+					$.ajax({
+						url : F.basepath + '/cms/vodCloud/transcode',
+						type : 'POST',
+						data : {fileId : videoSubKey,type :2}		
+					});
+				}
 				
 			});
 			
@@ -847,6 +863,70 @@ define(function(require, exports, module) {
 				}
 			});
 		});
+		
+		
+		//编辑上传视频
+		$(function() {
+			$("#editQupload").ajaxForm({
+				// 定义返回JSON数据，还包括xml和script格式
+				url:"/cms/vodCloud/upload",
+				type:'post',
+				beforeSend : function() {
+				$("#editMsg").html('');
+				$("#modal-editVideo").append("<div id='editWaitForUpload'background-color:azure style='opacity: 0.6;position: absolute;" +
+				"position: absolute;z-index=4; width: 100%;height: 100%;margin-top: -111%'>" +
+				"<div style='margin-left: 40%;margin-top: 37%;'><h3><b>uploading...</b></h3><img src='/cms/assets/images/upload.gif' style='max-width: 19%;'/></div></div>");
+				$("#editVideoFile").attr("disabled","disalbed");
+				$("#editQsubmitbutton").attr("disabled","disalbed");
+				},
+				success : function(data) {
+					// 提交成功后调用
+					$("#editWaitForUpload").remove();
+					if (data.result==1) {
+						$("#editVideoKey").val(data.value.fileId);
+						
+					} else {
+						$("#editVideoFile").attr("disabled",false);
+						$("#editQsubmitbutton").attr("disabled",false);
+						$("#edit-msg").html(data.msg);
+					}
+				}
+			
+				
+			});
+		});
+		
+		//编辑上传试看视频
+		$(function() {
+			$("#editQuploadSub").ajaxForm({
+				// 定义返回JSON数据，还包括xml和script格式
+				url:"/cms/vodCloud/upload",
+				type:'post',
+				beforeSend : function() {
+				$("#editSubMsg").html('');
+				$("#modal-editVideo").append("<div id='editWaitForUploadSub'background-color:azure style='opacity: 0.6;position: absolute;" +
+				"position: absolute;z-index=4; width: 100%;height: 100%;margin-top: -111%'>" +
+				"<div style='margin-left: 40%;margin-top: 37%;'><h3><b>uploading...</b></h3><img src='/cms/assets/images/upload.gif' style='max-width: 19%;'/></div></div>");
+				$("#editVideoFileSub").attr("disabled","disalbed");
+				$("#EditSubmitbuttonSub").attr("disabled","disalbed");
+				},
+				success : function(data) {
+					// 提交成功后调用
+					$("#editWaitForUploadSub").remove();
+					if (data.result==1) {
+						$("#editSubVideoKey").val(data.value.fileId);
+						
+					} else {
+						$("#editVideoFile").attr("disabled",false);
+						$("#EditSubmitbuttonSub").attr("disabled",false);
+						$("#edit-msg").html(data.msg);
+					}
+				}
+			
+				
+			});
+		});
+		
 		
 		$(function() {
 			$("#quploadSub").ajaxForm({

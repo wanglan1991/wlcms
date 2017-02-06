@@ -110,7 +110,7 @@
 				LEFT JOIN api_video_exercise e on e.video_id=v.id
 				LEFT JOIN api_testpaper t1 on t1.video_id=v.id
 				WHERE 1=1 
-				GROUP BY v.id
+				
 		<if test="CmsVideo.videoName !=null and CmsVideo.videoName != ''">
 			AND (video_name like '%${CmsVideo.videoName}%')
 		</if>
@@ -126,6 +126,7 @@
 		<if test="CmsVideo.authorId !=null and CmsVideo.authorId !=0" >
 			AND (author_id = #{CmsVideo.authorId})
 		</if>
+		GROUP BY v.id
 		) AS a
 			LEFT JOIN api_video_exercise e on e.video_id=a.id
 			LEFT JOIN cms_exercise e1 on e1.id=e.exercise_id
@@ -155,6 +156,12 @@
 		SET 
 			<if test="CmsVideo.videoName !=null and CmsVideo.videoName != ''">
 			video_name=#{CmsVideo.videoName},
+			</if>
+			<if test="CmsVideo.videoKey !=null and CmsVideo.videoKey != ''">
+			video_key=#{CmsVideo.videoKey},
+			</if>
+			<if test="CmsVideo.subVideoKey !=null and CmsVideo.subVideoKey != ''">
+			sub_video_key=#{CmsVideo.subVideoKey},
 			</if>
 			<if test="CmsVideo.digest !=null and CmsVideo.digest != ''">
 			digest=#{CmsVideo.digest},
@@ -328,6 +335,12 @@
 	</select>
 	<update id="updateVideoBySubKey" parameterType="com.ekt.cms.video.entity.CmsVideo">
 		  UPDATE cms_video SET sub_url =#{subUrl} WHERE sub_video_key =#{subVideoKey}
+	</update>
+	
+	
+	<update id="updateVideoSubKeyByVideoId" >
+	 UPDATE cms_video SET sub_video_key =#{subVideoKey} WHERE id  =#{videoId}
+	
 	</update>
 	
 	</mapper>

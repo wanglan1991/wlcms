@@ -70,10 +70,20 @@ public class CmsTextbook {
 	private  Integer parentId;
 	//是否为推荐视频
 	private  Integer isRecommend;
+	//单品数量
+	private int childCount;
 	
 	
 	
 	
+	public int getChildCount() {
+		return childCount;
+	}
+
+	public void setChildCount(int childCount) {
+		this.childCount = childCount;
+	}
+
 	public Integer getIsRecommend() {
 		return isRecommend;
 	}

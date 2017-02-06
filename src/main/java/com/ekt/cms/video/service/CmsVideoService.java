@@ -84,6 +84,11 @@ public class CmsVideoService implements ICmsVideoService {
 		return cmsVideoMapper.getVideoById(id);
 	}
 
+	@Override
+	public int updateVideoSubKeyByVideoId(int videoId, String subVideoKey) {
+		return cmsVideoMapper.updateVideoSubKeyByVideoId(videoId, subVideoKey);
+	}
+
 	
 
 	

@@ -138,6 +138,12 @@ color:red;
 	</div>
 	
 	
+	
+	
+	
+	
+	
+	
 <!-- 编辑视频模态框 -->
 <div class='modal hide fade' id='modal-editVideo' role='dialog'
 		tabindex='-1'>
@@ -205,6 +211,24 @@ color:red;
 		                <input  id='editDiscount'  onkeyup="value=value.replace(/[^\d.]/g,'')"  maxlength='10'  placeholder='%....' type='text' />
 		            </div>
 	        </div> 
+	        <!-- 腾讯云点播-->
+				<form id="editQupload"  enctype="multipart/form-data">
+					<div class='controls'>
+						<input type="file" id="editVideoFile" name="videoFile" accept=".avi,.mp4,.rmvb,.mkv" class="form-control input-sm mb15"  required>
+							<input type="hidden" id="editVideoKey">
+							<button type="submit"  id ="editQsubmitbutton">修改完整视频</button>
+					</div>
+				</form>	 
+<!-- 				上传试看视频 -->
+				<form id="editQuploadSub"  enctype="multipart/form-data">
+					<div class='controls'>
+						<input type="file" id="editVideoFileSub" name="videoFile" accept=".avi,.mp4,.rmvb,.mkv" class="form-control input-sm mb15"  required>
+							<input type="hidden" id="editSubVideoKey">
+							<button type="submit"  id ="EditSubmitbuttonSub" style="color:blue">修改试看视频</button>
+					</div>
+				</form>	 
+	        
+	        
 	         <div class='control-group'>
 		            <label class='control-label'>截图</label>
 		            <div class='controls'>

@@ -74,5 +74,8 @@ public interface CmsVideoMapper {
 	//根据视频id获取视频对象
 	public CmsVideo getVideoById(int id);
 	
+	//更新视频试看版
+	int updateVideoSubKeyByVideoId(@Param("videoId")int videoId,@Param("subVideoKey")String subVideoKey);
+	
 	
 }

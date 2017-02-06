@@ -67,8 +67,12 @@ public interface ICmsTextbookService {
 	
 	int  recommendById(int id);
 	
-
-	
+	/**
+	 * 根据选课标题 获取选课的数量
+	 * @param textbookTitle
+	 * @return
+	 */
+	int getTextbookCountByTextbookTitle(String textbookTitle);
 	
 	
 	

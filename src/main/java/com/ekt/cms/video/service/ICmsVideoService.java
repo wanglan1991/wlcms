@@ -35,8 +35,8 @@ public interface ICmsVideoService {
 	int updateVideoBySubKey(CmsVideo cmsVideo);
 	//根据视频id获取视频对象
 	CmsVideo getVideoById(int id);
-	
-	
+	//更新视频试看版
+	int updateVideoSubKeyByVideoId(int videoId,String subVideoKey);
 	
 	
 }
