@@ -188,10 +188,10 @@ public class VodCloud {
 					TreeMap<String, Object> params = new TreeMap<String, Object>();
 					params.put("fileId", fileId);  
 					params.put("notifyUrl", "http://112.74.105.4:8080/cms/vodCloud/describeVodInfo?fileId="+fileId+"&type="+type);
-//						params.put("notifyUrl", "http://wanglan.tunnel.qydev.com/cms/vodCloud/describeVodInfo?fileId="+fileId+"&type="+type);
+					
 					/*
 					 * 测试回调
-					 *	params.put("notifyUrl", "http://fjsk.tunnel.qydev.com/cms/vodCloud/describeVodInfo?fileId="+fileId);
+					 *	params.put("notifyUrl", "http://wanglan.tunnel.qydev.com/cms/vodCloud/describeVodInfo?fileId="+fileId+"&type="+type);
 					 */
 					resultUrl = module.call("ConvertVodFile", params);
 					JSONObject jsonObject=new JSONObject(resultUrl);

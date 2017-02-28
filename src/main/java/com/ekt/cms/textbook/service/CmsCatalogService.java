@@ -85,4 +85,9 @@ public class CmsCatalogService implements ICmsCatalogService {
 		return result;
 	}
 
+	@Override
+	public int updateCatalogVideoFileNameByVideoFileName(String fileName, String newFileName) {
+		return cmsCatalogMapper.updateCatalogVideoFileNameByVideoFileName(fileName, newFileName);
+	}
+
 }

@@ -1,5 +1,7 @@
 package com.ekt.cms.apiUser.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.apache.ibatis.annotations.Result;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ekt.cms.apiUser.dao.ApiUserMapper;
 import com.ekt.cms.apiUser.entity.ApiUser;
+import com.ekt.cms.common.entity.TreeBean;
 
 /** 
 * @author wanglan 
@@ -24,6 +27,31 @@ public class ApiUserService implements IApiUserService {
 	@Override
 	public ApiUser getUserByUsername(String userName) {
 		return apiUserMapper.getUserByUsername(userName);
+	}
+
+	@Override
+	public List<ApiUser> listPage(ApiUser apiUser) {
+		return apiUserMapper.listPage(apiUser);
+	}
+
+	@Override
+	public int confine(int userId) {
+		return apiUserMapper.confine(userId);
+	}
+
+	@Override
+	public List<TreeBean> getEktUserPermissionDetail(int userId) {
+		return apiUserMapper.getEktUserPermissionDetail(userId);
+	}
+
+	@Override
+	public int delPermissionByUserId(int userId) {
+		return apiUserMapper.delPermissionByUserId(userId);
+	}
+
+	@Override
+	public int insertEktUserPermission(int userId, int dictEktUserPermissionId) {
+		return apiUserMapper.insertEktUserPermission(userId, dictEktUserPermissionId);
 	}
 
 }

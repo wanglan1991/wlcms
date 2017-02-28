@@ -3,19 +3,44 @@
 <mapper namespace="com.ekt.cms.apiUser.dao.ApiUserMapper">
 	<resultMap id="BaseResultMap" type="com.ekt.cms.apiUser.entity.ApiUser">
 		<id column="id" property="id" jdbcType="INTEGER" />
-		<result column="user_name" property="userName" jdbcType="CHAR" />
+		<result column="user_name" property="username" jdbcType="CHAR" />
 		<result column="password" property="password" jdbcType="CHAR" />
 		<result column="real_name" property="realName" jdbcType="CHAR" />
 		<result column="telephone" property="telephone" jdbcType="CHAR" />
 		<result column="sex" property="sex" jdbcType="CHAR" />
 		<result column="register_type" property="registerType" jdbcType="CHAR" />
 		<result column="qq_open_id" property="qqOpenId" jdbcType="CHAR" />
-		<result column="nickname" property="nickName" jdbcType="CHAR" />
+		<result column="nickname" property="nickname" jdbcType="CHAR" />
 		<result column="register_date" property="registerDate" jdbcType="DATE" />
 		<result column="head_picture" property="headPicture" jdbcType="CHAR" />
 		<result column="wechat_open_id" property="wechatOpenId" jdbcType="CHAR" />
 		<result column="wechat_unionId" property="wechatUnionId" jdbcType="CHAR" />
 		<result column="wechatGZ_open_id" property="wechatGZOpenId" jdbcType="CHAR" />
+	</resultMap>
+	
+	<resultMap type="com.ekt.cms.apiUser.entity.ApiUser" id="userMap">
+		<result column="id" property="id" jdbcType="INTEGER"/>
+		<result column="user_name" property="username" jdbcType="VARCHAR"/>
+		<result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+		<result column="sex" property="sex" jdbcType="VARCHAR"/>
+		<result column="register_type" property="registerType" jdbcType="VARCHAR"/>
+		<result column="register_date" property="registerDate" jdbcType="TIMESTAMP"/>
+		<result column="nickname" property="nickname" jdbcType="VARCHAR"/>
+		<result column="credits" property="credits" jdbcType="INTEGER"/>
+		<result column="status" property="status" jdbcType="INTEGER"/>
+	
+	</resultMap>
+	
+	
+	<resultMap type="com.ekt.cms.common.entity.TreeBean" id="EktUserPermissionTreeBeanMap">
+		<result column="id" property="id" jdbcType="INTEGER"></result>
+		<result column="chkDisabled" property="chkDisabled" jdbcType="VARCHAR"></result>
+		<result column="name" property="name" jdbcType="VARCHAR"></result> 
+		<result column="oncheck" property="oncheck" jdbcType="VARCHAR"></result>
+		<result column="open" property="open" jdbcType="VARCHAR"></result> 
+		<result column="pId" property="pId" jdbcType="INTEGER"></result> 
+		<result column="parent" property="parent" jdbcType="VARCHAR"></result>
+		<result column="checked" property="checked" jdbcType="VARCHAR"></result>
 	</resultMap>
 	
 	<select id="getUserByUsername" parameterType="java.lang.String"
@@ -49,5 +74,81 @@
 		OR
 		wechat_unionId=#{userName}
 	</select>
-
+	
+	<select id="listPage" parameterType="com.ekt.cms.apiUser.entity.ApiUser" resultMap="userMap">
+		SELECT
+			id,
+			user_name,
+			telephone,
+			sex,
+			register_type,
+			register_date,
+			nickname,
+			credits,
+			status
+		FROM
+			api_user
+		WHERE 1=1
+		<if test="user.status!=null">
+			AND status = #{user.status}
+		</if>
+		<if test="user.username!=null and user.username!=''">
+			AND telephone like '%${user.username}%'
+			OR user_name like '%${user.username}%'
+			OR nickname like '%${user.username}%'
+		</if>
+	</select>
+	
+	<update id="confine" parameterType="java.lang.Integer">
+		UPDATE api_user SET status=IF(status=1,0,1) WHERE id=#{userId}
+	</update>
+	
+	<select id="getEktUserPermissionDetail" resultMap="EktUserPermissionTreeBeanMap" parameterType="java.lang.Integer">
+		SELECT a.*,IF(b.id IS NULL,'false','true')AS checked FROM
+		(
+		SELECT
+			id,
+		'false' chkDisabled,
+		 remark AS name,
+		'false' oncheck,
+		'true' OPEN,
+		 0 pId,
+		 'false' parent
+		FROM
+			cms_dictionary
+		WHERE
+			type_encoding = 'ektUserPermission'
+		
+		ORDER BY remark)AS a
+		LEFT JOIN
+		(
+		SELECT id,ekt_permission_id FROM api_user_permission WHERE user_id=#{userId}
+		
+		)AS b on a.id=b.ekt_permission_id
+		
+		UNION
+			(
+				SELECT
+					'0' id,
+					'false' chkDisabled,
+					'全部' NAME,
+					'false' oncheck,
+					'true' OPEN,
+					'-1' pId,
+					'true' parent,
+					'false' checked
+			)			
+	</select>
+	
+	<delete id="delPermissionByUserId" parameterType="java.lang.Integer">
+		DELETE 
+		FROM 
+			api_user_permission
+		WHERE
+			user_id=#{userId}
+	</delete>
+	
+	<insert id="insertEktUserPermission" parameterType="java.lang.Integer">
+		INSERT INTO api_user_permission(`user_id`, `ekt_permission_id`) VALUES (#{userId},#{dictPermissionId})
+	</insert>
 </mapper>

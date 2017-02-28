@@ -115,3 +115,12 @@
 <!-- / wysihtml5 -->
 <%-- <script src='${ctxAssets}/javascripts/plugins/common/wysihtml5.min.js' type='text/javascript'></script>
 <script src='${ctxAssets}/javascripts/plugins/common/bootstrap-wysihtml5.js' type='text/javascript'></script> --%>
+
+
+
+
+
+<!-- 配置文件 -->
+<script type="text/javascript" src="${ctxAssets}/javascripts/plugins/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="${ctxAssets}/javascripts/plugins/ueditor/ueditor.all.js"></script>

@@ -12,7 +12,7 @@ public class ApiUser {
 	
 
 	private Integer id;
-	private String userName;
+	private String username;
 	private String password;
 	private String realName;
 	private String telephone;
@@ -21,9 +21,11 @@ public class ApiUser {
 	private String registerType;
 	private String qqOpenId;
 	private Date   registerDate;
-	private String nickName;
+	private String nickname;
 	private String email;
 	private Integer gradeNo;
+	private int credits;
+	private Integer status;
 	private String grade;
 	private String school;
 	private Date birthday;
@@ -40,11 +42,11 @@ public class ApiUser {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getPassword() {
 		return password;
@@ -94,11 +96,11 @@ public class ApiUser {
 	public void setRegisterDate(Date registerDate) {
 		this.registerDate = registerDate;
 	}
-	public String getNickName() {
-		return nickName;
+	public String getNickname() {
+		return nickname;
 	}
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 	public String getEmail() {
 		return email;
@@ -111,6 +113,18 @@ public class ApiUser {
 	}
 	public void setGradeNo(Integer gradeNo) {
 		this.gradeNo = gradeNo;
+	}
+	public int getCredits() {
+		return credits;
+	}
+	public void setCredits(int credits) {
+		this.credits = credits;
+	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 	public String getGrade() {
 		return grade;
@@ -154,5 +168,7 @@ public class ApiUser {
 	public void setWechatUnionId(String wechatUnionId) {
 		this.wechatUnionId = wechatUnionId;
 	}
+	
+	
 	
 }

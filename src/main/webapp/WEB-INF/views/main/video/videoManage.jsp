@@ -156,12 +156,17 @@ color:red;
 					<label class='control-label'>视频名称</label>
 					<input type="hidden" id="editId" />
 					<div class='controls'>
-						<input class='span8' id='editVideo'  placeholder='请输入视频名称' 
-							type='text' />
+						<input class='span8' id='editVideo'  placeholder='请输入视频名称' type='text' />
 							<span id="edit-video-error" class="help-block error"></span>
 					</div>
 				</div>
-				
+				<div class='control-group'>
+					<label class='control-label'>视频文件名</label>
+					<div class='controls'>
+						<input class='span8' id='editVideoFileName'  placeholder='请输入视频文件名' type='text' />
+						<input type="hidden" id="editOldVideoFileName"> 
+					</div>
+				</div>
 				<div class='control-group'>
 					<label class='control-label'>简介</label>
 					<div class='controls'>

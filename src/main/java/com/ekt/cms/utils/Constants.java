@@ -22,6 +22,9 @@ public interface Constants {
 	
 	public final static String DEFAULT_WEBSOCKET_HOSTNAME = "hostname";
 	
+	
+	public final static String BUCKET_NAME ="ekt";
+	
 	/**
 	 * 上传用到的密钥ID和key
 	 */

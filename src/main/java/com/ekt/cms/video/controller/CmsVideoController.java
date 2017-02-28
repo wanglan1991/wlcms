@@ -88,6 +88,9 @@ public class CmsVideoController extends BaseController{
 		cmsVideo.setAuthorId(getCurrentAccount().getId());
 		cmsVideo.setIsFree(cmsVideo.getPrice()>0?0:1);
 		result.setResult(cmsVideoService.update(cmsVideo));
+		if(!cmsVideo.getFileName().equals(cmsVideo.getOldFileName())){//更新选课章节中的视频文件名
+			cmsCatalogService.updateCatalogVideoFileNameByVideoFileName(cmsVideo.getOldFileName(), cmsVideo.getFileName());
+		}
 		return result;
 	}
 	
@@ -183,7 +186,7 @@ public class CmsVideoController extends BaseController{
 		tp.setTestpaperName(video.getVideoName()+"（课件）");
 		tp.setDigest("知识点 ："+video.getKnowledge()+ves.size()+"道基础练习题");
 		tp.setSubjectNo(video.getSubjectNo());
-		tp.setPhaseNo(tp.getPhaseNo());
+		tp.setPhaseNo(video.getGradeNo()>21?60:61);
 		tp.setKnowledgePointArr(video.getKnowledgeId());
 		tp.setKnowledgePointArrVal(video.getKnowledge());
 		tp.setDifficultyNo(45);

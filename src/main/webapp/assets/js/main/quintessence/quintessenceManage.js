@@ -166,7 +166,8 @@ define(function(require, exports, module) {
 				query();
 			})
 
-			document.getElementById('quintessenceActions').onkeydown = keyDownSearch;
+			//监听回车按下查询事件
+			document.getElementById("quintessenceActions").onkeydown =keyDownSearch;
 			function keyDownSearch(e) {
 				// 兼容FF和IE和Opera
 				var theEvent = e || window.event;
@@ -174,9 +175,10 @@ define(function(require, exports, module) {
 						|| theEvent.charCode;
 				if (code == 13) {
 					query();
+				}else{
 				}
-			}
-
+			}	
+		
 			function query() {
 				var examineStatus=$("#examineStatus").val();
 				var testpaperName = $("#keyword").val();
