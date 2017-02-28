@@ -7,4 +7,5 @@ encoding//src/main/resources/conf/config.properties=UTF-8
 encoding//src/main/resources/conf/jdbc.properties=UTF-8
 encoding//src/main/webapp/WEB-INF/views/main/exercise/exerciseManage.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/main/region/regionPage.jsp=UTF-8
+encoding//src/main/webapp/conf/config.json=UTF-8
 encoding/<project>=UTF-8

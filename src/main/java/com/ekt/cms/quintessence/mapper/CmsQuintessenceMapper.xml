@@ -71,6 +71,8 @@
 				</if>
 				AND u.teacher_id IS NOT NULL
 				AND t.type &lt;&gt; 1
+				AND t.is_finish=0
+				AND t.type &lt;&gt; 4
 			GROUP BY t.id
 			ORDER BY t.create_time DESC
 	</select>

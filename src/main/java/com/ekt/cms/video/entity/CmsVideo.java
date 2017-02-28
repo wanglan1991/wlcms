@@ -12,6 +12,9 @@ public class CmsVideo {
 	private String videoName;
 	// 视频文件名
 	private String fileName;
+	//原文件名
+	private String oldFileName;
+	//URL
 	private String url;
 	// 备用URL
 	private String urlBak;
@@ -71,7 +74,13 @@ public class CmsVideo {
 	
 	
 	
+	public String getOldFileName() {
+		return oldFileName;
+	}
 
+	public void setOldFileName(String oldFileName) {
+		this.oldFileName = oldFileName;
+	}
 	public String getSubUrl() {
 		return subUrl;
 	}

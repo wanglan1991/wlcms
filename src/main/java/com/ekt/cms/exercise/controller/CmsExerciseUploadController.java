@@ -143,12 +143,12 @@ public class CmsExerciseUploadController extends BaseController {
 								}
 							}
 							//没有给出正确答案时抛出
-							if(isTrueArr.size()==0){
-								exercise.setErrorMsg("至少需要给出一个正确的答案！");
-							}
-							if(isTrueArr.size()==cell.split("`").length){
-								exercise.setErrorMsg("至少需要给出一个错误的答案！");
-							}
+//							if(isTrueArr.size()==0){
+//								exercise.setErrorMsg("至少需要给出一个正确的答案！");
+//							}
+//							if(isTrueArr.size()==cell.split("`").length){
+//								exercise.setErrorMsg("至少需要给出一个错误的答案！");
+//							}
 							exercise.setOptions(answerList);
 						}else{
 							continue;

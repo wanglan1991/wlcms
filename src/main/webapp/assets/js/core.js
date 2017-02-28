@@ -18,6 +18,18 @@ define(function(require, exports, module) {
 			return this;
 		},
 
+		setUeditor : function(id,frameHeight,frameWidth){
+			var editor = new UE.ui.Editor({
+				initialFrameHeight : frameHeight,
+				initialFrameWidth : frameWidth,
+				});  
+			editor.render(id);
+			
+			return editor;
+			
+		}
+		,
+		
 		// 时间转换器
 		dateTimeFormatter : function(date) {
 			var t = Date.parse(date);

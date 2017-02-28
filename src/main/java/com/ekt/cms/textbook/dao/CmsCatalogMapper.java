@@ -103,6 +103,13 @@ public interface CmsCatalogMapper {
 	public List<Map<String,Object>> getCatalogListByParentId(@Param("parentId")Integer parentId);
 	
 	
+	/**
+	 * 根据fileName 更新 fileName
+	 * @param fileName
+	 * @param newFileName
+	 * @return
+	 */
+	int updateCatalogVideoFileNameByVideoFileName(@Param("fileName")String fileName ,@Param("newFileName")String newFileName);
 	
 
 }

@@ -149,6 +149,9 @@
 		order_no asc
 	</select>
 	
+	<update id="updateCatalogVideoFileNameByVideoFileName" parameterType="java.lang.String">
+		UPDATE cms_catalog SET video_file_name=#{newFileName} WHERE  video_file_name=#{fileName}
+	</update>
 	
 	
 </mapper>

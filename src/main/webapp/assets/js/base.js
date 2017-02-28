@@ -228,7 +228,19 @@ define(function (require, exports, module) {
 	    	    check:false,
 	            add:false,
 	            del:false,
-       			}
+       			},
+		ektUser:{
+    	    check:false,
+    	    confine:false,
+    	    permission:false,
+   			},
+   		news:{
+   			check:false,
+   			add:false,
+   			del:false,
+   			edit:false,
+   			confine:false
+   		}
         }
     };
 });
