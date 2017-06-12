@@ -10,7 +10,7 @@ color:red;
 }
 </style>
 </head>
-<body>
+<body id="wanglanlan">
 	<div class='box-header' id="video-header">
 		<div class='actions'></div>
 	</div>
@@ -22,14 +22,14 @@ color:red;
 		</div>
 	</div>
 <!-- 新增视频模态框 -->
-	<div class='modal hide fade ' id='modal-Video' role='dialog'
+	<div class='modal hide fade ' id='modal-Video' z-index='2' role='dialog'
 		tabindex='-1'>
 		<div class='modal-header'>
 			<button class='close' id="tatil" data-dismiss='modal' type='button'>&times;</button>
 			<h3></h3>
 		</div>
 				<div class='modal-body'  style="max-height: 700px" >
-				
+				<button id="addDiv">添加DIV</button>
 				<div class='control-group'>
 					<label class='control-label'>视频名称</label>
 					<input type="hidden" id="id" />
@@ -115,7 +115,7 @@ color:red;
 					</div>
 				
 				
-		<!-- 乐视云点播 
+		<!-- 乐视云点播
 			<form id="leUpload" action="/cms/LetvController/initUpload" method="post" enctype="multipart/form-data">
 				<div class='controls'>
 					<input type="file" id="videoFile" name="videoFile" multiple="multiple"
@@ -125,22 +125,22 @@ color:red;
 				</div>
 			</form>	-->
 			
-			<!-- 腾讯云点播-->	
-			 <form id="qupload" action="/cms/vodCloud/upload" method="post" enctype="multipart/form-data">
+			
+			<!-- 腾讯云点播-->
+			<form id="qupload" action="/cms/vodCloud/upload" method="post" enctype="multipart/form-data">
 				<div class='controls'>
 					<input type="file" id="videoFile" name="videoFile" multiple="multiple"
 						class="form-control input-sm mb15"  required>
 						 <span id="qvideoFile-error" class="help-block error"></span>
 						<button type="submit" id ="qsubmitbutton">点击上传</button>
 				</div>
-			</form>		
+			</form>	 		
 			
 			<div class='modal-footer'>
 				<msg id='msg'></msg>
 				<button type="button" id="btnClose" class='btn'>关闭</button>
 				<button   id="btnSubmit" class='btn btn-primary'>保存</button>
 			</div>
-<!-- 		</form> -->
 	</div>
 	</div>
 	

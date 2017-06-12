@@ -467,6 +467,16 @@ define(function(require, exports, module) {
 				});
 			
 			
+			$("#addDiv").click(function(){
+				
+				$("#modal-Video").append("<div id='wanglan'background-color:azure style='opacity: 0.6;position: absolute;" +
+						"position: absolute;z-index=4; width: 560px;height: 669px;margin-top: -647px'>" +
+						"<div style='margin-left: 40%;margin-top: 37%;'><h3><b>上传中...</b></h3><img src='/cms/assets/images/upload.gif' style='max-width: 19%;'/></div></div>");
+				
+				
+			})
+			
+			
 			
 			
 			/**
@@ -747,11 +757,12 @@ define(function(require, exports, module) {
 		
 		//上传表单验证和提交
 		//腾讯云上传
+
 		$(function() {
 			$("#qupload").ajaxForm({
 				//定义返回JSON数据，还包括xml和script格式
-				dataType : 'json',
-				beforeSubmit : function() {
+//				dataType : 'json',
+				beforeSend : function() {
 					//表单提交前做表单验证
 					if($("#qvideoFile").val()=="")
 					{
@@ -769,15 +780,13 @@ define(function(require, exports, module) {
 						$("#videoKey").val(data.value);
 						alter("上传成功")
 						getVideoInfo(fileId);
-						
+//						
 					} else {
 						alert(data.msg);
 					}
 				}
 			});
 		});
-		
-
 		
 		var getVideoInfo =function(fileId){
 			$.ajax({
@@ -823,9 +832,8 @@ define(function(require, exports, module) {
 //					//提交成功后调用
 //					if (data.value!=null) {
 //						var fileId= data.value;
-//						alert("上传成功")
 ////						getVideoInfo(fileId);
-//						
+////						
 //					} else {
 //						alter("----");
 //						alert(data.msg);

@@ -110,7 +110,7 @@ public class VodCloud {
 				params.put("fileSize", fileSize);
 				params.put("dataSize", tmpDataSize);
 				params.put("offset", tmpOffset);
-//				params.put("isTranscode", 1);//是否转码 0:否 1:是     默认0
+				params.put("isTranscode", 1);//是否转码 0:否 1:是     默认0
 //				params.put("isWatermark", isWatermark);
 				params.put("file", filePath);
 				resultJson = module.call("MultipartUploadVodFile", params);
@@ -253,6 +253,7 @@ public class VodCloud {
 					video.setVideoKey(videoId);
 					video.setFileName(fileNameReal);
 					video.setDuration(duration);
+					//转码回调这里更新视频时长
 					cmsVideoService.updateByVideoKey(video);
 					result.setValue(video);
 					return result;
