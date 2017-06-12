@@ -23,7 +23,15 @@ public class CmsRole {
 	private Date createTime;
 	/**权限ID**/
 	private Integer permissionId;
+	/**父级ID**/
+	private Integer parentId;
 	
+	public Integer getParentId() {
+		return parentId;
+	}
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
+	}
 	public Integer getPermissionId() {
 		return permissionId;
 	}

@@ -20,7 +20,7 @@
 		k.grade_no grade_no ,
 		k.subject_no
 		subject_no,
-		order_no,
+		k.order_no,
 		k.status status,
 		d.value grade ,
 		dc.value subject

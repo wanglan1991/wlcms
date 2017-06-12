@@ -1,15 +1,8 @@
 package com.ekt.cms.account.service;
 
 import java.util.List;
-import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
-
 import com.ekt.cms.account.entity.CmsAccount;
-import com.ekt.cms.exercise.entity.CmsAnswer;
-import com.ekt.cms.utils.page.Pager;
-import com.ekt.cms.utils.page.Pagination;
 import com.ekt.cms.utils.pageHelper.PageBean;
 
 public interface ICmsAccountService {

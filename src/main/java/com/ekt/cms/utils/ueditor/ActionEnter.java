@@ -2,17 +2,11 @@ package com.ekt.cms.utils.ueditor;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.json.JSONObject;
-
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.PutObjectRequest;
-import com.aliyun.oss.model.PutObjectResult;
 import com.baidu.ueditor.define.ActionMap;
 import com.baidu.ueditor.define.AppInfo;
 import com.baidu.ueditor.define.BaseState;
@@ -24,8 +18,6 @@ import com.ekt.cms.common.controller.OssUploadSample;
 import com.ekt.cms.utils.Constants;
 import com.ekt.cms.utils.ueditor.define.Config;
 import com.google.gson.Gson;
-
-import jdk.nashorn.api.scripting.JSObject;
 
 public class ActionEnter {
 

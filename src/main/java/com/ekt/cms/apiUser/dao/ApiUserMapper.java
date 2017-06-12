@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.ekt.cms.account.entity.CmsAccount;
 import com.ekt.cms.apiUser.entity.ApiUser;
+import com.ekt.cms.apiUser.entity.CmsUserBusiness;
 import com.ekt.cms.common.entity.TreeBean;
 
 
@@ -53,4 +55,50 @@ public interface ApiUserMapper {
 	 * @return
 	 */
 	public int insertEktUserPermission(@Param("userId")int userId,@Param("dictPermissionId")int dictPermissionId);
+	
+	/**
+	 * 生成CMS用户
+	 * @param userId
+	 * @param roleId 
+	 * @return
+	 */
+	public int generateCmsAccountByUserId(@Param("account")CmsAccount account);
+	
+	/**
+	 * 根据用户id清空该用户的相关的所有二课堂相关权限
+	 * @param userId
+	 */
+	public List<TreeBean> getEktUserPermissionDetail2(@Param("parentId")int parentId,@Param("userId")int userId);
+	
+	/**
+	 * 根据用户对象获取用户最近一次代办事物
+	 * @param cub
+	 * @return
+	 */
+	public CmsUserBusiness getUserBusiness(CmsUserBusiness cub);
+	
+	
+	/**
+	 * 受理用户提交的事务
+	 * @param cub
+	 * @return
+	 */
+	public int acceptanceUserBusiness(CmsUserBusiness cub);
+	
+	/**
+	 * 根据用户id获取用户提交事务的记录
+	 * @param userId
+	 * @return
+	 */
+	public List<CmsUserBusiness> getUserBusinessListByUserId(int userId);
+	
+
+	/**
+	 * 标记是否为真实用户 1内部用户，0真实用户
+	 * @param userId
+	 * @param isReal
+	 * @return
+	 */
+	public int isRealUser(@Param("userId")int userId,@Param("isReal")int isReal);
+
 }

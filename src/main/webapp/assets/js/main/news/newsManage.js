@@ -56,8 +56,8 @@ define(function(require, exports, module) {
 			operateEvents = {
 				// 停用或启用用户
 				'click .confineEktUser' : function(e, value, row, index) {
-					base.bootConfirm(row.status==1?"请确定是否封停该用户，此操作将会导致该用户无法登陆？":
-						"请确定是否解除该用户的封停状态？", function() {
+					base.bootConfirm(row.status==1?"请确定是否停用该资讯？确定后该资讯将不会在www.aiekt.com上展示。":
+						"请确定是否启用该资讯？确定后该资讯将会在www.aiekt.com上展示。", function() {
 						F.confine(row.id);
 					});
 					
@@ -73,7 +73,7 @@ define(function(require, exports, module) {
 				}
 			}
 
-			if (base.perList.quintessence.del) {
+			if (base.perList.news.confine||base.perList.news.edit) {
 				cols.push({
 					align : 'center',
 					title : '操作',
@@ -241,6 +241,7 @@ define(function(require, exports, module) {
 		operateFormatter : function(value, row, index) {
 			var _btnAction = "";
 
+				
 			if (base.perList.news.confine) {
 				_btnAction += "<a class='confineEktUser btn "
 						+ (row.status == 1 ? 
@@ -249,6 +250,7 @@ define(function(require, exports, module) {
 						+ (row.status == 1 ? "停用" : "启用") + "</a>";
 		
 			}
+			
 			if (base.perList.news.edit) {
 				_btnAction += "<a class='editNews btn btn-success btn-small' href='#' title='编辑' style='margin-left:5px'>编辑</a>";
 			return _btnAction;

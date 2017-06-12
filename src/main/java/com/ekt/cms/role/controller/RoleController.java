@@ -1,4 +1,5 @@
 package com.ekt.cms.role.controller;
+
 import java.util.List;
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -15,6 +16,7 @@ import com.ekt.cms.common.BaseController;
 import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.role.entity.CmsRole;
 import com.ekt.cms.role.service.ICmsRoleService;
+import com.ekt.cms.utils.CMSConstants;
 /**
  * 角色管理类 2016-4-8 12：36
  * @author wanglan  
@@ -52,10 +54,10 @@ public class RoleController extends BaseController {
 	@ResponseBody
 	public PageBean<CmsRole> list(PageContext page, CmsRole cmsRole) {
 		page.paging();
-		CmsAccount account=getCurrentAccount();
-		//从session中获取用户如用户不为空并且用户名等于CMSROOT就显示自己的角色
-		if(account!=null&&account.getUserName().equals("CMSROOT")){
-			cmsRole.setId(account.getRole());
+		CmsAccount account = getCurrentAccount();
+		// 从session中获取用户如用户不为空并且用户名等于CMSROOT就显示自己的角色
+		if (account != null && account.getRole() != CMSConstants.ADMIN && account.getRole() != CMSConstants.ROOT) {
+			cmsRole.setParentId(account.getRole());
 		}
 		return new PageBean<CmsRole>(cmsRoleService.listPage(cmsRole));
 	}
@@ -71,12 +73,12 @@ public class RoleController extends BaseController {
 	public Result editRole(@Valid CmsRole cmsRole, BindingResult bindingResult) {
 		List<FieldError> fieldErrors = bindingResult.getFieldErrors();
 		Result result = Result.getResults();
-		if(getCurrentAccount()==null){
+		if (getCurrentAccount() == null) {
 			result.setResult(-1);
 			result.setMsg("非法请求！");
 			return result;
 		}
-		if (fieldErrors != null && ! fieldErrors.isEmpty()) {
+		if (fieldErrors != null && !fieldErrors.isEmpty()) {
 			for (FieldError fieldError : fieldErrors) {
 				result.setMsg(fieldError.getDefaultMessage());
 			}
@@ -93,69 +95,81 @@ public class RoleController extends BaseController {
 		result.setResult(cmsRoleService.updateCmsRole(cmsRole));
 		return result;
 	}
+
 	/**
 	 * 添加用户
+	 * 
 	 * @param cmsRole
 	 * @param bindingResult
 	 * @return
 	 */
 	@RequestMapping(value = "/addRole")
 	@ResponseBody
-	public Result addRole(@Valid CmsRole cmsRole, BindingResult bindingResult){
+	public Result addRole(@Valid CmsRole cmsRole, BindingResult bindingResult) {
 		Result result = Result.getResults();
+		CmsAccount account = getCurrentAccount();
+		// 从session中获取用户如用户不为空并且用户名等于CMSROOT就显示自己的角色
 		List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-		if (fieldErrors != null && ! fieldErrors.isEmpty()) {
+		if (fieldErrors != null && !fieldErrors.isEmpty()) {
 			for (FieldError fieldError : fieldErrors) {
 				result.setMsg(fieldError.getDefaultMessage());
 			}
 			result.setResult(-1);
 			return result;
-		}		
+		}
+
 		CmsRole role = cmsRoleService.getCmsRoleByEncoding(cmsRole.getEncoding());
-		if(role!=null){
+		if (role != null) {
 			result.setMsg("错误，用户编码已存在！");
 			result.setResult(-1);
 			return result;
 		}
+		if (account != null && account.getRole() != CMSConstants.ADMIN && account.getRole() != CMSConstants.ROOT) {
+			cmsRole.setParentId(account.getRole());
+		}
 		result.setResult(cmsRoleService.addCmsRole(cmsRole));
 		return result;
 	}
+
 	/**
 	 * 删除
+	 * 
 	 * @param ids
 	 * @return
 	 */
 	@Transactional
 	@RequestMapping(value = "/delete")
 	@ResponseBody
-	public Result delete(@RequestParam("ids")String ids){
-		Result result=Result.getResults();
-		if(getCurrentAccount()==null){
+	public Result delete(@RequestParam("ids") String ids) {
+		Result result = Result.getResults();
+		if (getCurrentAccount() == null) {
 			result.setResult(-1);
 			result.setMsg("非法请求！");
 			return result;
 		}
-		String[]arr=ids.split(",");
-		int total=0;
-		for(int i=0;i<arr.length;i++){
-			total+=cmsRoleService.deleteCmsRole(Integer.parseInt(arr[i].toString()));
-			//删除所有与该角色相关的所有权限
+		String[] arr = ids.split(",");
+		int total = 0;
+		for (int i = 0; i < arr.length; i++) {
+			total += cmsRoleService.deleteCmsRole(Integer.parseInt(arr[i].toString()));
+			// 删除所有与该角色相关的所有权限
 			cmsRoleService.delPermissionByRoleId(Integer.parseInt(arr[i].toString()));
 		}
 		result.setResult(total);
 		return result;
-		
+
 	}
+
 	/**
 	 * 停启用角色
+	 * 
 	 * @param cmsRole
 	 * @return
 	 */
 	@RequestMapping(value = "/confine")
 	@ResponseBody
-	public  Result confine(CmsRole cmsRole){
-		Result result=Result.getResults();
-		if(getCurrentAccount()==null){
+	public Result confine(CmsRole cmsRole) {
+		Result result = Result.getResults();
+		if (getCurrentAccount() == null) {
 			result.setResult(-1);
 			result.setMsg("非法请求！");
 			return result;
@@ -163,20 +177,29 @@ public class RoleController extends BaseController {
 		result.setResult(cmsRoleService.confine(cmsRole));
 		return result;
 	}
+
 	/**
 	 * 返回Tree
+	 * 
 	 * @param roleId
 	 * @return
 	 */
 	@RequestMapping(value = "/tree")
 	@ResponseBody
-	public Result getTree(@RequestParam("roleId")Integer roleId){
-		Result result=Result.getResults();
+	public Result getTree(@RequestParam("roleId") Integer roleId) {
+		Result result = Result.getResults();
+		CmsAccount account = getCurrentAccount();
+		if (account != null && account.getRole() != CMSConstants.ADMIN && account.getRole() != CMSConstants.ROOT) {
+			result.setValue(cmsRoleService.getTreeByRoleId2(account.getRole(),roleId));
+		}else{
 			result.setValue(cmsRoleService.getTreeByRoleId(roleId));
-			return  result;
+		}
+		return result;
 	}
+
 	/**
 	 * 保存提交角色权限
+	 * 
 	 * @param arr
 	 * @param roleId
 	 * @return
@@ -184,27 +207,26 @@ public class RoleController extends BaseController {
 	@Transactional
 	@RequestMapping(value = "/permissions")
 	@ResponseBody
-	public Result setPermissions(@RequestParam("permissionStr")String arr,@RequestParam("roleId")int roleId){
-		Result result=Result.getResults();
-		if(getCurrentAccount()==null){
+	public Result setPermissions(@RequestParam("permissionStr") String arr, @RequestParam("roleId") int roleId) {
+		Result result = Result.getResults();
+		if (getCurrentAccount() == null) {
 			result.setResult(-1);
 			result.setMsg("非法请求！");
 			return result;
 		}
-		if(arr==""){
-			//根据Id删除所有权限
+		if (arr == "") {
+			// 根据Id删除所有权限
 			result.setResult(cmsRoleService.delPermissionByRoleId(roleId));
-		}else{
-			String[]arrs=arr.split(",");
-			//根据Id删除所有权限
+		} else {
+			String[] arrs = arr.split(",");
+			// 根据Id删除所有权限
 			cmsRoleService.delPermissionByRoleId(roleId);
-			for(int i=0;i<arrs.length;i++){
-				//插入角色对应权限到数据库
-				cmsRoleService.insertRolePermission(Integer.parseInt(arrs[i].toString()),roleId);
+			for (int i = 0; i < arrs.length; i++) {
+				// 插入角色对应权限到数据库
+				cmsRoleService.insertRolePermission(Integer.parseInt(arrs[i].toString()), roleId);
 			}
 		}
 		return result;
 	}
 
 }
-

@@ -40,14 +40,9 @@
 		SET
 			catalog_name=#{catalog.catalogName},
 			order_no=#{catalog.orderNo}, 
-			status=#{catalog.status},
-		<if test="catalog.videoFileName !=null and catalog.videoFileName !=''"> 
+			status=#{catalog.status},		
 			video_file_name=#{catalog.videoFileName},
-		</if>
-		<if test="catalog.introduction !=null and catalog.introduction !=''">
-			introduction = #{catalog.introduction}
-		</if>
-		
+			introduction = #{catalog.introduction}	
 		 WHERE 
 	 			id=#{catalog.id};	
 	</update>
@@ -77,8 +72,8 @@
 			 introduction,
 			</if>
 			 catalog_level,
-			 status
-			
+			 status,
+			 video_id
 			 )VALUES(
 			 #{catalogName},
 			 #{textbookId},
@@ -91,7 +86,8 @@
 		 	 #{introduction},
 		 </if>
 			 #{catalogLevel},
-			 1
+			 1,
+			 #{videoId}
 			 )
 	</insert>
 	

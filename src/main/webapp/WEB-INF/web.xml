@@ -52,6 +52,14 @@
 			<param-name>contextConfigLocation</param-name>
 			<param-value>classpath:/conf/springmvc-servlet.xml</param-value>
 		</init-param>
+		
+<!-- 		spring mvc框架默认不支持OPTIONS请求， 加入options请求支持 详情见 http://www.cnblogs.com/liaochong/p/springmvcueditor.html -->
+		 <init-param>
+		     <param-name>dispatchOptionsRequest</param-name>
+		     <param-value>true</param-value>
+	     </init-param>
+<!-- 	     spring mvc框架默认不支持OPTIONS请求， 加入options请求支持 http://www.cnblogs.com/liaochong/p/springmvcueditor.html-->
+
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>

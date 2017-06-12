@@ -79,4 +79,15 @@ public interface CmsTextbookMapper {
 	 */
 	int getTextbookCountByTextbookTitle(String textbookTitle);
 
+	
+	/**
+	 * 根据选课名称修改选课封面图片
+	 * @param textbookName
+	 * @param imageUrl
+	 * @return
+	 */
+	int updateTextbookImageByName(@Param("textbookName")String textbookName,@Param("imageUrl")String imageUrl);
+
+
+	
 }

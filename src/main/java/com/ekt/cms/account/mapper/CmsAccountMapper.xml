@@ -42,14 +42,16 @@
     role,
     cellphone,
     create_date,
-    status 
+    status,
+    parent_id 
     )VALUES(
     #{userName,jdbcType=CHAR},
      #{password,jdbcType=CHAR}, 
       #{realName,jdbcType=CHAR},
        #{role,jdbcType=INTEGER},
         #{cellphone,jdbcType=CHAR},
-        SYSDATE(),1)
+        SYSDATE(),1, #{parentId,jdbcType=INTEGER})
+       
   </insert>
   
  <!-- 更新 -->
@@ -111,12 +113,14 @@
 		WHERE 1=1
 		<if test="cmsAccount.userName != null and cmsAccount.userName !='' ">
 			AND (a.user_name like '%${cmsAccount.userName}%')
+			OR (a.real_name like '%${cmsAccount.userName}%')
 		</if>
-		<if test="cmsAccount.realName !=null and cmsAccount.realName!='' ">
-			AND (a.real_name like '%${cmsAccount.realName}%')
-		</if>
+		
 		<if test="cmsAccount.id !=1">	
 			AND a.id &lt;&gt;1 
+		</if>
+		<if test="cmsAccount.parentId!=null and cmsAccount.parentId!=0">
+			AND a.parent_id =#{cmsAccount.parentId}
 		</if>
 		
 		ORDER BY a.id ASC
@@ -133,7 +137,8 @@
 			a.cellphone,
 			a.status,
 			a.create_date AS createDate,
-			a.ektapi_user_id AS ektapiUserId
+			a.ektapi_user_id AS ektapiUserId,
+			a.parent_id AS parentId
 		FROM
 			cms_account a
 		LEFT JOIN cms_role r on a.role=r.id

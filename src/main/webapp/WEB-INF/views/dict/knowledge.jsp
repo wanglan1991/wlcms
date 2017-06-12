@@ -47,7 +47,6 @@ color:red;
 					<div class='controls'>
 						 <div class='input-append'>
 		               		<select id='grade' name='grade' ></select>
-		               		<span id="grade-error" class="help-block error"></span>
 		                </div>
 					</div>
 				</div>
@@ -57,16 +56,22 @@ color:red;
 					<div class='controls'>
 						<div class='input-append'>
 		               		<select id='subject' name='subject'></select>
-		               		<span id="subject-error" class="help-block error"></span>
+		                </div>
+					</div>
+				</div>
+				<div class='control-group'>
+					<label class='control-label'>排序起点值</label>
+					<div class='controls'>
+						<div class='input-append'>
+		               		<input id='startOrderNo' placeholder='建议预留以便今后扩展' onkeyup="this.value=this.value.replace(/[^0-9-]+/,'')" maxlength="11" name="startOrderNo" type='text' />
 		                </div>
 					</div>
 				</div>
 				<div class='control-group'>
 					<label class='control-label'>知识点</label>
 					<div class='controls'>
-						<input class='span8' id='title' name="title" placeholder='如多个请使用英文状态下的“，”作为分隔符 '
+						<input  id='title' name="title" placeholder='如多个请使用英文状态下的“，”作为分隔符 '
 							type='text' />
-							<span id="stitle-error" class="help-block error"></span>
 					</div>
 				</div>
 			</div>

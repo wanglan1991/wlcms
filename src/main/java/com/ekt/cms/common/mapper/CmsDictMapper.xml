@@ -49,7 +49,9 @@
 		parent_id =
 		#{parentId,jdbcType=INTEGER},
 		type_encoding = #{typeEncoding,jdbcType=VARCHAR},
-		status =#{status,jdbcType=INTEGER},		
+		<if test="status!=null">
+		status =#{status,jdbcType=INTEGER},	
+		</if>	
 		remark = #{remark,jdbcType=VARCHAR},
 		type_name=#{typeName,jdbcType=VARCHAR}
 		WHERE id
@@ -130,5 +132,15 @@
 	<select id="famousTeacher" resultType="java.util.Map">
 		SELECT id,name FROM api_teacher	
 	</select>
+	
+	<select id="exerciseQueryByDictNameAndEncoding" resultMap="DictMap" parameterType="java.lang.String">
+			SELECT
+			 * 
+			 FROM 
+				cms_dictionary 
+			WHERE 1=1 AND value =#{value} AND type_encoding=#{encoding}
+	</select>
+	
+	
 	
 </mapper> 

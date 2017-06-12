@@ -36,6 +36,59 @@ public class ApiUser {
 	private String wechatGZOpenId;
 	//用户统一标识。针对一个微信开放平台帐号下的应用，同一用户的unionid是唯一的。
 	private String wechatUnionId;
+	//角色
+	private Integer role;
+	//cms账户ID
+	private Integer accountId;
+	//cms角色名称
+	private String roleName;
+	
+	private int untreatedCount;//待处理事物个数
+	
+	private int treatedCount;//已处理事物个数
+	
+	private int isReal;//是否为真实用户
+	
+	
+	public int getIsReal() {
+		return isReal;
+	}
+	public void setIsReal(int isReal) {
+		this.isReal = isReal;
+	}
+	public int getUntreatedCount() {
+		return untreatedCount;
+	}
+	public void setUntreatedCount(int untreatedCount) {
+		this.untreatedCount = untreatedCount;
+	}
+	public int getTreatedCount() {
+		return treatedCount;
+	}
+	public void setTreatedCount(int treatedCount) {
+		this.treatedCount = treatedCount;
+	}
+	public String getRoleName() {
+		return roleName;
+	}
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+		
+	public Integer getRole() {
+		return role;
+	}
+	public void setRole(Integer role) {
+		this.role = role;
+	}
+	public Integer getAccountId() {
+		return accountId;
+	}
+	public void setAccountId(Integer accountId) {
+		this.accountId = accountId;
+	}
+	
+	
 	public Integer getId() {
 		return id;
 	}

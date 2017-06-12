@@ -3,8 +3,6 @@ package com.ekt.cms.video.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -91,6 +89,9 @@ public class CmsVideoController extends BaseController{
 		if(!cmsVideo.getFileName().equals(cmsVideo.getOldFileName())){//更新选课章节中的视频文件名
 			cmsCatalogService.updateCatalogVideoFileNameByVideoFileName(cmsVideo.getOldFileName(), cmsVideo.getFileName());
 		}
+		if(cmsVideo.getImageUrl()!=null){
+			cmsTextbookService.updateTextbookImageByName(cmsVideo.getVideoName(), cmsVideo.getImageUrl());//修改选课图片封面
+		}
 		return result;
 	}
 	
@@ -147,19 +148,29 @@ public class CmsVideoController extends BaseController{
 	 */
 	@RequestMapping("/createTextbook")
 	@ResponseBody
-	public  Result  createTextbook(@RequestParam("id")int id){
+	public  Result  createTextbook(@RequestParam("id")int id,
+			@RequestParam("courseOrderTypeNo")int courseOrderTypeNo,@RequestParam("courseHotValue")int courseHotValue){
 		int result = 0;
 		int result2 =0;
 		int result3 =0;
 		CmsVideo video = cmsVideoService.getVideoById(id);
+		if(cmsTextbookService.getTextbookCountByTextbookTitle(video.getVideoName())>0){
+			return Result.getResults(-1,"重复生成选课或你重复点击了生成选课按钮或数据出错！");
+		};
 		CmsTextbook book =video.getTextbook();
+		book.setIsHot(0);
+		book.setIsCollection(0);//设置为非合集
+		book.setIsHot(courseHotValue);//设置热门度值
+		book.setTypeOrderNo(String.valueOf(courseOrderTypeNo));//设置排序类型
 		book.setInputAccountId(getCurrentAccount().getId());
+		book.setOriginalPrice(video.getDiscount()*video.getPrice());
 		result = cmsTextbookService.addTextbook(book);
 		if(result>0){
-			CmsCatalog catalog = new CmsCatalog(book.getTitle(),book.getId(),0,0,51,null,null);
+			CmsCatalog catalog = new CmsCatalog(book.getTitle(),book.getId(),0,0,51,null,null,null);
 			result2 = cmsCatalogService.add(catalog);
 			if(result2>0){
-				result3 = cmsCatalogService.add(new CmsCatalog(book.getTitle(),book.getId(),0,catalog.getId(),52,book.getDigest(),video.getFileName()));
+				result3 = cmsCatalogService.add(new CmsCatalog(book.getTitle(),book.getId(),
+						0,catalog.getId(),52,book.getDigest(),video.getFileName(),id));
 			}
 		}
 		return Result.getResults(result3);
@@ -177,13 +188,13 @@ public class CmsVideoController extends BaseController{
 		CmsVideo video = cmsVideoService.getVideoById(id);
 		int result =0;
 		if(video.getHasTestpaper()>0){
-			Result.getResults(result+1);
+			Result.getResults(-1);
 		}
 		List<Integer> ves =testpaperService.getVideoExercises(id);
 		Testpaper  tp =new Testpaper();
 		tp.setUserId(getCurrentAccount().getEktapiUserId());
 		tp.setAuthor("系统题库");
-		tp.setTestpaperName(video.getVideoName()+"（课件）");
+		tp.setTestpaperName(video.getVideoName());
 		tp.setDigest("知识点 ："+video.getKnowledge()+ves.size()+"道基础练习题");
 		tp.setSubjectNo(video.getSubjectNo());
 		tp.setPhaseNo(video.getGradeNo()>21?60:61);

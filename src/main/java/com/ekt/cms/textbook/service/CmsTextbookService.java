@@ -65,4 +65,9 @@ public class CmsTextbookService implements ICmsTextbookService {
 		return cmsTextbookMapper.getTextbookCountByTextbookTitle(textbookTitle);
 	}
 
+	@Override
+	public int updateTextbookImageByName(String textbookName, String imageUrl) {
+		return cmsTextbookMapper.updateTextbookImageByName(textbookName, imageUrl);
+	}
+
 }

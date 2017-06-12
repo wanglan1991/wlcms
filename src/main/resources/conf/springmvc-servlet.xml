@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:task="http://www.springframework.org/schema/task"  
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 			  http://www.springframework.org/schema/beans/spring-beans.xsd
 	          http://www.springframework.org/schema/context
@@ -14,7 +18,12 @@
 	          http://www.springframework.org/schema/mvc/spring-mvc.xsd
 	          http://www.springframework.org/schema/util
 	          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
-	          http://www.springframework.org/schema/util/spring-util.xsd">
+	          http://www.springframework.org/schema/util/spring-util.xsd
+	          http://www.springframework.org/schema/task  
+http://www.springframework.org/schema/task/spring-task-3.0.xsd"> 
+	          
+		<!--定时任务驱动     -->
+     <task:annotation-driven/>  
 
 	<!-- 对静态资源文件的访问，交给default servlet handler处理 -->
 	<mvc:default-servlet-handler />
@@ -70,4 +79,12 @@
 		<!-- 配置文件上传临时目录 -->
 		<property name="uploadTempDir" value="/uploadfile/upload/temp"></property>
 	</bean>
+	
+	
+	<!--   拦截器 -->
+   <mvc:interceptors>
+        <bean class="com.ekt.cms.common.controller.AuthInterceptor"/>
+    </mvc:interceptors>
+<!--   拦截器 --> 
+	
 </beans>

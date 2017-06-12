@@ -72,10 +72,40 @@ public class CmsTextbook {
 	private  Integer isRecommend;
 	//单品数量
 	private int childCount;
+	//是否为集合
+	private Integer isCollection;
+	//折后价
+	private Double originalPrice;
+	//类型排序序号
+	private String typeOrderNo;
 	
 	
 	
 	
+	public String getTypeOrderNo() {
+		return typeOrderNo;
+	}
+
+	public void setTypeOrderNo(String typeOrderNo) {
+		this.typeOrderNo = typeOrderNo;
+	}
+
+	public Double getOriginalPrice() {
+		return originalPrice;
+	}
+
+	public void setOriginalPrice(Double originalPrice) {
+		this.originalPrice = originalPrice;
+	}
+
+	public Integer getIsCollection() {
+		return isCollection;
+	}
+
+	public void setIsCollection(Integer isCollection) {
+		this.isCollection = isCollection;
+	}
+
 	public int getChildCount() {
 		return childCount;
 	}

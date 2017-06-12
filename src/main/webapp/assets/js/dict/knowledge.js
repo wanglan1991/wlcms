@@ -18,7 +18,10 @@ define(function(require, exports, module) {
 			 if(base.perList.knowledge.check){
 			$("#knowledge-header .actions")
 					.append(
-							"<input autocomplete='off'  id='q_k_title' name='q_k_title' placeholder='请输入知识点' type='text' />&nbsp;&nbsp;<select  id='q_k_grade' data-placeholder='请选择年级'></select>&nbsp;&nbsp;<select  id='q_k_subject'></select><a href='#' id='queryByCondition' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>");
+							"<input autocomplete='off'  id='q_k_title' name='q_k_title' placeholder='请输入知识点' type='text' />" +
+							"&nbsp;&nbsp;<select  id='q_k_grade' data-placeholder='请选择年级'></select>" +
+							"&nbsp;&nbsp;<select  id='q_k_subject'></select>" +
+							"<a href='#' id='queryByCondition' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>");
 					core.getDictOptions("年级","grade","#q_k_grade");
 					core.getDictOptions("学科","subject","#q_k_subject");		
 			 }
@@ -48,14 +51,22 @@ define(function(require, exports, module) {
 			$("#btnSubmit").click(function(){
 				var gradeNo =$("#grade").val();
 				var subjectNo = $("#subject").val();
+				var startOrderNo=$("#startOrderNo").val();
 				var title =$("#title").val();
+				
 				if(gradeNo<1){$("#msg").text("请选择年级！");$("#msg").css('color',"red");return;}
 				if(subjectNo<1){$("#msg").text("请选择学科！");$("#msg").css('color',"red");return;}
-				if(title.length<1){$("#msg").text("请输入知识点！");$("#msg").css('color',"red");return;-error}
+				if(startOrderNo<1){$("#msg").text("请给一个排序起点值！");$("#msg").css('color',"red");return;}
+				if(title.length<1){$("#msg").text("请输入知识点！");$("#msg").css('color',"red");return;}
 				$.ajax({
 					url : F.basepath + '/knowledge/addKnowledge',
 					type : 'POST',
-					data : {gradeNo:gradeNo,subjectNo:subjectNo,title:title},
+					data : {
+						gradeNo:gradeNo,
+						subjectNo:subjectNo,
+						title:title,
+						orderNo:startOrderNo
+					},
 					success : function(data) {
 						if(data.result>0){
 							F.table.reload();
@@ -64,6 +75,7 @@ define(function(require, exports, module) {
 							}else{
 								core.closeModel('modal-Knowledge');
 								$("#title").val('');
+								$("#startOrderNo").val('')
 							}
 						}else{
 							alert("异常！稍后再尝试 ")
@@ -272,20 +284,36 @@ define(function(require, exports, module) {
 				return false;
 			});
 
+			
+			
+			document.getElementById("knowledge-header").onkeydown =keyDownSearch;
+			function keyDownSearch(e) {
+				// 兼容FF和IE和Opera
+				var theEvent = e || window.event;
+				var code = theEvent.keyCode || theEvent.which
+						|| theEvent.charCode;
+				if (code == 13) {
+					query();
+				}else{
+				}
+			}	
 			/**
 			 * 根据条件查询
 			 */
-			$('#queryByCondition').click(
-					function() {
-						var title = $("#q_k_title").val();
-						var gradeNo = $("#q_k_grade").val();
-						var subjectNo=$("#q_k_subject").val();
-						var query_url = F.basepath + '/knowledge/listPage?title='
-								+ title + '&gradeNo=' + gradeNo+'&subjectNo='+subjectNo;
-						$('#KnowledgeTable').bootstrapTable('refresh', {
-							url : query_url
-						});
-					}),
+			$('#queryByCondition').click(function(){
+				query();
+			});
+			
+			 function query() {
+					var title = $("#q_k_title").val();
+					var gradeNo = $("#q_k_grade").val();
+					var subjectNo=$("#q_k_subject").val();
+					var query_url = F.basepath + '/knowledge/listPage?title='
+							+ title + '&gradeNo=' + gradeNo+'&subjectNo='+subjectNo;
+					$('#KnowledgeTable').bootstrapTable('refresh', {
+						url : query_url
+					});
+				}
 
 			/**
 			 * 关闭模态框

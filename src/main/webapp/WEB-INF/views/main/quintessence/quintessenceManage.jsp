@@ -7,6 +7,12 @@
 label.error{
 color:red;
 }
+
+#modal-editTestpaper input,textarea{
+width: 400px;
+}
+
+
 </style>
 </head>
 <body>
@@ -24,7 +30,7 @@ color:red;
 	</div>
 	
 									
-<div class='modal hide fade' id='addModal-Quintessence' role='dialog' tabindex='-1'">
+<div class='modal hide fade' id='modal-editTestpaper' role='dialog' tabindex='-1'">
     <div class='modal-header'>
         <button class='close' data-dismiss='modal' type='button'>&times;</button>
         <h3></h3>
@@ -32,36 +38,30 @@ color:red;
      <div class='modal-body'>
      
      	 <div class='control-group'>
-            <label class='control-label'>类型</label>
-            <div class='controls'>
-				<select id="addQuintessenceType">
-					<option value='-1'>请选择..</option>
-					<option value='1'>组卷</option>
-					<option value='2'>选课</option>
-					<option value='3'>文集</option>
-				</select>
+            <label class='control-label'>组卷标题</label>
+            <div class='controls'> 
+				<input type="text" id="testpaperTitle" placeholder="请输入组卷名称标题名称！">
             </div>  
         </div>
-      <div id="addContentSelect" style="display:none">   
         <div class='control-group'>
-            <label class="col-sm-3 control-label">内容</label>
-			<div class="col-sm-9" style="width:225px">
-				<select id="quintessenceContent" style="width:220px; height:30px"></select>
-            </div>
+            <label class="col-sm-3 control-label">组卷简介</label>
+			 <div class='controls'> 
+				<textarea rows="5" cols="5" id="testpaperDigest" ></textarea>
+            </div>  
         </div>
         <div class='control-group'>
-            <label class='control-label'>到期日期</label>
+            <label class='control-label'>难易度</label>
             <div class='controls'> 
-				<input type="date" id="expireDate" >
+				<select id="testpaperDifficulty"></select>
             </div>  
 	     </div>
-     </div> 
+     
     </div>
    
    
     <div class='modal-footer'>
     	<msg id='quintessenceMsg' style='color:red'></msg>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="button" id="quintessenceBtnClose" class='btn'>关闭</button>
+        <button type="button" data-dismiss="modal" class='btn'>关闭</button>
         <button type="button" id="quintessenceBtnSubmit" class='btn btn-primary'>保存</button>
     </div>
 </div>

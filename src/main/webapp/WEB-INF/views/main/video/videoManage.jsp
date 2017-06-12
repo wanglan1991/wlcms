@@ -12,7 +12,7 @@ color:red;
 </head>
 <body id="wanglanlan">
 	<div class='box-header' id="video-header">
-		<div class='actions'></div>
+		<div class='actions' id="videoActions"></div>
 	</div>
 	<div class='box-content box-no-padding'>
 		<div class='responsive-table'>
@@ -137,6 +137,40 @@ color:red;
 		
 	</div>
 	
+	
+	
+	
+	
+	
+	<div class='modal hide fade ' id='modal-createTextbook'  z-index='2' role='dialog'
+		tabindex='-1'>
+	
+		<div class='modal-header'>
+			<button class='close' id="tatil" data-dismiss='modal'  type='button'>&times;</button>
+			<h3></h3>
+		</div>
+			<div class='modal-body' >
+			 <div class='control-group'>
+		            <label class='control-label'>排序类型</label>
+		            <div class='controls'>
+		                <input  id='courseOrderTypeNo'  onkeyup="value=value.replace(/[^\d]/g,'')"  maxlength='6' value='20' type='text' />
+		            </div>
+		        </div> 
+		         <div class='control-group'>
+		            <label class='control-label'>热门度值</label>
+		            <div class='controls'>
+		                <input  id='courseHotValue'  onkeyup="value=value.replace(/[^\d]/g,'')"  maxlength='6'  type='text' />
+		            </div>
+		        </div> 
+				
+			</div>
+			<div class='modal-footer'>
+				<msg id='createTextbookMsg' style='color:red'></msg>
+				<button type="button" data-dismiss='modal' class='btn'>关闭</button>
+				<button   id="createTextbookBtnSubmit" class='btn btn-primary'>生成</button>
+			</div>
+		
+	</div>
 	
 	
 	

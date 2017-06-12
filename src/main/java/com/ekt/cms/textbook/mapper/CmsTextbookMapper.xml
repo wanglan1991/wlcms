@@ -22,6 +22,7 @@
 		<result column="status" property="status" jdbcType="INTEGER" />
 		<result column="real_name" property="inputAccountRealName" jdbcType="VARCHAR" />
 		<result column="price" property="price" jdbcType="DOUBLE" />
+		<result column="original_price" property="originalPrice"  jdbcType="DOUBLE" />
 		<result column="discount" property="discount" jdbcType="DOUBLE" />
 		<result column="is_hot" property="isHot" jdbcType="INTEGER" />
 		<result column="crate_time" property="crateTime" jdbcType="DATE" />
@@ -30,6 +31,8 @@
 		<result column="section_count" property="sectionCount" jdbcType="INTEGER" />
 		<result column="is_recommend" property="isRecommend" jdbcType="INTEGER" />
 		<result column="child_count" property="childCount" jdbcType="INTEGER" />
+		<result column="is_collection" property="isCollection" jdbcType="INTEGER" />
+		<result column="type_order_no" property="typeOrderNo" jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<resultMap type="com.ekt.cms.textbook.entity.CmsCatalogMessage" id="CmsCatalogMessageMap">
@@ -75,11 +78,14 @@
 					t.crate_time,
 					t.discount,
 					t.price,
+					t.original_price,
 					t.is_hot,
 					t.is_recommend,
+					t.is_collection,
 					COUNT(ca.catalog_level=51 OR NULL)chapter_count,
 					COUNT(ca.catalog_level=52 OR NULL)section_count,
-					(SELECT COUNT(1) FROM cms_textbook t2 WHERE t2.parent_id=t.id )AS child_count
+					(SELECT COUNT(1) FROM cms_textbook t2 WHERE t2.parent_id=t.id )AS child_count,
+					t.type_order_no
 				FROM
 				cms_textbook t
 				LEFT JOIN cms_account ac on t.input_account_id=ac.id
@@ -109,7 +115,7 @@
 					AND t.is_recommend=#{textbook.isRecommend}	
 				</if>
 					GROUP BY t.id
-					ORDER BY t.id DESC
+					ORDER BY t.type_order_no,t.is_hot 
 			</select>
 			
 			<select id="getTextbookCountByTextbookTitle" resultType="java.lang.Integer"	parameterType="java.lang.String">
@@ -140,11 +146,14 @@
 				crate_time,
 				isfree,
 				price,
+				original_price,
 				discount,
 				status,
 				is_hot,
 				parent_id,
-				is_recommend
+				is_recommend,
+				is_collection,
+				type_order_no
 			)VALUES(
 				#{phaseNo},
 				#{gradeNo },
@@ -152,8 +161,8 @@
 				#{publisherNo},
 				#{textbookTypeNo},
 				#{title},
-				#{knowledgePointArr},
-				#{knowledgePointArrVal},
+				CONCAT(',',#{knowledgePointArr}),
+				CONCAT(',',#{knowledgePointArrVal}),
 				#{digest},		
 				#{authorId},
 				#{imgUrl},
@@ -161,11 +170,14 @@
 				SYSDATE(),
 				#{isFree},
 				#{price},
+				#{originalPrice},
 				#{discount},
-				0,
+				1,
 				#{isHot},
 				#{parentId},
-				0
+				0,
+				#{isCollection},
+				#{typeOrderNo}
 			)
 	</insert>
 	<delete id="deleteTextbook" parameterType="java.lang.Integer">
@@ -196,11 +208,14 @@
 		<if test="textbookType !=null and textbookType !=''">
 			textbook_type_no=#{textbookType},
 		</if>
+		<if test="isCollection !=null">
+		    is_collection=#{isCollection},
+		</if>
 		<if test="title !=null and title !=''">
 			title=#{title}, 
 		</if>
-			knowledge_point_arr=#{knowledgePointArr},
-			knowledge_point_arr_val=#{knowledgePointArrVal},
+			knowledge_point_arr=CONCAT(',',#{knowledgePointArr}),
+			knowledge_point_arr_val=CONCAT(',',#{knowledgePointArrVal}),
 		<if test="digest !=null and digest !=''">
 			digest=#{digest},
 		</if>
@@ -219,15 +234,14 @@
 		<if test="inputAccountId !=null and inputAccountId !=0">
 			input_account_id =#{inputAccountId}  ,
 		</if>
-		<if test="price !=null and price !=''">
 			price =#{price},
-		</if>
+		    original_price=#{originalPrice},
 		<if test="discount !=null and discount !=''">
 			discount =#{discount},
 		</if>
-			is_hot =#{isHot},
-			
-			isfree =#{isFree}
+			is_hot =#{isHot},			
+			isfree =#{isFree},
+			type_order_no=#{typeOrderNo}
 			
 		WHERE id=#{id};
 	</update>
@@ -292,4 +306,7 @@
 		UPDATE cms_textbook SET is_recommend=IF(is_recommend=0,1,0) WHERE id =#{id}
 	</update>
 	
+	<update id="updateTextbookImageByName" parameterType="java.lang.String">
+		UPDATE cms_textbook SET img_url=#{imageUrl} WHERE title=#{textbookName}
+	</update>
 </mapper>

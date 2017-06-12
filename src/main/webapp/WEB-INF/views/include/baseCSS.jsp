@@ -32,6 +32,7 @@
 <!-- / jgrowl notifications -->
 <link href='${ctxAssets}/stylesheets/plugins/jgrowl/jquery.jgrowl.min.css' media='all' rel='stylesheet' type='text/css' />
 
+<link href='${ctxAssets}/stylesheets/bootstrap/on_off_switch.css' media='all' rel='stylesheet' type='text/css' />
 <!-- / bootstrapValidator -->
 <%-- <link href='${ctxAssets}/stylesheets/plugins/bootstrap_validator/bootstrapValidator.min.css' media='all' rel='stylesheet' type='text/css' /> --%>
 <!-- / dynatrees (file trees) -->

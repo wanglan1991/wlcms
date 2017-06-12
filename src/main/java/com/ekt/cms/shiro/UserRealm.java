@@ -6,11 +6,9 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.ekt.cms.account.entity.CmsAccount;
 import com.ekt.cms.account.service.ICmsAccountService;
-import com.ekt.cms.utils.Md5Utils;
-
+import com.ekt.cms.utils.EncryptUtil;
 import net.sf.ehcache.CacheManager;
 
 /**
@@ -42,7 +40,7 @@ public class UserRealm extends AuthorizingRealm {
 			throw new UnknownAccountException();
 		}
 		// 判断输入密码是否和用户密码一致 并且状态必须为1
-		if (!account.getPassword().equals(Md5Utils.getMd5Encode(password))) {
+		if (!EncryptUtil.checkPassword(account.getPassword(), password)) {
 			throw new IncorrectCredentialsException();
 		}
 		

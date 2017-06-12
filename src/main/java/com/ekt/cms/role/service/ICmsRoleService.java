@@ -22,7 +22,7 @@ public interface ICmsRoleService {
 	 * 获取角色集合
 	 * @return 角色集合
 	 */
-	List<CmsRole> getCmsRoleList();
+	List<CmsRole> getCmsRoleList(int parentId);
 	
 	 
 	 /**
@@ -79,6 +79,14 @@ public interface ICmsRoleService {
 	  * @return
 	  */
 	 List<Map<String,Object>> getTreeByRoleId(int roleId);
+	 
+	 
+	 /**
+	  * 获取当前登录角色可选的Tree
+	  * @param roleId
+	  * @return
+	  */
+	 List<Map<String,Object>> getTreeByRoleId2(int parentId,int roleId);
 	 /**
 	  * 根据角色Id删除所有权限
 	  * @param roleId
