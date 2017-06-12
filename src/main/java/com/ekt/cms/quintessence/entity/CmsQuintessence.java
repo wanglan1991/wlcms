@@ -37,6 +37,7 @@ public class CmsQuintessence {
 	private int gradeNo;
 	private int difficultyNo;
 	private int confine;//0隐藏 1显示
+	private int typeNo;
 
 	
 	public int getConfine() {
@@ -45,7 +46,7 @@ public class CmsQuintessence {
 	public void setConfine(int confine) {
 		this.confine = confine;
 	}
-	private int typeNo;
+	
 	public int getTypeNo() {
 		return typeNo;
 	}

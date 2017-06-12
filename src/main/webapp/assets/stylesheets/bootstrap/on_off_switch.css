@@ -1,0 +1,65 @@
+
+	/**btONoff*/
+.bt-on-off{
+    cursor: pointer;
+    display: inline-flex;
+    position: relative;
+    text-decoration: none;
+    color: #fff;
+    text-transform: capitalize;
+    font-family: 'Roboto', sans-serif;
+    font-size: 10px;
+    padding: 2px 0px;
+    width: 60px;
+    border-radius: 50px;
+    overflow: hidden;
+    background: gray!important;
+    transition: background .6s;
+    -moz-transition: background .6s;
+    -webkit-transition: background .6s;
+    -o-transition: background .6s;
+}
+.bt-on-off:hover{
+	color:#fff!important;
+	text-decoration:none!important;
+}
+.bt-on-off.clicked {
+    background: green!important;
+    transition: background .6s;
+    -moz-transition:  background .6s; /* Firefox 4 */
+    -webkit-transition: background .6s; /* Safari 和 Chrome */
+    -o-transition: background .6s; /* Opera */
+}
+.bt-cont{
+    pointer-events: none;
+    position: relative;
+    margin: 0px 0 0 -18px;
+    line-height: 18px;
+    margin-right: none;
+    transition: all .6s;
+    -moz-transition: all .6s;
+    -webkit-transition: all .6s;
+    -o-transition: all 1s;
+}
+.bt-on-off.clicked .bt-cont{
+    margin-left:none;
+    margin: 0 0 0 17px;
+    transition: all .6s;
+    -moz-transition:  all .6s; /* Firefox 4 */
+    -webkit-transition: all .6s; /* Safari 和 Chrome */
+    -o-transition: all .6s; /* Opera */
+}
+
+.bt-circ{
+    width: 14px;
+    height: 14px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    margin: 0 5px;
+    position: absolute;
+}
+
+.bt-off{
+    margin-left: 30px;
+}
+/**btONoff*/

@@ -42,7 +42,6 @@ public class OnLineFilter extends FormAuthenticationFilter  {
 		
 			Subject subject = SecurityUtils.getSubject();
 			Session session = subject.getSession();
-			System.out.println("session的默认超时时间为："+session.getTimeout());
 			CmsAccount cmsUser=(CmsAccount)session.getAttribute(Constants.DEFAULT_SESSION_ACCOUNT);
 			if(cmsUser!=null||((HttpServletRequest) request).getServletPath().equals("/user/exit")){
 				return true;
@@ -52,7 +51,7 @@ public class OnLineFilter extends FormAuthenticationFilter  {
 			
 		// 如果 isAuthenticated 为 false 证明不是登录过的，同时 isRememberd 为true
 		// 证明是没登陆直接通过记住我功能进来的
-//		if (!subject.isAuthenticated() && subject.isRemembered()) {
+//		if (!subject.isAuthenticated() && subject.is21emembered()) {
 //			// 获取session看看是不是空的
 //			Session session = subject.getSession(true);
 //			if (session.getAttribute("account") == null) {

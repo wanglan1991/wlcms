@@ -238,6 +238,8 @@ define(function (require, exports, module) {
 				 */	
 		        'click .editTextbook': function (e, value, row, index) {
 		        	core.openModel('modal-editTextbook','编辑选课：<b style=color:blue>'+row.title+'</b>');
+		        	$("#editIsCollection").removeAttr('checked');
+		        	
 		        	$("#editKnowledgeTree").show();
 		        	$("#editGradeTag").attr('grade',row.gradeNo);
 		        	$("#editSubjectTag").attr('subject',row.subjectNo);
@@ -253,9 +255,12 @@ define(function (require, exports, module) {
 		        	$("#editImgUrl").val(row.imgUrl);
 		        	$("#editAuthor").val(row.author);
 		        	$("#editPrice").val(row.price);
+		        	$("#editDiscountAfterPrice").val(row.originalPrice);
 		        	$("#editDiscount").val(row.discount);
-		        	if(row.isHot==1){
-		        		$("#editIsHot").attr("checked","checked");
+		        	$("#editIsHot").val(row.isHot);
+		        	$("#editTypeOrderNo").val(row.typeOrderNo);
+		        	if(row.isCollection){
+		        		$("#editIsCollection").attr("checked","checked");
 		        	}
 		        	core.editloadKnowledgeTree(F.basepath+'/cms/textbook/editKnowledgeTree',row.gradeNo,row.subjectNo,row.knowledgePointArr,"#updateKnowledgeTree");
 		        		
@@ -443,10 +448,13 @@ define(function (require, exports, module) {
 	        		        title: '节数'
 	        		    },{
 	        		        field: 'price',
-	        		        title: '价格￥'
+	        		        title: '折后价￥'
 	        		    },{
 	        		        field: 'discount',
 	        		        title: '折扣%'
+	        		    },{
+	        		        field: 'originalPrice',
+	        		        title: '原价￥'
 	        		    },{
 	        		        field: 'inputAccountRealName',
 	        		        title: '更新者'
@@ -777,7 +785,10 @@ define(function (require, exports, module) {
 				$("#imgFile").val('');
 				$("#addprice").val('');
 				$("#adddiscount").val('');
+				$("#typeOrderNo").val('');
 				$("#isHot").removeAttr("checked");
+				$("#isCollection").removeAttr("checked");
+				$("#addDiscountAfterPrice").val('');
 			}
 			
 			
@@ -793,7 +804,7 @@ define(function (require, exports, module) {
 				$("#editImgUrl").val("");
 				$("#editAuthor").empty();
 				$("#editMsg").text("");
-				
+				$("#editDiscountAfterPrice").val('');
 			}
 			
 			function catalogClear(){
@@ -948,7 +959,10 @@ define(function (require, exports, module) {
 				var discount= $("#adddiscount").val();
 				var price= $("#addprice").val();
 				var phaseNo = gradeNo==19?61:gradeNo==20?61:gradeNo==21?61:60;
-				var isHot = $("#isHot").attr('checked')=='checked'?1:0;
+				var isHot = $("#isHot").val();
+				var typeOrderNo =$("#typeOrderNo").val();
+				var isCollection = $("#isCollection").attr('checked')=='checked'?1:0;//是否为合集
+				var discountPrice =$("#addDiscountAfterPrice").val();
 				if(gradeNo==0){$("#addMsg").text("请选择年级！");return}
 				if(subjectNo==0){$("#addMsg").text("请选择科目！");return}
 				if(textbookTypeNo==0){$("#addMsg").text("请选择教材类型！");return}
@@ -956,6 +970,7 @@ define(function (require, exports, module) {
 				if(imgUrl.length<1){$("#addMsg").text("封面不能为空！");return}
 				if(price.length<1){$("#addMsg").text("价格为必填项！");return}
 				if(discount.length<1){$("#addMsg").text("折扣为必填项！");return}
+				if(discountPrice.length<1){$("#addMsg").text("折扣价为必填项！");return}
 				
 				var datas ={
 							phaseNo:phaseNo,
@@ -967,10 +982,13 @@ define(function (require, exports, module) {
 							imgUrl:imgUrl,
 							authorId:author,
 							price:price,
+							originalPrice:discountPrice,
 							discount:discount,
 							isHot:isHot,
+							typeOrderNo:typeOrderNo,
 							knowledgePointArr:arrId,
-							knowledgePointArrVal:arrName}
+							knowledgePointArrVal:arrName,
+							isCollection:isCollection}
 				
 				$.ajax({
 	        		url:F.basepath+'/cms/textbook/add',
@@ -1016,8 +1034,10 @@ define(function (require, exports, module) {
 				var author = $("#editAuthor").val();
 				var price =$("#editPrice").val();
 				var discount =$("#editDiscount").val();
-				var isHot = $("#editIsHot").attr('checked')=='checked'?1:0;
-				
+				var isHot = $("#editIsHot").val();
+				var typeOrderNo =$("#editTypeOrderNo").val();
+				var isCollection = $("#editIsCollection").attr('checked')=='checked'?1:0;
+				var discountPrice = $("#editDiscountAfterPrice").val();
 				if(gradeNo==0){$("#editMsg").text("请选择年级！");return}
 				if(subjectNo==0){$("#editMsg").text("请选择科目！");return}
 				if(textbookTypeNo==0){$("#editMsg").text("请选择教材类型！");return}
@@ -1025,6 +1045,7 @@ define(function (require, exports, module) {
 				if(imgUrl.length<1){$("#editMsg").text("图片不能为空！");return}
 				if(price.length<1){$("#editMsg").text("价格为必填项！");return}
 				if(discount.length<1){$("#editMsg").text("折扣为必填项！");return}
+				if(discountPrice.length<1){$("#editMsg").text("折扣价为必填项！");return}
 				var datas ={
 						id:id,
 						phaseNo:phaseNo,
@@ -1032,12 +1053,15 @@ define(function (require, exports, module) {
 						subjectNo:subjectNo,
 						textbookTypeNo:textbookTypeNo,
 						price:price,
+						originalPrice:discountPrice,
 						discount:discount,
 						isHot:isHot,
+						isCollection:isCollection,
 						title:title,
 						digest:digest,
 						imgUrl:imgUrl,
 						authorId:author,
+						typeOrderNo:typeOrderNo,
 						knowledgePointArr:arrId,
 						knowledgePointArrVal:arrName};
 				
@@ -1136,6 +1160,7 @@ define(function (require, exports, module) {
 						var file = $("#imgFile").val();
 						var fileName = "http://ekt.oss-cn-shenzhen.aliyuncs.com/textBook/" + getFileName(file);
 						var imgUrl = $("#imgUrl").val(fileName);
+						alert("上传成功！");
 					}
 				} else {
 					alert("上传异常 ")
@@ -1163,6 +1188,7 @@ define(function (require, exports, module) {
 						var file = $("#editImgFile").val();
 						var fileName = "http://ekt.oss-cn-shenzhen.aliyuncs.com/textBook/" + getFileName(file);
 						var editImgUrl = $("#editImgUrl").val(fileName);
+						alert("上传成功！");
 					}
 				} else {
 					alert("上传异常 ")

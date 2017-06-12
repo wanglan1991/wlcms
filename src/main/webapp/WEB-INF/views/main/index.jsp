@@ -414,6 +414,9 @@
 					<shiro:hasPermission name="quintessence:check">
 						<span id="basejs_quintessence_check" style="display: none;" />
 					</shiro:hasPermission>
+					<shiro:hasPermission name="quintessence:edit">
+						<span id="basejs_quintessence_edit" style="display: none;" />
+					</shiro:hasPermission>
 					<shiro:hasPermission name="quintessence:add">
 						<span id="basejs_quintessence_add" style="display: none;" />
 					</shiro:hasPermission>
@@ -430,6 +433,15 @@
 					</shiro:hasPermission>
 					<shiro:hasPermission name="ektUser:permission">
 						<span id="basejs_ektUser_permission" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="ektUser:generateAccount">
+						<span id="basejs_ektUser_generateAccount" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="ektUser:transactional">
+						<span id="basejs_ektUser_transactional" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="ektUser:internalUser">
+						<span id="basejs_ektUser_internalUser" style="display: none;" />
 					</shiro:hasPermission>
 
 
@@ -864,6 +876,9 @@
 			if ($("#basejs_quintessence_check").length > 0) {
 				base.perList.quintessence.check = true;
 			}
+			if ($("#basejs_quintessence_edit").length > 0) {
+				base.perList.quintessence.edit = true;
+			}
 			if ($("#basejs_quintessence_add").length > 0) {
 				base.perList.quintessence.add = true;
 			}
@@ -880,7 +895,16 @@
 			if ($("#basejs_ektUser_permission").length > 0) {
 				base.perList.ektUser.permission = true;
 			}
+			if ($("#basejs_ektUser_generateAccount").length > 0) {
+				base.perList.ektUser.generateAccount = true;
+			}
+			if ($("#basejs_ektUser_transactional").length > 0) {
+				base.perList.ektUser.transactional = true;
+			}
 			
+			if ($("#basejs_ektUser_internalUser").length > 0) {
+				base.perList.ektUser.internalUser = true;
+			}
 			
 			if ($("#basejs_news_check").length > 0) {
 				base.perList.news.check = true;

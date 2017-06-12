@@ -6,26 +6,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.Map;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
-import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.model.PutObjectRequest;
-import com.aliyun.oss.model.PutObjectResult;
-import com.ekt.cms.utils.Constants;
 import com.ekt.cms.utils.ueditor.ActionEnter;
 
 
@@ -41,35 +30,33 @@ import com.ekt.cms.utils.ueditor.ActionEnter;
 @RequestMapping("/uploads")
 public class UploadsController {
 
-	private String BUCKETNAME ="images";
 	
     @RequestMapping(value="/img")
     public void config(HttpServletRequest request, HttpServletResponse response) {
-    	OSSClient client = null;
+    	response.setHeader("Access-Control-Allow-Origin", "*");// 允许任意域名发起的跨域请求
+		response.setHeader("Access-Control-Allow-Methods", "*");
+//		response.setHeader("Access-Control-Allow-Headers", "*");
+		response.setHeader("Access-Control-Allow-Headers", "x-requested-with,x_requested_with");
+		response.setHeader("P3P", "CP=CAO PSA OUR");
     	 try {
-//        response.setContentType("application/json");
+//       response.setContentType("application/json");
         request.setCharacterEncoding("utf-8");
         response.setHeader("Content-Type", "text/html");
         String rootPath = request.getSession()
                 .getServletContext().getRealPath("/");
         
-        
-		        client = new OSSClient(Constants.DEFAULT_OSS_ENDPOINT, 
-						   Constants.DEFAULT_OSS_ACCESS_KEY_ID, 
-						   Constants.DEFAULT_OSS_ACCESS_KEY_SECRET);
-		    
-//		        PutObjectResult putObjectResult = client.putObject(new PutObjectRequest(BUCKETNAME, realKey, file.getInputStream()));
-       
             String exec =new ActionEnter(request, rootPath).exec();
             PrintWriter writer = response.getWriter();
             writer.write(exec);
             writer.flush();
             writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+//            e.printStackTrace();
+            System.out.println("出现了个一个小异常！");
         }
  
     }
+    
     @RequestMapping  
     public String index(){  
         System.out.println(1);  
@@ -86,24 +73,7 @@ public class UploadsController {
         }  
     }  
       
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)    
-    @ResponseBody    
-    public Map<String, String> upload(HttpServletRequest request,@RequestParam CommonsMultipartFile upfile) throws IOException {    
-//        Map<String, String> result = Maps.newHashMap();  
-//        System.out.println(upfile.getFileItem().getFieldName());  
-//        String path = getFilePath(upfile);  
-//        File file = new File(path);  
-//        System.out.println(path);  
-//        String state = "SUCCESS";  
-//        //返回类型    
-//        String rootPath = request.getContextPath();  
-//        result.put("url", rootPath + "/ueditor/show?filePath=" + path);  
-//        result.put("size", String.valueOf(file.length()));    
-//        result.put("type", file.getName().substring(file.getName().lastIndexOf(".")));    
-//        result.put("state", state);    
-//        return result; 
-    	return null;
-    }  
+   
       
     @RequestMapping(value = "/show", method = RequestMethod.GET)  
     public void show(String filePath, HttpServletResponse response) throws IOException {  

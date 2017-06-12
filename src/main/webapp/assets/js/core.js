@@ -27,6 +27,10 @@ define(function(require, exports, module) {
 			
 			return editor;
 			
+		},
+		//去空格
+		Strim:function(str){
+			return str.replace(/(^\s*)|(\s*$)/g,'');		
 		}
 		,
 		
@@ -137,30 +141,26 @@ define(function(require, exports, module) {
 		editGetKnoeledgeOption : function(id, gradeNo, subjectNo, knowledgeId) {
 			$(id).empty();
 			var knowledgesOption = "";
-			$
-					.ajax({
-						url : "/cms/knowledge/listPage",
+					$.ajax({
+						url : "/cms/knowledge/queryByCondition",
 						type : "GET",
 						data : {
 							subjectNo : subjectNo,
 							gradeNo : gradeNo
 						},
 						success : function(data) {
-							if (data.rows.length < 1) {
+							if (data.value.length < 1) {
 								knowledgesOption += "<option value = '0'>-- 无 --</option>";
 							}
-							for (var i = 0; i < data.rows.length; i++) {
-								if (data.rows[i].id == knowledgeId) {
-									knowledgesOption += "<option value = '"
-											+ data.rows[i].id
-											+ " selected='selected' >"
-											+ data.rows[i].title + "</option>"
+							for (var i = 0; i < data.value.length; i++) {
+								if (data.value[i].id == knowledgeId) {
+									knowledgesOption += "<option value = '"+ data.value[i].id+ "' selected='selected' >"
+											+ data.value[i].title + "</option>"
 								} else {
-									knowledgesOption += "<option value = '"
-											+ data.rows[i].id + "'>"
-											+ data.rows[i].title + "</option>"
+									knowledgesOption += "<option value = '"+ data.value[i].id + "'>"+ data.value[i].title + "</option>"
 								}
 							}
+							
 							$(id).append(knowledgesOption);
 						}
 					})

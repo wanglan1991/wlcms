@@ -20,6 +20,16 @@ public class CmsAccount {
 	private String roleName;
 	
 	private int ektapiUserId;
+	
+	private Integer parentId;
+
+	public Integer getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
+	}
 
 	public int getEktapiUserId() {
 		return ektapiUserId;

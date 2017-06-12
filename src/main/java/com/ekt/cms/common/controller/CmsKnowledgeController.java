@@ -51,31 +51,38 @@ public class CmsKnowledgeController {
 		return result;
 	}
 
+	/**
+	 * 添加知识点
+	 * @param cmsKnowledge
+	 * @return
+	 */
 	@RequestMapping("/addKnowledge")
 	@ResponseBody
 	public Result insert(CmsKnowledge cmsKnowledge) {
 		Result result = Result.getResults();
 		List<String>list=new ArrayList<String>();
 		String[]title=cmsKnowledge.getTitle().split(",");
-		int listSize =  cmsKnowledgeService.knowledgelist(cmsKnowledge).size();
-		int rs =0;
+		int rs =cmsKnowledge.getOrderNo();
+		int total = 0;
 		for(String str:title){
 			if(str.equals("")){
 				continue;
 			}
 			cmsKnowledge.setTitle(str);
 			if(cmsKnowledgeService.queryByTitle(cmsKnowledge).size()!=0){ 
-				list.add(str);				
+				list.add(str);	
+				rs++;
 			}else{
 				cmsKnowledge.setTitle(str);
-				cmsKnowledge.setOrderNo(listSize>0?(listSize+rs+1):rs+1);
-				rs += cmsKnowledgeService.insert(cmsKnowledge);
+				cmsKnowledge.setOrderNo(rs);
+				rs++;
+				total+=cmsKnowledgeService.insert(cmsKnowledge);
 			}
 			
 		}
 		
 		result.setResult(rs);
-		result.setMsg("成功添加"+rs+"个知识点！"+(list.size()>0?list.toString()+"已存在无法被添加！":""));
+		result.setMsg("成功添加"+total+"个知识点！"+(list.size()>0?list.toString()+"已存在无法被添加！":""));
 		return result;
 	}
 

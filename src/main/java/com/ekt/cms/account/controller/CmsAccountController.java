@@ -18,7 +18,8 @@ import com.ekt.cms.account.service.ICmsAccountService;
 import com.ekt.cms.common.BaseController;
 import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.role.service.ICmsRoleService;
-import com.ekt.cms.utils.Md5Utils;
+import com.ekt.cms.utils.CMSConstants;
+import com.ekt.cms.utils.EncryptUtil;
 import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.utils.pageHelper.PageContext;
 
@@ -46,6 +47,9 @@ public class CmsAccountController extends BaseController {
 		if (account != null && account.getUserName().equals("CMSROOT")) {
 			cmsAccount.setId(account.getId());
 		}
+		if(account != null &&account.getRole()!=CMSConstants.ADMIN&&account.getRole()!=CMSConstants.ROOT){
+			cmsAccount.setParentId(account.getId());
+		}
 		page.paging();
 		return cmsAccountService.listPage(cmsAccount);
 	}
@@ -58,8 +62,14 @@ public class CmsAccountController extends BaseController {
 	@RequestMapping("/roleList")
 	@ResponseBody
 	public Result getRoleList() {
+		CmsAccount account = getCurrentAccount();
 		Result result = Result.getResults();
-		result.setValue(cmsRoleService.getCmsRoleList());
+		if(account != null &&account.getRole()!=CMSConstants.ADMIN&&account.getRole()!=CMSConstants.ROOT){
+			result.setValue(cmsRoleService.getCmsRoleList(account.getRole()));
+		}else{
+			result.setValue(cmsRoleService.getCmsRoleList(0));
+		}
+		
 		return result;
 
 	}
@@ -101,7 +111,6 @@ public class CmsAccountController extends BaseController {
 	@ResponseBody
 	public Result addAccount(@Valid CmsAccount cmsAccount, BindingResult bindingResult) throws Exception {
 		Result result = Result.getResults();
-		CmsAccount Account = cmsAccountService.queryByUserName(cmsAccount.getUserName());
 		List<FieldError> fieldErrors = bindingResult.getFieldErrors();
 		if (fieldErrors != null && !fieldErrors.isEmpty()) {
 			for (FieldError fieldError : fieldErrors) {
@@ -110,12 +119,20 @@ public class CmsAccountController extends BaseController {
 			result.setOk(false);
 			return result;
 		}
+		CmsAccount currentAccount = getCurrentAccount();
+		CmsAccount Account = cmsAccountService.queryByUserName(cmsAccount.getUserName());
+		
 		if (Account != null) {
 			result.setMsg("用户名已经存在！");
 			return result;
 		}
 		// 设置用户密码
-		cmsAccount.setPassword(Md5Utils.getMd5Encode(cmsAccount.getPassword()));
+		cmsAccount.setPassword(EncryptUtil.encryptPassword(cmsAccount.getPassword()));
+		//如果不是管理员
+		if(currentAccount != null &&currentAccount.getRole()!=CMSConstants.ADMIN&&currentAccount.getRole()!=CMSConstants.ROOT){
+			cmsAccount.setParentId(currentAccount.getId());
+		}
+		
 		// 添加用户
 		result.setResult(cmsAccountService.addAccount(cmsAccount));
 
@@ -152,7 +169,7 @@ public class CmsAccountController extends BaseController {
 			result.setMsg("非法请求！");
 			return result;
 		}
-		cmsAccount.setPassword(Md5Utils.getMd5Encode("123456789"));
+		cmsAccount.setPassword(EncryptUtil.encryptPassword("123456789"));
 		result.setResult(cmsAccountService.setPwd(cmsAccount));
 		return result;
 	}
@@ -222,7 +239,7 @@ public class CmsAccountController extends BaseController {
 	public Result validPassword(@RequestParam("password") String password) {
 		CmsAccount account = cmsAccountService.selectByPrimaryKey(getCurrentAccount().getId());
 		String pwd = account.getPassword();
-		if (!Md5Utils.getMd5Encode(password).equals(pwd)) {
+		if (!EncryptUtil.checkPassword( pwd,password)) {
 			return Result.getResults(-1, "密码错误请重新验证！");
 		} else {
 			return Result.getResults(1, "请输入新密码");
@@ -239,7 +256,7 @@ public class CmsAccountController extends BaseController {
 	@RequestMapping("/updatePassword")
 	@ResponseBody
 	public Result updatePassword(@RequestParam("password") String password) {
-		String md5Pwd = Md5Utils.getMd5Encode(password);
+		String md5Pwd = EncryptUtil.encryptPassword(password);
 		CmsAccount cmsAccount = new CmsAccount(getCurrentAccount().getId(), md5Pwd);
 		int count = cmsAccountService.setPwd(cmsAccount);
 		SecurityUtils.getSubject(); 

@@ -21,11 +21,12 @@ import com.ekt.cms.quintessence.entity.CmsQuintessence;
 import com.ekt.cms.quintessence.service.ICmsQuintessenceService;
 import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.utils.pageHelper.PageContext;
+import com.ekt.cms.video.entity.Testpaper;
 import com.ekt.cms.video.service.ICmsTestpaperService;
 
 /** 
 * @ClassName: QuintessenceController 
-* @Description: TODO(每日精选控制器) 
+* @Description: TODO(题库选控制器) 
 * @author wanglan
 * @date 2016年8月25日 上午11:20:25 
 *  
@@ -56,7 +57,7 @@ public class CmsQuintessenceController extends BaseController{
 	 * 加载列表 带分页
 	 * @param page
 	 * @param quintessence
-	 * @return 精选列表
+	 * @return 题库列表
 	 */
 	@RequestMapping(value = "/listPage")
 	@ResponseBody
@@ -111,6 +112,17 @@ public class CmsQuintessenceController extends BaseController{
 		return Result.getResults(result);
 	}
 	
+	
+	/**
+	 * 编辑精选组卷
+	 * @param quintessence
+	 * @return
+	 */
+	@RequestMapping(value = "/edit")
+	@ResponseBody
+	public Result edit(Testpaper testpaper){
+		return Result.getResults(testpaperService.updateTestpaper(testpaper));
+	}
 	
 	
 

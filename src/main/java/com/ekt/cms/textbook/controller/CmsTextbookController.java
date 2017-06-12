@@ -15,8 +15,6 @@ import com.ekt.cms.common.BaseController;
 import com.ekt.cms.common.entity.CmsKnowledge;
 import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.common.service.ICmsKnowledgeService;
-import com.ekt.cms.textbook.entity.CmsCatalog;
-import com.ekt.cms.textbook.entity.CmsCatalogMessage;
 import com.ekt.cms.textbook.entity.CmsTextbook;
 import com.ekt.cms.textbook.service.ICmsCatalogService;
 import com.ekt.cms.textbook.service.ICmsTextbookService;
@@ -206,63 +204,63 @@ public class CmsTextbookController extends BaseController {
 		return result;
 	}
 
-	/**
-	 * 拆分选课成单品
-	 * 
-	 * @return
-	 */
-	@RequestMapping("/splitTextbook")
-	@ResponseBody
-	@Transactional
-	public Result splitTextbook(@RequestParam("ids") String arr) {
-		Result result = Result.getResults();
-		String[] ids = arr.split(",");
-		String msg = "";
-		if (ids.length > 0) {
-			List<CmsCatalogMessage> data = cmsTextbookService.selectCatalogById(ids);
-			if (data != null) {
-				// cmsTextbookService.addTextbook(cmsTextbook)
-				for (CmsCatalogMessage cm : data) {
-					CmsTextbook textbook = new CmsTextbook();
-					textbook.setTitle(cm.getCatalogName());
-					textbook.setGradeNo(cm.getGradeNo());
-					textbook.setSubjectNo(cm.getSubjectNo());
-					textbook.setPhaseNo(cm.getPhaseNo());
-					if (cmsTextbookService.getTextbookCountByTextbookTitle(textbook.getTitle()) > 0) {
-						continue;
-					} else {
-						CmsTextbook book = cm.getTextbook();
-						// 设置录入人
-						book.setInputAccountId(getCurrentAccount().getId());
-						// 1.添加选课 并返回该行id
-						int result1 = cmsTextbookService.addTextbook(book);
-						// 2.从cm中 构造 catalog 章
-						CmsCatalog z = cm.getCatalog(book.getId(), 51, 0, 0);
-						// 3.添加该选课的章并返回id
-						int result2 = cmsCatalogService.add(z);
-						// 4.从cm中构造 catalog 节
-						CmsCatalog j = cm.getCatalog(book.getId(), 52, 0, z.getId());
-						// 5.添加该选课节并
-						int result3 = cmsCatalogService.add(j);
-						if (result1 != 0 && result2 != 0 && result3 != 0) {
-							result.setResult(1);
-						} else {
-							result.setMsg("添加失败！");
-							result.setResult(-1);
-						}
-					}
-				}
-			} else {
-				result.setResult(-1);
-				result.setMsg("根据所选项获取数据异常 请联系管理员！");
-			}
-		}
-		if (msg.length() > 0) {
-			result.setResult(-1);
-			result.setMsg(msg.substring(0, msg.length() - 1) + "已经存在无法添加！");
-		}
-		return result;
-	}
+//	/**
+////	 * 拆分选课成单品
+//	 * 
+//	 * @return
+//	 */
+//	@RequestMapping("/splitTextbook")
+//	@ResponseBody
+//	@Transactional
+//	public Result splitTextbook(@RequestParam("ids") String arr) {
+//		Result result = Result.getResults();
+//		String[] ids = arr.split(",");
+//		String msg = "";
+//		if (ids.length > 0) {
+//			List<CmsCatalogMessage> data = cmsTextbookService.selectCatalogById(ids);
+//			if (data != null) {
+//				// cmsTextbookService.addTextbook(cmsTextbook)
+//				for (CmsCatalogMessage cm : data) {
+//					CmsTextbook textbook = new CmsTextbook();
+//					textbook.setTitle(cm.getCatalogName());
+//					textbook.setGradeNo(cm.getGradeNo());
+//					textbook.setSubjectNo(cm.getSubjectNo());
+//					textbook.setPhaseNo(cm.getPhaseNo());
+//					if (cmsTextbookService.getTextbookCountByTextbookTitle(textbook.getTitle()) > 0) {
+//						continue;
+//					} else {
+//						CmsTextbook book = cm.getTextbook();
+//						// 设置录入人
+//						book.setInputAccountId(getCurrentAccount().getId());
+//						// 1.添加选课 并返回该行id
+//						int result1 = cmsTextbookService.addTextbook(book);
+//						// 2.从cm中 构造 catalog 章
+//						CmsCatalog z = cm.getCatalog(book.getId(), 51, 0, 0);
+//						// 3.添加该选课的章并返回id
+//						int result2 = cmsCatalogService.add(z);
+//						// 4.从cm中构造 catalog 节
+//						CmsCatalog j = cm.getCatalog(book.getId(), 52, 0, z.getId());
+//						// 5.添加该选课节并
+//						int result3 = cmsCatalogService.add(j);
+//						if (result1 != 0 && result2 != 0 && result3 != 0) {
+//							result.setResult(1);
+//						} else {
+//							result.setMsg("添加失败！");
+//							result.setResult(-1);
+//						}
+//					}
+//				}
+//			} else {
+//				result.setResult(-1);
+//				result.setMsg("根据所选项获取数据异常 请联系管理员！");
+//			}
+//		}
+//		if (msg.length() > 0) {
+//			result.setResult(-1);
+//			result.setMsg(msg.substring(0, msg.length() - 1) + "已经存在无法添加！");
+//		}
+//		return result;
+//	}
 	
 	/**
 	 * 推荐或取消推荐

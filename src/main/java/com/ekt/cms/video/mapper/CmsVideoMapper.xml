@@ -71,10 +71,11 @@
 	
 	<!-- 分页查询 -->
 	<select id="listPage" parameterType="com.ekt.cms.video.entity.CmsVideo" resultMap='BaseMap'>
-	SELECT a.*,
-		e1.grade_no AS exercise_grade_no,
-		e1.subject_no AS exercise_subject_no,
-		e1.knoeledge_id AS exercise_knoeledge_id FROM (
+		SELECT a.*,
+		a.grade_no AS exercise_grade_no,
+		a.subject_no AS exercise_subject_no,
+		IF(a.t_id IS NULL,0,a.t_id)AS textbook_id,
+		SUBSTR(a.knowledge_point_arr , 2 , LENGTH(a.knowledge_point_arr)-2) AS exercise_knoeledge_id FROM (
 				SELECT
 					v.id ,
 					v.video_name,
@@ -87,50 +88,44 @@
 					a.real_name author,
 					v.duration,
 					v.image_url,
-					knowledge_id,
+					SUBSTR(v.knowledge_id,2,LENGTH(v.knowledge_id) - 2) AS knowledge_id,
 					v.status status,
 					transcode_status,
 					 knowledge,
 					v.grade_no grade_no,
 					d.value grade,
 					v.subject_no subject_no,
+					t1.knowledge_point_arr,
 					d1.value subject,
 					v.price,
 					v.discount,
-					IF(t.id IS NULL,0,t.id)AS textbook_id,
-					COUNT(e.id IS NOT NULL OR NULL) AS exercise_count,
-					IF(t1.id IS NOT NULL,1,0)AS has_testpaper,
+					(SELECT COUNT(1) FROM api_video_exercise e WHERE e.video_id=v.id) AS exercise_count,
+					(SELECT textbook_id FROM cms_catalog WHERE catalog_level=52 AND v.id=video_id LIMIT 1)AS t_id,
+						IF(t1.id IS NOT NULL,1,0)AS has_testpaper,
 					v.sub_video_key
 				FROM
 					cms_video v
-				LEFT JOIN cms_dictionary d on v.grade_no=d.id
-				LEFT JOIN cms_dictionary d1 on v.subject_no=d1.id
-				LEFT JOIN cms_account a on a.id= v.author_id
-				LEFT JOIN cms_textbook t on t.title=v.video_name
-				LEFT JOIN api_video_exercise e on e.video_id=v.id
-				LEFT JOIN api_testpaper t1 on t1.video_id=v.id
+				INNER JOIN cms_dictionary d on v.grade_no=d.id
+				INNER JOIN cms_dictionary d1 on v.subject_no=d1.id
+				LEFT JOIN cms_account a on a.id= v.author_id						
+				LEFT JOIN (SELECT id,video_id,knowledge_point_arr FROM api_testpaper WHERE type=3 AND  examine_status = 1 AND `status`=1 AND video_id IS NOT NULL) t1 on t1.video_id=v.id
 				WHERE 1=1 
+				<if test="CmsVideo.videoName !=null and CmsVideo.videoName != ''">
+					AND (v.video_name like '%${CmsVideo.videoName}%' OR (v.knowledge like '%${CmsVideo.knowledge}%'))
+				</if>
 				
-		<if test="CmsVideo.videoName !=null and CmsVideo.videoName != ''">
-			AND (video_name like '%${CmsVideo.videoName}%')
-		</if>
-		<if test="CmsVideo.knowledge !=null and CmsVideo.knowledge != ''">
-			OR (knowledge like '%${CmsVideo.knowledge}%')
-		</if>
-		<if test="CmsVideo.gradeNo !=null and CmsVideo.gradeNo !=0" >
-			AND v.grade_no=#{CmsVideo.gradeNo ,jdbcType=INTEGER}
-		</if>
-		<if test="CmsVideo.subjectNo !=null and CmsVideo.subjectNo !=0">
-			AND v.subject_no=#{CmsVideo.subjectNo, jdbcType=INTEGER}
-		</if>
-		<if test="CmsVideo.authorId !=null and CmsVideo.authorId !=0" >
-			AND (author_id = #{CmsVideo.authorId})
-		</if>
-		GROUP BY v.id
-		) AS a
-			LEFT JOIN api_video_exercise e on e.video_id=a.id
-			LEFT JOIN cms_exercise e1 on e1.id=e.exercise_id
-			GROUP BY a.id
+					
+				
+				<if test="CmsVideo.gradeNo !=null and CmsVideo.gradeNo !=0" >
+					AND v.grade_no=#{CmsVideo.gradeNo ,jdbcType=INTEGER}
+				</if>
+				<if test="CmsVideo.subjectNo !=null and CmsVideo.subjectNo !=0">
+					AND v.subject_no=#{CmsVideo.subjectNo, jdbcType=INTEGER}
+				</if>
+				<if test="CmsVideo.authorId !=null and CmsVideo.authorId !=0" >
+					AND (v.author_id = #{CmsVideo.authorId})
+				</if>
+			)AS a 
 	</select>
 	<!-- 按主键删除 -->
 	<delete id="delete" parameterType="java.lang.Integer">
@@ -182,10 +177,10 @@
 			author_id=#{CmsVideo.authorId},
 			</if>
 			<if test="CmsVideo.knowledgeId !=null and CmsVideo.knowledgeId != ''">
-			knowledge_id=#{CmsVideo.knowledgeId},
+			knowledge_id=CONCAT(',',#{CmsVideo.knowledgeId}),
 			</if>
 			<if test="CmsVideo.knowledge !=null and CmsVideo.knowledge != ''">
-			 knowledge = #{CmsVideo.knowledge},
+			 knowledge = CONCAT(',',#{CmsVideo.knowledge}),
 			</if>
 			<if test="CmsVideo.gradeNo !=null and CmsVideo.gradeNo !=0" >
 			 grade_no= #{CmsVideo.gradeNo ,jdbcType=INTEGER},
@@ -243,10 +238,10 @@
 			#{CmsVideo.authorId},
 			#{CmsVideo.duration},
 			#{CmsVideo.imageUrl},
-			#{CmsVideo.knowledgeId},
+			CONCAT(',',#{CmsVideo.knowledgeId}),
 			#{CmsVideo.gradeNo},
 			#{CmsVideo.subjectNo},
-			#{CmsVideo.knowledge},
+			CONCAT(',',#{CmsVideo.knowledge}),
 			#{CmsVideo.videoKey},
 			1,
 			#{CmsVideo.price},

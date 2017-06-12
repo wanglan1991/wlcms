@@ -24,6 +24,10 @@
   			<if test="cmsRole.encoding !=null and cmsRole.encoding !='' ">
   		AND encoding=#{cmsRole.encoding}	
   			</if>  
+  			
+  		<if test="cmsRole.parentId !=null and cmsRole.parentId!=0">
+  		AND parent_id=#{cmsRole.parentId}
+  		</if>
 		<if test="cmsRole.id !=1">
 			AND id&lt;&gt;1
 		</if>
@@ -36,18 +40,21 @@
 			AND id = #{cmsRole.id}
 		</if>
 		<if test="cmsRole.encoding != null and cmsRole.encoding != '' ">
-			AND id = #{cmsRole.encoding}
+			AND encoding = #{cmsRole.encoding}
 		</if>
 		<if test="cmsRole.status != null and cmsRole.status != '' ">
-			AND id = #{cmsRole.status}
+			AND status = #{cmsRole.status}
+		</if>
+		<if test="cmsRole.parentId!=0">
+			AND  parent_id=#{cmsRole.parentId}
 		</if>
 			AND id&lt;&gt;1
 	</select>
 	<insert id="addCmsRole"  parameterType="com.ekt.cms.role.entity.CmsRole">
 		INSERT INTO 
-			cms_role ( `name` , `encoding` , `create_time`,`status`) 
+			cms_role ( `name` , `encoding` , `create_time`,`status`,`parent_id`) 
 		VALUES 
-		    (#{cmsRole.name,jdbcType=VARCHAR}, #{cmsRole.encoding,jdbcType=VARCHAR}, SYSDATE(),1)
+		    (#{cmsRole.name,jdbcType=VARCHAR}, #{cmsRole.encoding,jdbcType=VARCHAR}, SYSDATE(),1,#{cmsRole.parentId})
 		<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
 			SELECT LAST_INSERT_ID()
 		</selectKey>
@@ -127,7 +134,26 @@
 			WHERE
 				role_id = #{roleId}
 			) AS b ON a.id = b.permission_id
-				
+			ORDER BY a.pId ,a.id
+	</select>	
+	
+	<select id='getTreeByRoleId2' resultType='java.util.Map'  parameterType='java.lang.Integer'>
+		SELECT a.*,if(p.id is null ,'false','true')checked FROM (
+	SELECT
+				a.id,'false'chkDisabled,a.name,'false'oncheck,'true'open,a.pId,IF(a.LEVEL=2,'false','true')parent
+			FROM
+				( SELECT id,NAME,pid,LEVEL FROM cms_permission ) AS a
+			LEFT JOIN (
+			SELECT
+				permission_id
+			FROM
+				cms_role_permission
+			WHERE
+				role_id = #{parentId}
+			) AS b ON a.id = b.permission_id
+			WHERE 	b.permission_id IS NOT NULL)AS a
+					LEFT JOIN cms_role_permission p ON p.permission_id=a.id AND p.role_id=#{roleId}
+			ORDER BY a.pId ,a.id
 	</select>	
 	<delete id="delPermissionByRoleId" parameterType='java.lang.Integer'>
 		DELETE FROM cms_role_permission

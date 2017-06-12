@@ -14,7 +14,7 @@
 <body>
 <!-- <div class='span9 box bordered-box blue-border' style='margin-bottom:0;'> -->
   <div class='box-header' id="user-header">
-    <div class='actions'></div>
+    <div class='actions' id="accountActions"></div>
   </div>
   <div class='box-content box-no-padding'>
     <div class='responsive-table'>

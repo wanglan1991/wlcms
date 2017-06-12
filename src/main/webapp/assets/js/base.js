@@ -226,6 +226,7 @@ define(function (require, exports, module) {
             },
        quintessence:{
 	    	    check:false,
+	    	    edit:false,
 	            add:false,
 	            del:false,
        			},
@@ -233,6 +234,8 @@ define(function (require, exports, module) {
     	    check:false,
     	    confine:false,
     	    permission:false,
+    	    generateAccount:false,
+    	    transactional:false
    			},
    		news:{
    			check:false,

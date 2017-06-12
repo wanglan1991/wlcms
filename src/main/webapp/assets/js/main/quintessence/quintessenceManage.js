@@ -119,17 +119,23 @@ define(function(require, exports, module) {
 						ids.push(row.id);
 						F.confine(ids);
 					
+				},//编辑精选组卷
+				'click .editQuintessence' : function(e, value, row, index){
+					core.openModel('modal-editTestpaper',row.testpaperName,function(){
+						$("#modal-editTestpaper").attr("t_id",row.id);
+						$("#testpaperTitle").val(row.testpaperName);
+						$("#testpaperDigest").val(row.digest);
+						core.getEditDictOptions("难易度","difficulty","#testpaperDifficulty",row.difficultyNo);
+		        	});
 				}
 			}
-
-			if (base.perList.quintessence.del) {
 				cols.push({
-					align : 'center',
+					align : 'left',
 					title : '操作',
 					events : operateEvents,
 					formatter : F.operateFormatter
 				});
-			}
+			
 
 			/**
 			 * 用户列表
@@ -156,6 +162,44 @@ define(function(require, exports, module) {
 							});
 						}
 					});
+			
+			
+			/**
+			 * 编辑保存每日精选组卷
+			 */
+			$("#quintessenceBtnSubmit").click(function(){
+				var title = $("#testpaperTitle").val();//标题
+				var digest = $("#testpaperDigest").val();//简介
+				var difficulty = $("#testpaperDifficulty").val();//难易度value
+				var testpaperId = $("#modal-editTestpaper").attr("t_id");//组卷id
+			
+				if(core.trim(title).length==0){$("#quintessenceMsg").html("试卷标题不能为空！");return;}else{$("#quintessenceMsg").html("")}
+				if(core.trim(digest).length==0){$("#quintessenceMsg").html("试卷简介不能为空！");return;}else{$("#quintessenceMsg").html("")}
+				if(difficulty==0){$("#quintessenceMsg").html("试卷难易度必须！");return;}else{$("#quintessenceMsg").html("")}
+				
+				$.ajax({
+					url : F.basepath + '/quintessence/edit',
+					type : 'post',
+					data : {
+						id:testpaperId,
+						testpaperName:title,
+						digest:digest,
+						difficultyNo:difficulty
+					},
+					success : function(data) {
+						if (data.result > 0) {
+							$("#quintessenceMsg").next().click();//关闭模态框
+							F.table.reload();
+						}else{
+							alert("修改失败！");
+						}
+					}
+				})
+				
+				
+			})
+			
+			
 			
 			
 			
@@ -244,9 +288,15 @@ define(function(require, exports, module) {
 						+ "btn-primary btn-small' href='#' title='显示或者隐藏' style='margin-left:5px'>"
 						+ (row.examineStatus == 1 ? "显示" : "隐藏") + "</a>"
 			}
+			
 			if (base.perList.quintessence.del) {
 				_btnAction += "<a class='delQuintessence btn btn-danger btn-small' href='#' title='删除' style='margin-left:5px'>删除</a>"
 			}
+			
+			if (base.perList.quintessence.edit&&row.typeNo==2&&row.examineStatus == 1) {
+				_btnAction += "<a class='editQuintessence btn btn-success btn-small' href='#' title='编辑' style='margin-left:5px'>编辑</a>"
+			}
+			
 			return _btnAction;
 		},
 
