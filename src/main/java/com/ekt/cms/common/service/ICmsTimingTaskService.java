@@ -7,5 +7,11 @@ public interface ICmsTimingTaskService {
 	 * @return
 	 */
 	public int insertTodayActiveReportData();
+	
+	/**
+	 * 交易失效后 归还该交易中使用的优惠劵
+	 * @return
+	 */
+	public int returnCoupons();
 
 }
