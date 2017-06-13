@@ -27,6 +27,7 @@ import com.ekt.cms.exercise.entity.CmsAnswer;
 import com.ekt.cms.exercise.entity.CmsExercise;
 import com.ekt.cms.exercise.service.ICmsAnswerService;
 import com.ekt.cms.exercise.service.ICmsExerciseService;
+import com.ekt.cms.utils.CMSConstants;
 
 /**
  * 2016-04-28
@@ -84,9 +85,7 @@ public class CmsExerciseUploadController extends BaseController {
 
 			// ---------------------读--------取--------xlsx,xls文件------------------------开始
 			// 构造 XSSFWorkbook 对象，strPath 传入文件路径
-			XSSFWorkbook xwb;
-
-			xwb = new XSSFWorkbook(path);
+			XSSFWorkbook xwb = new XSSFWorkbook(path);
 
 			// 读取第一章表格内容
 			XSSFSheet sheet = xwb.getSheetAt(0);
@@ -100,6 +99,11 @@ public class CmsExerciseUploadController extends BaseController {
 			// 循环输出表格中的内容
 			for (int i = sheet.getFirstRowNum() + 2; i < sheet.getPhysicalNumberOfRows(); i++) {
 				row = sheet.getRow(i);
+				if (row.getPhysicalNumberOfCells() > 11) {
+					msg+="【E】 超出录入规范的列数。\n";
+					break;
+					
+				}
 				CmsExercise exercise = new CmsExercise();
 				for (int j = row.getFirstCellNum(); j < row.getPhysicalNumberOfCells(); j++) {
 					cell = row.getCell(j).toString();
@@ -107,29 +111,27 @@ public class CmsExerciseUploadController extends BaseController {
 						flag=true;
 						break;
 					}
-					if (row.getPhysicalNumberOfCells() > 10) {
-						break;
-					}
+					
 					if (j == 0) {
 						exercise.setIndex((int)Double.parseDouble(cell));
-					} else if (j == 1 && cell.trim().length() > 0) {
-						Integer grade =dictService.queryByDictName(cell).getId();
-						exercise.setGradeNo(grade);
-						exercise.setPhaseNo(grade==19||grade==20||grade==21?61:60);
-					} else if (j == 2 && cell.trim().length() > 0) {
-						exercise.setSubjectNo(dictService.queryByDictName(cell).getId());
+					} else if(j == 1 && cell.trim().length() > 0){
+						exercise.setPhaseNo(dictService.exerciseQueryByDictNameAndEncoding(cell, CMSConstants.PHASE).getId());//设置学段
+					}else if (j == 2 && cell.trim().length() > 0) {
+						exercise.setGradeNo(dictService.exerciseQueryByDictNameAndEncoding(cell,CMSConstants.GRADE).getId());//设置年级					
 					} else if (j == 3 && cell.trim().length() > 0) {
-						exercise.setTypeNo(dictService.queryByDictName(cell).getId());
+						exercise.setSubjectNo(dictService.exerciseQueryByDictNameAndEncoding(cell,CMSConstants.SUBJECT).getId());//设置科目
 					} else if (j == 4 && cell.trim().length() > 0) {
-						exercise.setCategoryNo(dictService.queryByDictName(cell).getId());
+						exercise.setTypeNo(dictService.exerciseQueryByDictNameAndEncoding(cell,CMSConstants.EXERCISE_TYPE).getId());//设置类型
 					} else if (j == 5 && cell.trim().length() > 0) {
-						exercise.setDifficultyNo(dictService.queryByDictName(cell).getId());
+						exercise.setCategoryNo(dictService.exerciseQueryByDictNameAndEncoding(cell,CMSConstants.CATEGORY).getId());//设置题类
 					} else if (j == 6 && cell.trim().length() > 0) {
+						exercise.setDifficultyNo(dictService.exerciseQueryByDictNameAndEncoding(cell,CMSConstants.DIFFICULTY).getId());//设置难易度
+					} else if (j == 7 && cell.trim().length() > 0) {
 						exercise.setKnowledges(cell);
 						exercise.setKnowledgeId(cmsKnowledgeService.getKnowledgeByName(cell).getId());
-					} else if (j == 7 && cell.trim().length() > 0) {
+					} else if (j == 8 && cell.trim().length() > 0) {
 						exercise.setContent(cell);
-					} else if (j == 8) {
+					} else if (j == 9) {
 						if( cell.split("`").length>=2){
 							String[] answerArr = cell.split("`");
 							List<CmsAnswer> answerList = new ArrayList<CmsAnswer>();
@@ -154,15 +156,17 @@ public class CmsExerciseUploadController extends BaseController {
 							continue;
 						}
 						
-					} else if (j == 9 && cell.trim().length() > 0) {
+					} else if (j == 10 && cell.trim().length() > 0) {
 						exercise.setAnalysis(cell);
 					}
 				}
 				if(flag){
 					continue;
 				}
-				if (exercise.getGradeNo() == null || exercise.getSubjectNo() == null
-						|| exercise.getDifficultyNo() == null || exercise.getKnowledgeId() == null
+				if ( exercise.getSubjectNo() == null
+						|| exercise.getPhaseNo() ==null
+						|| exercise.getDifficultyNo() == null 
+						|| exercise.getCategoryNo() == null
 						|| exercise.getContent() == null || exercise.getTypeNo() == null
 						|| exercise.getOptions() == null||exercise.getErrorMsg()!=null){
 					msg += "【E】习题序号为:[" + exercise.getIndex() + "] 添加失败！ 原因:";
@@ -173,20 +177,17 @@ public class CmsExerciseUploadController extends BaseController {
 					if(exercise.getErrorMsg()!=null){
 						msg+=exercise.getErrorMsg();
 					}
-					if(exercise.getGradeNo()==null){
-						msg+="年级、";
-					}else{
-						int grade =exercise.getGradeNo();
-						exercise.setPhaseNo(grade==19||grade==20||grade==21?60:61);
+					if(exercise.getCategoryNo()==null){
+						msg+="题类、";
 					}
+					if(exercise.getPhaseNo()==null){
+						msg+="学段、";
+					}					
 					if(exercise.getSubjectNo()==null){
 						msg+="科目、";
 					}
 					if(exercise.getDifficultyNo()==null){
 						msg+="难易度、";
-					}
-					if(exercise.getKnowledgeId()==null){
-						msg+="知识点、";
 					}
 					if(exercise.getContent()==null){
 						msg+="习题内容、";

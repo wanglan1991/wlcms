@@ -29,6 +29,16 @@ public class CmsCatalog {
 	private String videoFileName;
 	// 目录集合
 	private List<CmsCatalog> catalogList;
+	//视频ID
+	private Integer videoId;
+
+	public Integer getVideoId() {
+		return videoId;
+	}
+
+	public void setVideoId(Integer videoId) {
+		this.videoId = videoId;
+	}
 
 	public String getVideoFileName() {
 		return videoFileName;
@@ -123,7 +133,7 @@ public class CmsCatalog {
 	}
 
 	public CmsCatalog(String catalogName, int textbookId, int orderNo, int parentId, int catalogLevel,
-			String introduction, String videoFileName) {
+			String introduction, String videoFileName,Integer videoId) {
 		this.catalogName=catalogName;
 		this.textbookId= textbookId;
 		this.orderNo=orderNo;
@@ -131,6 +141,7 @@ public class CmsCatalog {
 		this.catalogLevel=catalogLevel;
 		this.introduction=introduction;
 		this.videoFileName=videoFileName;
+		this.videoId=videoId;
 	}
 
 }

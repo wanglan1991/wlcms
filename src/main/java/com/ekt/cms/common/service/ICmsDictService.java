@@ -21,6 +21,13 @@ public interface ICmsDictService {
 	public int confine(CmsDict dict);
 	
 	public CmsDict queryByDictName(String value);
+	/**
+	 * 上传习题时用到的字典查询接口
+	 * @param value
+	 * @param encoding
+	 * @return
+	 */
+	public CmsDict exerciseQueryByDictNameAndEncoding(String value,String encoding);
 	
 	public int insert(CmsDict dict);
 	

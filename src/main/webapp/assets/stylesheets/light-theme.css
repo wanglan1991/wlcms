@@ -2892,9 +2892,10 @@ body.sign-in, body.sign-up, body.forgot-password {
 /*       width: 100%; */
 /*       position: relative; */
 /*       background-color: white; */
-      -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-      -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
+/*       -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); */
+/*       -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); */
+/*       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);  */
+      }
       body.sign-in #wrapper .controls .caret, body.sign-up #wrapper .controls .caret, body.forgot-password #wrapper .controls .caret {
         position: absolute;
         margin-left: -10px;
@@ -4506,8 +4507,15 @@ div.jGrowl div.jGrowl-notification, div.jGrowl div.jGrowl-closer {
 .contrast-blue .box .box-header.contrast-background .actions .btn-link:hover {
   color: #00acec !important; }
 .contrast-blue.contrast-background, .contrast-blue .contrast-background {
-	overflow:hidden;
-     background: url(/cms/assets/images/background.png) no-repeat center;
+	height: 200px;
+/*     background: -webkit-linear-gradient(red, blue); Safari 5.1 - 6.0 */
+/*     background: -o-linear-gradient(red, blue); Opera 11.1 - 12.0 */
+/*     background: -moz-linear-gradient(red, blue); Firefox 3.6 - 15 */
+/*     background: linear-gradient(red, blue); 标准的语法（必须放在最后） */
+	
+	
+	 overflow:hidden;
+/*      background: url(/cms/assets/images/background.png) no-repeat center; */
      background-size: cover;
 /*   background: #00acec !important;  */
   }

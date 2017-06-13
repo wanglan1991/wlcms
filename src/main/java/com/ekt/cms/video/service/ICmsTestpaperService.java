@@ -1,7 +1,6 @@
 package com.ekt.cms.video.service;
 
 import java.util.List;
-
 import com.ekt.cms.video.entity.ExerciseDetail;
 import com.ekt.cms.video.entity.Testpaper;
 
@@ -36,8 +35,12 @@ public interface ICmsTestpaperService {
 	 */
 	int removeTestpaperById(int id);
 	
-	
-	
+	/**
+	 * 修改组卷
+	 * @param quintessence
+	 * @return
+	 */
+	int updateTestpaper(Testpaper testpaper);
 	
 	
 	

@@ -80,7 +80,9 @@
 		<div class='modal-header'>
 			<button class='close' data-dismiss='modal' type='button'>&times;</button>
 			<h3></h3>			
-				热门 ——&nbsp;&nbsp;<input style="margin-top: -1px;" type="checkbox" id="isHot">
+				合集 ——&nbsp;&nbsp;<input style="margin-top: -1px;" type="checkbox" id="isCollection">&nbsp;&nbsp;&nbsp;&nbsp;
+				:&nbsp;&nbsp;热门度值 :&nbsp;&nbsp;<input type="text" id="isHot" value='0' onkeyup="value=value.replace(/[^\d]/g,'')"  maxlength="6" style='height: 12px;width: 38px;margin-top: 7px;'>
+				排序类型 :&nbsp;&nbsp;<input type="text" id="typeOrderNo" value='a' maxlength="6" style='height: 12px;width: 38px;margin-top: 7px;'>
 		</div>
 			<div class='modal-body' style='width:300px;overflow-y: visible;'>
 					<div class='control-group'>
@@ -108,19 +110,26 @@
 			            </div>
 			        </div>
 		
-			         <div class='control-group'>
-			            <label class='control-label'>价格</label>
+			        <div class='control-group'>
+			            <label class='control-label'>原价</label>
 			            <div class='controls'>
-			                <input  id='addprice'  onkeyup="value=value.replace(/[^\d.]/g,'')"  maxlength='3'  placeholder='￥....' type='text' />
+			                <input  id='addDiscountAfterPrice'  onkeyup="value=value.replace(/[^\d.]/g,'')"  maxlength='10'  placeholder='￥....' type='text' />
 			            </div>
 			        </div> 
 			        <div class='control-group'>
 			            <label class='control-label'>折扣</label>
 			            <div class='controls'>
-			                <input  id='adddiscount'  onkeyup="value=value.replace(/[^\d.]/g,'')"  maxlength='3'  placeholder='%....' type='text' />
+			                <input  id='adddiscount'  onkeyup="value=value.replace(/[^\d.]/g,'')"  maxlength='10'  placeholder='%....' type='text' />
 			            </div>
 			        </div> 
-					 <div class='control-group'>
+			         <div class='control-group'>
+			            <label class='control-label'>折后价</label>
+			            <div class='controls'>
+			                <input  id='addprice'  onkeyup="value=value.replace(/[^\d.]/g,'')"  maxlength='10'  placeholder='￥....' type='text' />
+			            </div>
+			        </div> 
+			         
+					 <div class='control-group' style="display:none">
 			            <label class='control-label'>封面</label>
 			            <div class='controls'>
 			             <input id='imgUrl'  maxlength='100'  placeholder='&lt; &frasl;img.png &frasl; &gt;上传成功后自动回填文件名' type='text' />
@@ -140,7 +149,7 @@
 			        </div>
 			        <form id="upload"  enctype="multipart/form-data">
 			                <input type="file" id="imgFile" name="imgFile" multiple="multiple" accept="image/gif,image/jpeg,image/png,image/jpg"	style='width: 216px;'required>
-			                <button type="submit" id ="submitbutton">点击上传</button>
+			                <button type="submit" id ="submitbutton">封面上传</button>
 							</form>
 					<div id='addKnowledgeTree' style="width: 103%;margin-left: 102%; margin-top: -660px;" >
 					     <label class='control-label'>知识点</label>
@@ -168,7 +177,10 @@
 		<div class='modal-header'>
 			<button class='close' data-dismiss='modal' type='button'>&times;</button>
 			<h3></h3>			
-				热门 ——&nbsp;&nbsp;<input style="margin-top: -1px;" type="checkbox" id="editIsHot">
+				合集 :&nbsp;&nbsp;<input style="margin-top: -1px;" type="checkbox" id="editIsCollection">&nbsp;&nbsp;&nbsp;&nbsp;
+				:&nbsp;&nbsp;热门度值 :&nbsp;&nbsp;<input type="text" id="editIsHot" value='0' onkeyup="value=value.replace(/[^\d]/g,'')"  maxlength="6" style='height: 12px;width: 38px;margin-top: 7px;'>
+				排序类型 :&nbsp;&nbsp;<input type="text" id="editTypeOrderNo" value='a' maxlength="6" style='height: 12px;width: 38px;margin-top: 7px;'>
+				
 		</div>
 			<div class='modal-body' style='width:300px;overflow-y: visible;'>
 					<div class='control-group'>
@@ -198,9 +210,9 @@
 		        </div>
 		
 			         <div class='control-group'>
-			            <label class='control-label'>价格</label>
+			            <label class='control-label'>原价</label>
 			            <div class='controls'>
-			                <input  id='editPrice'  onkeyup="value=value.replace(/[^\d.]/g,'')"  maxlength='10'  placeholder='￥....' type='text' />
+			                <input  id='editDiscountAfterPrice'  onkeyup="value=value.replace(/[^\d.]/g,'')"  maxlength='10'  placeholder='￥....' type='text' />
 			            </div>
 			        </div> 
 			        <div class='control-group'>
@@ -208,8 +220,15 @@
 			            <div class='controls'>
 			                <input  id='editDiscount'  onkeyup="value=value.replace(/[^\d.]/g,'')"  maxlength='10'  placeholder='%....' type='text' />
 			            </div>
-			        </div> 
-					 <div class='control-group'>
+			        </div>
+			        <div class='control-group'>
+			            <label class='control-label'>折后价</label>
+			            <div class='controls'>
+			                <input  id='editPrice'  onkeyup="value=value.replace(/[^\d.]/g,'')"  maxlength='10'  placeholder='￥....' type='text' />
+			            </div>
+			        </div>  
+				   
+					 <div class='control-group' style="display:none">
 			            <label class='control-label'>封面</label>
 			            <div class='controls'>
 			             <input id='editImgUrl'  maxlength='100'  placeholder='&lt; &frasl;img.png &frasl; &gt;上传成功后自动回填文件名' type='text' />
@@ -229,7 +248,7 @@
 			        </div>
 			        <form id="editUpload"  enctype="multipart/form-data">
 			                <input type="file" id="editImgFile" name="imgFile" multiple="multiple"	accept="image/gif,image/jpeg,image/png,image/jpg" style='width: 216px;'required>
-			                <button type="submit" id ="editSubmitbutton">点击上传</button>
+			                <button type="submit" id ="editSubmitbutton">封面上传</button>
 							</form>
 							
 					<div id='editKnowledgeTree' knowledgePointArrTag style="width: 103%;margin-left: 102%; margin-top: -660px;" >

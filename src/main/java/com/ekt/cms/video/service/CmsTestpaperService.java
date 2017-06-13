@@ -37,6 +37,10 @@ public class CmsTestpaperService implements ICmsTestpaperService {
 			return result;
 		
 	}
+	@Override
+	public int updateTestpaper(Testpaper testpaper) {
+		return cmsTestpaperMapper.updateTestpaper(testpaper);
+	}
 	
 
 }

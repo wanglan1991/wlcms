@@ -595,4 +595,38 @@ public class TextUtil {
 		}
 		return sTmp;
 	}
+	
+	
+	
+	/**
+	 * 验证号码有效性
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static boolean isPhoneNum(String str) {
+		boolean result = false;
+		if (str != null && str.replace(" ", "").length() > 0 && str.matches("^[1][34578][0-9]{9}$")) {
+			result = true;
+		}
+		return result;
+	}
+	
+	/**
+	 * 判断是否为一个有效的Ip地址
+	 * @param str
+	 * @return
+	 */
+	public static boolean isIpAddress(String str){
+		boolean result = false;
+		if (str != null && str.replaceAll(" ", "").length() > 0 &&
+//			str.matches("^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$")) {
+			str.matches("([1-9]|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}")) {
+			result = true;
+		}
+		return result;
+		
+		
+	}
+	
 }

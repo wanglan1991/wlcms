@@ -77,4 +77,9 @@ public class CmsDictService implements ICmsDictService {
 		return dictMapper.famousTeacher();
 	}
 
+	@Override
+	public CmsDict exerciseQueryByDictNameAndEncoding(String value, String encoding) {
+		return dictMapper.exerciseQueryByDictNameAndEncoding(value, encoding);
+	}
+
 }

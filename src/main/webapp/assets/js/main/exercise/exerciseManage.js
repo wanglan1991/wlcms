@@ -222,13 +222,17 @@ define(function (require, exports, module) {
 				 */
 		        'click .editExercise': function (e, value, row, index) {
 		        	$("#editAnswer").find("div").remove();
+		        	$("#editKnoeledgeOption").val("");
 		        	core.openModel('modal-editExercise','修改习题',function(){
 		        		core.getEditDictOptions("年级","grade","#editGradeOption",row.gradeNo);
 		        		core.getEditDictOptions("题类","category","#editCategoryOption",row.categoryNo);
 		        		core.getEditDictOptions("题型","exerciseType","#editTypeOption",row.typeNo);
 		        		core.getEditDictOptions("学科","subject","#editSubjectOption",row.subjectNo);
 		        		core.getEditDictOptions("难易度","difficulty","#editDifficultyOption",row.difficultyNo);
-		        		editGetKnoeledgeOption("#editKnoeledgeOption",row.subjectNo,row.gradeNo,row.knowledgeId);
+		        		if(row.knowledgeId!=null){
+		        			editGetKnoeledgeOption("#editKnoeledgeOption",row.subjectNo,row.gradeNo,row.knowledgeId);
+		        		}
+		        		
 		        		$("#modal-editExercise").attr('exerciseid',row.id);
 		        		$("#editAnalysis").val(row.analysis);
 		        		$("#editExerciseContent").val(row.content);
@@ -607,11 +611,11 @@ define(function (require, exports, module) {
 						var answerLength = $("#answer").find("div").length;
 						var analysis =$("#addAnalysis").val();
 						if(grade==0){$("#msg").html("请选择年级！"); return;}
-//						if(category==0){$("#msg").html("请选择题类！"); return;}
+						if(category==0){$("#msg").html("请选择题类！"); return;}
 						if(type==0){$("#msg").html("请选择题型！"); return;}
 						if(difficulty==0){$("#msg").html("请选择难易度！"); return;}
 						if(subject==0){$("#msg").html("请选择科目！"); return;}
-						if(knowledgeId==0){$("#msg").html("请选择知识点！"); return;}
+						if(category==92&&knowledgeId==0){$("#msg").html("请选择知识点！"); return;}
 						if(content.length<5){$("#msg").html("习题内容不能为空！不能小于5个字符"); return;}
 						if(answerLength<2){$("#msg").html("至少2个答案！"); return;}
 				var answerList=new Array();	
@@ -641,8 +645,8 @@ define(function (require, exports, module) {
 					typeNo : type,
 					difficultyNo : difficulty,
 					subjectNo : subject,
-					knowledgeId : knowledgeId,
-					knowledges:knowledges,
+					knowledgeId : knowledgeId==0?null:knowledgeId,
+					knowledges:knowledgeId==0?"":knowledges,
 					author : author,
 					content : content,
 					orderNo:order,
@@ -690,12 +694,12 @@ define(function (require, exports, module) {
 					var order =$("#editOrderNo").val();
 					var id = $("#modal-editExercise").attr('exerciseid');
 					var answerLength = $("#editAnswer").find("div").length;
-					if(grade==0){$("#editMsg").html("请选择年级！");return;}
+//					if(grade==0){$("#editMsg").html("请选择年级！");return;}
 //					if(category==0){$("#editMsg").html("请选择题类！");return;}
 					if(type==0){$("#editMsg").html("请选择题型！");return;}
 					if(difficulty==0){$("#editMsg").html("请选择难易度！");return;}
 					if(subject==0){$("#editMsg").html("请选择科目！");return;}
-					if(knowledgeId==0){$("#editMsg").html("请选择知识点！");return;}
+					if(category==92&&knowledgeId==0){$("#editMsg").html("请选择知识点！");return;}
 					if(content.length<5){$("#editMsg").html("习题内容不能为空！不能小于5个字符");return;}
 					if(answerLength<2){$("#editMsg").html("至少2个答案！");return;}
 			var answerList=new Array();	

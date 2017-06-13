@@ -18,8 +18,7 @@ define(function (require, exports, module) {
                  */
             	//加载查询框
                	  if(base.perList.user.check){
-              		$("#user-header .actions").append("<input autocomplete='off'  id='realName'  placeholder='请输入用户姓名' type='text' />&nbsp;&nbsp;<input autocomplete='off'  id='accountName'  placeholder='请输入账户名'" +
-              				" type='text' />&nbsp;&nbsp;<span  id='dict_typeName'></span><a href='#' id='queryByAccount' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>&nbsp;&nbsp;&nbsp;&nbsp;");
+              		$("#user-header .actions").append("<input autocomplete='off'  id='keyword'  placeholder='真实姓名、账号' type='text' />&nbsp;&nbsp;");
               	}
             	//删除账户
                 if(base.perList.user.del){
@@ -112,7 +111,8 @@ define(function (require, exports, module) {
         		        'click .distributeRole': function (e, value, row, index) {
         		        	var html='';
         		        	var total=0;
-        		        	core.openModel('modal-UserRoleTree','角色赋值',function(){});
+        		        	$("#roleEdit").empty();
+        		        	core.openModel('modal-UserRoleTree','请给予账号:'+row.userName+' 的用户相应的角色',function(){});
         		        	$.ajax({
     		        			url: F.basepath+'/account/roleList',
     		        			type:'POST',
@@ -205,19 +205,35 @@ define(function (require, exports, module) {
     			/**
     			 * 带参查询
     			 */
-    			$('#queryByAccount').click(function(){				
-    				var userName=$("#accountName").val();
-    				var realName=$("#realName").val();
-    				var url= F.basepath+'/account/list?userName='+userName+'&realName='+realName;
-    				$("#userTable").bootstrapTable('refresh',{url:url});
+    			$('#queryByAccount').click(function(){query()});
+    			
+    			
+    			//监听回车按下查询事件
+    			document.getElementById("accountActions").onkeydown =keyDownSearch;
+    			function keyDownSearch(e) {
+    				// 兼容FF和IE和Opera
+    				var theEvent = e || window.event;
+    				var code = theEvent.keyCode || theEvent.which
+    						|| theEvent.charCode;
+    				if (code == 13) {
+    					query();
+    				}else{
+    				}
+    			}	
+    			
+    			function query(){
+    				var keyword=$("#keyword").val();
     				
-    			});
+    				var url= F.basepath+'/account/list?userName='+keyword
+    				$("#userTable").bootstrapTable('refresh',{url:url});
+    			}
 
     			/**
     			 * 打开模态框
     			 */
     			$('#addUser').click(function(){
     				var html='';
+    				$("#roles").empty();
     				core.openModel('modal-UserTree','新增用户',function(){
     					$.ajax({
 		        			url: F.basepath+'/account/roleList',

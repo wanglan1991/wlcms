@@ -44,4 +44,12 @@ public interface CmsTestpaperMapper {
 	int removeTestpaperExerciseByTestpaperId(int id);
 	
 	
+	/**
+	 * 修改组卷
+	 * @param quintessence
+	 * @return
+	 */
+	int updateTestpaper(Testpaper testpaper);
+	
+	
 }

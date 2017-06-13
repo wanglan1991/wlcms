@@ -8,10 +8,12 @@
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />	
 		<result column="knowledge_point_arr_val" property="knowledgePointArrVal" jdbcType="VARCHAR" />	
 		<result column="difficulty" property="difficulty" jdbcType="VARCHAR" />	
+		<result column="difficulty_no" property="difficultyNo" jdbcType="INTEGER" />
 		<result column="digest" property="digest" jdbcType="VARCHAR" />	
 		<result column="user_id" property="userId" jdbcType="INTEGER" />	
 		<result column="nickname" property="nickname" jdbcType="VARCHAR" />	
 		<result column="type" property="type" jdbcType="VARCHAR" />	
+		<result column="type_no" property="typeNo" jdbcType="INTEGER" />
 		<result column="exercise_count" property="exerciseCount" jdbcType="INTEGER" />	
 		<result column="examine_status" property="examineStatus" jdbcType="INTEGER" />	
 		<result column="subject" property="subject" jdbcType="VARCHAR" />	
@@ -29,21 +31,23 @@
 				t.create_time,
 				t.knowledge_point_arr_val,
 				d.`value` AS difficulty,
+				t.difficulty_no,
 				t.digest,
 				t.user_id,
 				u.teacher_id,
 			    CASE t.type  WHEN 2 THEN '每日精选' WHEN 3 THEN '题库组卷' END AS type,
+			    t.type AS type_no,
 				COUNT(1) AS exercise_count,
 				t.examine_status,
 				a.real_name
 			FROM
 				api_testpaper t 
 			LEFT JOIN api_user u on t.user_id=u.id
-			LEFT JOIN cms_dictionary d on d.id=t.difficulty_no
+			INNER JOIN cms_dictionary d on d.id=t.difficulty_no
 			LEFT JOIN api_exercise_detail de on de.testpaper_id=t.id
-			LEFT JOIN cms_dictionary d1 on d1.id=t.subject_no
-			LEFT JOIN cms_exercise e on e.id=de.exercise_id
-			LEFT JOIN cms_dictionary d2 on d2.id=e.grade_no
+			INNER JOIN cms_dictionary d1 on d1.id=t.subject_no
+			INNER JOIN cms_exercise e on e.id=de.exercise_id
+			INNER JOIN cms_dictionary d2 on d2.id=e.grade_no
 			LEFT JOIN cms_account a on t.user_id=a.ektapi_user_id
 			WHERE 1=1
 				<if test="difficultyNo!=0">
@@ -69,10 +73,7 @@
 					AND( t.testpaper_name like '%${testpaperName}%'
 					OR 	t.knowledge_point_arr_val like '%${testpaperName}%'	)		
 				</if>
-				AND u.teacher_id IS NOT NULL
-				AND t.type &lt;&gt; 1
-				AND t.is_finish=0
-				AND t.type &lt;&gt; 4
+			AND t.type IN(2,3)
 			GROUP BY t.id
 			ORDER BY t.create_time DESC
 	</select>

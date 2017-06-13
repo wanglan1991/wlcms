@@ -120,20 +120,37 @@ define(function(require, exports, module) {
 			/**
 			 * 根据条件查询
 			 */
-			$('#queryByCondition').click(
-					function() {
-						var videoName=$("#q_k_select").val();
-						var knowledge = $("#q_k_select").val();
-						var gradeNo = $("#q_k_grade").val();
-						var subjectNo=$("#q_k_subject").val();
-						var query_url = F.basepath + '/cms/video/listPage?&videoName=' +videoName+'&knowledge='
-								+ knowledge + '&gradeNo=' + gradeNo+'&subjectNo='+subjectNo;
-						
-						$('#videoTable').bootstrapTable('refresh', {
-							url : query_url
-						});
-					});
+			
 		
+			 function query() {
+				var videoName=$("#q_k_select").val();
+				var knowledge = $("#q_k_select").val();
+				var gradeNo = $("#q_k_grade").val();
+				var subjectNo=$("#q_k_subject").val();
+				var query_url = F.basepath + '/cms/video/listPage?&videoName=' +videoName+'&knowledge='
+						+ knowledge + '&gradeNo=' + gradeNo+'&subjectNo='+subjectNo;
+				
+				$('#videoTable').bootstrapTable('refresh', {
+					url : query_url
+				});
+			 }
+			 
+			 $('#queryByCondition').click(function(){query()});
+			 
+				document.getElementById("videoActions").onkeydown = keyDownSearch;
+				function keyDownSearch(e) {
+					// 兼容FF和IE和Opera
+					var theEvent = e || window.event;
+					var code = theEvent.keyCode || theEvent.which
+							|| theEvent.charCode;
+					if (code == 13) {
+						query();
+					} else {
+					}
+				}
+			 
+			 
+			 
 				
 			operateEvents = {
 				/**
@@ -143,7 +160,6 @@ define(function(require, exports, module) {
 					core.openModel('modal-editVideo', '修改视频     '
 							+ row.videoName, function() {
 						knowldgeSelect('/cms/knowledge/queryByCondition',{gradeNo : row.gradeNo,subjectNo : row.subjectNo},"#editKnowledge");
-// $.fn.modal.Constructor.prototype.enforceFocus = function () { };
 						
 						$("#editVideoImg").removeAttr("disabled"); 
 						$("#editUploadVideoImgButton").removeAttr("disabled"); 
@@ -165,17 +181,6 @@ define(function(require, exports, module) {
 							$('#editStatus').val(row.status);
 							$("#editVideoImgUrl").val(row.imageUrl);
 							// 设置knowledgeId的默认选中值
-// if(row.knowledgeId!=null&&row.knowledgeId.length>1){
-// var ids=row.knowledgeId.split(",");
-// for(var i=0;i<ids.length;i++){
-// if(ids[i]!=""){
-// $('#editKnowledge').val(ids[i]).trigger('change');
-// }
-// }
-// }
-// $("#editKnowledge
-// option[value='"+row.knowledgeId+"']").attr("selected","selected");
-// $("#editKnowledge").select2();
 							core.getEditDictOptions("年级","grade","#editGrade",row.gradeNo);
 							core.getEditDictOptions("学科","subject","#editSubject",row.subjectNo);
 						}
@@ -200,25 +205,11 @@ define(function(require, exports, module) {
 				 * 生成选课
 				 */
 				'click .createTextbook': function(e, value, row, index){
-					var videoId =  row.id;
-					$.ajax({
-						url : F.basepath + '/cms/video/createTextbook',
-						type:"post",
-						data:{id:videoId},
-						success:function(data){
-							if (data.result > 0) {
-								F.reload();
-							} else {
-								alert("操作失败！请与管理员联系！")
-							}
-						}
-						
-					})
-					
-					
+					$("#courseHotValue").val('');
+					core.openModel('modal-createTextbook', "视频【"+row.videoName+"】生成单个选课");
+					$("#modal-createTextbook").attr("vId",row.id);
 					
 				},
-//				
 				
 				/**
 				 * 启用或停用用户
@@ -266,7 +257,6 @@ define(function(require, exports, module) {
 					$("#exerciseTree").empty();
 					$("#exerciseSubject").empty();
 					$("#exerciseKnoeledge").empty();
-					
 					core.openModel('modal-editVideoExercise',"编辑视频："+row.videoName+"配套习题",(function(){
 						if(row.exerciseSubjectNo!=0&&row.exerciseGradeNo!=0&&row.exerciseKnoeledgeId!=0){
 							core.getEditDictOptions("年级","grade","#exerciseGrade",row.exerciseGradeNo);
@@ -405,8 +395,7 @@ define(function(require, exports, module) {
 				visible : false
 			}];
 			// 是否需要操作列
-			if (base.perList.video.edit || base.perList.video.del
-					|| base.perList.video.confine )
+//			if (base.perList.video.edit || base.perList.video.del|| base.perList.video.confine )
 				cols.push({
 					align : 'center',
 					title : '操作',
@@ -497,6 +486,37 @@ define(function(require, exports, module) {
             		}
           		core.commonTree(url.toString(),obj,"#exerciseTree");
 			});
+			
+			
+			/**
+			 * 生成选课
+			 */
+			
+			$("#createTextbookBtnSubmit").click(function(){
+				var  courseOrderTypeNo =$("#courseOrderTypeNo").val();
+				var courseHotValue = $("#courseHotValue").val();
+				var videoId =$("#modal-createTextbook").attr("vId");
+				if(courseOrderTypeNo.length<1){$("#createTextbookMsg").html("排序类型不能为空！");return;}else{$("#createTextbookMsg").html("")}
+				if(courseHotValue.length<1){$("#createTextbookMsg").html("热门度值不能为空！");return;}else{$("#createTextbookMsg").html("")}
+				$.ajax({
+					url : F.basepath + '/cms/video/createTextbook',
+					type:"post",
+					data:{
+						  id:videoId,
+						  courseOrderTypeNo:courseOrderTypeNo,
+						  courseHotValue:courseHotValue
+						},
+					success:function(data){
+						$("#createTextbookBtnSubmit").prev().click();
+						F.reload();
+						if (data.result > 0) {
+							
+						} else {
+							alert(data.msg)
+						}
+					}
+				});
+			})
 			
 			/**
 			 * 修改视频信息
@@ -635,6 +655,8 @@ define(function(require, exports, module) {
 						);
 				core.getDictOptions('年级','grade',"#grade");
 				core.getDictOptions('学科','subject',"#subject");
+				$("#knowledge").select2().empty('');
+				$("#knowledge").select2().empty('');
 				$("#subVideoKey").val('');
 				$("#videoFileSub").val('');
 				$("#qsubmitbutton").removeAttr("disabled");
@@ -742,8 +764,6 @@ define(function(require, exports, module) {
 				$("#digest").val('');
 				$("#videoKey").val('');
 				$("#knowledge").select2().empty('');
-				$("#knowledge").select2().empty('');
-				$("#knowledge").select2().empty('');
 				$("#videoFile").val('');
 				$("#videoImgUrl").val('');
 				$("#videoImg").val('');
@@ -792,7 +812,7 @@ define(function(require, exports, module) {
 			var _btnAction = "";
 			
 			
-			if(base.perList.video.createTextbook&&row.exerciseCount>0&&row.hasTestpaper==0){
+			if(base.perList.video.editVideoExercise&&row.exerciseCount>0&&row.hasTestpaper==0){
 				_btnAction += "<a class='createTestpaper "+row.id+" btn btn-success btn-small' href='#'  title='生成题库组卷' style='margin-left:5px'>生成组卷</a>";
 				
 			}
@@ -801,7 +821,7 @@ define(function(require, exports, module) {
 				
 			}
 			if(base.perList.video.editVideoExercise&&row.transcodeStatus==2){
-				_btnAction += "<a class='editVideoExercise btn btn-primary btn-small' href='#'  title='编辑配套习题' style='margin-left:5px'>编辑配套习题</a>";
+				_btnAction += "<a class='editVideoExercise btn "+(row.hasTestpaper==0?"btn-primary":"btn-success")+" btn-small' href='#'  title='编辑配套习题' style='margin-left:5px'>编辑配套习题</a>";
 				
 			}
 			if (base.perList.video.play&&row.transcodeStatus==2) {
@@ -887,6 +907,7 @@ define(function(require, exports, module) {
 					$("#editWaitForUpload").remove();
 					if (data.result==1) {
 						$("#editVideoKey").val(data.value.fileId);
+						$("#editVideoFileName").val(data.value.fileName.substring(0,data.value.fileName.length-4));
 						alert("上传成功了");
 					} else {
 						$("#edit-msg").html(data.msg);

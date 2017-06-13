@@ -3,12 +3,11 @@ package com.ekt.cms.apiUser.service;
 import java.util.List;
 
 import javax.annotation.Resource;
-
-import org.apache.ibatis.annotations.Result;
 import org.springframework.stereotype.Service;
-
+import com.ekt.cms.account.entity.CmsAccount;
 import com.ekt.cms.apiUser.dao.ApiUserMapper;
 import com.ekt.cms.apiUser.entity.ApiUser;
+import com.ekt.cms.apiUser.entity.CmsUserBusiness;
 import com.ekt.cms.common.entity.TreeBean;
 
 /** 
@@ -52,6 +51,36 @@ public class ApiUserService implements IApiUserService {
 	@Override
 	public int insertEktUserPermission(int userId, int dictEktUserPermissionId) {
 		return apiUserMapper.insertEktUserPermission(userId, dictEktUserPermissionId);
+	}
+
+	@Override
+	public int generateCmsAccount(CmsAccount account) {
+		return apiUserMapper.generateCmsAccountByUserId(account);
+	}
+
+	@Override
+	public List<TreeBean> getEktUserPermissionDetail2(int parentId, int userId) {
+		return apiUserMapper.getEktUserPermissionDetail2(parentId, userId);
+	}
+
+	@Override
+	public CmsUserBusiness getUserBusiness(CmsUserBusiness cub) {
+		return apiUserMapper.getUserBusiness(cub);
+	}
+
+	@Override
+	public int acceptanceUserBusiness(CmsUserBusiness cub) {
+		return apiUserMapper.acceptanceUserBusiness(cub);
+	}
+
+	@Override
+	public List<CmsUserBusiness> getUserBusinessListByUserId(int userId) {
+		return apiUserMapper.getUserBusinessListByUserId(userId);
+	}
+
+	@Override
+	public int isRealUser(int userId, int isReal) {
+		return apiUserMapper.isRealUser(userId, isReal);
 	}
 
 }

@@ -26,8 +26,9 @@ public class CmsRoleService implements ICmsRoleService {
 	}
 
 	@Override
-	public List<CmsRole> getCmsRoleList() {
+	public List<CmsRole> getCmsRoleList(int parentId) {
 		CmsRole cmsRole = new CmsRole();
+		cmsRole.setParentId(parentId);
 		return cmsRoleMapper.getCmsRoleList(cmsRole);
 	}
 
@@ -74,5 +75,12 @@ public class CmsRoleService implements ICmsRoleService {
 	public  int insertRolePermission(int permissionId,int roleId){
 		return cmsRoleMapper.insertRolePermission(permissionId, roleId);
 	}
+
+	@Override
+	public List<Map<String, Object>> getTreeByRoleId2(int parentId, int roleId) {
+		return cmsRoleMapper.getTreeByRoleId2(parentId, roleId);
+	}
+
+	
 
 }

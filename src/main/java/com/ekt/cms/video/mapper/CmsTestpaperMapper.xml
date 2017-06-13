@@ -40,7 +40,7 @@
 		3,
 		1,
 		#{categoryNo},
-		0,
+		1,
 		#{videoId}
 		)
 	</insert>
@@ -78,5 +78,14 @@
 		WHERE
 			testpaper_id=#{id}	
 	</delete>
+	
+	<update id="updateTestpaper" parameterType="com.ekt.cms.video.entity.Testpaper">
+		UPDATE 
+			api_testpaper 
+		SET testpaper_name=#{testpaperName},
+			digest=#{digest},
+			difficulty_no=#{difficultyNo}
+		WHERE id =#{id}
+	</update>
 
 </mapper>

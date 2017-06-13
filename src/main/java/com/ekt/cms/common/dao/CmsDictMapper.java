@@ -84,4 +84,12 @@ public interface CmsDictMapper {
 	 */
 	public List<Map<String, Object>> famousTeacher();
 	
+	/**
+	 * 上传习题时用到的字典查询接口
+	 * @param value
+	 * @param encoding
+	 * @return
+	 */
+	public CmsDict exerciseQueryByDictNameAndEncoding(@Param("value")String value,@Param("encoding")String encoding);
+	
 }

@@ -98,5 +98,13 @@ public interface CmsRoleMapper {
 	 * @return
 	 */
 	public int insertRolePermission(@Param("permissionId")int permissionId,@Param("roleId")int roleId);
+	
+	
+	 /**
+	  * 获取当前登录角色可选的Tree
+	  * @param roleId
+	  * @return
+	  */
+	 List<Map<String,Object>> getTreeByRoleId2(@Param("parentId")int parentId,@Param("roleId") int roleId);
 
 }

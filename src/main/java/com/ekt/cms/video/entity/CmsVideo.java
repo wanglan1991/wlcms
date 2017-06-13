@@ -351,9 +351,10 @@ public class CmsVideo {
 		book.setPhaseNo(this.gradeNo==19||this.gradeNo==20||this.gradeNo==21?61:60);
 		book.setTextbookTypeNo(46);
 		book.setImgUrl(this.imageUrl);
-		book.setKnowledgePointArr(this.knowledgeId);
-		book.setKnowledgePointArrVal(this.knowledge);
-		book.setIsHot(1);
+		if(this.knowledgeId!=null&&this.knowledge!=null){
+			book.setKnowledgePointArr(this.knowledgeId.substring(1, this.knowledgeId.length()));
+			book.setKnowledgePointArrVal(this.knowledge.substring(1, this.knowledge.length()));
+		}
 		book.setPrice(this.price);
 		book.setDiscount(this.discount);
 		book.setIsFree(this.isFree);
