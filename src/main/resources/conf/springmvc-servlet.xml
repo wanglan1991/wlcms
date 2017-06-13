@@ -54,18 +54,19 @@
 	</bean>
 	
 	
-	
+
 	
 
 	<!-- 上传文件拦截，设置最大上传文件大小 10M=10*1024*1024(B)=10485760 bytes -->
 	<bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	class="com.ekt.cms.common.controller.CommonsMultipartResolverPhhc">
+<!-- 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> -->
 		<!-- 默认编码 -->
 		<property name="defaultEncoding" value="utf-8" />
 		<!-- 文件大小最大值 -->
 		<property name="maxUploadSize" value="10485760000" />
 		<!-- 内存中的最大值 -->																																						
-		<property name="maxInMemorySize" value="40960" />
+		<property name="maxInMemorySize" value="409600" />
 		<!-- 配置文件上传临时目录 -->
 		<property name="uploadTempDir" value="/uploadfile/upload/temp"></property>
 	</bean>

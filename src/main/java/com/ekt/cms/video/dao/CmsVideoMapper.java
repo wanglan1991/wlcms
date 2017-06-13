@@ -63,4 +63,19 @@ public interface CmsVideoMapper {
 	//删除视频配套习题
 	int removeVideoExerciseByVideoId(int videoId);
 	
+	//更新转码状态
+	int updateVideoTransStatusByFileId(@Param("videoKey")String videoKey,@Param("status")int status);
+	
+
+	
+	//根据试看版的key 更新视频 subVideoKey
+	public int updateVideoBySubKey(CmsVideo cmsVideo);
+	
+	//根据视频id获取视频对象
+	public CmsVideo getVideoById(int id);
+	
+	//更新视频试看版
+	int updateVideoSubKeyByVideoId(@Param("videoId")int videoId,@Param("subVideoKey")String subVideoKey);
+	
+	
 }

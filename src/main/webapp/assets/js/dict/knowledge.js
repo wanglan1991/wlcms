@@ -81,16 +81,15 @@ define(function(require, exports, module) {
 				 */
 				'click .editKnowledge' : function(e, value, row, index) {
 					core.openModel('modal-EditKnowledge', '修改知识点', function() {
-						$("#EditId").val(row.id);
-						$("#EditTitle").val(row.title);
-						$("#EditOrderNo").val(row.orderNo);
-						$("#EditGradeNo").val(row.gradeNo);
-						$("#EditGrade").val(row.grade);
-						$("#EditSubjectNo").val(row.subjectNo);
+						$("#editKnowledgeId").val(row.id);
+						$("#editKnowledgeTitle").val(row.title);
+						$("#editKnowledgeOrderNo").val(row.orderNo);
+						$("#editKnowledgeGradeNo").val(row.gradeNo);
+						$("#editKnowledgeSubjectNo").val(row.subjectNo);
 						$("#EditGrade option[value='"+row.gradeNo+"']").attr("selected",true);
 						$("#EditSubject option[value='"+row.subjectNo+"']").attr("selected",true);
-						$("#tatil").next("h3").html(
-								"编辑知识点         " + row.title);
+						$("#tatil").next("h4").html(
+								"<b>编辑知识点</b>   " + row.title);
 
 					});
 				},
@@ -224,6 +223,43 @@ define(function(require, exports, module) {
 			
 			
 			/**
+			 * 修改知识点提交
+			 */
+			
+			
+			$("#EditKnowledgeSubmit").click(function(){
+				var id = $("#editKnowledgeId").val();
+				var title = $("#editKnowledgeTitle").val();
+				var orderNo = $("#editKnowledgeOrderNo").val();
+				var gradeNo = $("#EditGrade").val();
+				var subjectNo = $("#EditSubject").val();
+				
+				if(core.trim(title).length<1){$("#edit-msg").html("知识点名称不能为空！");return;}
+				if(gradeNo==0){$("#edit-msg").html("请选择年级！");return;}
+				if(subjectNo==0){$("#edit-msg").html("请选择学科！");return;}
+				$.ajax({
+					url : F.basepath + '/knowledge/editKnowledge',
+					type : 'POST',
+					data : {id:id,title:title,orderNo:orderNo,gradeNo:gradeNo,subjectNo:subjectNo},
+					success : function(data) {
+						if (data.result > 0) {
+							$("#edit-msg").html("");
+							F.table.reload();
+							core.closeModel('modal-EditKnowledge');
+						} else {
+							alert("异常！")
+						}
+					}
+				
+					
+					
+				})
+				
+				
+				
+			});
+			
+			/**
 			 * 打开模态框
 			 */
 			$('#addKnowledge').click(function() {
@@ -274,6 +310,9 @@ define(function(require, exports, module) {
 			
 		
 		},
+		
+		
+		
 
 		operateFormatter : function(value, row, index) {
 			var _btnAction = "";

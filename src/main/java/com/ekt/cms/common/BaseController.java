@@ -16,7 +16,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 
-public class BaseController<T>  {
+public class BaseController {
 	/**
 	 * 根据前台生成的list数据，生成json格式数据传递到前台
 	 * @param list：集合数据
@@ -37,33 +37,9 @@ public class BaseController<T>  {
 	    public JSONUtil jsonUtil;
 	    
 	  
-	public void printStr(List<T> list, Pagination pagination, HttpServletResponse response,String sEcho) throws Exception{
-		JSONArray jsonArray = JSONArray.fromObject(list);
-		JSONObject json = new JSONObject();
-		json.put("sEcho", sEcho);
-		json.put("recordsTotal", pagination.getTotal());
-		json.put("recordsFiltered", pagination.getTotal());
-		if(list.size() >0 ){
-			json.put("data", jsonArray);
-		}else{
-			json.put("data", "[]");
-		}
-		String jsonStr = json.toString();
-		System.out.println("jsonStr--> " + jsonStr);
-		JSONUtils.printStr(jsonStr, response);
-	}
 	
-	/**
-	 * list转成json字符串
-	 * @param list
-	 * @param response
-	 * @throws Exception
-	 */
-	public void printStr(List<T> list, HttpServletResponse response) throws Exception{
-		JSONArray jsonArray = JSONArray.fromObject(list);
-		String jsonStr = jsonArray.toString();
-		JSONUtils.printStr(jsonStr, response);
-	}
+	
+	
 	/**
 	 * 获取当前session用户
 	 * @return
@@ -79,5 +55,7 @@ public class BaseController<T>  {
 	public void destroySession(){
 		Subject curAccount=SecurityUtils.getSubject();
 		curAccount.getSession().removeAttribute(Constants.DEFAULT_SESSION_ACCOUNT);
+		curAccount.logout();
+		
 	}
 }

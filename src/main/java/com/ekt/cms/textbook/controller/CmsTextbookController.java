@@ -5,32 +5,23 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import com.ekt.cms.common.BaseController;
 import com.ekt.cms.common.entity.CmsKnowledge;
 import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.common.service.ICmsKnowledgeService;
-
-import org.springframework.web.bind.annotation.ResponseBody;
-
-
+import com.ekt.cms.textbook.entity.CmsCatalog;
+import com.ekt.cms.textbook.entity.CmsCatalogMessage;
 import com.ekt.cms.textbook.entity.CmsTextbook;
 import com.ekt.cms.textbook.service.ICmsCatalogService;
 import com.ekt.cms.textbook.service.ICmsTextbookService;
 import com.ekt.cms.utils.pageHelper.PageBean;
 import com.ekt.cms.utils.pageHelper.PageContext;
-
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
-
 
 /**
  * 2016-05-02
@@ -39,7 +30,7 @@ import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
  */
 @Controller
 @RequestMapping("/textbook")
-public class CmsTextbookController {
+public class CmsTextbookController extends BaseController {
 
 	/**
 	 * 返回教材页面
@@ -51,7 +42,7 @@ public class CmsTextbookController {
 
 	@Resource
 	private ICmsKnowledgeService cmsKnowledgeService;
-	
+
 	@Resource
 	private ICmsCatalogService cmsCatalogService;
 
@@ -73,7 +64,6 @@ public class CmsTextbookController {
 		pageContext.paging();
 		return new PageBean<CmsTextbook>(cmsTextbookService.listPage(cmsTextbook));
 	}
-
 
 	// 根据科目 年级查询知识点
 	@RequestMapping("/knowledgeList")
@@ -166,6 +156,8 @@ public class CmsTextbookController {
 	@ResponseBody
 	public Result addTextbook(CmsTextbook cmsTextbook) {
 		Result result = Result.getResults();
+		cmsTextbook.setInputAccountId(getCurrentAccount().getId());
+		cmsTextbook.setIsFree(cmsTextbook.getPrice() == 0 ? 1 : 0);
 		result.setResult(cmsTextbookService.addTextbook(cmsTextbook));
 		return result;
 	}
@@ -183,18 +175,106 @@ public class CmsTextbookController {
 		result.setResult(cmsTextbookService.confine(id, status));
 		return result;
 	}
-	
+
 	/**
 	 * 修改教材
+	 * 
 	 * @param cmsKnowledge
 	 * @return
 	 */
 	@RequestMapping("/update")
 	@ResponseBody
-	public Result update(CmsTextbook cmsTextbook){
+	public Result update(CmsTextbook cmsTextbook) {
 		Result result = Result.getResults();
+		cmsTextbook.setInputAccountId(getCurrentAccount().getId());
+		cmsTextbook.setIsFree(cmsTextbook.getPrice() == 0 ? 1 : 0);
 		result.setResult(cmsTextbookService.update(cmsTextbook));
 		return result;
 	}
 
+	/**
+	 * 获取textbook节的tree数据
+	 * 
+	 * @param textbookId
+	 * @return
+	 */
+	@RequestMapping("/catalogTree")
+	@ResponseBody
+	public Result getCatalogTree(@RequestParam("textbookId") int textbookId) {
+		Result result = Result.getResults();
+		result.setValue(cmsTextbookService.getCatalogTree(textbookId));
+		return result;
+	}
+
+	/**
+	 * 拆分选课成单品
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/splitTextbook")
+	@ResponseBody
+	@Transactional
+	public Result splitTextbook(@RequestParam("ids") String arr) {
+		Result result = Result.getResults();
+		String[] ids = arr.split(",");
+		String msg = "";
+		if (ids.length > 0) {
+			List<CmsCatalogMessage> data = cmsTextbookService.selectCatalogById(ids);
+			if (data != null) {
+				// cmsTextbookService.addTextbook(cmsTextbook)
+				for (CmsCatalogMessage cm : data) {
+					CmsTextbook textbook = new CmsTextbook();
+					textbook.setTitle(cm.getCatalogName());
+					textbook.setGradeNo(cm.getGradeNo());
+					textbook.setSubjectNo(cm.getSubjectNo());
+					textbook.setPhaseNo(cm.getPhaseNo());
+					if (cmsTextbookService.getTextbookCountByTextbookTitle(textbook.getTitle()) > 0) {
+						continue;
+					} else {
+						CmsTextbook book = cm.getTextbook();
+						// 设置录入人
+						book.setInputAccountId(getCurrentAccount().getId());
+						// 1.添加选课 并返回该行id
+						int result1 = cmsTextbookService.addTextbook(book);
+						// 2.从cm中 构造 catalog 章
+						CmsCatalog z = cm.getCatalog(book.getId(), 51, 0, 0);
+						// 3.添加该选课的章并返回id
+						int result2 = cmsCatalogService.add(z);
+						// 4.从cm中构造 catalog 节
+						CmsCatalog j = cm.getCatalog(book.getId(), 52, 0, z.getId());
+						// 5.添加该选课节并
+						int result3 = cmsCatalogService.add(j);
+						if (result1 != 0 && result2 != 0 && result3 != 0) {
+							result.setResult(1);
+						} else {
+							result.setMsg("添加失败！");
+							result.setResult(-1);
+						}
+					}
+				}
+			} else {
+				result.setResult(-1);
+				result.setMsg("根据所选项获取数据异常 请联系管理员！");
+			}
+		}
+		if (msg.length() > 0) {
+			result.setResult(-1);
+			result.setMsg(msg.substring(0, msg.length() - 1) + "已经存在无法添加！");
+		}
+		return result;
+	}
+	
+	/**
+	 * 推荐或取消推荐
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/recommend")
+	@ResponseBody
+	public  Result recommend(int id){
+		return Result.getResults(cmsTextbookService.recommendById(id));
+		
+	}
+	
+	
 }

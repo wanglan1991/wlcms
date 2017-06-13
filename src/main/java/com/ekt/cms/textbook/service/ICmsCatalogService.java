@@ -91,5 +91,12 @@ public interface ICmsCatalogService {
 	 */
 	Result getOutline(Integer textbookId);
 	
+	/**
+	 * 根据fileName 更新 fileName
+	 * @param fileName
+	 * @param newFileName
+	 * @return
+	 */
+	int updateCatalogVideoFileNameByVideoFileName(String fileName ,String newFileName);
 
 }

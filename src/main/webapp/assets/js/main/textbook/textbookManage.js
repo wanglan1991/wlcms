@@ -53,8 +53,12 @@ define(function (require, exports, module) {
              */
             if(base.perList.textbook.check){
             	$("#perm-header .actions").append("<input autocomplete='off'  id='name'  placeholder='请输入教材名称' type='text' />&nbsp;&nbsp;" +
-				"<select id='grade'></select>&nbsp;&nbsp;" +
-				"<select id='subject'></select>&nbsp;&nbsp;" +
+				"<select id='grade' style='width:6%'></select>&nbsp;&nbsp;" +
+				"<select id='subject' style='width:6%'></select>&nbsp;&nbsp;" +
+				"<select id='isRecommend' style='width:6%'>" +
+				"<option value='2'>类型...</option>" +
+				"<option value='1'>推荐</option>" +
+				"<option value='0'>未推荐</option></select>&nbsp;&nbsp;" +
 				"<a href='#' id='query' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>&nbsp;&nbsp;&nbsp;&nbsp;");
             	core.getDictOptions("年级","grade","#grade");
             	core.getDictOptions("科目","subject","#subject");
@@ -62,8 +66,9 @@ define(function (require, exports, module) {
             	
             }	
             //加载可选类型列表00        	
+           
             if(base.perList.textbook.add){
-            	$("#perm-header .actions").append("<a href='#' id='addTextbook' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>添加</a>");
+            	$("#perm-header .actions").append("<a href='#' id='addbook' data-toggle='modal' class='btn btn-success btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>添加</a>");
             }
             /**
              * 是否具有删除教材
@@ -232,8 +237,7 @@ define(function (require, exports, module) {
 				 *打开修改模态框
 				 */	
 		        'click .editTextbook': function (e, value, row, index) {
-		        	$("#modal-editTextbook").show();
-		        	$("#table").hide();
+		        	core.openModel('modal-editTextbook','编辑选课：<b style=color:blue>'+row.title+'</b>');
 		        	$("#editKnowledgeTree").show();
 		        	$("#editGradeTag").attr('grade',row.gradeNo);
 		        	$("#editSubjectTag").attr('subject',row.subjectNo);
@@ -248,7 +252,11 @@ define(function (require, exports, module) {
 		        	$("#editDigest").val(row.digest);
 		        	$("#editImgUrl").val(row.imgUrl);
 		        	$("#editAuthor").val(row.author);
-		        	$("#editPushPerson").val(row.pushPerson);
+		        	$("#editPrice").val(row.price);
+		        	$("#editDiscount").val(row.discount);
+		        	if(row.isHot==1){
+		        		$("#editIsHot").attr("checked","checked");
+		        	}
 		        	core.editloadKnowledgeTree(F.basepath+'/cms/textbook/editKnowledgeTree',row.gradeNo,row.subjectNo,row.knowledgePointArr,"#updateKnowledgeTree");
 		        		
 		        },
@@ -279,15 +287,26 @@ define(function (require, exports, module) {
 		    			F.delTextbook(ids);
 		    		});
 		        },
+		        
+		        /**
+		         * 拆分教材
+		         */
+		        'click .splitTextbook':function(e, value, row, index){
+		        	core.openModel('modal-splitTextbook',"分离出册");
+		        	core.catalogTree(F.basepath+'/cms/textbook/catalogTree',row.id,"#catalogTree");
+		        	
+		        },  
+		        
+		        
+		        
 		        /**
 		         * 查看目录大纲
 		         */
 		        'click .outline':function(e, value, row, index){
 		        	$("#table").hide();
-		        	$("#outline").show();
-		        	var imgUrl=row.imgUrl.replace("</","<img src='http://ekt.oss-cn-shenzhen.aliyuncs.com/");
-		        	var imgUrl2=imgUrl.replace("/>","'>");
-		        	$("#cover").append(imgUrl2);
+		        	$("#outline").show();  
+		        	var imgUrl="<img src='"+row.imgUrl+"'>";
+		        	$("#cover").append(imgUrl);
 		        	var table="<tr><td colspan='7'><h4>"+row.title+"</h4></td></tr>" +
 		        			"<tr>" +
 		        				"<td><b>章/排序</b></td>" +
@@ -347,6 +366,21 @@ define(function (require, exports, module) {
 
 		        	});
 		        },
+		        //加入推荐或取消推荐
+		        'click .recommend':function(e, value, row, index){
+		        	$.ajax({
+		        		url:F.basepath+'/cms/textbook/recommend',
+		        		type:'get',
+		        		data:{id:row.id},
+		        		success:function(data){
+		        			if(data.result>0){
+		        				F.reload();
+		        			}else{
+		        				alert("异常！ 稍后再试");
+		        			}
+		        		}
+		        	});
+		        },
 		        /**
 				 * 加载目录结构
 				 */
@@ -396,14 +430,26 @@ define(function (require, exports, module) {
 	        		        field: 'title',
 	        		        title: '名称'
 	        		    },{
-	        		        field: 'digest',
-	        		        title: '摘要'
+	        		        field: 'grade',
+	        		        title: '年级'
 	        		    },{
-	        		        field: 'author',
-	        		        title: '作者'
+	        		        field: 'subject',
+	        		        title: '学科'
 	        		    },{
-	        		        field: 'pushPerson',
-	        		        title: '录入人'
+	        		        field: 'chapterCount',
+	        		        title: '章数'
+	        		    },{
+	        		        field: 'sectionCount',
+	        		        title: '节数'
+	        		    },{
+	        		        field: 'price',
+	        		        title: '价格￥'
+	        		    },{
+	        		        field: 'discount',
+	        		        title: '折扣%'
+	        		    },{
+	        		        field: 'inputAccountRealName',
+	        		        title: '更新者'
 	        		    }];
 	        //是否需要操作列
 	        		if(base.perList.textbook.outline||
@@ -431,7 +477,8 @@ define(function (require, exports, module) {
     			var title=$("#name").val();
     			var grade=$("#grade").val();
     			var subject=$("#subject").val();
-    			var url= F.basepath+'/cms/textbook/pageList?title='+title+'&gradeNo='+grade+"&subjectNo="+subject;
+    			var isRecommend=$("#isRecommend").val();
+    			var url= F.basepath+'/cms/textbook/pageList?title='+title+'&gradeNo='+grade+"&subjectNo="+subject+"&isRecommend="+isRecommend;
 				$("#textbookTable").bootstrapTable('refresh',{url:url});
     		}
     		
@@ -469,9 +516,10 @@ define(function (require, exports, module) {
 			/**
 			 * 显示新增框
 			 */
-			$('#addTextbook').click(function(){
-				$("#table").hide();
-				$("#modal-addTextbook").show();
+			
+			
+			$('#addbook').click(function(){	
+				core.openModel('modal-addbook','添加选课');
 				core.getDictOptions("年级","grade","#addGrade");
 				core.getDictOptions("科目","subject","#addSubject");
 				core.getDictOptions("教材类型","textbookType","#addTextbookType");
@@ -479,6 +527,8 @@ define(function (require, exports, module) {
 				getFamousTeachers("#author");
 				
 			});
+			
+			
 			//监听科目的选择
 			$("#addSubject").change(function(){
 				var grade = $("#addGrade").val();
@@ -663,24 +713,56 @@ define(function (require, exports, module) {
 			})
 			
 			/**
+			 * 提交拆分textbook
+			 */
+			$('#splitTextbookBtnSubmit').click(function(){
+				var ids = core.getTreeIds("catalogTree");
+				
+				 $.fn.zTree.getZTreeObj("catalogTree");
+				if(ids.length==0){
+					$("#splitTextbookMsg").html("提交保存前必须至少选择一项！");
+					return;
+				}
+				core.closeModel('modal-splitTextbook');
+				$.ajax({
+					url:F.basepath+'/cms/textbook/splitTextbook',
+	        		type:'post',
+	        		data:{ids:ids},
+	        		success:function(data){
+	        			if(data.result>0){
+	        				F.reload();
+	        				$("#splitTextbookMsg").html('');
+	        			}else{
+	        				$("#splitTextbookMsg").html(data.msg);
+	        			}
+	        			
+	        		}	
+				});
+				
+			});
+
+			/**
 			 * 关闭新增框
 			 */
 			$('#btnClose').click(function(){
 				clear();
 			});
-			
+			//关闭教材编辑模态框
 			$('#editBtnClose').click(function(){
-				core.closeModel('modal-editPerm');
 				editClear();
 			});
 			
 			$("#editCatalogBtnClose").click(function(){
 				core.closeModel('modal-editCatalogContent');
 			});
+			//关闭拆分成册的模态框
+			$("#splitTextbookNtnClose").click(function(){
+				core.closeModel('modal-splitTextbook');
+				$("#splitTextbookMsg").html('');
+			})
 			//清理器
 			function clear(){
-				$('#modal-addTextbook').hide();
-				$("#table").show();
+				core.closeModel('modal-addbook');
 				$("#addGrade").empty();
 				$("#addSubject").empty();
 				$("#addTextbookType").empty();
@@ -691,14 +773,17 @@ define(function (require, exports, module) {
 				$("#author").empty();
 				$("#pushPerson").val("");
 				$("#knowledgeTree").empty();
-				$("#addKnowledgeTree").hide();
 				$("#addMsg").text("");
 				$("#imgFile").val('');
+				$("#addprice").val('');
+				$("#adddiscount").val('');
+				$("#isHot").removeAttr("checked");
 			}
 			
+			
+			
 			function editClear(){
-				$('#modal-editTextbook').hide();
-				$("#table").show();
+				core.closeModel('modal-editTextbook');
 				$("#editGrade").empty();
 				$("#editSubject").empty();
 				$("#editTextbookType").empty();
@@ -707,8 +792,8 @@ define(function (require, exports, module) {
 				$("#editDigest").val("");
 				$("#editImgUrl").val("");
 				$("#editAuthor").empty();
-				$("#editPushPerson").val("");
 				$("#editMsg").text("");
+				
 			}
 			
 			function catalogClear(){
@@ -856,35 +941,36 @@ define(function (require, exports, module) {
 				var gradeNo =$("#addGrade").val();
 				var subjectNo=$("#addSubject").val();
 				var textbookTypeNo = $("#addTextbookType").val();
-				var publisherNo = $("#addPublisher").val();
 				var title = $("#title").val();
 				var digest = $("#digest").val();
 				var imgUrl = $("#imgUrl").val();
 				var author = $("#author").val();
-				var pushPerson = $("#pushPerson").val();
+				var discount= $("#adddiscount").val();
+				var price= $("#addprice").val();
 				var phaseNo = gradeNo==19?61:gradeNo==20?61:gradeNo==21?61:60;
+				var isHot = $("#isHot").attr('checked')=='checked'?1:0;
 				if(gradeNo==0){$("#addMsg").text("请选择年级！");return}
 				if(subjectNo==0){$("#addMsg").text("请选择科目！");return}
 				if(textbookTypeNo==0){$("#addMsg").text("请选择教材类型！");return}
-				if(publisherNo==0){$("#addMsg").text("请选择出版社！");return}
 				if(title.length<1){$("#addMsg").text("标题不能为空！");return}
-				if(digest.lengt<1){$("#addMsg").text("摘要不能为空！");return}
-				if(imgUrl.length<1){$("#addMsg").text("图片不能为空！");return}
-				if(pushPerson.length<1){$("#addMsg").html("录入人不能为空！");return}
+				if(imgUrl.length<1){$("#addMsg").text("封面不能为空！");return}
+				if(price.length<1){$("#addMsg").text("价格为必填项！");return}
+				if(discount.length<1){$("#addMsg").text("折扣为必填项！");return}
+				
 				var datas ={
 							phaseNo:phaseNo,
 							gradeNo:gradeNo,
 							subjectNo:subjectNo,
 							textbookTypeNo:textbookTypeNo,
-							publisherNo:publisherNo,
 							title:title,
 							digest:digest,
 							imgUrl:imgUrl,
 							authorId:author,
-							pushPerson:pushPerson,
+							price:price,
+							discount:discount,
+							isHot:isHot,
 							knowledgePointArr:arrId,
-							knowledgePointArrVal:arrName
-															}
+							knowledgePointArrVal:arrName}
 				
 				$.ajax({
 	        		url:F.basepath+'/cms/textbook/add',
@@ -924,35 +1010,36 @@ define(function (require, exports, module) {
 				var phaseNo = gradeNo==19?61:gradeNo==20?61:gradeNo==21?61:60;
 				var subjectNo=$("#editSubject").val();
 				var textbookTypeNo = $("#editTextbookType").val();
-				var publisherNo = $("#editPublisher").val();
 				var title = $("#editTitle").val();
 				var digest = $("#editDigest").val();
 				var imgUrl = $("#editImgUrl").val();
 				var author = $("#editAuthor").val();
-				var pushPerson = $("#editPushPerson").val();
+				var price =$("#editPrice").val();
+				var discount =$("#editDiscount").val();
+				var isHot = $("#editIsHot").attr('checked')=='checked'?1:0;
+				
 				if(gradeNo==0){$("#editMsg").text("请选择年级！");return}
 				if(subjectNo==0){$("#editMsg").text("请选择科目！");return}
 				if(textbookTypeNo==0){$("#editMsg").text("请选择教材类型！");return}
-				if(publisherNo==0){$("#editMsg").text("请选择出版社！");return}
 				if(title.length<1){$("#editMsg").text("标题不能为空！");return}
-				if(digest.lengt<1){$("#editMsg").text("摘要不能为空！");return}
 				if(imgUrl.length<1){$("#editMsg").text("图片不能为空！");return}
-				if(pushPerson.length<1){$("#editMsg").html("录入人不能为空！");return}
+				if(price.length<1){$("#editMsg").text("价格为必填项！");return}
+				if(discount.length<1){$("#editMsg").text("折扣为必填项！");return}
 				var datas ={
 						id:id,
 						phaseNo:phaseNo,
 						gradeNo:gradeNo,
 						subjectNo:subjectNo,
 						textbookTypeNo:textbookTypeNo,
-						publisherNo:publisherNo,
+						price:price,
+						discount:discount,
+						isHot:isHot,
 						title:title,
 						digest:digest,
 						imgUrl:imgUrl,
 						authorId:author,
-						pushPerson:pushPerson,
 						knowledgePointArr:arrId,
-						knowledgePointArrVal:arrName
-											};
+						knowledgePointArrVal:arrName};
 				
 				$.ajax({
 					url:F.basepath+'/cms/textbook/update',
@@ -1003,10 +1090,12 @@ define(function (require, exports, module) {
         ,
         operateFormatter:function (value, row, index) {
         	var _btnAction = "";
-        	
-        	if (base.perList.textbook.outline) {
-            	_btnAction += "<a class='outline btn btn-primary btn-small' href='#' title='目录大纲' style='margin-left:5px'>目录大纲</a>";
-            	}
+	        if (base.perList.textbook.recommend) {
+    		_btnAction += "<a class='recommend "+(row.isRecommend==0?"btn btn-success btn-small":"btn btn-primary btn-small")+"' href='#' title='加入推荐或取消推荐' style='margin-left:5px'>"+(row.isRecommend==0?"加入推荐":"取消推荐")+"</a>";
+	        }
+    		if (base.perList.textbook.outline) {
+        	_btnAction += "<a class='outline btn btn-primary btn-small' href='#' title='目录预览' style='margin-left:5px'>目录预览</a>";
+        	}
         	if (base.perList.textbook.confine) {
         	_btnAction += "<a class='confine btn btn-primary btn-small' href='#' title='启用或停用' style='margin-left:5px'>"+(row.status==1?"停用":"启用")+"</a>";
         	}
@@ -1019,6 +1108,9 @@ define(function (require, exports, module) {
         	if(base.perList.textbook.catalog){
         		_btnAction += "<a class='category btn btn-primary btn-small' href='#' title='编辑目录章节' style='margin-left:5px'>编辑目录章节</a>";
         	}
+        	if(base.perList.textbook.split&&row.chapterCount>0&&row.sectionCount>1&&row.sectionCount!=row.childCount){
+        		_btnAction += "<a class='splitTextbook btn btn-primary btn-small' href='#' title='分离成册' style='margin-left:5px'>分离成册</a>";
+        	}
         		return _btnAction;
         } 
         
@@ -1029,10 +1121,9 @@ define(function (require, exports, module) {
 	$(function() {
 		$("#upload").ajaxForm({
 			//图片上传的文件夹
-			
-			data :
-			{key:"textBook/",
-			fileName:"imgFile"},
+			url:"/cms/upload/imageUpload",
+			type:"post",
+			data :{key:"textBook/",fileName:"imgFile"},
 			beforeSend : function() {
 			
 			$("#submitbutton").attr("disabled","disalbed");
@@ -1041,10 +1132,9 @@ define(function (require, exports, module) {
 				$("#submitbutton").attr("disabled",false);
 				//提交成功后调用
 				if (data.value!=null) {
-					alert(data.value.msg);
 					if(data.value.status == 0){
 						var file = $("#imgFile").val();
-						var fileName = "</textBook/" + getFileName(file)+"/>";
+						var fileName = "http://ekt.oss-cn-shenzhen.aliyuncs.com/textBook/" + getFileName(file);
 						var imgUrl = $("#imgUrl").val(fileName);
 					}
 				} else {
@@ -1059,22 +1149,19 @@ define(function (require, exports, module) {
 	$(function() {
 		$("#editUpload").ajaxForm({
 			//图片上传的文件夹
-			
-			data :
-			{key:"textBook/",
-			 fileName:"editImgFile"},
+			url:"/cms/upload/imageUpload",
+			type:"post",
+			data :{key:"textBook/",fileName:"imgFile"},
 			beforeSend : function() {
-			
-			$("#editSubmitbutton").attr("disabled","disalbed");
+				$("#editSubmitbutton").attr("disabled","disalbed");
 			},
 			success : function(data) {
 				$("#editSubmitbutton").attr("disabled",false);
 				//提交成功后调用
 				if (data.value!=null) {
-					alert(data.value.msg);
 					if(data.value.status == 0){
 						var file = $("#editImgFile").val();
-						var fileName = "</textBook/" + getFileName(file)+"/>";
+						var fileName = "http://ekt.oss-cn-shenzhen.aliyuncs.com/textBook/" + getFileName(file);
 						var editImgUrl = $("#editImgUrl").val(fileName);
 					}
 				} else {

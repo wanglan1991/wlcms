@@ -1,6 +1,7 @@
 package com.ekt.cms.exercise.entity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 2016-04-25 15:35
@@ -10,6 +11,9 @@ import java.util.Date;
  */
 
 public class CmsExercise {
+	
+	//作用于习题导入
+	private Integer index;
 	// 主键
 	private Integer id;
 	// 题目类容
@@ -54,9 +58,48 @@ public class CmsExercise {
 	private Integer phaseNo;
 	//学段value
 	private String analysis;
+	//答案集合
+	private List<CmsAnswer> options ;
+	//录入人
+	private Integer inputAccountId;
+	//更新人真实姓名
+	private String accountRealName;
+	//导入习题时异常时用的信息
+	private String errorMsg;
 	
 	
 	
+	public String getErrorMsg() {
+		return errorMsg;
+	}
+	public void setErrorMsg(String errorMsg) {
+		this.errorMsg = errorMsg;
+	}
+	public String getAccountRealName() {
+		return accountRealName;
+	}
+	public void setAccountRealName(String accountRealName) {
+		this.accountRealName = accountRealName;
+	}
+	public Integer getInputAccountId() {
+		return inputAccountId;
+	}
+	public void setInputAccountId(Integer inputAccountId) {
+		this.inputAccountId = inputAccountId;
+	}
+	public Integer getIndex() {
+		return index;
+	}
+	public void setIndex(Integer index) {
+		this.index = index;
+	}
+	
+	public List<CmsAnswer> getOptions() {
+		return options;
+	}
+	public void setOptions(List<CmsAnswer> options) {
+		this.options = options;
+	}
 	public String getAnalysis() {
 		return analysis;
 	}

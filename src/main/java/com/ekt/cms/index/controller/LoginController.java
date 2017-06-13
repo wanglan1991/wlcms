@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ekt.cms.account.entity.CmsAccount;
 import com.ekt.cms.account.service.CmsAccountService;
+import com.ekt.cms.common.BaseController;
 import com.ekt.cms.index.entity.ResultVO;
 import com.ekt.cms.index.entity.User;
 import com.ekt.cms.utils.Constants;
@@ -33,7 +34,7 @@ import com.ekt.cms.utils.Constants;
 
 @Controller
 @RequestMapping("/user")
-public class LoginController {
+public class LoginController extends BaseController {
 	
 	//注入账户service
 	@Resource
@@ -53,8 +54,7 @@ public class LoginController {
 	@RequestMapping(value = "/exit")
 	public String exit(){
 		//销毁session
-//		destroySession();
-		SecurityUtils.getSubject().logout();
+		destroySession();
 		return "user/login";
 	}
 	

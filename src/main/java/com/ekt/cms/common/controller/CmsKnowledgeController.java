@@ -33,7 +33,16 @@ public class CmsKnowledgeController {
 		page.paging();
 		return cmsKnowledgeService.listPage(cmsKnowledge);
 	}
-
+	
+	
+	@RequestMapping("/list")
+	@ResponseBody
+	public Result knowledgeList(CmsKnowledge cmsKnowledge){
+		Result result =Result.getResults();
+		result.setValue(cmsKnowledgeService.knowledgeList(cmsKnowledge));
+		return result ;
+	}
+	
 	@RequestMapping("/editKnowledge")
 	@ResponseBody
 	public Result update(CmsKnowledge cmsKnowledge) {
@@ -48,6 +57,7 @@ public class CmsKnowledgeController {
 		Result result = Result.getResults();
 		List<String>list=new ArrayList<String>();
 		String[]title=cmsKnowledge.getTitle().split(",");
+		int listSize =  cmsKnowledgeService.knowledgelist(cmsKnowledge).size();
 		int rs =0;
 		for(String str:title){
 			if(str.equals("")){
@@ -58,7 +68,7 @@ public class CmsKnowledgeController {
 				list.add(str);				
 			}else{
 				cmsKnowledge.setTitle(str);
-				cmsKnowledge.setOrderNo(rs);
+				cmsKnowledge.setOrderNo(listSize>0?(listSize+rs+1):rs+1);
 				rs += cmsKnowledgeService.insert(cmsKnowledge);
 			}
 			

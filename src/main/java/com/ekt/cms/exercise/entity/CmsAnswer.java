@@ -13,6 +13,25 @@ public class CmsAnswer {
 	private int exerciseId;
 	// 选项
 	private String option;
+	
+	public CmsAnswer(){
+		
+	}
+	/**
+	 * 
+	 * @param exerciseId
+	 * @param option
+	 * @param contents
+	 * @param isTrue
+	 * @param status
+	 */
+	public CmsAnswer( String option, String contents, int isTrue, int status) {
+		this.option = option;
+		this.contents = contents;
+		this.isTrue = isTrue;
+		this.status = status;
+	}
+
 	// 内容
 	private String contents;
 	// 内容URL

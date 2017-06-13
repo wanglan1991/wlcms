@@ -96,7 +96,7 @@ define(function(require, exports, module) {
 				$("#honours span").remove();
 				$("#addHonour").removeAttr("disabled");	
 				$("#honours").removeAttr('teacherId');
-				$("#msg").text('');
+				$("#honourMsg").text('');
 				tag=1;
 				
 			}
@@ -203,9 +203,10 @@ define(function(require, exports, module) {
 										html+="&nbsp;&nbsp;<span class='"+(i+1)+"span'>时间：" +
 											"<input style='width:124px' type='date' name='dateTime' value='"+data.value[i].time+"'/>" +
 											" &nbsp称号：<input type='text' value='"+data.value[i].title+"' onKeypress='javascript:if(event.keyCode == 32)event.returnValue = false' maxlength='100' name='title' />" +
-											"&nbsp详情：<input type='text' value='"+data.value[i].content+"' onKeypress='javascript:if(event.keyCode == 32)event.returnValue = false' maxlength='400' name='detail' />" +
+											"&nbsp详情：<textarea onKeypress='javascript:if(event.keyCode == 32)event.returnValue = false' maxlength='400' style='height:20px;' name='detail'>"+data.value[i].content+"</textarea>" +
 											"<br></span>"
 										}
+										$("#honours span").remove();
 										$("#honours").append(html);
 									}
 								}	
@@ -226,7 +227,7 @@ define(function(require, exports, module) {
 				var html ="&nbsp;&nbsp;<span class='"+tag+"span'>时间：" +
 						"<input style='width:124px' type='date' name='dateTime' />" +
 						" &nbsp称号：<input type='text' onKeypress='javascript:if(event.keyCode == 32)event.returnValue = false' maxlength='100' name='title' />" +
-						"&nbsp详情：<input type='text' onKeypress='javascript:if(event.keyCode == 32)event.returnValue = false' maxlength='400' name='detail' />" +
+				"&nbsp详情：<textarea onKeypress='javascript:if(event.keyCode == 32)event.returnValue = false' style='height: 20px;' maxlength='400' name='detail' />" +
 						"<br></span>"
 				
 				if(tag>0){
@@ -262,7 +263,7 @@ define(function(require, exports, module) {
 			for(var i=1;i<length+1;i++){
 				var dateTime = $("."+i+"span input[name = dateTime]").val();
 				var title = $("."+i+"span input[name = title]").val();
-				var detail = $("."+i+"span input[name = detail]").val();
+				var detail = $("."+i+"span textarea[name = detail]").val();
 				if(dateTime==[]){$("#honourMsg").text("时间不能为空！");return;}
 				if(title.length<1){$("#honourMsg").text("称号不能为空！");return;}
 				if(detail.length<1){$("#honourMsg").text("详情不能为空！");return;}
@@ -415,11 +416,9 @@ define(function(require, exports, module) {
 	 jQuery(document).ready(function() {
 		 $(function() {
 				$("#upload").ajaxForm({
-					//图片上传的文件夹
-					
-					data :
-					{key:"headPicture/",
-					fileName:"imgFile"},
+					url:"/cms/upload/imageUpload",
+					type:"post",
+					data :{key:"headPicture/",fileName:"imgFile"},
 					beforeSend : function() {
 					
 					$("#submitbutton").attr("disabled","disalbed");

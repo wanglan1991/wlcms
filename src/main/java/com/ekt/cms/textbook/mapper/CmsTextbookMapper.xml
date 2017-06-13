@@ -10,8 +10,7 @@
 		<result column="subject" property="subject" jdbcType="VARCHAR" />
 		<result column="publisher_no" property="publisherNo" jdbcType="INTEGER" />
 		<result column="publisher" property="publisher" jdbcType="VARCHAR" />
-		<result column="textbook_type_no" property="textbookTypeNo"
-			jdbcType="INTEGER" />
+		<result column="textbook_type_no" property="textbookTypeNo" jdbcType="INTEGER" />
 		<result column="textbook_type" property="textbookType"
 			jdbcType="VARCHAR" />
 		<result column="title" property="title" jdbcType="VARCHAR" />
@@ -21,97 +20,152 @@
 		<result column="author" property="author" jdbcType="VARCHAR" />
 		<result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
 		<result column="status" property="status" jdbcType="INTEGER" />
-		<result column="push_person" property="pushPerson" jdbcType="VARCHAR" />
+		<result column="real_name" property="inputAccountRealName" jdbcType="VARCHAR" />
+		<result column="price" property="price" jdbcType="DOUBLE" />
+		<result column="discount" property="discount" jdbcType="DOUBLE" />
+		<result column="is_hot" property="isHot" jdbcType="INTEGER" />
 		<result column="crate_time" property="crateTime" jdbcType="DATE" />
 		<result column="knowledge_point_arr_val" property="knowledgePointArrVal" jdbcType="VARCHAR" />
+		<result column="chapter_count" property="chapterCount" jdbcType="INTEGER" />
+		<result column="section_count" property="sectionCount" jdbcType="INTEGER" />
+		<result column="is_recommend" property="isRecommend" jdbcType="INTEGER" />
+		<result column="child_count" property="childCount" jdbcType="INTEGER" />
 	</resultMap>
+	
+	<resultMap type="com.ekt.cms.textbook.entity.CmsCatalogMessage" id="CmsCatalogMessageMap">
+			<result column="id" property="id"  jdbcType="INTEGER" />
+			<result column="catalog_name" property="catalogName"  jdbcType="VARCHAR" />
+			<result column="introduction" property="introduction" jdbcType="VARCHAR"/>
+			<result column="textbook_id" property="textbookId"  jdbcType="INTEGER" />
+			<result column="grade_no" property="gradeNo"  jdbcType="INTEGER" />
+			<result column="subject_no" property="subjectNo"  jdbcType="INTEGER" />
+			<result column="phase_no" property="phaseNo"  jdbcType="INTEGER" />
+			<result column="is_hot" property="isHot"  jdbcType="INTEGER" />
+			<result column="status" property="status"  jdbcType="INTEGER" />
+			<result column="textbook_type_no" property="textbookTypeNo"  jdbcType="INTEGER" />
+			<result column="knowledge_point_arr" property="knowledgePointArr" jdbcType="VARCHAR"/>
+			<result column="discount" property="discount"  jdbcType="DOUBLE" />
+			<result column="isfree" property="isfree"  jdbcType="INTEGER" />
+			<result column="image_url" property="imageUrl"  jdbcType="VARCHAR" />
+			<result column="video_file_name" property="videoFileName"  jdbcType="VARCHAR" />
+			<result column="price" property="price"  jdbcType="DOUBLE" />
+	</resultMap>
+	
+	
 	<select id="listPage" resultMap="BaseResultMap"	parameterType="com.ekt.cms.textbook.entity.CmsTextbook">
-		SELECT
-		t.id,
-		t.title,
-		t.phase_no,
-		t.grade_no,
-		d.`value` grade,
-		t.subject_no,
-		d1.`value` SUBJECT,
-		t.publisher_no,
-		d2.`value` publisher,
-		t.textbook_type_no,
-		d3.`value` textbook_type,
-		ft.`name` author,
-		t.digest,
-		t.knowledge_point_arr,
-		t.img_url,
-		t.`status`,
-		t.push_person,
-		t.crate_time
-		FROM
-		cms_textbook t
-		LEFT JOIN cms_dictionary d ON t.grade_no = d.id
-		LEFT JOIN
-		cms_dictionary d1 ON t.subject_no = d1.id
-		LEFT JOIN cms_dictionary d2
-		ON t.publisher_no = d2.id
-		LEFT JOIN cms_dictionary d3 ON
-		t.textbook_type_no = d3.id
-		LEFT JOIN api_teacher ft on 
-		ft.id=t.author_id
-		WHERE 1=1
-		<if test="textbook.title !=null and textbook.title !=''">
-			AND (t.title like '%${textbook.title}%')
-		</if>
-		<if test="textbook.subjectNo!=null and textbook.subjectNo!='' and textbook.subjectNo !=0">
-			AND t.subject_no=#{textbook.subjectNo}
-		</if>
-		<if test="textbook.gradeNo!=null and textbook.gradeNo!='' and textbook.gradeNo !=0 ">
-			AND t.grade_no= #{textbook.gradeNo}
-		</if>
-		<if test="textbook.publisherNo!=null and textbook.publisherNo!=''">
-			AND t.publisher_no= #{textbook.publisherNo}
-		</if>
-		<if test="textbook.textbookTypeNo !=null and textbook.textbookTypeNo !=''">
-			AND t.textbook_type_no=#{textbook.textbookTypeNo}
-		</if>
-	</select>
-	<insert id="insertTextbook" parameterType="com.ekt.cms.textbook.entity.CmsTextbook">
+				SELECT
+					t.id,
+					t.title,
+					t.phase_no,
+					t.grade_no,
+					d.`value` grade,
+					t.subject_no,
+					d1.`value` SUBJECT,
+					t.publisher_no,
+					d2.`value` publisher,
+					t.textbook_type_no,
+					d3.`value` textbook_type,
+					ft.`name` author,
+					t.digest,
+					t.knowledge_point_arr,
+					t.img_url,
+					t.`status`,
+					t.input_account_id,
+					ac.real_name,
+					t.crate_time,
+					t.discount,
+					t.price,
+					t.is_hot,
+					t.is_recommend,
+					COUNT(ca.catalog_level=51 OR NULL)chapter_count,
+					COUNT(ca.catalog_level=52 OR NULL)section_count,
+					(SELECT COUNT(1) FROM cms_textbook t2 WHERE t2.parent_id=t.id )AS child_count
+				FROM
+				cms_textbook t
+				LEFT JOIN cms_account ac on t.input_account_id=ac.id
+				LEFT JOIN cms_dictionary d ON t.grade_no = d.id
+				LEFT JOIN cms_dictionary d1 ON t.subject_no = d1.id
+				LEFT JOIN cms_dictionary d2 ON t.publisher_no = d2.id
+				LEFT JOIN cms_dictionary d3 ON t.textbook_type_no = d3.id
+				LEFT JOIN api_teacher ft on ft.id=t.author_id
+				LEFT JOIN cms_catalog ca on ca.textbook_id=t.id 
+				WHERE 1=1
+				<if test="textbook.title !=null and textbook.title !=''">
+					AND (t.title like '%${textbook.title}%')
+				</if>
+				<if test="textbook.subjectNo!=null and textbook.subjectNo!='' and textbook.subjectNo !=0">
+					AND t.subject_no=#{textbook.subjectNo}
+				</if>
+				<if test="textbook.gradeNo!=null and textbook.gradeNo!='' and textbook.gradeNo !=0 ">
+					AND t.grade_no= #{textbook.gradeNo}
+				</if>
+				<if test="textbook.publisherNo!=null and textbook.publisherNo!=''">
+					AND t.publisher_no= #{textbook.publisherNo}
+				</if>
+				<if test="textbook.textbookTypeNo !=null and textbook.textbookTypeNo !=''">
+					AND t.textbook_type_no=#{textbook.textbookTypeNo}
+				</if>
+				<if test="textbook.isRecommend!=null and textbook.isRecommend!=2">
+					AND t.is_recommend=#{textbook.isRecommend}	
+				</if>
+					GROUP BY t.id
+					ORDER BY t.id DESC
+			</select>
+			
+			<select id="getTextbookCountByTextbookTitle" resultType="java.lang.Integer"	parameterType="java.lang.String">
+				SELECT
+					count(1)
+				FROM
+				cms_textbook t
+				WHERE 1=1
+				AND t.title = #{textbookTitle}
+			
+				
+			</select>
+			
+	<insert id="insertTextbook" parameterType="com.ekt.cms.textbook.entity.CmsTextbook" useGeneratedKeys="true" keyProperty="id">
 			INSERT INTO cms_textbook(
-			phase_no,
-			grade_no,
-			subject_no,
-			publisher_no,
-			textbook_type_no,
-			title,
-			knowledge_point_arr,
-			knowledge_point_arr_val,
-		<if test="digest !=null and digest !=''">
-			digest,
-		</if>
-		<if test="authorId!=null and authorId !='' and authorId!=0">
-			author_id,
-		</if>
-			img_url,
-			push_person,
-			crate_time,
-			status
+				phase_no,
+				grade_no,
+				subject_no,
+				publisher_no,
+				textbook_type_no,
+				title,
+				knowledge_point_arr,
+				knowledge_point_arr_val,
+				digest,
+				author_id,
+				img_url,
+				input_account_id,
+				crate_time,
+				isfree,
+				price,
+				discount,
+				status,
+				is_hot,
+				parent_id,
+				is_recommend
 			)VALUES(
-				#{phaseNo,jdbcType=INTEGER},
-				#{gradeNo ,jdbcType=INTEGER},
-				#{subjectNo,jdbcType=INTEGER},
-				#{publisherNo,jdbcType=INTEGER},
-				#{textbookTypeNo,jdbcType=INTEGER},
-				#{title,jdbcType=VARCHAR},
-				#{knowledgePointArr,jdbcType=VARCHAR},
-				#{knowledgePointArrVal,jdbcType=VARCHAR},
-			<if test="digest !=null and digest !=''">
-					#{digest,jdbcType=VARCHAR},
-			</if>
-			<if test="authorId!=null and authorId !='' and authorId!=0">
-					#{authorId,jdbcType=INTEGER},
-			</if>
-				#{imgUrl,jdbcType=VARCHAR},
-				#{pushPerson,jdbcType=VARCHAR},
+				#{phaseNo},
+				#{gradeNo },
+				#{subjectNo},
+				#{publisherNo},
+				#{textbookTypeNo},
+				#{title},
+				#{knowledgePointArr},
+				#{knowledgePointArrVal},
+				#{digest},		
+				#{authorId},
+				#{imgUrl},
+				#{inputAccountId},
 				SYSDATE(),
-				1
+				#{isFree},
+				#{price},
+				#{discount},
+				0,
+				#{isHot},
+				#{parentId},
+				0
 			)
 	</insert>
 	<delete id="deleteTextbook" parameterType="java.lang.Integer">
@@ -162,12 +216,80 @@
 		<if test="status !=null and status !=''">
 			status=#{status}, 
 		</if>
-		<if test="pushPerson !=null and pushPerson !=''">
-			push_person =#{pushPerson}  
+		<if test="inputAccountId !=null and inputAccountId !=0">
+			input_account_id =#{inputAccountId}  ,
 		</if>
+		<if test="price !=null and price !=''">
+			price =#{price},
+		</if>
+		<if test="discount !=null and discount !=''">
+			discount =#{discount},
+		</if>
+			is_hot =#{isHot},
+			
+			isfree =#{isFree}
+			
 		WHERE id=#{id};
-		
 	</update>
+	<select id="getCatalogTree" parameterType="java.lang.Integer" resultType="java.util.Map">
+			    SELECT
+					a.*,
+					IF (b.title IS NULL,'false','true') AS checked,
+					IF (b.title IS NULL,'false','true') AS chkDisabled
+				FROM(
+					SELECT
+							id,
+							 catalog_name AS name,
+							'false' oncheck,
+							'true' open,
+							parent_id AS pId,
+				
+						IF (parent_id = 0, 'true', 'false') AS parent
+						FROM
+							cms_catalog
+						WHERE
+							textbook_id = #{textbookId}
+					) AS a
+				LEFT JOIN (
+					SELECT
+						title
+					FROM
+						cms_textbook
+					WHERE
+						parent_id = #{textbookId}
+				) AS b ON a.`name` = b.title
+			ORDER BY id
+	</select>
+	<select id="selectCatalogById"  resultMap="CmsCatalogMessageMap">
+		SELECT 
+			C.id,
+			c.catalog_name,
+			c.introduction,
+			c.textbook_id,
+			t.grade_no,
+			t.subject_no,
+			t.phase_no,
+			t.is_hot,
+			t.`status`,
+			t.textbook_type_no,
+			p.id as knowledge_point_arr,
+			t.discount,
+			t.isfree,
+			v.image_url,
+			c.video_file_name,
+			if(v.price IS NULL,0,v.price) AS price
+		 FROM cms_catalog c
+			LEFT JOIN cms_textbook  t on c.textbook_id=t.id
+			LEFT JOIN cms_knowledge_point p on c.catalog_name=p.title
+			LEFT JOIN cms_video v on v.file_name=c.video_file_name 
+		WHERE 1=1 AND c.id IN
+		 <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            		#{item}
+       	 </foreach>
+	</select>
 	
+	<update id="recommendById" parameterType="java.lang.Integer">
+		UPDATE cms_textbook SET is_recommend=IF(is_recommend=0,1,0) WHERE id =#{id}
+	</update>
 	
 </mapper>

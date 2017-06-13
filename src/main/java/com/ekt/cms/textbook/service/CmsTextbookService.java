@@ -1,9 +1,12 @@
 package com.ekt.cms.textbook.service;
 
 import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import com.ekt.cms.textbook.dao.CmsTextbookMapper;
+import com.ekt.cms.textbook.entity.CmsCatalogMessage;
 import com.ekt.cms.textbook.entity.CmsTextbook;
 /**
  * 
@@ -40,6 +43,26 @@ public class CmsTextbookService implements ICmsTextbookService {
 	@Override
 	public Integer update(CmsTextbook cmsTextbook) {
 		return cmsTextbookMapper.updateTextbook(cmsTextbook);
+	}
+
+	@Override
+	public List<Map<String, Object>> getCatalogTree(int textbookId) {
+		return cmsTextbookMapper.getCatalogTree(textbookId);
+	}
+
+	@Override
+	public List<CmsCatalogMessage> selectCatalogById(String [] list) {
+		return cmsTextbookMapper.selectCatalogById(list);
+	}
+
+	@Override
+	public int recommendById(int id) {
+		return cmsTextbookMapper.recommendById(id);
+	}
+
+	@Override
+	public int getTextbookCountByTextbookTitle(String textbookTitle) {
+		return cmsTextbookMapper.getTextbookCountByTextbookTitle(textbookTitle);
 	}
 
 }

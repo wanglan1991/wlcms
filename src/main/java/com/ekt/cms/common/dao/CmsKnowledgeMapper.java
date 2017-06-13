@@ -74,7 +74,12 @@ public interface CmsKnowledgeMapper {
 	 * @return
 	 */
 	List<Map<String, Object>> knowledgeTree(@Param("gradeNo")int gradeNo, @Param("subjectNo")int subjectNo);
-
 	
+	/**
+	 * 根据知识点名称获取知识点对象
+	 * @param name
+	 * @return
+	 */
+	CmsKnowledge getKnowledgeByName(String name);
 	
 	}

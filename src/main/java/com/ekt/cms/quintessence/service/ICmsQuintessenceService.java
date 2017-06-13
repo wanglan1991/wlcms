@@ -28,41 +28,17 @@ public interface ICmsQuintessenceService {
 	 */
 	List<CmsQuintessence> listPage(CmsQuintessence quintessence);
 
-	
 	/**
-	 * 根据Id删除精选
-	 * @param id
+	 * 获取teacher列表
 	 * @return
 	 */
-	int delQuintessenceById(int id);
-	
-	
+	List<Map<String,Object>> getTeacherList();
 	
 	/**
-	 * 获取可选的教材
+	 * app端显示或隐藏每日精选习题、题库组卷
 	 * @return
 	 */
-	List<Map<String,Object>> getQuintessenceTextbook();
-	
-	/**
-	 * 获取可选的组卷
-	 * @return
-	 */
-	List<Map<String,Object>> getQuintessenceTestpaper();
-	
-	/**
-	 * 添加精选
-	 * @param cmsQuintessence
-	 * @return
-	 */
-	int addQuintessence(CmsQuintessence cmsQuintessence);
-	
-	/**
-	 * 根据条件查询
-	 * @param cmsQuintessence
-	 * @return
-	 */
-	List<CmsQuintessence> getQuintessence(CmsQuintessence cmsQuintessence);
+	int confine(int id);
 	
 	
 }

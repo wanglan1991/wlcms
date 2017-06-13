@@ -47,12 +47,114 @@ public class CmsTextbook {
 	// 状态
 	private Integer status;
 	//录入者
-	private String pushPerson; 
+	private Integer inputAccountId; 
+	//录入者名称
+	private String inputAccountRealName;
 	//创建时间
 	private Date crateTime;
 	
 	private String knowledgePointArrVal;
+	//折扣
+	private Double discount;
+	//价格
+	private Double price;
+	//是否免费
+	private Integer isFree;
+	//是否为热门
+	private Integer isHot;
+	//章数
+	private Integer chapterCount;
+	//节数
+	private Integer sectionCount;
+	//父级id
+	private  Integer parentId;
+	//是否为推荐视频
+	private  Integer isRecommend;
+	//单品数量
+	private int childCount;
 	
+	
+	
+	
+	public int getChildCount() {
+		return childCount;
+	}
+
+	public void setChildCount(int childCount) {
+		this.childCount = childCount;
+	}
+
+	public Integer getIsRecommend() {
+		return isRecommend;
+	}
+
+	public void setIsRecommend(Integer isRecommend) {
+		this.isRecommend = isRecommend;
+	}
+
+	public Integer getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
+	}
+
+	public Integer getChapterCount() {
+		return chapterCount;
+	}
+
+	public void setChapterCount(Integer chapterCount) {
+		this.chapterCount = chapterCount;
+	}
+
+	public Integer getSectionCount() {
+		return sectionCount;
+	}
+
+	public void setSectionCount(Integer sectionCount) {
+		this.sectionCount = sectionCount;
+	}
+
+	public Integer getIsHot() {
+		return isHot;
+	}
+
+	public void setIsHot(Integer isHot) {
+		this.isHot = isHot;
+	}
+
+	public Integer getIsFree() {
+		return isFree;
+	}
+
+	public void setIsFree(Integer isFree) {
+		this.isFree = isFree;
+	}
+
+	public String getInputAccountRealName() {
+		return inputAccountRealName;
+	}
+
+	public void setInputAccountRealName(String inputAccountRealName) {
+		this.inputAccountRealName = inputAccountRealName;
+	}
+	public Double getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(Double discount) {
+		this.discount = discount;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
 	public int getAuthorId() {
 		return authorId;
 	}
@@ -76,14 +178,15 @@ public class CmsTextbook {
 		this.crateTime = crateTime;
 	}
 
-	public String getPushPerson() {
-		return pushPerson;
+	
+
+	public Integer getInputAccountId() {
+		return inputAccountId;
 	}
 
-	public void setPushPerson(String pushPerson) {
-		this.pushPerson = pushPerson;
+	public void setInputAccountId(Integer inputAccountId) {
+		this.inputAccountId = inputAccountId;
 	}
-
 
 	public Integer getId() {
 		return id;

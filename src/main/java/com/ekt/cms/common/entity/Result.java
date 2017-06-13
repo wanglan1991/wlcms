@@ -12,15 +12,38 @@ import java.util.List;
 public final class Result {
 	
 	
-	private Result(){
-		
-	}
-
-	private String msg;
+private String msg;
 	
 	private List <Object> list;
 	
 	private Boolean ok;
+	
+	private int result;
+
+	private Object value;
+	
+	public Result(){
+		
+	}
+	
+	/**
+	 * 
+	 * @param msg
+	 * @param result
+	 * @param value
+	 */
+	public Result(int result,String msg, Object value) {
+		this.msg = msg;
+		this.result = result;
+		this.value = value;
+	}
+	
+	public Result(int result,String msg) {
+		this.msg = msg;
+		this.result = result;
+	}
+
+	
 
 	public Boolean getOk() {
 		return ok;
@@ -62,11 +85,44 @@ public final class Result {
 		this.value = value;
 	}
 
-	private int result;
-
-	private Object value;
+	
 	public static Result getResults(){
 		return new Result();
+	}
+	
+	public static Result getResults(int result,String msg){
+		Result r =getResults();
+		r.setResult(result);
+		r.setMsg(msg);
+		return r;
+	}
+	
+	public static Result getResults(int result,String msg,Object value){
+		Result r =getResults();
+		r.setResult(result);
+		r.setMsg(msg);
+		r.setValue(value);
+		return r;
+	}
+	
+	public static Result getResults(int result,Object value){
+		Result r =getResults();
+		r.setResult(result);
+		r.setValue(value);
+		return r;
+	}
+	
+	public static Result getResults(Object value){
+		Result r =getResults();
+		r.setValue(value);
+		r.setResult(1);
+		return r;
+	}
+	
+	public static Result getResults(int result){
+		Result r =getResults();
+		r.setResult(result);
+		return r;
 	}
 
 }

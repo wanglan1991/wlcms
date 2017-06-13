@@ -181,7 +181,8 @@ define(function (require, exports, module) {
                 confine:false,
                 play : false,
                 transcode : false,
-            	editVideoExercise:false
+            	editVideoExercise:false,
+            	createTextbook:false
             },
             region: {
                 check:false,
@@ -201,10 +202,12 @@ define(function (require, exports, module) {
 	             edit:false,
 	             outline:false,
 	             catalog:false,
+	         	 split:false,
 	             checkCatalog:false,
 	             editCatalog:false,
 	             delCatalog:false,
-	         	 addCatalog:false
+	         	 addCatalog:false,
+	         	 recommend:false
             },
             exercise:{
             	 check:false,
@@ -225,7 +228,19 @@ define(function (require, exports, module) {
 	    	    check:false,
 	            add:false,
 	            del:false,
-       			}
+       			},
+		ektUser:{
+    	    check:false,
+    	    confine:false,
+    	    permission:false,
+   			},
+   		news:{
+   			check:false,
+   			add:false,
+   			del:false,
+   			edit:false,
+   			confine:false
+   		}
         }
     };
 });

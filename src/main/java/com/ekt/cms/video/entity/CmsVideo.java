@@ -1,5 +1,7 @@
 package com.ekt.cms.video.entity;
 
+import com.ekt.cms.textbook.entity.CmsTextbook;
+
 /**
  * 2016-05-02
  * 
@@ -10,6 +12,9 @@ public class CmsVideo {
 	private String videoName;
 	// 视频文件名
 	private String fileName;
+	//原文件名
+	private String oldFileName;
+	//URL
 	private String url;
 	// 备用URL
 	private String urlBak;
@@ -45,7 +50,109 @@ public class CmsVideo {
 	private int exerciseSubjectNo;
 	//配套习题知识点
 	private int exerciseKnoeledgeId;
+	//文件Id;
+	private String fileId;
+	//价格
+	private Double price;
+	//折扣
+	private Double discount;
+	//是否免费
+	private Integer isFree;
+	//选课Id
+	private int textbookId;
+	//试看视频video key
+	private String subVideoKey;
+	//习题个数
+	private int exerciseCount;
+	//是否存在题库组卷
+	private int hasTestpaper;
+	//试看版videoKey
+	private String subUrl;
 	
+	
+	
+	
+	
+	
+	public String getOldFileName() {
+		return oldFileName;
+	}
+
+	public void setOldFileName(String oldFileName) {
+		this.oldFileName = oldFileName;
+	}
+	public String getSubUrl() {
+		return subUrl;
+	}
+
+	public void setSubUrl(String subUrl) {
+		this.subUrl = subUrl;
+	}
+
+	public int getHasTestpaper() {
+		return hasTestpaper;
+	}
+
+	public void setHasTestpaper(int hasTestpaper) {
+		this.hasTestpaper = hasTestpaper;
+	}
+
+	public int getExerciseCount() {
+		return exerciseCount;
+	}
+
+	public void setExerciseCount(int exerciseCount) {
+		this.exerciseCount = exerciseCount;
+	}
+
+	public String getSubVideoKey() {
+		return subVideoKey;
+	}
+
+	public void setSubVideoKey(String subVideoKey) {
+		this.subVideoKey = subVideoKey;
+	}
+
+	public int getTextbookId() {
+		return textbookId;
+	}
+
+	public void setTextbookId(int textbookId) {
+		this.textbookId = textbookId;
+	}
+
+	public Integer getIsFree() {
+		return isFree;
+	}
+
+	public void setIsFree(Integer isFree) {
+		this.isFree = isFree;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public Double getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(Double discount) {
+		this.discount = discount;
+	}
+
+	public String getFileId() {
+		return fileId;
+	}
+
+	public void setFileId(String fileId) {
+		this.fileId = fileId;
+	}
+
 	public int getExerciseGradeNo() {
 		return exerciseGradeNo;
 	}
@@ -234,7 +341,27 @@ public class CmsVideo {
 	}
 
 	
+	//转换选课
+	public CmsTextbook getTextbook(){
+		CmsTextbook  book=new CmsTextbook();
+		book.setTitle(this.videoName);
+		book.setDigest(this.digest);
+		book.setGradeNo(this.gradeNo);
+		book.setSubjectNo(this.subjectNo);
+		book.setPhaseNo(this.gradeNo==19||this.gradeNo==20||this.gradeNo==21?61:60);
+		book.setTextbookTypeNo(46);
+		book.setImgUrl(this.imageUrl);
+		book.setKnowledgePointArr(this.knowledgeId);
+		book.setKnowledgePointArrVal(this.knowledge);
+		book.setIsHot(1);
+		book.setPrice(this.price);
+		book.setDiscount(this.discount);
+		book.setIsFree(this.isFree);
+		return book;
+	}
 
+	
+	
 
 
 }

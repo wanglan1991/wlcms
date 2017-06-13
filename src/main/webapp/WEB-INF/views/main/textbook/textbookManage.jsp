@@ -48,188 +48,211 @@
 		</div>
 </div>
 
-
-<div  id='modal-addTextbook'  style="display: none" >
-	<div style="margin-left:56px;">
-		<h2>添加教材</h2>
-		<div style="width:660px">
-			<div style='width:300px'>
-	        	<div class='control-group'>
-	           	 	<label class='control-label'>年级</label>
-	           		 <div class='controls'>
-	               <select id='addGrade'></select>
-	            </div>
-	        </div>
-	        <div class='control-group'  >
-	            <label class='control-label'>科目</label>
-	            <div class='controls'>
-	             	<select id='addSubject'></select>
-	            </div>
-	        </div>
-	         <div class='control-group'  >
-	            <label class='control-label'>教材类型</label>
-	            <div class='controls'>
-	             	<select id='addTextbookType'></select>
-	            </div>
-	        </div>
-	         <div class='control-group'  >
-	            <label class='control-label'>出版社</label>
-	            <div class='controls'>
-	             	<select id='addPublisher'></select>
-	            </div>
-	        </div>
-	        
-	         <div class='control-group'>
-	            <label class='control-label'>标题</label>
-	            <div class='controls'>
-	                <input  id='title'   maxlength='300'  placeholder='标题' type='text' />
-	            </div>
-	        </div>
-	 </div>
-	 <div style="width:300px;margin-left: 260px;margin-top:-327px;">
-	         <div class='control-group'>
-	            <label class='control-label'>摘要</label>
-	            <div class='controls'>
-	                <input  id='digest'   maxlength='300'  placeholder='摘要' type='text' />
-	            </div>
-	        </div>
-	        <div class='control-group'>
-	            <label class='control-label'>作者/名师</label>
-	            <div class='controls'>
-	                <select  id='author' style='width:216px'></select>
-	            </div>
-	        </div>
-	        <br>
-	         <div class='control-group'>
-	            <label class='control-label'>录入人</label>
-	            <div class='controls'>
-	                <input  id='pushPerson'  maxlength='15'  placeholder='录入人' type='text' />
-	            </div>
-			</div>
-			 <div class='control-group'>
-	            <label class='control-label'>封面</label>
-	            <div class='controls'>
-	                <input id='imgUrl'  maxlength='100'  placeholder='&lt; &frasl;img.png &frasl; &gt;上传成功后自动回填文件名' type='text' />
-	                <form id="upload" action="/cms/upload/imageUpload" method="post" enctype="multipart/form-data">
-					<input type="file" id="imgFile" name="imgFile" multiple="multiple"	style='width: 216px;'required><br>
-						<button type="submit" id ="submitbutton">点击上传</button>
-					</form>
-	            </div>
-	        </div>
-	        </div>
-	        
-	        <div style="margin-left: 140px;margin-top: 110px;">
-	        <div id='addMsg' style='color:#b94a48;width:200px;height: 20px;margin-left: 28px;'></div>
-	        <br>
-	         <button type="button" id="btnClose" class='btn'>关闭</button>&nbsp;&nbsp;&nbsp;
-   	         <button type="button" id="btnSubmit" class='btn btn-primary'>保存</button>
+<div class='modal hide fade' id='modal-splitTextbook'  role='dialog' tabindex='-1'>
+		<div class='modal-header'>
+			<button class='close' data-dismiss='modal' type='button'>&times;</button>
+			<h3></h3>			
+		</div>
+			<div class='modal-body' style='overflow-y: visible;'>
+					
+					<div id='Tree'>
+					     <label class='control-label' style="color:blue">..请选择好需要分离的实例 ，然后点保存</label>
+					    <form class='form validate-form' id='submit-distributePermissionTreeForm' method="post" role="form"  style='margin-bottom: 0;'>
+					    <div style="border: 1px solid #d0d0d0;">
+					       <input type="hidden"/>
+					       <input type="hidden" id="distributePermissionTreeHidden"/>
+					       <ul id="catalogTree" class="ztree" style="background: #fbfbfb;width:97%;height:462px;overflow-y:scroll;overflow-x:auto;"></ul>
+					    </div>
+					    </form>
+		 			</div> 		        	
+			 </div>
+			        
+			 <div class='modal-footer' style="margin-top: 99px;">
+			  	 <msg id="splitTextbookMsg" style="color:red"></msg>
+		         <button type="button" id="splitTextbookNtnClose" class='btn'>关闭</button>&nbsp;&nbsp;&nbsp;
+	   	         <button type="button" id="splitTextbookBtnSubmit" class='btn btn-primary'>保存</button>
+   	         </div>
    	        </div>
-	  </div> 
 
 
- <div id='addKnowledgeTree' style="width: 32%;margin-left: 61%; margin-top: -496px;display:none" >
-        <h4>知识点Tree</h4>
-    <form class='form validate-form' id='submit-distributePermissionTreeForm' method="post" role="form"  style='margin-bottom: 0;'>
-    <div>
-       <input type="hidden"/>
-       <input type="hidden" id="distributePermissionTreeHidden"/>
-       <ul id="knowledgeTree" class="ztree" style="background: #f0f6e4;width:100%;height:361px;overflow-y:scroll;overflow-x:auto;"></ul>
-    </div>
-    </form>
- </div>      
- </div>     
-</div>
-<!-- 修改教材 -->
-<div  id='modal-editTextbook' idtag style="display: none" >
-	<div style="margin-left:56px;">
-		<h2>修改教材</h2>
-		<div style="width:660px">
-			<div style='width:300px'>
-	        	<div class='control-group'>
+
+<div class='modal hide fade' id='modal-addbook' style="width:683px; height:791px;" role='dialog' tabindex='-1'>
+		<div class='modal-header'>
+			<button class='close' data-dismiss='modal' type='button'>&times;</button>
+			<h3></h3>			
+				热门 ——&nbsp;&nbsp;<input style="margin-top: -1px;" type="checkbox" id="isHot">
+		</div>
+			<div class='modal-body' style='width:300px;overflow-y: visible;'>
+					<div class='control-group'>
+			            <label class='control-label'>选课名称</label>
+			            <div class='controls'>
+			                <input  id='title'   maxlength='300'  placeholder='标题.....' type='text' />
+			            </div>
+			        </div>
+			        <div class='control-group'>
+			           	 	<label class='control-label'>年级</label>
+			           		 <div class='controls'>
+			               <select id='addGrade'></select>
+			            </div>
+			        </div>
+			        <div class='control-group'  >
+			            <label class='control-label'>科目</label>
+			            <div class='controls'>
+			             	<select id='addSubject'></select>
+			            </div>
+			        </div>
+			         <div class='control-group'  >
+			            <label class='control-label'>教材类型</label>
+			            <div class='controls'>
+			             	<select id='addTextbookType'></select>
+			            </div>
+			        </div>
+		
+			         <div class='control-group'>
+			            <label class='control-label'>价格</label>
+			            <div class='controls'>
+			                <input  id='addprice'  onkeyup="value=value.replace(/[^\d.]/g,'')"  maxlength='3'  placeholder='￥....' type='text' />
+			            </div>
+			        </div> 
+			        <div class='control-group'>
+			            <label class='control-label'>折扣</label>
+			            <div class='controls'>
+			                <input  id='adddiscount'  onkeyup="value=value.replace(/[^\d.]/g,'')"  maxlength='3'  placeholder='%....' type='text' />
+			            </div>
+			        </div> 
+					 <div class='control-group'>
+			            <label class='control-label'>封面</label>
+			            <div class='controls'>
+			             <input id='imgUrl'  maxlength='100'  placeholder='&lt; &frasl;img.png &frasl; &gt;上传成功后自动回填文件名' type='text' />
+			            </div>
+			        </div>
+			        <div class='control-group'>
+			            <label class='control-label'>作者/名师</label>
+			            <div class='controls'>
+			                <select  id='author' style='width:216px'></select>
+			            </div>
+			        </div>
+			       <div class='control-group'>
+			            <label class='control-label'>摘要</label>
+			            <div class='controls'>
+			                <textarea  id='digest'   maxlength='300' style="height:55px;width:202%;" placeholder='摘要......' type='text' ></textarea>
+			            </div>
+			        </div>
+			        <form id="upload"  enctype="multipart/form-data">
+			                <input type="file" id="imgFile" name="imgFile" multiple="multiple" accept="image/gif,image/jpeg,image/png,image/jpg"	style='width: 216px;'required>
+			                <button type="submit" id ="submitbutton">点击上传</button>
+							</form>
+					<div id='addKnowledgeTree' style="width: 103%;margin-left: 102%; margin-top: -660px;" >
+					     <label class='control-label'>知识点</label>
+					    <form class='form validate-form' id='submit-distributePermissionTreeForm' method="post" role="form"  style='margin-bottom: 0;'>
+					    <div style="border: 1px solid #d0d0d0;">
+					       <input type="hidden"/>
+					       <input type="hidden" id="distributePermissionTreeHidden"/>
+					       <ul id="knowledgeTree" class="ztree" style="background: #fbfbfb;width:97%;height:462px;overflow-y:scroll;overflow-x:auto;"></ul>
+					    </div>
+					    </form>
+		 			</div> 
+			        	
+			 </div>
+			        
+			 <div class='modal-footer' style="margin-top: 252px;">
+			  	 <msg id="addMsg" style="color:red"></msg>
+		         <button type="button" id="btnClose" class='btn'>关闭</button>&nbsp;&nbsp;&nbsp;
+	   	         <button type="button" id="btnSubmit" class='btn btn-primary'>保存</button>
+   	         </div>
+   	        </div>
+
+
+
+<div class='modal hide fade' id='modal-editTextbook' style="width:683px; height:791px;" role='dialog' tabindex='-1'>
+		<div class='modal-header'>
+			<button class='close' data-dismiss='modal' type='button'>&times;</button>
+			<h3></h3>			
+				热门 ——&nbsp;&nbsp;<input style="margin-top: -1px;" type="checkbox" id="editIsHot">
+		</div>
+			<div class='modal-body' style='width:300px;overflow-y: visible;'>
+					<div class='control-group'>
+			            <label class='control-label'>选课名称</label>
+			            <div class='controls'>
+			                <input  id='editTitle'   maxlength='300'  placeholder='标题.....' type='text' />
+			            </div>
+			        </div>
+			        
+			       <div class='control-group'>
 	           	 		<label class='control-label' id="editGradeTag" grade >年级</label>
 		           		 <div class='controls'>
 		               <select id='editGrade'></select>
 		            </div>
 		        </div>
-	        <div class='control-group'  >
-	            <label class='control-label' id="editSubjectTag" subject>科目</label>
-	            <div class='controls'>
-	             	<select id='editSubject'></select>
-	            </div>
-	        </div>
-	         <div class='control-group'  >
-	            <label class='control-label'>教材类型</label>
-	            <div class='controls'>
-	             	<select id='editTextbookType'></select>
-	            </div>
-	        </div>
-	         <div class='control-group'  >
-	            <label class='control-label'>出版社</label>
-	            <div class='controls'>
-	             	<select id='editPublisher'></select>
-	            </div>
-	        </div>
-	         <div class='control-group'>
-	            <label class='control-label'>标题</label>
-	            <div class='controls'>
-	                <input  id='editTitle'   maxlength='300'  placeholder='标题' type='text' />
-	            </div>
-	        </div>
-	 </div>
-	 <div style="width:300px;margin-left: 260px;margin-top:-327px;">
-	         <div class='control-group'>
-	            <label class='control-label'>摘要</label>
-	            <div class='controls'>
-	                <input  id='editDigest'   maxlength='300'  placeholder='摘要' type='text' />
-	            </div>
-	        </div>
-	        <div class='control-group'>
-	            <label class='control-label'>作者/名师</label>
-	            <div class='controls'>
-	                <select  id='editAuthor' style='width:216px'></select>
-	            </div>
-	        </div>
-	         <div class='control-group'>
-	            <label class='control-label'>录入人</label>
-	            <div class='controls'>
-	                <input  id='editPushPerson'  maxlength='15'  placeholder='录入人' type='text' />
-	            </div>
-			</div>
-			<div class='control-group'>
-	            <label class='control-label'>封面</label>
-	            <div class='controls'>
-	                <input id='editImgUrl'  maxlength='100'  name = 'imgUrl'placeholder='&lt; img.png  &gt;上传成功后自动回填文件名' type='text' />
-	                <form id="editUpload" action="/cms/upload/imageUpload" method="post" enctype="multipart/form-data">
-					<input type="file" id="editImgFile" name="editImgFile" multiple="multiple" style="width: 216px;" required><br>
-						<button type="submit" id ="editSubmitbutton">图片上传</button>
-					</form>
-	            </div>
-	        </div>
-	        </div>
-	        
-	        <div style="margin-left: 140px;margin-top: 110px;">
-	        <div id='editMsg' style='color:#b94a48;width:200px;height: 20px;margin-left: 28px;'></div>
-	        <br>
-	         <button type="button" id="editBtnClose" class='btn'>关闭</button>&nbsp;&nbsp;&nbsp;
-   	         <button type="button" id="editBtnSubmit" class='btn btn-primary'>保存</button>
+		        <div class='control-group'  >
+		            <label class='control-label' id="editSubjectTag" subject>科目</label>
+		            <div class='controls'>
+		             	<select id='editSubject'></select>
+		            </div>
+		        </div>
+		         <div class='control-group'  >
+		            <label class='control-label'>教材类型</label>
+		            <div class='controls'>
+		             	<select id='editTextbookType'></select>
+		            </div>
+		        </div>
+		
+			         <div class='control-group'>
+			            <label class='control-label'>价格</label>
+			            <div class='controls'>
+			                <input  id='editPrice'  onkeyup="value=value.replace(/[^\d.]/g,'')"  maxlength='10'  placeholder='￥....' type='text' />
+			            </div>
+			        </div> 
+			        <div class='control-group'>
+			            <label class='control-label'>折扣</label>
+			            <div class='controls'>
+			                <input  id='editDiscount'  onkeyup="value=value.replace(/[^\d.]/g,'')"  maxlength='10'  placeholder='%....' type='text' />
+			            </div>
+			        </div> 
+					 <div class='control-group'>
+			            <label class='control-label'>封面</label>
+			            <div class='controls'>
+			             <input id='editImgUrl'  maxlength='100'  placeholder='&lt; &frasl;img.png &frasl; &gt;上传成功后自动回填文件名' type='text' />
+			            </div>
+			        </div>
+			        <div class='control-group'>
+			            <label class='control-label'>作者/名师</label>
+			            <div class='controls'>
+			                <select  id='editAuthor' style='width:216px'></select>
+			            </div>
+			        </div>
+			       <div class='control-group'>
+			            <label class='control-label'>摘要</label>
+			            <div class='controls'>
+			                <textarea  id='editDigest'   maxlength='300' style="height:55px;width:202%;" placeholder='摘要......' type='text' ></textarea>
+			            </div>
+			        </div>
+			        <form id="editUpload"  enctype="multipart/form-data">
+			                <input type="file" id="editImgFile" name="imgFile" multiple="multiple"	accept="image/gif,image/jpeg,image/png,image/jpg" style='width: 216px;'required>
+			                <button type="submit" id ="editSubmitbutton">点击上传</button>
+							</form>
+							
+					<div id='editKnowledgeTree' knowledgePointArrTag style="width: 103%;margin-left: 102%; margin-top: -660px;" >
+					     <label class='control-label'>知识点</label>
+					    <form class='form validate-form' id='submit-distributePermissionTreeForm' method="post" role="form"  style='margin-bottom: 0;'>
+					    <div style="border: 1px solid #d0d0d0;">
+					       <input type="hidden"/>
+					       <input type="hidden" id="distributePermissionTreeHidden"/>
+					       <ul id="updateKnowledgeTree" class="ztree" style="background: #fbfbfb;width:97%;height:462px;overflow-y:scroll;overflow-x:auto;"></ul>
+					    </div>
+					    </form>
+		 			</div> 
+			        	
+			 </div>
+			        
+			 <div class='modal-footer' style="margin-top: 252px;">
+			  	 <msg id="editMsg" style="color:red"></msg>
+		         <button type="button" id="editBtnClose" class='btn'>关闭</button>&nbsp;&nbsp;&nbsp;
+	   	         <button type="button" id="editBtnSubmit" class='btn btn-primary'>保存</button>
+   	         </div>
    	        </div>
-	  </div> 
 
 
- <div id='editKnowledgeTree' knowledgePointArrTag style="width: 32%;margin-left: 61%; margin-top: -496px;display:none" >
-        <h4>知识点Tree</h4>
-    <form class='form validate-form' id='submit-distributePermissionTreeForm' method="post" role="form"  style='margin-bottom: 0;'>
-    <div>
-       <input type="hidden"/>
-       <input type="hidden" id="distributePermissionTreeHidden"/>
-       <ul id="updateKnowledgeTree" class="ztree" style="background: #f0f6e4;width:100%;height:361px;overflow-y:scroll;overflow-x:auto;"></ul>
-    </div>
-    </form>
- </div>
-    
- </div>     
-
-</div>
 
 <div class='modal hide fade' id='modal-addCatalog'  tabindex='-1'>
     <div class='modal-header'>

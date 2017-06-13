@@ -18,6 +18,16 @@ public class CmsAccount {
 	private Integer role;
 	
 	private String roleName;
+	
+	private int ektapiUserId;
+
+	public int getEktapiUserId() {
+		return ektapiUserId;
+	}
+
+	public void setEktapiUserId(int ektapiUserId) {
+		this.ektapiUserId = ektapiUserId;
+	}
 
 	public String getRoleName() {
 		return roleName;
@@ -106,5 +116,16 @@ public class CmsAccount {
 	public void setCmsPermissions(List<CmsPermission> cmsPermissions) {
 		this.cmsPermissions = cmsPermissions;
 	}
+	
+	public CmsAccount(){
+		
+	}
+	
+	public CmsAccount(int id,String password){
+		this.id=id;
+		this.password=password;
+		
+	}
+	
 }
 
