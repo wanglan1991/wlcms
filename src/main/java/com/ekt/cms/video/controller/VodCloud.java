@@ -1,7 +1,6 @@
 package com.ekt.cms.video.controller;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.TreeMap;
 
 import javax.annotation.Resource;
@@ -25,8 +24,6 @@ import com.ekt.cms.utils.DateUtil;
 import com.ekt.cms.utils.FileUtil;
 import com.ekt.cms.video.entity.CmsVideo;
 import com.ekt.cms.video.service.CmsVideoService;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
-import com.sun.javafx.collections.MappingChange.Map;
 /**
  * 2016-05-02
  * 
@@ -272,6 +269,7 @@ public class VodCloud {
 					String fileName=fileSetJson.getString("fileName");
 					String fileNameReal=fileName.substring(0,fileName.lastIndexOf("."));//去掉后缀名
 					int  duration=fileSetJson.getInt("duration");
+
 								
 					if(type==1){
 						video.setUrl(url);

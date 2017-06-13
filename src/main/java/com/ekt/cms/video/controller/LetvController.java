@@ -81,7 +81,7 @@ public class LetvController {
 					
             Map<String, String> params = new HashMap<String, String>();
             //视频上传前调用，获取正式上传时需要的一些信息
-            params.put("video_name", "jerry");//视频名称
+            params.put("video_name", video_name);//视频名称
             params.put("client_ip", Constants.LECLOUD_CLIENT_IP);//用户IP地址。为了保证用户上传速度，建议将用户公网IP地址写入该参数
             params.put("file_size", String.valueOf(targetFile.length()));//文件大小，单位为字节
             params.put("uploadtype", "0");//是否分片上传，0不分片，1分片；默认0。如用js编写上传功能须使用分片模式。

@@ -44,6 +44,14 @@
 
 </insert>
 	
-	
+<update id="updateCouponsStatus" >
+		UPDATE 
+			api_coupon_user T1, api_record_order T2
+		SET
+			use_status = 0
+		WHERE T1.id = T2.coupon_id
+		AND T2.trade_status=0
+		AND T2.expire_time &lt; NOW()
+</update>	
 	
 </mapper> 

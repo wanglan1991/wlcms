@@ -25,6 +25,10 @@ public class CmsTimingTask {
 	@Scheduled(cron = "0 58 23 * * ?")//每天23点56分执行
 	 public void insertTodayActiveReportData(){  
 	        timingTaskService.insertTodayActiveReportData();
+	    } 
+	
+	@Scheduled(cron = "0 0 2 * * ?")//每天凌晨1点执行
+	 public void returnCoupons(){  
+	        timingTaskService.returnCoupons();
 	    }  
-
 }

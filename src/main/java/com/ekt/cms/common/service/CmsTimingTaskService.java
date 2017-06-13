@@ -16,5 +16,10 @@ public class CmsTimingTaskService implements ICmsTimingTaskService {
 	public int insertTodayActiveReportData() {
 		return cmsTimingTaskMapper.insertTodayActiveReportData();
 	}
+	@Override
+	public int returnCoupons() {
+		// TODO Auto-generated method stub
+		return cmsTimingTaskMapper.updateCouponsStatus();
+	}
 
 }
