@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ekt.cms.common.BaseController;
+import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.menu.entity.CmsMenu;
 import com.ekt.cms.menu.service.ICmsMenuService;
 import com.ekt.cms.role.entity.CmsRole;
@@ -29,16 +30,16 @@ public class CmsMenuController extends BaseController {
 	
 	@RequestMapping("/list")
 	@ResponseBody
-	public List <CmsMenu>  getMenu(HttpServletRequest request)throws Exception{
+	public Result  getMenu(HttpServletRequest request)throws Exception{
 		
 		CmsAccount account = getCurrentAccount();
 		if (account.getRole() == null) {
 			List <CmsMenu> list = new ArrayList<CmsMenu>();
 			list.get( 0 ).setMenuName("暂无任何可用按钮!");
-			return list;
+			return Result.getResults(list,account.getRealName());
 		}
 			CmsRole role=cmsRoleService.getCmsRoleById(account.getRole());
-			return cmsMenuService.getMenuListByRole(role.getId());
+			return  Result.getResults(cmsMenuService.getMenuListByRole(role.getId()),account.getRealName());
 	}
 	
 }

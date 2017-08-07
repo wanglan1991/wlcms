@@ -54,7 +54,8 @@ public interface ApiUserMapper {
 	 * @param dictEktUserPermissionId
 	 * @return
 	 */
-	public int insertEktUserPermission(@Param("userId")int userId,@Param("dictPermissionId")int dictPermissionId);
+	public int insertEktUserPermission(@Param("userId")int userId,
+			@Param("dictPermissionId")int dictPermissionId,@Param("expireTime")String expireTime);
 	
 	/**
 	 * 生成CMS用户
@@ -100,5 +101,79 @@ public interface ApiUserMapper {
 	 * @return
 	 */
 	public int isRealUser(@Param("userId")int userId,@Param("isReal")int isReal);
+	
+	/**
+	 * 修改优惠券使用状态
+	 * @param couponId
+	 * @return
+	 */
+	public int updateCouponIdUseStatus(int couponId);
+	
+	
+	
+	/**
+	 * 根据用户id获取赠送的课程列表包含未赠送的
+	 * @param userId
+	 * @return 列表
+	 */
+	public List<TreeBean> getgiftCourseDetailByUserId(@Param("userId")int userId);
+	
+	
+	/**
+	 * 根据用户id删除赠送的课程
+	 * @param userId
+	 * @return
+	 */
+	public int delGiftCourseByUserId(@Param("userId")int userId);
+	
+	
 
+	/**
+	 * 插入赠送的选课
+	 * @param userId
+	 * @param id
+	 * @param expireTime
+	 * @return
+	 */
+	int insertGiftCourse(@Param("userId")int userId, @Param("id")int id,@Param("accountId")int accountId,@Param("expireTime") String expireTime);
+
+	
+	
+	/**
+	 * 根据手机号码获取用户对象
+	 * @param telephone
+	 * @return
+	 */
+	 ApiUser getEktUserByTelephone(String telephone);
+	 /**
+	  * 根据用户名获取用户
+	  * @param username
+	  * @return
+	  */
+	 ApiUser getUserByUserName(String username);
+	 
+	 /**
+		 * 添加用户
+		 * @param newUser
+		 * @return
+		 */
+	int insertUsertBackId(ApiUser user);
+	
+	
+	/**
+	 * 插入经验
+	 * @param id
+	 * @param i
+	 * @param string
+	 * @return
+	 */
+	int insertExperience(@Param("userId")int userId,@Param("total") int total,@Param("remark") String remark);
+
+	/**
+	 * 根据用户ID获取EKTAPI用户对象
+	 * @param userId
+	 * @return
+	 */
+	ApiUser getUserById(int userId);
+	 
 }

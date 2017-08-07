@@ -34,6 +34,8 @@
 		<result column="role_name" property="roleName" jdbcType="INTEGER"/>
 		<result column="treated_count" property="treatedCount" jdbcType="INTEGER"/>
 		<result column="untreated_count" property="untreatedCount" jdbcType="INTEGER"/>
+		<result column="coupon_id" property="couponId" jdbcType="INTEGER"/>
+		
 	
 	</resultMap>
 	
@@ -47,7 +49,35 @@
 		<result column="pId" property="pId" jdbcType="INTEGER"></result> 
 		<result column="parent" property="parent" jdbcType="VARCHAR"></result>
 		<result column="checked" property="checked" jdbcType="VARCHAR"></result>
+		<result column="expireTime" property="expireTime" jdbcType="TIMESTAMP"></result>
+		<result column="defaultTime" property="defaultTime" jdbcType="TIMESTAMP"></result>
 	</resultMap>
+	
+	
+	<select id="getUserById" resultType="com.ekt.cms.apiUser.entity.ApiUser" parameterType="java.lang.Integer" >
+				SELECT
+			  		COUNT(a.acceptance_status=0 OR NULL) untreatedCount,
+					COUNT(a.acceptance_status=1 OR NULL)treatedCount ,
+					u.id,
+					u.user_name userName,
+					u.real_name realName,
+					u.telephone,
+					u.sex,
+					u.qq_open_id qqOpenId,
+					u.nickname nickName,
+					u.head_picture headPicture,
+					u.register_date registerDate,
+					u.wechat_open_id wechatOpenId,
+					u.wechat_unionId wechatUnionId,
+					u.wechatGZ_open_id wechatGZOpenId
+				FROM
+					api_user u
+					LEFT JOIN api_user_business_acceptance a on u.id = a.user_id 
+					WHERE
+					u.id =#{userId}
+				GROUP BY u.id
+				ORDER BY a.create_time DESC
+	</select>
 	
 	<select id="getUserByUsername" parameterType="java.lang.String"
 		resultType="com.ekt.cms.apiUser.entity.ApiUser">
@@ -101,15 +131,23 @@
 				r.name AS role_name,
 				u.is_real,
 				COUNT(ba.acceptance_status=0 OR NULL) untreated_count,
-				COUNT(ba.acceptance_status=1 OR NULL)treated_count 
+				COUNT(ba.acceptance_status=1 OR NULL)treated_count ,
+				c.id AS coupon_id
 			FROM
 				api_user u 
-			LEFT JOIN cms_account a on u.id=a.ektapi_user_id
+		LEFT JOIN cms_account a on u.id=a.ektapi_user_id
 	    LEFT JOIN cms_role r on a.role=r.id
 	    LEFT JOIN api_user_business_acceptance ba on u.id = ba.user_id 
+	    LEFT JOIN api_coupon_user c on c.user_id=u.id AND c.coupon_model_id=22 
 		WHERE 1=1
+		<if test="user.activity==1">
+			AND c.use_status=0
+		</if>
 		<if test="user.status!=null">
 			AND u.status = #{user.status}
+		</if>
+		<if test="user.inviteUserId>0">
+			AND u.invite_user_id=#{user.inviteUserId}		
 		</if>
 		<if test="user.username!=null and user.username!=''">
 			AND u.telephone like '%${user.username}%'
@@ -137,10 +175,11 @@
 					'true' OPEN,
 					'-1' pId,
 					'true' parent,
-					'false' checked
+					'false' checked,
+					 NULL expireTime,
+					 DATE_ADD(CURDATE(),INTERVAL  2 month)AS defaultTime
 				UNION
-				
-				SELECT a.*,IF(b.id IS NULL,'false','true')AS checked FROM
+				SELECT a.*,IF(b.id IS NULL,'false','true')AS checked ,b.expire_time AS expireTime,DATE_ADD(CURDATE(),INTERVAL  2 month) AS defaultTime FROM
 						(
 						SELECT
 							id,
@@ -158,13 +197,13 @@
 						ORDER BY id)AS a
 						LEFT JOIN
 						(
-						SELECT id,ekt_permission_id FROM api_user_permission WHERE user_id=#{userId}						
+						SELECT id,ekt_permission_id,expire_time FROM api_user_permission WHERE user_id=#{userId}
 						)AS b on a.id=b.ekt_permission_id
+				
 	</select>
 	
 	
-		<select id="getEktUserPermissionDetail2" resultMap="EktUserPermissionTreeBeanMap" parameterType="java.lang.Integer">
-		
+	<select id="getEktUserPermissionDetail2" resultMap="EktUserPermissionTreeBeanMap" parameterType="java.lang.Integer">
 		SELECT
 					'0' id,
 					'false' chkDisabled,
@@ -173,10 +212,14 @@
 					'true' OPEN,
 					'-1' pId,
 					'true' parent,
-					'false' checked
+					'false' checked,
+					 NULL expireTime,
+					 DATE_ADD(CURDATE(),INTERVAL  2 month)AS defaultTime
 				UNION
-		
-		SELECT a.* ,IF(p.id IS NULL,'false','true')AS checked FROM (			
+			SELECT a.* ,IF(p.id IS NULL,'false','true')AS checked,
+			p.expire_time AS expireTime,
+			DATE_ADD(CURDATE(),INTERVAL  2 month)AS defaultTime 
+		FROM (			
 				SELECT a.* FROM
 						(
 						SELECT
@@ -195,7 +238,7 @@
 						ORDER BY id)AS a
 						LEFT JOIN
 						(
-						SELECT id,ekt_permission_id FROM api_user_permission WHERE user_id=	#{parentId}				
+						SELECT id,ekt_permission_id,expire_time FROM api_user_permission WHERE user_id=	#{parentId}
 						)AS b on a.id=b.ekt_permission_id
 						WHERE b.id IS NOT NULL)AS a LEFT JOIN api_user_permission p on a.id=p.ekt_permission_id AND p.user_id=#{userId}
 	</select>
@@ -207,8 +250,28 @@
 			user_id=#{userId}
 	</delete>
 	
+	<delete id="delGiftCourseByUserId" parameterType="java.lang.Integer">
+	DELETE 
+		FROM 
+			api_gift_course
+		WHERE
+			user_id=#{userId}
+	</delete>
+	
+	
 	<insert id="insertEktUserPermission" parameterType="java.lang.Integer">
-		INSERT INTO api_user_permission(`user_id`, `ekt_permission_id`) VALUES (#{userId},#{dictPermissionId})
+		INSERT INTO api_user_permission(
+		`user_id`, 
+		<if test="expireTime!=null and expireTime!=''">
+		`expire_time`,
+		</if>
+		`ekt_permission_id`
+		) VALUES (
+		#{userId},
+		<if test="expireTime!=null and expireTime!=''">
+		#{expireTime},
+		</if>
+		#{dictPermissionId})
 	</insert>
 	
 	<insert id="generateCmsAccountByUserId" parameterType="com.ekt.cms.account.entity.CmsAccount">
@@ -298,4 +361,129 @@
 	<update id="isRealUser" parameterType="java.lang.Integer">
 		UPDATE api_user SET is_real=#{isReal} WHERE id =#{userId}
 	</update>
+	
+	<update id="updateCouponIdUseStatus" parameterType="java.lang.Integer">
+		UPDATE api_coupon_user SET use_status=1 WHERE id =#{couponId}
+	</update>
+	
+	
+	<select id="getgiftCourseDetailByUserId" parameterType="java.lang.Integer" resultMap="EktUserPermissionTreeBeanMap">
+				SELECT
+					'0' id,
+					'false' chkDisabled,
+					'全部' NAME,
+					'false' oncheck,
+					'true' OPEN,
+					'-1' pId,
+					'true' parent,
+					'false' checked,
+					 DATE_ADD(CURDATE(),INTERVAL  2 month)AS defaultTime,
+					 NULL expireTime
+			UNION
+				SELECT 
+					a.*,
+				
+					IF(c.id IS NOT NULL,'true','false')AS checked,
+					
+				DATE_ADD(CURDATE(),INTERVAL  2 month)AS defaultTime,
+				c.expire_time AS expireTime
+				 FROM(
+				SELECT
+					t.id,
+					'false' chkDisabled,
+					t.title AS NAME,
+					'false' AS oncheck,
+					'true' AS OPEN,
+					0 pId,
+					'false' AS parent
+				FROM
+					cms_textbook t
+					INNER JOIN cms_dictionary d on t.subject_no=d.id
+					INNER JOIN cms_dictionary d1 on t.grade_no=d1.id
+				WHERE
+					t.is_collection = 1
+				AND t.`status` = 1
+				ORDER BY d1.id,d.id DESC)AS a
+				LEFT JOIN api_gift_course c on a.id=c.textbook_id AND c.user_id=#{userId}	
+	</select>
+	
+	
+		<insert id="insertGiftCourse">
+			
+			INSERT INTO api_gift_course(
+			`textbook_id`,
+		<if test="expireTime!=null and expireTime!=''">
+			`expire_time`,
+		</if>
+		  	`user_id`, 
+		    `account_id`
+		    
+		    ) VALUES (
+		   	 #{id},
+	   	<if test="expireTime!=null and expireTime!=''">
+			#{expireTime},
+		</if>
+			  #{userId},
+			  #{accountId} )
+		</insert>
+		<select id="getEktUserByTelephone" parameterType="java.lang.String" resultMap="BaseResultMap">
+		 SELECT * FROM api_user u WHERE telephone=#{telephone}
+		</select>
+		
+		
+		<select id="getUserByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+		 SELECT * FROM api_user u WHERE user_name=#{username}
+		</select>
+		
+		
+		
+		<insert id="insertUsertBackId" parameterType="com.ekt.cms.apiUser.entity.ApiUser">
+		<selectKey resultType="java.lang.Integer" keyProperty="id"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO api_user (
+		`user_name`,
+		`password`,
+		`telephone`,
+		`head_picture`,
+		`register_date`,
+		`nickname`,
+		`register_type`,
+		`status`,
+		`level`,
+		`type`,
+		`experience`,
+		`up_experience`
+		) VALUES (
+		#{username},
+		#{password},
+		#{telephone},
+		#{headPicture},
+		SYSDATE(),
+		#{nickname},
+		#{registerType},
+		0,
+		0,
+		1,
+		50,
+		340
+		)
+	</insert>
+	
+	<insert id="insertExperience">
+	INSERT INTO api_user_experience(
+	 `user_id`, 
+	 `create_time`, 
+	 `experience`, 
+	 `remark`
+	 ) VALUES (
+	 #{userId},
+	 SYSDATE(),
+	 #{total},
+	 #{remark}
+	 )
+	</insert>
+		
+		
 </mapper>

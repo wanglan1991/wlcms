@@ -144,7 +144,7 @@
 			       <div class='control-group'>
 			            <label class='control-label'>摘要</label>
 			            <div class='controls'>
-			                <textarea  id='digest'   maxlength='300' style="height:55px;width:202%;" placeholder='摘要......' type='text' ></textarea>
+			                <textarea  id='digest'   maxlength='500' style="height:55px;width:202%;" placeholder='摘要......' type='text' ></textarea>
 			            </div>
 			        </div>
 			        <form id="upload"  enctype="multipart/form-data">
@@ -243,7 +243,7 @@
 			       <div class='control-group'>
 			            <label class='control-label'>摘要</label>
 			            <div class='controls'>
-			                <textarea  id='editDigest'   maxlength='300' style="height:55px;width:202%;" placeholder='摘要......' type='text' ></textarea>
+			                <textarea  id='editDigest'   maxlength='500' style="height:55px;width:202%;" placeholder='摘要......' type='text' ></textarea>
 			            </div>
 			        </div>
 			        <form id="editUpload"  enctype="multipart/form-data">

@@ -56,7 +56,7 @@ define(function(require, exports, module) {
 				
 				if(gradeNo<1){$("#msg").text("请选择年级！");$("#msg").css('color',"red");return;}
 				if(subjectNo<1){$("#msg").text("请选择学科！");$("#msg").css('color',"red");return;}
-				if(startOrderNo<1){$("#msg").text("请给一个排序起点值！");$("#msg").css('color',"red");return;}
+				if(startOrderNo==""){$("#msg").text("请给一个排序起点值！");$("#msg").css('color',"red");return;}
 				if(title.length<1){$("#msg").text("请输入知识点！");$("#msg").css('color',"red");return;}
 				$.ajax({
 					url : F.basepath + '/knowledge/addKnowledge',

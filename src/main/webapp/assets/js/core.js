@@ -136,6 +136,27 @@ define(function(require, exports, module) {
 			return arrId;
 		},
 		/**
+		 * 获取自定义Tree 主键以及过期时间
+		 */
+		getDiyTreeResult:function(idOrClass){
+			var treeObj = $.fn.zTree.getZTreeObj(idOrClass);
+			var nodes = treeObj.transformToArray(treeObj.getNodes());
+			var result =new Array();
+			for (var i = 0; i < nodes.length; i++) {
+				if(nodes[i].checked==true){
+					if (nodes[i].id == 0||nodes[i].pId==null) {
+						continue;
+					}
+					var expireTime=$("#diyBtn_" +nodes[i].id+" input").val();
+					result.push({id:nodes[i].id,expireTime:expireTime});
+				}
+			}
+			return result;
+		},
+		
+		
+		
+		/**
 		 * 加载编辑状态下的知识点
 		 */
 		editGetKnoeledgeOption : function(id, gradeNo, subjectNo, knowledgeId) {
@@ -334,6 +355,10 @@ define(function(require, exports, module) {
 		commonTree : function(_url, obj, idOrClass) {
 			$(idOrClass).empty();
 			var setting = {
+				edit: {
+						enable: true,
+						showRemoveBtn: true
+					},	
 				check : {
 					enable : true,
 					chkboxType : {
@@ -359,6 +384,185 @@ define(function(require, exports, module) {
 				}
 			})
 		},
+		
+		
+		
+		
+		/*
+		 * 自定义tree
+		 */
+		
+		diyTree : function(_url, obj, idOrClass) {
+			$(idOrClass).empty();
+			IDMark_A = "_a";
+			//回调事件
+			var dealFun={
+					//zTree选中回调事件
+					zTreeOnCheck:function (event, treeId, treeNode) {  
+						if(treeNode.checked){
+							$("#diyBtn_" +treeNode.id+" input").removeAttr("disabled");
+							$("#diyBtn_" +treeNode.id+" input").val(new Date(treeNode.defaultTime).format("yyyy-MM-dd"));
+						}else{
+							$("#diyBtn_" +treeNode.id+" input").attr("disabled","disabled");
+							$("#diyBtn_" +treeNode.id+" input").val('');
+						}
+					},
+					zTreeOnCheckAll:function(treeId, treeNode,event ){
+						if(!treeNode.checked&&treeNode.name=='全部'){
+							$("#"+treeId+" input").removeAttr("disabled");
+							$("#"+treeId+" input[value='']").val(new Date(treeNode.defaultTime).format("yyyy-MM-dd"));
+						}
+						if(treeNode.checked&&treeNode.name=='全部'){
+							$("#"+treeId+" input").attr("disabled","disabled");
+							$("#"+treeId+" input").val('');
+						}
+					},
+					addHoverDom:function (treeId, treeNode) {
+						
+					},
+					removeHoverDom:function(treeId, treeNode) {
+						
+					},
+					addDiyDom:function (treeId, treeNode) {
+						if(treeNode.parent=='false'){
+							var date=treeNode.expireTime==null?"":new Date(treeNode.expireTime).format("yyyy-MM-dd");
+							var aObj = $("#" + treeNode.tId + IDMark_A);
+							var editStr = "<span class='demoIcon' id='diyBtn_" +treeNode.id+ 
+							"' title='过期时间' onfocus='this.blur();'>" +
+							"<input type='date' id='diyInput_"+treeNode.id+"'  class='tree_privte_style' value='"+date+"' "+
+							(treeNode.checked==true?"":"disabled='disabled'")+"/></span>";
+							aObj.after(editStr);
+							var btn = $("#diyInput_"+treeNode.id);
+							if (btn) btn.bind("blur", function(){
+								var defaultTime=new Date(treeNode.defaultTime);
+								if($("#diyInput_"+treeNode.id).val()<=new Date().format("yyyy-MM-dd")){
+									$("#diyInput_"+treeNode.id).val(new Date(treeNode.defaultTime).format("yyyy-MM-dd"));
+								}
+								
+							});
+						}
+						
+					}
+						
+					}
+			
+			var setting = {
+				check : {enable : true,chkboxType : {"Y" : "ps","N" : "ps"}},
+				callback: {onCheck: dealFun.zTreeOnCheck,beforeCheck:dealFun.zTreeOnCheckAll },  
+				data : {simpleData : {enable : true}},
+				view : {dblClickExpand : false,
+						addHoverDom: dealFun.addHoverDom,
+						removeHoverDom: dealFun.removeHoverDom,
+						addDiyDom: dealFun.addDiyDom}
+				};
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			$.ajax({
+				url : _url,
+				type : 'GET',
+				data : obj,
+				success : function(data) {
+					$.fn.zTree.init($(idOrClass), setting, data.value)
+				}
+			})
+		},
+		
+		/**
+		 * 
+		 * 赠送用户课程diy tree
+		 */
+		
+		
+		diyGiftCourseTree : function(_url, obj, idOrClass) {
+			$(idOrClass).empty();
+			IDMark_A = "_a";
+			//回调事件
+			var dealFun={
+					//zTree选中回调事件
+					zTreeOnCheck:function (event, treeId, treeNode) {  
+						if(treeNode.checked){
+							$("#diyBtn1_" +treeNode.id+" input").removeAttr("disabled");
+							$("#diyBtn1_" +treeNode.id+" input").val(new Date(treeNode.defaultTime).format("yyyy-MM-dd"));
+						}else{
+							$("#diyBtn1_" +treeNode.id+" input").attr("disabled","disabled");
+							$("#diyBtn1_" +treeNode.id+" input").val('');
+						}
+					},
+					zTreeOnCheckAll:function(treeId, treeNode,event ){
+						if(!treeNode.checked&&treeNode.name=='全部'){
+							$("#"+treeId+" input").removeAttr("disabled");
+							$("#"+treeId+" input[value='']").val(new Date(treeNode.defaultTime).format("yyyy-MM-dd"));
+						}
+						if(treeNode.checked&&treeNode.name=='全部'){
+							$("#"+treeId+" input").attr("disabled","disabled");
+							$("#"+treeId+" input").val('');
+						}
+					},
+					addHoverDom:function (treeId, treeNode) {
+						
+					},
+					removeHoverDom:function(treeId, treeNode) {
+						
+					},
+					addDiyDom:function (treeId, treeNode) {
+						if(treeNode.parent=='false'){
+							var date=treeNode.expireTime==null?"":new Date(treeNode.expireTime).format("yyyy-MM-dd");
+							var aObj = $("#" + treeNode.tId + IDMark_A);
+							var editStr = "<span class='demoIcon' id='diyBtn1_" +treeNode.id+ 
+							"' title='过期时间' onfocus='this.blur();'>" +
+							"<input type='date' id='diyInput1_"+treeNode.id+"'  class='tree_privte_style' value='"+date+"' "+
+							(treeNode.checked==true?"":"disabled='disabled'")+"/></span>";
+							aObj.after(editStr);
+							var btn = $("#diyInput1_"+treeNode.id);
+							if (btn) btn.bind("blur", function(){
+								var defaultTime=new Date(treeNode.defaultTime);
+								if($("#diyInput1_"+treeNode.id).val()<=new Date().format("yyyy-MM-dd")){
+									$("#diyInput1_"+treeNode.id).val(new Date(treeNode.defaultTime).format("yyyy-MM-dd"));
+								}
+								
+							});
+						}
+						
+					}
+						
+					}
+			
+			var setting = {
+				check : {enable : true,chkboxType : {"Y" : "ps","N" : "ps"}},
+				callback: {onCheck: dealFun.zTreeOnCheck,beforeCheck:dealFun.zTreeOnCheckAll },  
+				data : {simpleData : {enable : true}},
+				view : {dblClickExpand : false,
+						addHoverDom: dealFun.addHoverDom,
+						removeHoverDom: dealFun.removeHoverDom,
+						addDiyDom: dealFun.addDiyDom}
+				};
+			
+			$.ajax({
+				url : _url,
+				type : 'GET',
+				data : obj,
+				success : function(data) {
+					$.fn.zTree.init($(idOrClass), setting, data.value)
+				}
+			})
+		},
+		
+		
 		/**
 		 * MODAL
 		 */

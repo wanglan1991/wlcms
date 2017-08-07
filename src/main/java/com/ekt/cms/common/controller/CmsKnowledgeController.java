@@ -81,7 +81,7 @@ public class CmsKnowledgeController {
 			
 		}
 		
-		result.setResult(rs);
+		result.setResult(total);
 		result.setMsg("成功添加"+total+"个知识点！"+(list.size()>0?list.toString()+"已存在无法被添加！":""));
 		return result;
 	}

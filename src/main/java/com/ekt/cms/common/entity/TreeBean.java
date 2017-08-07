@@ -8,6 +8,8 @@
 */
 package com.ekt.cms.common.entity;
 
+import java.util.Date;
+
 /** 
 * @ClassName: TreeBean 
 * @Description: TODO(树插件对象) 
@@ -29,6 +31,26 @@ public class TreeBean {
 	
 	private int pId; 
 	
+	private Date expireTime;
+	
+	private Date defaultTime;
+	
+	public Date getDefaultTime() {
+		return defaultTime;
+	}
+
+	public void setDefaultTime(Date defaultTime) {
+		this.defaultTime = defaultTime;
+	}
+
+	public Date getExpireTime() {
+		return expireTime;
+	}
+
+	public void setExpireTime(Date expireTime) {
+		this.expireTime = expireTime;
+	}
+
 	public int getpId() {
 		return pId;
 	}

@@ -51,6 +51,7 @@
 <!-- / ztree -->
 <script src='${ctxAssets}/javascripts/plugins/ztree/jquery.ztree.core-3.5.min.js' type='text/javascript'></script>
 <script src='${ctxAssets}/javascripts/plugins/ztree/jquery.ztree.excheck-3.5.min.js' type='text/javascript'></script>
+<script src='${ctxAssets}/javascripts/plugins/ztree/jquery.ztree.exedit.js' type='text/javascript'></script>
 <!-- / validate -->
 <script src='${ctxAssets}/javascripts/plugins/validate/jquery.validate.min.js' type='text/javascript'></script>
 <script src='${ctxAssets}/javascripts/plugins/validate/additional-methods.js' type='text/javascript'></script>

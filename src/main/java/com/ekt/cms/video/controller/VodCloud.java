@@ -169,6 +169,8 @@ public class VodCloud {
 	@RequestMapping(value = "/transcode" ) 
 	@ResponseBody
 	public Result transcodeVideo(String  fileId,int type){
+		
+		System.out.println("fileId:"+fileId+"  type"+type);
 		Result result=Result.getResults();
 		//调用接口的公共参数
 				TreeMap<String, Object> config = new TreeMap<String, Object>();

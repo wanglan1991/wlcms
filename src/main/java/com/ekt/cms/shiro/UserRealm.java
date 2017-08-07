@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.ekt.cms.account.entity.CmsAccount;
 import com.ekt.cms.account.service.ICmsAccountService;
 import com.ekt.cms.utils.EncryptUtil;
+import com.ekt.cms.utils.LogUtil;
+
 import net.sf.ehcache.CacheManager;
 
 /**
@@ -38,12 +40,16 @@ public class UserRealm extends AuthorizingRealm {
 		CmsAccount account=cmsAccountService.queryByUserName(username);
 		if (account == null||account.getStatus()==0) {
 			throw new UnknownAccountException();
+			
 		}
 		// 判断输入密码是否和用户密码一致 并且状态必须为1
 		if (!EncryptUtil.checkPassword(account.getPassword(), password)) {
+			LogUtil.print("USERNAME:"+account.getUserName()+" ROLE:"+account.getRoleName()+"密码输入错误！。");
 			throw new IncorrectCredentialsException();
+			
 		}
 		
+		LogUtil.print("USERNAME:"+account.getUserName()+" ROLE:"+account.getRoleName()+" 登录成功！。");
 		SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(account.getId(),
 				password, getName());
 		return authenticationInfo;

@@ -27,6 +27,7 @@ import com.ekt.cms.common.BaseController;
 import com.ekt.cms.index.entity.ResultVO;
 import com.ekt.cms.index.entity.User;
 import com.ekt.cms.utils.Constants;
+import com.ekt.cms.utils.LogUtil;
 
 /****
  *   登录控制controller
@@ -91,7 +92,6 @@ public class LoginController extends BaseController {
 			//调用shiro登录方法
 			subject.login(token);
 		} catch (AuthenticationException e) {
-			e.printStackTrace();
 			resultVO.setOk(false);
 			resultVO.setMsg("账号或者密码错误");
 			return resultVO;

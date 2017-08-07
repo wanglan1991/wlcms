@@ -1089,7 +1089,7 @@ input[type="url"],
 input[type="search"],
 input[type="tel"],
 input[type="color"],
-.uneditable-input {
+ .uneditable-input {
     display: inline-block;
     height: 20px;
     padding: 4px 6px;
@@ -1101,7 +1101,15 @@ input[type="color"],
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
+} 
+
+.tree_privte_style{
+	width: 142px!important;
+    padding: 0px 0px!important;
+    margin-bottom: 0px!important;
+	
 }
+
 
 input,
 textarea,

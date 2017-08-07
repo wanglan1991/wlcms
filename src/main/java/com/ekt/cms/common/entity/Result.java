@@ -90,6 +90,13 @@ private String msg;
 		return new Result();
 	}
 	
+	
+	public static Result getResults(String msg){
+		Result r=getResults();
+		r.setMsg(msg);
+		r.setResult(1);
+		return r;
+	}
 	public static Result getResults(int result,String msg){
 		Result r =getResults();
 		r.setResult(result);
@@ -116,6 +123,14 @@ private String msg;
 		Result r =getResults();
 		r.setValue(value);
 		r.setResult(1);
+		return r;
+	}
+	
+	public static Result getResults(Object value,String msg){
+		Result r =getResults();
+		r.setValue(value);
+		r.setResult(1);
+		r.setMsg(msg);
 		return r;
 	}
 	

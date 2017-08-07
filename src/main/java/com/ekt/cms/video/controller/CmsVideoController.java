@@ -201,7 +201,7 @@ public class CmsVideoController extends BaseController{
 		tp.setKnowledgePointArr(video.getKnowledgeId());
 		tp.setKnowledgePointArrVal(video.getKnowledge());
 		tp.setDifficultyNo(45);
-		tp.setCategoryNo(39);
+		tp.setCategoryNo(92);
 		tp.setVideoId(id);
 		result+=testpaperService.insertTestpaper(tp);
 		for(int i=0;i<ves.size();i++){

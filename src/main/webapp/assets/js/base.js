@@ -235,7 +235,11 @@ define(function (require, exports, module) {
     	    confine:false,
     	    permission:false,
     	    generateAccount:false,
-    	    transactional:false
+    	    transactional:false,
+    	    giftCourse:false,
+    	    generateUser:false,
+    	    batchGenerateUser:false,
+    	    editUserInfo:false
    			},
    		news:{
    			check:false,

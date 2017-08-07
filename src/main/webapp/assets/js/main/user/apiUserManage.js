@@ -14,17 +14,104 @@ define(function(require, exports, module) {
 			/**
 			 * 是否具有查询知识点权限
 			 */
+			
 			if (base.perList.ektUser.check) {
-				$("#apiUserActions")
-						.append(
-								"<input autocomplete='off'  id='keyword'  placeholder='用户名、昵称、手机号码' type='text' />&nbsp;&nbsp;"
-										+ "&nbsp;&nbsp;<select id='apiUserStatus'  style='width:7%'>"
-										+ "<option value='-1'>用户状态...</option>"
-										+ "<option value='1'>正常</option>"
-										+ "<option value='0'>封停</option></select>"
-										+ "<a href='#' id='queryUserByCondition' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>");
-
+				$("#apiUserActions").append("<input autocomplete='off'  id='keyword'  placeholder='用户名、昵称、手机号码' type='text' />&nbsp;&nbsp;"
+					+ "&nbsp;&nbsp;<select id='apiUserStatus'  style='width:7%'>"
+					+ "<option value='-1'>用户状态...</option>"
+					+ "<option value='0'>正常</option>"
+					+ "<option value='1'>封停</option></select>"
+					+ "&nbsp;&nbsp;活动:<input style='margin-bottom: 5px;' type='checkbox' id='activity'>&nbsp;&nbsp;"
+					+"<a href='#' id='queryUserByCondition' class='btn  btn-small' style='margin-left:5px;margin-bottom:11px'>查询</a>");
 			}
+			
+			if(base.perList.ektUser.generateUser){
+				$("#apiUserActions").append("&nbsp;&nbsp;<a href='#' style='margin-left:5px;margin-bottom:11px' class='generateEktUser btn btn-success btn-small' ><i class='icon-plus'></i>添加用户</a>");
+			}
+			
+			if(base.perList.ektUser.batchGenerateUser){
+				$("#apiUserActions").append("<a href='#' id='impApiUser' data-toggle='modal' class='btn btn-primary btn-small' style='margin-left:5px;margin-bottom:11px'><i class='icon-plus'></i>批量生成用户</a>");
+				
+			}
+			
+			//批量导入 生成用户
+			$("#impApiUser").bind('click',function(){
+				core.openModel('modal-impApiUser',function(){
+					$("#fileData").val('');
+					$("#impResult textarea").val('');
+				});
+			});
+			
+			
+			
+			
+			//添加二课堂账号模态框
+			$(".generateEktUser").bind('click',function(){
+				core.openModel('modal-generateEktUser',function(){
+					 $("#generateEktUser-msg").html('');
+					 $("#telephone").val('');
+				});
+			});
+			
+			//提交新增
+			$("#generateEktUser-btnSubmit").click(function(){
+				 $("#generateEktUser-msg").html('');
+				var phone =$("#telephone").val();
+				if(phone && /^1[3|4|5|7|8]\d{9}$/.test(phone)){
+					$.ajax({
+						 url : F.basepath + '/user/generateUser',
+						type : 'POST',
+						data:{telephone:phone},
+						success:function(data){
+						   if(data.result==1){
+							   $("#generateEktUser-msg").html(phone+"的用户已存在，无法被添加！");
+						   }else if(data.result==2){
+							   F.table.reload();
+							   $(".btnClose").click();
+						   }else{
+							   $("#generateEktUser-msg").html("创建用户失败！稍后再试");
+						   }
+						}
+					});
+				  
+				
+					
+				}else{
+					$("#telephone").val('');
+					 $("#generateEktUser-msg").html('请输入一个有效格式的手机号码');
+				}
+				
+			});
+			
+			
+			
+			$("#uploadFile").click(function(){
+	    		$("#excelUpload").ajaxForm({
+	    			url:"/cms/user/batchGenerate",
+	    			type:"post",
+	    			data:$('#excelUpload').serialize(),// 你的formid
+	    			beforeSend : function() {
+	    				$("#modal-impApiUser").append("<div id='waitForUpload'background-color:azure style='opacity: 0.6;position: absolute;" +
+								"position: absolute;z-index=4; width: 100%;height: 100%;margin-top:-113%'>" +
+								"<div style='margin-left: 42%;margin-top: 47%;'><h3><b>uploading...</b>" +
+								"</h3><img src='/cms/assets/images/upload.gif' style='max-width: 19%;'/></div></div>");
+	    			},
+	    			success : function(data){
+	    				F.reload();
+	    				$("#waitForUpload").remove();
+	    				$("#impResult textarea").val('');
+	    				$("#uploadMsg").html('');
+	    				if(data.result==1){
+	    					$("#impResult textarea").val(data.msg);
+	    				}else{
+	    					$("#uploadMsg").html('后端服务器异常！');
+	    				}
+	    				
+	 	
+	    			}   		
+	    	});
+	    		
+	    	});
 
 			// 定义表格的头
 			var cols = [ {
@@ -88,6 +175,15 @@ define(function(require, exports, module) {
 			
 			// 操作
 			operateEvents = {
+				
+				'click .editUserInfo' :function(e, value, row, index){
+					core.openModel('modal-editUserInfo',"正在编辑用户账号:["+row.username+"]的信息",function(e, value, row, index){
+						
+					});
+					
+					
+					
+				},	
 				// 停用或启用用户
 				'click .confineEktUser' : function(e, value, row, index) {
 					base.bootConfirm(
@@ -101,13 +197,23 @@ define(function(require, exports, module) {
 				'click .editEktUserPermission' : function(e, value, row, index) {
 					core.openModel('modal-ektUserRootEdit', '正在编辑二课堂用户账号:['
 							+ row.username + ']的权限', function() {
-						core.commonTree(F.basepath + '/user/treePermission', {
+						core.diyTree(F.basepath + '/user/treePermission', {
 							userId : row.id
 						}, "#ektUserPermission");
 						$("#getUserId").val(row.id);
+						$("#couponId").val(row.couponId);
 					});
 				},
-				
+				'click .giftCourse' : function(e, value, row, index) {
+					core.openModel('modal-giftCourse', '赠送给用户:[账号:'
+							+ row.username + ']', function() {
+						core.diyTree(F.basepath + '/user/giftCourse/list', {
+							userId : row.id
+						}, "#giftCourseTree");
+						$("#giftCourse_getUserId").val(row.id);
+						$("#giftCourse_couponId").val(row.couponId);
+					});
+				},
 				/**
 				 * 生成CMS账户
 				 */
@@ -316,7 +422,8 @@ define(function(require, exports, module) {
 			
 			if (base.perList.ektUser.generateAccount
 					|| base.perList.ektUser.confine
-					|| base.perList.ektUser.permission) {
+					|| base.perList.ektUser.permission
+					|| base.perList.ektUser.editUserInfo) {
 				cols.push({
 					align : 'left',
 					title : '操作',
@@ -355,8 +462,8 @@ define(function(require, exports, module) {
 			function query() {
 				var username = $("#keyword").val();
 				var status = $("#apiUserStatus").val();
-				var query_url = F.basepath + '/user/listPage?username='
-						+ username;
+				var activity = $("#activity").attr('checked')=='checked'?1:0;//是否为合集
+				var query_url = F.basepath + '/user/listPage?username='+ username+"&activity="+activity;
 				if (status > -1 && status < 2) {
 					query_url += "&status=" + status;
 				}
@@ -366,17 +473,41 @@ define(function(require, exports, module) {
 
 			}
 
-			// 保存用户权限
+			// 保存二课堂用户权限
 			$("#ektUserRootBtnSubmit").click(function() {
-				var arrIds = core.getTreeIds("ektUserPermission");
+				var result = core.getDiyTreeResult("ektUserPermission");
 				var userId = $("#getUserId").val();
+				var couponId=$("#couponId").val();
+				
 				$("#ektUserRootBtnClose").click();
 				$.ajax({
 					url : F.basepath + '/user/permission/edit',
 					type : 'post',
 					data : {
 						userId : userId,
-						ids : arrIds
+						ids : JSON.stringify(result),
+						couponId:couponId==""?0:couponId
+					},
+					success : function(data) {
+					}
+				})
+
+			});
+			
+			//配置赠送课程
+			$("#giftCourseBtnSubmit").click(function() {
+				var result = core.getDiyTreeResult("giftCourseTree");
+				var userId = $("#giftCourse_getUserId").val();
+				var couponId=$("#giftCourse_couponId").val();
+				
+				$("#giftCourseBtnClose").click();
+				$.ajax({
+					url : F.basepath + '/user/giftCourse/edit',
+					type : 'post',
+					data : {
+						userId : userId,
+						ids : JSON.stringify(result),
+						couponId:couponId==""?0:couponId
 					},
 					success : function(data) {
 					}
@@ -448,6 +579,13 @@ define(function(require, exports, module) {
 			}
 			if (base.perList.ektUser.permission) {
 				_btnAction += "<a class='editEktUserPermission btn btn-success btn-small' href='#' title='编辑用户权限' style='margin-left:5px'>编辑EKT权限</a>";
+			}
+			
+			if (base.perList.ektUser.giftCourse) {
+				_btnAction += "<a class='giftCourse btn btn-primary btn-small' href='#' title='赠送课程' style='margin-left:5px'>赠送课程</a>";
+			}
+			if (base.perList.ektUser.editUserInfo) {
+				_btnAction += "<a class='editUserInfo btn btn-primary btn-small' href='#' title='编辑用户信息' style='margin-left:5px'>编辑用户信息</a>";
 			}
 			
 			return _btnAction;

@@ -10,7 +10,8 @@ import java.util.Date;
 */
 public class ApiUser {
 	
-
+	private Integer couponId;
+	private Integer activity;
 	private Integer id;
 	private String username;
 	private String password;
@@ -49,7 +50,29 @@ public class ApiUser {
 	
 	private int isReal;//是否为真实用户
 	
+	private int inviteUserId;//邀请人用户ID;
 	
+	
+	
+
+	public int getInviteUserId() {
+		return inviteUserId;
+	}
+	public void setInviteUserId(int inviteUserId) {
+		this.inviteUserId = inviteUserId;
+	}
+	public Integer getCouponId() {
+		return couponId;
+	}
+	public void setCouponId(Integer couponId) {
+		this.couponId = couponId;
+	}
+	public Integer getActivity() {
+		return activity;
+	}
+	public void setActivity(Integer activity) {
+		this.activity = activity;
+	}
 	public int getIsReal() {
 		return isReal;
 	}

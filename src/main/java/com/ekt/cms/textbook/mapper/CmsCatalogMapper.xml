@@ -18,7 +18,8 @@
 		SELECT c.*,
 			   d.value level_name
 	    FROM 
-	    cms_catalog c LEFT JOIN cms_dictionary d on c.catalog_level=d.id 
+	   		cms_catalog c 
+	   	LEFT JOIN cms_dictionary d on c.catalog_level=d.id 
 		WHERE 1=1 
 		AND textbook_id=#{catalog.textbookId}
 	<if test="catalog.catalogLevel !=null and catalog.catalogLevel !='' and catalog.catalogLevel !=0 ">
@@ -28,7 +29,7 @@
 		AND c.parent_id =#{catalog.parentId}	
 	</if>
 	<if test="catalog.catalogName !=null and catalog.catalogName !=''">
-		AND (c.catalog_name like %${catalog.catalogName}%)
+		AND (c.catalog_name like '%${catalog.catalogName}%')
 	</if>
 		ORDER by c.parent_id
 	</select>

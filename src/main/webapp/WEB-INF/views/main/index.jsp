@@ -70,11 +70,7 @@
 										class='icon-adjust text-fb'></i> Facebook </a>
 								</li>
 							</ul></li>
-						<li class='dropdown medium only-icon widget'><a
-							class='dropdown-toggle' data-toggle='dropdown' href='#'> <i
-								class='icon-rss'></i>
-								<div class='label'>5</div>
-						</a>
+						<li class='dropdown medium only-icon widget'>
 							<ul class='dropdown-menu'>
 								<li><a href='#'>
 										<div class='widget-body'>
@@ -443,6 +439,18 @@
 					<shiro:hasPermission name="ektUser:internalUser">
 						<span id="basejs_ektUser_internalUser" style="display: none;" />
 					</shiro:hasPermission>
+					<shiro:hasPermission name="ektUser:giftCourse">
+						<span id="basejs_ektUser_giftCourse" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="ektUser:generateUser">
+						<span id="basejs_ektUser_generateUser" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="ektUser:batchGenerateUser">
+						<span id="basejs_ektUser_batchGenerateUser" style="display: none;" />
+					</shiro:hasPermission>
+					<shiro:hasPermission name="ektUser:editUserInfo">
+						<span id="basejs_ektUser_editUserInfo" style="display: none;" />
+					</shiro:hasPermission>
 
 
 					<shiro:hasPermission name="news:check">
@@ -573,32 +581,27 @@
 	<%@include file="/WEB-INF/views/include/baseJS.jsp"%>
 	<script type="text/javascript">
 		var menusTxt = "";
-		$(document)
-				.ready(
+		$(document).ready(
 						function() {
-							$
-									.ajax({
+							$.ajax({
 										url : "${ctx}/menu/list",
 										type : "POST",
 										success : function(data) {
-											$
-													.each(
-															data,
-															function(i,
-																	parentMenu) {
-																menusTxt += " <li class=''><a  target='mainFrame' class='dropdown-collapse  in' href='#'><i class='"+parentMenu.icon+"'></i><span>"
-																		+ parentMenu.menuName
-																		+ "</span></a><ul class='nav nav-stacked'>";
-																var sonMenuArr = parentMenu.menuList;
-																for (var i = 0; i < sonMenuArr.length; i++) {
-																	menusTxt += "<li><a  target='mainFrame' href='${ctx}/"+sonMenuArr[i].url+"'><i style='margin-left:29px;' class='"+sonMenuArr[i].icon+"'></i><span>"
-																			+ sonMenuArr[i].menuName
-																			+ "<span></a><li>"
+											$(".user-name").html(data.msg);
+											$.each(data.value,function(i,parentMenu) {
+												menusTxt += " <li class=''><a  target='mainFrame' class='dropdown-collapse  in' href='#'><i class='"+parentMenu.icon+"'></i><span>"
+														+ parentMenu.menuName
+														+ "</span></a><ul class='nav nav-stacked'>";
+												var sonMenuArr = parentMenu.menuList;
+												for (var i = 0; i < sonMenuArr.length; i++) {
+													menusTxt += "<li><a  target='mainFrame' href='${ctx}/"+sonMenuArr[i].url+"'><i style='margin-left:29px;' class='"+sonMenuArr[i].icon+"'></i><span>"
+															+ sonMenuArr[i].menuName
+															+ "<span></a><li>"
 
-																}
-																menusTxt += "</ul></li>";
+												}
+												menusTxt += "</ul></li>";
 
-															})
+											})
 											if (data.length == 0)
 												menusTxt += " <li class=''><a  target='mainFrame' class='dropdown-collapse  in' href='#'><i class='icon-frown'></i><span style='color:red'>请 等 待 授 权 !</span></a><ul class='nav nav-stacked'>";
 											$('ul#navigation-menu').append(
@@ -901,10 +904,24 @@
 			if ($("#basejs_ektUser_transactional").length > 0) {
 				base.perList.ektUser.transactional = true;
 			}
-			
 			if ($("#basejs_ektUser_internalUser").length > 0) {
 				base.perList.ektUser.internalUser = true;
 			}
+			if ($("#basejs_ektUser_giftCourse").length > 0) {
+				base.perList.ektUser.giftCourse = true;
+			}
+			if ($("#basejs_ektUser_generateUser").length > 0) {
+				base.perList.ektUser.generateUser = true;
+			}	
+			if ($("#basejs_ektUser_batchGenerateUser").length > 0) {
+				base.perList.ektUser.batchGenerateUser = true;
+			}
+			if ($("#basejs_ektUser_editUserInfo").length > 0) {
+				base.perList.ektUser.editUserInfo = true;
+			}
+			
+			
+			
 			
 			if ($("#basejs_news_check").length > 0) {
 				base.perList.news.check = true;

@@ -451,7 +451,7 @@ define(function (require, exports, module) {
 	        		        title: '折后价￥'
 	        		    },{
 	        		        field: 'discount',
-	        		        title: '折扣%'
+	        		        title: '折扣'
 	        		    },{
 	        		        field: 'originalPrice',
 	        		        title: '原价￥'
@@ -1132,9 +1132,9 @@ define(function (require, exports, module) {
         	if(base.perList.textbook.catalog){
         		_btnAction += "<a class='category btn btn-primary btn-small' href='#' title='编辑目录章节' style='margin-left:5px'>编辑目录章节</a>";
         	}
-        	if(base.perList.textbook.split&&row.chapterCount>0&&row.sectionCount>1&&row.sectionCount!=row.childCount){
-        		_btnAction += "<a class='splitTextbook btn btn-primary btn-small' href='#' title='分离成册' style='margin-left:5px'>分离成册</a>";
-        	}
+//        	if(base.perList.textbook.split&&row.chapterCount>0&&row.sectionCount>1&&row.sectionCount!=row.childCount){
+//        		_btnAction += "<a class='splitTextbook btn btn-primary btn-small' href='#' title='分离成册' style='margin-left:5px'>分离成册</a>";
+//        	}
         		return _btnAction;
         } 
         

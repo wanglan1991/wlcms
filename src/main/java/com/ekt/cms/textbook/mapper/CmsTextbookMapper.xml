@@ -56,7 +56,7 @@
 	
 	
 	<select id="listPage" resultMap="BaseResultMap"	parameterType="com.ekt.cms.textbook.entity.CmsTextbook">
-				SELECT
+					SELECT
 					t.id,
 					t.title,
 					t.phase_no,
@@ -64,8 +64,7 @@
 					d.`value` grade,
 					t.subject_no,
 					d1.`value` SUBJECT,
-					t.publisher_no,
-					d2.`value` publisher,
+				
 					t.textbook_type_no,
 					d3.`value` textbook_type,
 					ft.`name` author,
@@ -84,15 +83,14 @@
 					t.is_collection,
 					COUNT(ca.catalog_level=51 OR NULL)chapter_count,
 					COUNT(ca.catalog_level=52 OR NULL)section_count,
-					(SELECT COUNT(1) FROM cms_textbook t2 WHERE t2.parent_id=t.id )AS child_count,
+					0 AS child_count,
 					t.type_order_no
 				FROM
 				cms_textbook t
 				LEFT JOIN cms_account ac on t.input_account_id=ac.id
-				LEFT JOIN cms_dictionary d ON t.grade_no = d.id
-				LEFT JOIN cms_dictionary d1 ON t.subject_no = d1.id
-				LEFT JOIN cms_dictionary d2 ON t.publisher_no = d2.id
-				LEFT JOIN cms_dictionary d3 ON t.textbook_type_no = d3.id
+				INNER JOIN cms_dictionary d ON t.grade_no = d.id
+				INNER JOIN cms_dictionary d1 ON t.subject_no = d1.id
+				INNER JOIN cms_dictionary d3 ON t.textbook_type_no = d3.id
 				LEFT JOIN api_teacher ft on ft.id=t.author_id
 				LEFT JOIN cms_catalog ca on ca.textbook_id=t.id 
 				WHERE 1=1
