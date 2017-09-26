@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by sxjun on 15-9-8.
+ * 
  */
 public class RedisSessionDao implements SessionDAO {
 

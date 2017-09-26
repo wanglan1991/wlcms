@@ -19,10 +19,19 @@ public class CmsAccount {
 	
 	private String roleName;
 	
-	private int ektapiUserId;
+	private String roleEncoding;
+	
+	
+	
 	
 	private Integer parentId;
+	public String getRoleEncoding() {
+		return roleEncoding;
+	}
 
+	public void setRoleEncoding(String roleEncoding) {
+		this.roleEncoding = roleEncoding;
+	}
 	public Integer getParentId() {
 		return parentId;
 	}
@@ -31,13 +40,7 @@ public class CmsAccount {
 		this.parentId = parentId;
 	}
 
-	public int getEktapiUserId() {
-		return ektapiUserId;
-	}
-
-	public void setEktapiUserId(int ektapiUserId) {
-		this.ektapiUserId = ektapiUserId;
-	}
+	
 
 	public String getRoleName() {
 		return roleName;

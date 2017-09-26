@@ -1,39 +1,63 @@
 package com.ekt.cms.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+/**
+ * 
+ * @author wanglan
+ *2017-09-26
+ */
 public class CMSConstants {
 
 	public static final Integer ROOT = 1;// 超级管理员
 
 	public static final Integer ADMIN = 66;// 管理员
 
-	public static final String CATALOG_LEVEL = "catalogLevel"; //	目录级别
-	public static final String CATEGORY = "category"; //	题类
-	public static final String DIFFICULTY = "difficulty"; //	难易度
-	public static final String EKT_USER_PERMISSION = "ektUserPermission"; //	二课堂用户权限
-	public static final String EXERCISE_TYPE = "exerciseType"; //	题目类型
-	public static final String GRADE = "grade"; //	年级
-	public static final String PHASE = "phase"; //	学段
-	public static final String PUBLISH = "publish"; // 	出版社
-	public static final String SUBJECT = "subject"; //	学科
-	public static final String TEXTBOOK_TYPE = "textbookType"; //	教材类型
-	public static final String VIDEO_TYPE = "videoType"; //	视频服务商
 	
 
+
+
+	/**
+	 * 根据指定日期获取大于该指定日期的日期列表
+	 * @param days
+	 * @return
+	 */
+	public static ArrayList<String> getDates(int days){
+		ArrayList<String> data=null	;
+		if(days>0){
+			data = new ArrayList<String>();	
+			Date date=new Date();
+			for(int i=0;i<days;i++){
+				try {
+					data.add(subDate(date, -i));
+				} catch (Exception e) {
+					return null;
+				}
+			}
+			return data;
+		}else{
+			return data;
+		}
+		
+		
+	
+	}
+	
 	
 	/**
-	 * 短信认证 HTTP请求地址
+	 * 日期加減
+	 * @param date
+	 * @param days
+	 * @return
+	 * @throws Exception
 	 */
-	public final static String DEFAULT_MESSAGE_URL = "http://gw.api.taobao.com/router/rest";
-	/**
-	 * 短信认证 应用可key和secret
-	 */
-	public final static String DEFAULT_MESSAGE_APIKEY = "23400018";
-	public final static String DEFAULT_MESSAGE_SECRET = "1018d93b68b148b59cca0e798aa90ea6";
+	public static String subDate(Date date,int days)throws Exception{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(new Date(date.getTime() + (long)days * 24 * 60 * 60 * 1000))+" 00:00:00"	;
+	}
 	
-	public final static String MESSAGE_TEMPLET_CODE ="SMS_59975276";
-
-
-
+	
 
 
 

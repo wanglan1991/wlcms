@@ -11,24 +11,25 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 /**
- * 
- * @author 邮件发送工具类
+ * 邮件发送工具类
+ * @author wanglan
  *
  */
 public class SendmailUtil {
 	
 	
-	public static String CONNECT_KEY ="yunzhong605";//连接key
+	public static String CONNECT_KEY ="";//连接key
 	// 设置服务器
-    private static String KEY_SMTP = "smtp.aiekt.com";
-    private static String VALUE_SMTP = "smtp.aiekt.com";
+    private static String KEY_SMTP = "";
+    private static String VALUE_SMTP = "";
     // 服务器验证
-    private static String KEY_PROPS = "mail.smtp.auth";
+    private static String KEY_PROPS = "";
+    
     private static boolean VALUE_PROPS = true;
     // 发件人用户名、密码
-    private  String SEND_USER = "mailbrother@aiekt.com";
-    private  String SEND_UNAME = "mailbrother@aiekt.com";
-    private  String SEND_PWD = "Yunzhong605f";
+    private  String SEND_USER = "";
+    private  String SEND_UNAME = "";
+    private  String SEND_PWD = "";
     // 建立会话
     private  MimeMessage message;
     private   Session s;
@@ -63,7 +64,7 @@ public class SendmailUtil {
             String receiveUser)throws Exception {
       
             // 发件人
-            InternetAddress from = new InternetAddress(SEND_USER,"二课堂");
+            InternetAddress from = new InternetAddress(SEND_USER,"你大爷");
             message.setFrom(from);
             // 收件人
             InternetAddress to = new InternetAddress(receiveUser);

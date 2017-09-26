@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ekt.cms.account.entity.CmsAccount;
 import com.ekt.cms.account.service.ICmsAccountService;
-import com.ekt.cms.common.BaseController;
+import com.ekt.cms.common.controller.BaseController;
 import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.role.service.ICmsRoleService;
 import com.ekt.cms.utils.CMSConstants;

@@ -12,8 +12,8 @@ import org.apache.commons.httpclient.methods.GetMethod;
 
 /**
  * 获取ip位置工具类
- * 
- * @author wanglan 2017年3月28日下午7:58:54
+ * 2017年3月28日下午7:58:54
+ * @author wanglan 
  */
 public class IPLocationUtil {
 

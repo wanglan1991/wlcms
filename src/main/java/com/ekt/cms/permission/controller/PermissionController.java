@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ekt.cms.common.BaseController;
+import com.ekt.cms.common.controller.BaseController;
 import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.permission.entity.CmsPermission;
 import com.ekt.cms.permission.service.IPermissionService;

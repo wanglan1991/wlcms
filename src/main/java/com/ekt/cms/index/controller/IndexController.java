@@ -3,16 +3,13 @@ package com.ekt.cms.index.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.ekt.cms.menu.service.CmsMenuService;
 import com.ekt.cms.account.service.CmsAccountService;
-import com.ekt.cms.common.BaseController;
+import com.ekt.cms.common.controller.BaseController;
 
-@SuppressWarnings("rawtypes")
+
 @Controller
 @RequestMapping("/index")
 
@@ -23,13 +20,6 @@ public class IndexController extends BaseController {
 	@Resource
 	private CmsMenuService cmsMenuService;
 
-
-    //跳转到登录页面
-//  @RequestMapping("/login")
-//  public String login() {
-//  	System.out.println("经过登录页面");
-//      return "user/login";`	
-//  }
 
 	/**
 	 * 退出登录状态

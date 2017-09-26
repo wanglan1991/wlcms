@@ -1,11 +1,9 @@
 package com.ekt.cms.index.controller;
 
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -17,22 +15,17 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.ekt.cms.account.entity.CmsAccount;
-import com.ekt.cms.account.entity.CmsLoginRecord;
 import com.ekt.cms.account.service.CmsAccountService;
-import com.ekt.cms.account.service.CmsLoginRecordService;
-import com.ekt.cms.account.service.ICmsLoginRecordService;
-import com.ekt.cms.common.BaseController;
+import com.ekt.cms.common.controller.BaseController;
 import com.ekt.cms.index.entity.ResultVO;
 import com.ekt.cms.index.entity.User;
 import com.ekt.cms.utils.Constants;
-import com.ekt.cms.utils.LogUtil;
 
 /****
  *   登录控制controller
- *   author ：  陈鑫 
- *   date ： 2016/4/13
+ *   author ：  wanglan
+ *  
  *  
 */
 
@@ -44,8 +37,7 @@ public class LoginController extends BaseController {
 	@Resource
 	private CmsAccountService cmsAccountService;
 	
-	@Resource
-	private ICmsLoginRecordService loginRecordService;
+	
 	
 	//跳转到首页登录页面
 	@RequestMapping(value = "/login")
@@ -100,9 +92,6 @@ public class LoginController extends BaseController {
 		// session当前用户
 		Session session = subject.getSession();
 		session.setAttribute(Constants.DEFAULT_SESSION_ACCOUNT, account);
-		CmsLoginRecord cr =new CmsLoginRecord();
-		cr.setAccountId(account.getId());
-		loginRecordService.insertLoginRecord(cr);
 		return resultVO;
 	}
 }

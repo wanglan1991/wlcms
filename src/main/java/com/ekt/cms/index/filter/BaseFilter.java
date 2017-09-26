@@ -8,8 +8,7 @@ import com.ekt.cms.utils.ThreadLocalUtil;
 import java.io.IOException;
 
 /**
- * @author mili
- * @time 20160406
+ * 
  *   基础过滤器，所有的请求先经过这个过滤器
  */
 public class BaseFilter implements Filter {

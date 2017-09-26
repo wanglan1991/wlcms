@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>EKT-CMS</title>
+<title>CMS</title>
 <%@include file="/WEB-INF/views/include/baseCSS.jsp"%>
 </head>
 
@@ -14,7 +14,7 @@
 			<div class='navbar-inner'>
 				<div class='container-fluid'>
 					<a class='brand' href='index.html'> <i class='icon-adjust'></i>
-						<span class='hidden-phone'>EKT-CMS</span>
+						<span class='hidden-phone'>CMS</span>
 					</a> <a class='toggle-nav btn pull-left' href='#'> <i
 						class='icon-reorder'></i>
 					</a>
@@ -147,17 +147,7 @@
 								</a></li>
 							</ul></li>
 					</ul>
-					<!--                <form accept-charset="UTF-8" action="search_results.html" -->
-					<!-- 						id="search" class="navbar-search pull-right hidden-phone" -->
-					<!-- 						method="get" /> -->
-					<!-- 					<div style="margin: 0; padding: 0; display: inline"> -->
-					<!-- 						<input name="utf8" type="hidden" value="&#x2713;" /> -->
-					<!-- 					</div> -->
-					<!-- 					<button class="btn btn-link icon-search" name="button" -->
-					<!-- 						type="submit"></button> -->
-					<!-- 					<input autocomplete="off" class="search-query span2" id="q_header" -->
-					<!-- 						name="q" placeholder="Search..." type="text" value="" /> -->
-					<!-- 					</form> -->
+				
 
 					<shiro:hasPermission name="permission:delete">
 						<span id="basejs_permission_del" style="display: none;" />
@@ -257,54 +247,6 @@
 						<span id="basejs_dict_confine" style="display: none;" />
 					</shiro:hasPermission>
 
-					<shiro:hasPermission name="knowledge:add">
-						<span id="basejs_knowledge_create" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="knowledge:check">
-						<span id="basejs_knowledge_check" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="knowledge:edit">
-						<span id="basejs_knowledge_edit" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="knowledge:delete">
-						<span id="basejs_knowledge_del" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="knowledge:confine">
-						<span id="basejs_knowledge_confine" style="display: none;" />
-					</shiro:hasPermission>
-
-					<shiro:hasPermission name="video:add">
-						<span id="basejs_video_create" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="video:check">
-						<span id="basejs_video_check" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="video:edit">
-						<span id="basejs_video_edit" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="video:delete">
-						<span id="basejs_video_del" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="video:confine">
-						<span id="basejs_video_confine" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="video:play">
-						<span id="basejs_video_play" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="video:transcode">
-						<span id="basejs_video_transcode" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="video:editVideoExercise">
-						<span id="basejs_video_editVideoExercise" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="video:createTextbook">
-						<span id="basejs_video_createTextbook" style="display: none;" />
-					</shiro:hasPermission>
-
-
-
-
-
 
 					<shiro:hasPermission name="region:check">
 						<span id="basejs_region_check" style="display: none;" />
@@ -314,160 +256,7 @@
 					</shiro:hasPermission>
 
 
-					<shiro:hasPermission name="school:check">
-						<span id="basejs_school_check" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="school:confine">
-						<span id="basejs_school_confine" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="school:del">
-						<span id="basejs_school_del" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="school:add">
-						<span id="basejs_school_add" style="display: none;" />
-					</shiro:hasPermission>
-
-
-					<shiro:hasPermission name="textbook:split">
-						<span id="basejs_textbook_split" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="textbook:check">
-						<span id="basejs_textbook_check" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="textbook:add">
-						<span id="basejs_textbook_add" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="textbook:del">
-						<span id="basejs_textbook_del" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="textbook:confine">
-						<span id="basejs_textbook_confine" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="textbook:edit">
-						<span id="basejs_textbook_edit" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="textbook:outline">
-						<span id="basejs_textbook_outline" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="textbook:catalog">
-						<span id="basejs_textbook_catalog" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="textbook:checkCatalog">
-						<span id="basejs_textbook_checkCatalog" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="textbook:editCatalog">
-						<span id="basejs_textbook_editCatalog" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="textbook:delCatalog">
-						<span id="basejs_textbook_delCatalog" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="textbook:addCatalog">
-						<span id="basejs_textbook_addCatalog" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="textbook:recommend">
-						<span id="basejs_textbook_recommend" style="display: none;" />
-					</shiro:hasPermission>
-
-
-					<shiro:hasPermission name="exercise:check">
-						<span id="basejs_exercise_check" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="exercise:add">
-						<span id="basejs_exercise_add" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="exercise:del">
-						<span id="basejs_exercise_del" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="exercise:import">
-						<span id="basejs_exercise_import" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="exercise:edit">
-						<span id="basejs_exercise_edit" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="exercise:confine">
-						<span id="basejs_exercise_confine" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="exercise:preview">
-						<span id="basejs_exercise_preview" style="display: none;" />
-					</shiro:hasPermission>
-
-
-					<shiro:hasPermission name="teacher:check">
-						<span id="basejs_teacher_check" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="teacher:add">
-						<span id="basejs_teacher_add" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="teacher:del">
-						<span id="basejs_teacher_del" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="teacher:editHonour">
-						<span id="basejs_teacher_editHonour" style="display: none;" />
-					</shiro:hasPermission>
-
-
-
-					<shiro:hasPermission name="quintessence:check">
-						<span id="basejs_quintessence_check" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="quintessence:edit">
-						<span id="basejs_quintessence_edit" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="quintessence:add">
-						<span id="basejs_quintessence_add" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="quintessence:del">
-						<span id="basejs_quintessence_del" style="display: none;" />
-					</shiro:hasPermission>
-
-
-					<shiro:hasPermission name="ektUser:check">
-						<span id="basejs_ektUser_check" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="ektUser:confine">
-						<span id="basejs_ektUser_confine" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="ektUser:permission">
-						<span id="basejs_ektUser_permission" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="ektUser:generateAccount">
-						<span id="basejs_ektUser_generateAccount" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="ektUser:transactional">
-						<span id="basejs_ektUser_transactional" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="ektUser:internalUser">
-						<span id="basejs_ektUser_internalUser" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="ektUser:giftCourse">
-						<span id="basejs_ektUser_giftCourse" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="ektUser:generateUser">
-						<span id="basejs_ektUser_generateUser" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="ektUser:batchGenerateUser">
-						<span id="basejs_ektUser_batchGenerateUser" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="ektUser:editUserInfo">
-						<span id="basejs_ektUser_editUserInfo" style="display: none;" />
-					</shiro:hasPermission>
-
-
-					<shiro:hasPermission name="news:check">
-						<span id="basejs_news_check" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="news:add">
-						<span id="basejs_news_add" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="news:del">
-						<span id="basejs_news_del" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="news:edit">
-						<span id="basejs_news_edit" style="display: none;" />
-					</shiro:hasPermission>
-					<shiro:hasPermission name="news:confine">
-						<span id="basejs_news_confine" style="display: none;" />
-					</shiro:hasPermission>
+		
 
 
 
@@ -494,9 +283,7 @@
 					</form>
 				</div>
 				<ul id='navigation-menu' class='nav nav-stacked'>
-					<li class=''><a href='javascript:void(0)' id='ekt_index'>
-							<i class='icon-location-arrow'></i> <span>EKT首页</span>
-					</a></li>
+					
 				</ul>
 			</div>
 		</nav>
@@ -615,9 +402,7 @@
 			$(".icon-adjust").attr("class", "icon-globe");
 		})
 
-		$("#ekt_index").click(function() {
-			window.open('http://www.aiekt.com');
-		})
+		
 
 		seajs.config({
 			base : "${ctxAssets}/js/",
@@ -938,6 +723,34 @@
 			if ($("#basejs_news_confine").length > 0) {
 				base.perList.news.confine = true;
 			}
+			
+			
+		//导题号
+			if ($("#basejs_thirdpartyExercise_select").length > 0) {
+				base.perList.thirdpartyExercise.select = true;
+			}
+			if ($("#basejs_thirdpartyExercise_add").length > 0) {
+				base.perList.thirdpartyExercise.add = true;
+			}
+			if ($("#basejs_thirdpartyExercise_del").length > 0) {
+				base.perList.thirdpartyExercise.del = true;
+			}
+			if ($("#basejs_thirdpartyExercise_edit").length > 0) {
+				base.perList.thirdpartyExercise.edit = true;
+			}
+			if ($("#basejs_thirdpartyExercise_preview").length > 0) {
+				base.perList.thirdpartyExercise.preview = true;
+			}
+			if ($("#basejs_thirdpartyExercise_batchImp").length > 0) {
+				base.perList.thirdpartyExercise.batchImp = true;
+			}
+			
+			
+			
+			
+			
+			
+			
 
 			index.init('${ctx}');
 		});

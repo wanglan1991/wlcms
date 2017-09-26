@@ -3,15 +3,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EKT-CMS</title>
+    <title>CMS</title>
     <%@include file="/WEB-INF/views/include/baseCSS.jsp" %>
 </head>
 <body class='contrast-blue sign-in contrast-background'>
 <div id='wrapper' style='margin-top: 160px;'>
     <div class='application'>
-        <div class='application-content'>
-         <img  src="http://ekt.oss-cn-shenzhen.aliyuncs.com/headPicture/cms-logo.png">
-        </div>
+      <img  src="/cms/assets/images/y327CEKHKz.gif">
     </div>
     <div class='controls'>
         <div class='form-wrapper'>

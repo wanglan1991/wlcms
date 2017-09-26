@@ -33,6 +33,15 @@ define(function(require, exports, module) {
 			return str.replace(/(^\s*)|(\s*$)/g,'');		
 		}
 		,
+		//转换成图片
+		ektImageTransformation:function(content){
+			var reg= new RegExp('<//','g');
+			var reg1= new RegExp('//>','g');
+			var image=content.replace(reg,"<img  src='http://ekt.oss-cn-shenzhen.aliyuncs.com/");
+			return image.replace(reg1,"' >");
+			
+		}
+		,
 		
 		// 时间转换器
 		dateTimeFormatter : function(date) {

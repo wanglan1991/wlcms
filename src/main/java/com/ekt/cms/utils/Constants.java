@@ -31,35 +31,15 @@ public interface Constants {
 	 public final static String DEFAULT_UPLOAD_SECRETID = "AKIDzmf42z75tIn1R1517NmQZFNzKEr9GNhY";
 	 public final static String DEFAULT_UPLOAD_SECRETKEY = "eJSYfrccKT5aHJQEJJqHr3hLJplcvQU5";
 
-	/**
-	 * 乐视云
-	 */
-	 public final static String LECLOUD_API_URI="http://api.letvcloud.com/open.php";
-	 public final static String LECLOUD_CLIENT_IP="192.168.1.11";
-	 /**
-	 * 乐视云 用户唯一标识码，由乐视网统一分配并提供
-	 */
-	 public final static String LECLOUD_USER_UNIQUE="qwlsaqi9kx";
-	 /**
-	 * 乐视云 返回参数格式：支持json和xml两种方式
-	 */
-	 public final static String LECLOUD_FORMAT="json"; 
-	 /**
-	 * 乐视云 协议版本号，统一取值为2.0
-	 */
-	 public final static String LECLOUD_VER="2.0";
-	 /**
-	 * 乐视云  乐视网统一分配并提供的用户私钥
-     */
-	 public final static String LECLOUD_SECRET="ecbf7093b6f4c02cf7c6286449eaa7e1";
+	
 	 /**
 	  * 阿里云OSS ACCESS_KEY_ID
 	  */
-	 public final static String DEFAULT_OSS_ACCESS_KEY_ID ="NqEreTvHzKmQaekA";
+	 public final static String DEFAULT_OSS_ACCESS_KEY_ID ="NqEreTvHzKmQaekAa";
 	 /**
 	  * 阿里云OSS ACCESS_KEY_SECRETS
 	  */
-	 public final static String DEFAULT_OSS_ACCESS_KEY_SECRET ="qpTNXZEqpA8KN7zSAWLPnP1jJl5vRM";
+	 public final static String DEFAULT_OSS_ACCESS_KEY_SECRET ="qpTNXZEqpA8KN7zSAWLPnP1jJl5vRMb";
 	 /**
 	  * 阿里云OSS 外网 endpoint
 	  */

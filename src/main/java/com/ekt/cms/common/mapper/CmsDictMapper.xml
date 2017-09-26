@@ -62,7 +62,7 @@
 	<select id="queryByCondition" resultMap="DictMap"
 		parameterType="com.ekt.cms.common.entity.CmsDict">
 		SELECT * FROM cms_dictionary WHERE 1 = 1
-		 	AND `status` =1
+		 	
 		<if test="CmsDict.value != null and CmsDict.value !='' ">
 			AND value = #{CmsDict.value}
 		</if>

@@ -78,16 +78,17 @@
 <!-- 		<property name="sessionValidationInterval" value="${session.outdate}"/>  -->
 		<property name="sessionManager" ref="defaultWebSessionManager"/> </bean>
 		
-<!-- 	<bean id="sessionManager" -->
-<!-- 		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager"> -->
-<!-- 		<property name="globalSessionTimeout" value="${session.outdate}" /> -->
-<!-- 		<property name="deleteInvalidSessions" value="true" /> -->
-<!-- 		<property name="sessionValidationSchedulerEnabled" value="false" /> -->
-		<!-- <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/> -->
-<!-- 		<property name="sessionDAO" ref="sessionDao" /> -->
-<!-- 		<property name="sessionIdCookieEnabled" value="true" /> -->
-<!-- 		<property name="sessionIdCookie" ref="sessionIdCookie" /> -->
-<!-- 	</bean> -->
+	<bean id="sessionManager"
+		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<property name="globalSessionTimeout" value="${session.outdate}" />
+		<property name="deleteInvalidSessions" value="false" />
+		<property name="sessionValidationSchedulerEnabled" value="false" />
+		<property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
+		<property name="sessionDAO" ref="sessionDao" />
+		<property name="sessionIdCookieEnabled" value="false" />
+		<property name="sessionIdCookie" ref="sessionIdCookie" />
+	</bean>
+
 	
 	<bean id="sessionIdGenerator"
 		class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator" />

@@ -51,9 +51,11 @@ public class OnLineFilter extends FormAuthenticationFilter  {
 			
 		// 如果 isAuthenticated 为 false 证明不是登录过的，同时 isRememberd 为true
 		// 证明是没登陆直接通过记住我功能进来的
-//		if (!subject.isAuthenticated() && subject.is21emembered()) {
-//			// 获取session看看是不是空的
-//			Session session = subject.getSession(true);
+	
+
+//		if (subject.isAuthenticated()) {
+//			return true;
+//		}else{
 //			if (session.getAttribute("account") == null) {
 //				// 如果是空的则给session添加当前用户
 //				Integer userId = (Integer) subject.getPrincipal();
@@ -61,10 +63,7 @@ public class OnLineFilter extends FormAuthenticationFilter  {
 //				session.setAttribute(Constants.DEFAULT_SESSION_ACCOUNT, account);
 //			}
 //			return true;
-//		}
-//
-//		if (subject.isAuthenticated()) {
-//			return true;
+//			
 //		}
 
 	}

@@ -10,11 +10,10 @@
     <result column="role_name" property="roleName" jdbcType="CHAR" />
     <result column="cellphone" property="cellphone" jdbcType="CHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="ektapi_user_id" property="ektapiUserId" jdbcType="INTEGER" />
   </resultMap>
   
   <sql id="Base_Column_List" >
-    id, user_name, password, real_name, role, cellphone, status, ektapi_user_id
+    id, user_name, password, real_name, role, cellphone, status
   </sql>
   
    <!-- 按主键查询-->
@@ -96,7 +95,7 @@
    <!-- 根据条件查询 -->
 	<select id="queryByCondition" resultMap="BaseResultMap"
 		parameterType="com.ekt.cms.account.entity.CmsAccount">
-		SELECT *,ektapi_user_id AS ektapiUserId FROM cms_account WHERE 1=1
+		SELECT *  FROM cms_account WHERE 1=1
 		<if test="cmsAccount.userName != null and cmsAccount.userName !='' ">
 			AND (user_name like '%${cmsAccount.userName}%')
 		</if>
@@ -134,10 +133,10 @@
 			a.real_name AS realName,
 			a.role,
 			r.`name` AS roleName,
+			r.encoding AS roleEncoding,
 			a.cellphone,
 			a.status,
 			a.create_date AS createDate,
-			a.ektapi_user_id AS ektapiUserId,
 			a.parent_id AS parentId
 		FROM
 			cms_account a

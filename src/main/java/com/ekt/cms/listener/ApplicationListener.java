@@ -5,16 +5,19 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 
+
+/**
+ * 占时无用 此处可做容器初始化时 静态资源加载
+ * @author Administrator
+ *
+ */
 public class ApplicationListener extends ContextLoaderListener
 		implements ServletContextListener, ServletRequestListener {
 
+	
 	private ServletContext context;
 	private WebApplicationContext webApplicationContext;
 

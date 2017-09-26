@@ -9,7 +9,6 @@ import com.ekt.cms.account.dao.CmsAccountMapper;
 import com.ekt.cms.account.entity.CmsAccount;
 import com.ekt.cms.permission.entity.CmsPermission;
 import com.ekt.cms.permission.service.IPermissionService;
-import com.ekt.cms.utils.Md5Utils;
 import com.ekt.cms.utils.pageHelper.PageBean;
 
 @Service("cmsAccountService")

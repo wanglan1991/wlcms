@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ekt.cms.common.entity.CmsDict;
-import com.ekt.cms.common.entity.CmsSchool;
 import com.ekt.cms.common.entity.Result;
 import com.ekt.cms.common.service.ICmsDictService;
 import com.ekt.cms.utils.pageHelper.PageBean;

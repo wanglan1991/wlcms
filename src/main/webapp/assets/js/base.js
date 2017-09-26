@@ -146,11 +146,6 @@ define(function (require, exports, module) {
                 checkPermission:false,
                 check:false
             } ,
-            department: {
-                edit: false,
-                del: false,
-                create: false
-            } ,
             user: {
                 edit: false,
                 del: false,
@@ -166,88 +161,13 @@ define(function (require, exports, module) {
                 check:false,
                 confine:false
             },
-            knowledge: {
-                edit: false,
-                del: false,
-                create: false,
-                check:false,
-                confine:false
-            },
-            video: {
-                edit: false,
-                del: false,
-                create: false,
-                check:false,
-                confine:false,
-                play : false,
-                transcode : false,
-            	editVideoExercise:false,
-            	createTextbook:false
-            },
+            
+            
             region: {
                 check:false,
                 confine:false,
-            },
-            school: {
-                check:false,
-                confine:false,
-                add:false,
-                del:false
-            },
-            textbook: {
-	        	 check:false,
-	             add:false,
-	             del:false,
-	             confine:false,
-	             edit:false,
-	             outline:false,
-	             catalog:false,
-	         	 split:false,
-	             checkCatalog:false,
-	             editCatalog:false,
-	             delCatalog:false,
-	         	 addCatalog:false,
-	         	 recommend:false
-            },
-            exercise:{
-            	 check:false,
-                 add:false,
-                 del:false,
-                 import:false,
-                 edit:false,
-                 confine:false,
-                 preview:false
-            },
-            teacher:{
-            	 check:false,
-                 add:false,
-                 del:false,
-          editHonour:false
-            },
-       quintessence:{
-	    	    check:false,
-	    	    edit:false,
-	            add:false,
-	            del:false,
-       			},
-		ektUser:{
-    	    check:false,
-    	    confine:false,
-    	    permission:false,
-    	    generateAccount:false,
-    	    transactional:false,
-    	    giftCourse:false,
-    	    generateUser:false,
-    	    batchGenerateUser:false,
-    	    editUserInfo:false
-   			},
-   		news:{
-   			check:false,
-   			add:false,
-   			del:false,
-   			edit:false,
-   			confine:false
-   		}
+            }
+            
         }
     };
 });

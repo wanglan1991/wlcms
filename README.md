@@ -1,35 +1,19 @@
-#reademe
-####### git 常用操作 以git@OSC为例
 
-####准备工作
-# 绑定本地ssh密钥到git@OSC账户
-# fork添加项目到我的分支
-# 克隆我的分支ssh地址到本地git 默认为origin分支
-$ git clone [sshURL]
-# 设置线上主分支为upstream上游分支
-$ git remote add upstream [sshURL]
+#1.权限控制几乎完善、权限粒度控制到按钮、可实时控制
 
-# 代码合并、提交工作
-#步骤1.新增本地改动 同git add ./ 或 git add --all
-$ git add .
+#3.开发环境使用JDK1.8、tomact8+、eclipse、maven2.3
 
-#步骤2.添加改动注释
-$ git commit -m "改动注释"
+#3.基本架构 spring+springMVC+apache shiro
 
-#步骤3.拉取最新主分支
-$ git fetch upstream
+#4.clone 本地后 有maven环境下 使用mvn eclipse:eclipse打包 个别包不是很好下
 
-#步骤4.合并主分支到本地
-$ git merge upstream/master
+#5.部署 访问地址为http://host:port/cms
 
-#步骤5.提交到改动到我的分支（默认分支origin）
-$ git push origin
+#6.账号admin 密码123456
 
-#步骤6.登录git@OSC进入我的最新提交master分支，pull Request 提交到主分支
+#7.UED都已经集成好了直接使用就行
 
-#步骤7.若提示代码无冲突则合并pull Request ；否则关闭pull Request 、解决冲突后 从步骤1执行
+ 有问题可以加Q群 553844677
 
-####需求和步骤
-1.合并线上代码步骤：1、2、3、4
-2.提交到我的线上分支步骤：1、2、5
-3.提交到我的线上分支并合并到线上主分支步骤：1、2、3、4、5、6、7
+
+# wlcms

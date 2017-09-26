@@ -4511,11 +4511,11 @@ div.jGrowl div.jGrowl-notification, div.jGrowl div.jGrowl-closer {
 /*     background: -webkit-linear-gradient(red, blue); Safari 5.1 - 6.0 */
 /*     background: -o-linear-gradient(red, blue); Opera 11.1 - 12.0 */
 /*     background: -moz-linear-gradient(red, blue); Firefox 3.6 - 15 */
-/*     background: linear-gradient(red, blue); 标准的语法（必须放在最后） */
+/*     background: linear-gradient(red, blue); 鏍囧噯鐨勮娉曪紙蹇呴』鏀惧湪鏈�鍚庯級 */
 	
 	
 	 overflow:hidden;
-/*      background: url(/cms/assets/images/background.png) no-repeat center; */
+     background: url(/cms/assets/images/y327CEKHKz.gif) no-repeat center;
      background-size: cover;
 /*   background: #00acec !important;  */
   }
