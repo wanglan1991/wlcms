@@ -23,7 +23,7 @@
 
 #2.Development environment JDK1.8、tomact6+、eclipse、maven2.3
 
-#3.Basic framework
+#3.Basic framework  spring+springMVC+apache shiro
 
 #4.Clone to local maven environment use 'mvn eclipse:eclipse' Packet
 
